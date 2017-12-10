@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Banco de dados biologico">
+                        <h:inputHidden value="#{bdBioAdicionarMB.bdBio.id}" />
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Nome" for="nome" />
+                            <p:inputText id="nome" value="#{bdBioAdicionarMB.bdBio.nome}" />
+                            <p:outputLabel value="Site" for="site" />
+                            <p:inputText id="site" value="#{bdBioAdicionarMB.bdBio.site}" />
+                            <p:outputLabel value="URL info" for="urlInfo" />
+                            <p:inputText id="urlInfo" value="#{bdBioAdicionarMB.bdBio.urlInfo}" />                            
+                            <p:outputLabel value="Descricao" for="descricao" />
+                            <p:inputText id="descricao" value="#{bdBioAdicionarMB.bdBio.descricao}" />
+                            
+                        </p:panelGrid>                        
+
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Adcionar" actionListener="#{bdBioAdicionarMB.adicionar}" update="formulario"/>
+                        </p:panelGrid>
+                        
+                        
+                    </p:panel>        
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

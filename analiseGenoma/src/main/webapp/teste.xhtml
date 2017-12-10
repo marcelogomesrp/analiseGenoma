@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Teste</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
+        <h:outputStylesheet library="css" name="teste.css"/>
+    </h:head>
+    <h:body>
+        <div class="ui-fluid">
+            <h:form>
+                <p:panelGrid columns="3" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank mg-navBar" >
+                    <h:link styleClass="mg-navBar" outcome="index.xhtml" >Index</h:link>
+                    <h:link styleClass="mg-navBar" outcome="cadastrar.xhtml"  >Cadastrar</h:link>
+                    <h:link styleClass="mg-navBar" outcome="Entrar.xhtml" >Entrar</h:link>
+                </p:panelGrid>
+            </h:form>
+
+
+            <h:form>
+                <p:panel header="Cadastro de novos usuários">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                        <p:outputLabel value="Nome" />
+                        <p:inputText />
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>

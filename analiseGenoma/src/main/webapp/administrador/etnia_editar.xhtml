@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                <p:growl id="messages" showDetail="true"/>
+                <p:panel header="Nova Etinia">
+                    <h:inputHidden id="id" value="#{etniaMB.etnia.id}" /> 
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                        
+                        <p:outputLabel value="Sigla" for="sigla"/>
+                        <p:inputText id="sigla" value="#{etniaMB.etnia.sigla}"/>
+                        <p:outputLabel value="Nome" for="nome"/>
+                        <p:inputText id="nome" value="#{etniaMB.etnia.nome}"/>        
+                        <p:outputLabel value="Origem" for="origem"/>
+                        <p:inputText id="origem" value="#{etniaMB.etnia.origem}"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        
+                        <p:commandButton value="Atualizar" action="#{etniaMB.atualizar}"/>
+                        <p:commandButton value="Cancelar" action="#{etniaMB.limpar}"/>
+                    </p:panelGrid>
+                </p:panel>
+                
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

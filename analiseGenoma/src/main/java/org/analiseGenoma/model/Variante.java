@@ -1,0 +1,547 @@
+package org.analiseGenoma.model;
+
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "variante")
+public class Variante implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_informacaovcf")
+    private Long id;
+    //@Column(columnDefinition = "text")
+    
+    //1
+    @OneToOne
+    @JoinColumn(name = "cromossomo_id")
+    private Cromossomo cromossomo;
+    //2
+    @Column(columnDefinition = "text")
+    private String position;
+    //12
+    @Column(columnDefinition = "text")
+    private String idSNP;
+    //3
+    @Column(columnDefinition = "text")
+    private String referencia;
+    //3
+    @Column(columnDefinition = "text")
+    private String alterado;
+    private Double qualidade;
+    //16
+    @ManyToOne
+    @JoinColumn(name = "impacto_id")
+    private Impact impact;
+    //@Column(columnDefinition = "text")
+    //private String filtro;
+    //4
+    @ManyToOne
+    @JoinColumn(name = "gene_id")
+    private Gene gene;
+    @ManyToOne
+    @JoinColumn(name = "vcf_id")
+    private Vcf vcf;
+    
+    @ManyToOne
+    @JoinColumn(name = "umdpredictor_id")
+    private UmdPredictor umdPredictor;
+    
+    @ManyToOne
+    @JoinColumn(name = "zygosity_id")
+    private Zygosity zygosity;
+    
+    private String allelicDeph;
+    @ManyToOne
+    @JoinColumn(name = "filter_id")
+    private Filter filter;
+    @Column(name = "hgvs_c")
+    private String hgvsC;
+    @Column(name = "hgvs_p")
+    private String hgvsP;
+    @Column(name = "exon_intron")
+    private Integer exonIntron;
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Type type;
+    @ManyToOne
+    @JoinColumn(name = "effect_id")
+    private Effect effect;
+    @ManyToOne
+    @JoinColumn(name = "clinvarsignificance_id")
+    private ClinvarSignificance clinvarSignificance;
+    @ManyToOne
+    @JoinColumn(name = "clinvardisease_id")
+    private ClinvarDisease clinvarDisease; 
+    @ManyToOne
+    @JoinColumn(name = "clinvaraccession_id")
+    private ClinvarAccession clinvarAccession;
+    @ManyToOne
+    @JoinColumn(name = "clinvaralleletype_id")
+    private ClinvarAlleleType clinvarAlleleType;
+    @ManyToOne
+    @JoinColumn(name = "clinvaralleleorigin_id")
+    private ClinvarAlleleOrigin clinvarAlleleOrigin;
+    @ManyToOne
+    @JoinColumn(name = "sift_id")
+    private Sift sift;
+    @ManyToOne
+    @JoinColumn(name = "polyphenhdiv_id")
+    private PolyphenHdiv polyphenHdiv;
+    @ManyToOne
+    @JoinColumn(name = "polyphenHvar_id")
+    private PolyphenHvar polyphenHvar;
+    @ManyToOne
+    @JoinColumn(name = "mutationtaster_id")
+    private MutationTaster mutationTaster;
+    @ManyToOne
+    @JoinColumn(name = "lrt_id")
+    private Lrt lrt;    
+    private Double gerpRsScore;
+    private Double gerpNeutralRate;
+    @ManyToOne
+    @JoinColumn(name = "feature_id")
+    private Feature feature;
+    @ManyToOne
+    @JoinColumn(name = "_id")
+    private Ensembl ensembl;    
+    private Double vertebrateGenomesConservationScore;
+    @ManyToOne
+    @JoinColumn(name = "interprodomain_id")
+    private InterproDomain interproDomain;
+    @ManyToOne
+    @JoinColumn(name = "variantstatus_id")
+    private VariantStatus variantStatus;
+    @ManyToOne
+    @JoinColumn(name = "genotype_id")
+    private GenoType genoType;
+    private String readDepth;
+    private Double alleleMutFraction;
+    private Double meanBaseQuality;
+    private Boolean validate;
+    private Boolean donorSpliceSite;
+    private Boolean acceptorSpliceSite;
+    private Boolean mutation;
+    private Double europeanVarintFreq;
+    private Double africanVarintFreq;
+    private Double asianVarintFreq;
+    private Double americanVarintFreq;
+    private Double wholeVarintFreq;
+   
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Cromossomo getCromossomo() {
+        return cromossomo;
+    }
+
+    public void setCromossomo(Cromossomo cromossomo) {
+        this.cromossomo = cromossomo;
+    }
+
+
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getIdSNP() {
+        return idSNP;
+    }
+
+    public void setIdSNP(String idSNP) {
+        this.idSNP = idSNP;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public String getAlterado() {
+        return alterado;
+    }
+
+    public void setAlterado(String alterado) {
+        this.alterado = alterado;
+    }
+
+    public Double getQualidade() {
+        return qualidade;
+    }
+
+    public void setQualidade(String qualidade) {
+        try {
+            this.setQualidade(Double.valueOf(qualidade));
+        } catch (NumberFormatException ex) {
+            System.err.println("Erro ao definir qualidade da variate: " + ex + "qualidade: " + qualidade);
+        }
+    }
+
+    public void setQualidade(Double qualidade) {
+        this.qualidade = qualidade;
+    }
+
+    public Impact getImpact() {
+        return impact;
+    }
+
+    public void setImpact(Impact impact) {
+        this.impact = impact;
+    }
+
+    public Gene getGene() {
+        return gene;
+    }
+
+    public void setGene(Gene gene) {
+        this.gene = gene;
+    }
+
+    public Vcf getVcf() {
+        return vcf;
+    }
+
+    public void setVcf(Vcf vcf) {
+        this.vcf = vcf;
+    }
+
+    public UmdPredictor getUmdPredictor() {
+        return umdPredictor;
+    }
+
+    public void setUmdPredictor(UmdPredictor umdPredictor) {
+        this.umdPredictor = umdPredictor;
+    }
+
+    public Zygosity getZygosity() {
+        return zygosity;
+    }
+
+    public void setZygosity(Zygosity zygosity) {
+        this.zygosity = zygosity;
+    }
+
+    public String getAllelicDeph() {
+        return allelicDeph;
+    }
+
+    public void setAllelicDeph(String allelicDeph) {
+        this.allelicDeph = allelicDeph;
+    }
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
+    public String getHgvsC() {
+        return hgvsC;
+    }
+
+    public void setHgvsC(String hgvsC) {
+        this.hgvsC = hgvsC;
+    }
+
+    public String getHgvsP() {
+        return hgvsP;
+    }
+
+    public void setHgvsP(String hgvsP) {
+        this.hgvsP = hgvsP;
+    }
+
+    public Integer getExonIntron() {
+        return exonIntron;
+    }
+
+    public void setExonIntron(Integer exonIntron) {
+        this.exonIntron = exonIntron;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Effect getEffect() {
+        return effect;
+    }
+
+    public void setEffect(Effect effect) {
+        this.effect = effect;
+    }
+
+    public ClinvarSignificance getClinvarSignificance() {
+        return clinvarSignificance;
+    }
+
+    public void setClinvarSignificance(ClinvarSignificance clinvarSignificance) {
+        this.clinvarSignificance = clinvarSignificance;
+    }
+
+    public ClinvarDisease getClinvarDisease() {
+        return clinvarDisease;
+    }
+
+    public void setClinvarDisease(ClinvarDisease clinvarDisease) {
+        this.clinvarDisease = clinvarDisease;
+    }
+
+    public ClinvarAccession getClinvarAccession() {
+        return clinvarAccession;
+    }
+
+    public void setClinvarAccession(ClinvarAccession clinvarAccession) {
+        this.clinvarAccession = clinvarAccession;
+    }
+
+    public ClinvarAlleleType getClinvarAlleleType() {
+        return clinvarAlleleType;
+    }
+
+    public void setClinvarAlleleType(ClinvarAlleleType clinvarAlleleType) {
+        this.clinvarAlleleType = clinvarAlleleType;
+    }
+
+    public ClinvarAlleleOrigin getClinvarAlleleOrigin() {
+        return clinvarAlleleOrigin;
+    }
+
+    public void setClinvarAlleleOrigin(ClinvarAlleleOrigin clinvarAlleleOrigin) {
+        this.clinvarAlleleOrigin = clinvarAlleleOrigin;
+    }
+
+    public Sift getSift() {
+        return sift;
+    }
+
+    public void setSift(Sift sift) {
+        this.sift = sift;
+    }
+
+    public PolyphenHdiv getPolyphenHdiv() {
+        return polyphenHdiv;
+    }
+
+    public void setPolyphenHdiv(PolyphenHdiv polyphenHdiv) {
+        this.polyphenHdiv = polyphenHdiv;
+    }
+
+    public PolyphenHvar getPolyphenHvar() {
+        return polyphenHvar;
+    }
+
+    public void setPolyphenHvar(PolyphenHvar polyphenHvar) {
+        this.polyphenHvar = polyphenHvar;
+    }
+
+    public MutationTaster getMutationTaster() {
+        return mutationTaster;
+    }
+
+    public void setMutationTaster(MutationTaster mutationTaster) {
+        this.mutationTaster = mutationTaster;
+    }
+
+    public Lrt getLrt() {
+        return lrt;
+    }
+
+    public void setLrt(Lrt lrt) {
+        this.lrt = lrt;
+    }
+
+    public Double getGerpRsScore() {
+        return gerpRsScore;
+    }
+
+    public void setGerpRsScore(Double gerpRsScore) {
+        this.gerpRsScore = gerpRsScore;
+    }
+
+    public Double getGerpNeutralRate() {
+        return gerpNeutralRate;
+    }
+
+    public void setGerpNeutralRate(Double gerpNeutralRate) {
+        this.gerpNeutralRate = gerpNeutralRate;
+    }
+
+    public Feature getFeature() {
+        return feature;
+    }
+
+    public void setFeature(Feature feature) {
+        this.feature = feature;
+    }
+
+    public Ensembl getEnsembl() {
+        return ensembl;
+    }
+
+    public void setEnsembl(Ensembl ensembl) {
+        this.ensembl = ensembl;
+    }
+
+    public Double getVertebrateGenomesConservationScore() {
+        return vertebrateGenomesConservationScore;
+    }
+
+    public void setVertebrateGenomesConservationScore(Double vertebrateGenomesConservationScore) {
+        this.vertebrateGenomesConservationScore = vertebrateGenomesConservationScore;
+    }
+
+    public InterproDomain getInterproDomain() {
+        return interproDomain;
+    }
+
+    public void setInterproDomain(InterproDomain interproDomain) {
+        this.interproDomain = interproDomain;
+    }
+
+    public VariantStatus getVariantStatus() {
+        return variantStatus;
+    }
+
+    public void setVariantStatus(VariantStatus variantStatus) {
+        this.variantStatus = variantStatus;
+    }
+
+    public GenoType getGenoType() {
+        return genoType;
+    }
+
+    public void setGenoType(GenoType genoType) {
+        this.genoType = genoType;
+    }
+
+    public String getReadDepth() {
+        return readDepth;
+    }
+
+    public void setReadDepth(String readDepth) {
+        this.readDepth = readDepth;
+    }
+
+    public Double getAlleleMutFraction() {
+        return alleleMutFraction;
+    }
+
+    public void setAlleleMutFraction(Double alleleMutFraction) {
+        this.alleleMutFraction = alleleMutFraction;
+    }
+
+    public Double getMeanBaseQuality() {
+        return meanBaseQuality;
+    }
+
+    public void setMeanBaseQuality(Double meanBaseQuality) {
+        this.meanBaseQuality = meanBaseQuality;
+    }
+
+    public Boolean getValidate() {
+        return validate;
+    }
+
+    public void setValidate(Boolean validate) {
+        this.validate = validate;
+    }
+
+    public Boolean getDonorSpliceSite() {
+        return donorSpliceSite;
+    }
+
+    public void setDonorSpliceSite(Boolean donorSpliceSite) {
+        this.donorSpliceSite = donorSpliceSite;
+    }
+
+    public Boolean getAcceptorSpliceSite() {
+        return acceptorSpliceSite;
+    }
+
+    public void setAcceptorSpliceSite(Boolean acceptorSpliceSite) {
+        this.acceptorSpliceSite = acceptorSpliceSite;
+    }
+
+    public Boolean getMutation() {
+        return mutation;
+    }
+
+    public void setMutation(Boolean mutation) {
+        this.mutation = mutation;
+    }
+
+    public Double getEuropeanVarintFreq() {
+        return europeanVarintFreq;
+    }
+
+    public void setEuropeanVarintFreq(Double europeanVarintFreq) {
+        this.europeanVarintFreq = europeanVarintFreq;
+    }
+
+    public Double getAfricanVarintFreq() {
+        return africanVarintFreq;
+    }
+
+    public void setAfricanVarintFreq(Double africanVarintFreq) {
+        this.africanVarintFreq = africanVarintFreq;
+    }
+
+    public Double getAsianVarintFreq() {
+        return asianVarintFreq;
+    }
+
+    public void setAsianVarintFreq(Double asianVarintFreq) {
+        this.asianVarintFreq = asianVarintFreq;
+    }
+
+    public Double getAmericanVarintFreq() {
+        return americanVarintFreq;
+    }
+
+    public void setAmericanVarintFreq(Double americanVarintFreq) {
+        this.americanVarintFreq = americanVarintFreq;
+    }
+
+    public Double getWholeVarintFreq() {
+        return wholeVarintFreq;
+    }
+
+    public void setWholeVarintFreq(Double wholeVarintFreq) {
+        this.wholeVarintFreq = wholeVarintFreq;
+    }
+
+    @Override
+    public String toString() {
+        return "Variante{" + "id=" + id + ", cromossomo=" + cromossomo + ", position=" + position + ", idSNP=" + idSNP + ", referencia=" + referencia + ", alterado=" + alterado + ", qualidade=" + qualidade + ", impact=" + impact + ", gene=" + gene + ", vcf=" + vcf + ", umdPredictor=" + umdPredictor + ", zygosity=" + zygosity + ", allelicDeph=" + allelicDeph + ", filter=" + filter + ", hgvsC=" + hgvsC + ", hgvsP=" + hgvsP + ", exonIntron=" + exonIntron + ", type=" + type + ", effect=" + effect + ", clinvarSignificance=" + clinvarSignificance + ", clinvarDisease=" + clinvarDisease + ", clinvarAccession=" + clinvarAccession + ", clinvarAlleleType=" + clinvarAlleleType + ", clinvarAlleleOrigin=" + clinvarAlleleOrigin + ", sift=" + sift + ", polyphenHdiv=" + polyphenHdiv + ", polyphenHvar=" + polyphenHvar + ", mutationTaster=" + mutationTaster + ", lrt=" + lrt + ", gerpRsScore=" + gerpRsScore + ", gerpNeutralRate=" + gerpNeutralRate + ", feature=" + feature + ", ensembl=" + ensembl + ", vertebrateGenomesConservationScore=" + vertebrateGenomesConservationScore + ", interproDomain=" + interproDomain + ", variantStatus=" + variantStatus + ", genoType=" + genoType + ", readDepth=" + readDepth + ", alleleMutFraction=" + alleleMutFraction + ", meanBaseQuality=" + meanBaseQuality + ", validate=" + validate + ", donorSpliceSite=" + donorSpliceSite + ", acceptorSpliceSite=" + acceptorSpliceSite + ", mutation=" + mutation + ", europeanVarintFreq=" + europeanVarintFreq + ", africanVarintFreq=" + africanVarintFreq + ", asianVarintFreq=" + asianVarintFreq + ", americanVarintFreq=" + americanVarintFreq + ", wholeVarintFreq=" + wholeVarintFreq + '}';
+    }
+
+}

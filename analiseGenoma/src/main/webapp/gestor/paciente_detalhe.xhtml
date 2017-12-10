@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Detalhes do Paciente">
+                        <h:inputHidden value="#{pacienteMB.paciente.id}" />
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Nome" for="nome"/>
+                            <p:inputText id="nome" value="#{pacienteMB.paciente.nome}"/>
+                            <p:outputLabel value="Data nascimento" for="dtNascimento"/>
+                            <p:calendar id="dtNascimento" value="#{pacienteMB.paciente.dataNascimento}"/>
+                            <p:outputLabel value="Etinia" />
+                            <p:selectOneMenu value="#{pacienteMB.idEtnia}">
+                                <f:selectItem itemLabel="selecione um" itemValue="" />
+                                <f:selectItems value="#{pacienteMB.selectEtnias}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Observação" for="observacao"/>
+                            <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
+
+
+
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Salvar" action="#{pacienteMB.salvar}" update="formulario"/>
+                            
+                        </p:panelGrid>
+                        <p:panel header="VCF" >
+                            <p:dataTable value="#{pacienteMB.vcfs}" var="vcf">
+                                <p:column >
+                                    <f:facet name="header" >
+                                        <p:outputLabel value="Id" />
+                                    </f:facet>
+                                    <h:outputText value="#{vcf.id}" />
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header" >
+                                        <p:outputLabel value="Nome" />
+                                    </f:facet>
+                                    <h:outputText value="#{vcf.nome}" />
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header" >
+                                        <p:outputLabel value="Data de importação" />
+                                    </f:facet>
+                                    <h:outputText value="#{vcf.dataImportacao}" />
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header" >
+                                        <p:outputLabel value="Opções" />
+                                    </f:facet>
+                                    <p:commandButton value="Adicionar a uma análise"/>
+                                    <p:commandButton value="Visualizar análise"/>
+                                </p:column>
+                            </p:dataTable>                        
+                            <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:button value="Adicionar VCF" outcome="paciente_adicionar_vcf.xhtml?faces-redirect=true">
+                                    <f:param name="id" value="#{pacienteMB.paciente.id}" />
+                                </p:button>
+                            </p:panelGrid>
+                        </p:panel>
+
+
+                    </p:panel>                
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

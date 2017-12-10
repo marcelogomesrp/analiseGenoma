@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:panel header="Pesquisar Paciente">
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Nome" for="nome"/>
+                            <p:inputText id="nome" value="#{pacienteMB.nome}" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Pesquisar"  actionListener="#{pacienteMB.pesquisar}" update="formulario"/>
+                            <p:commandButton value="Limpar" />
+                        </p:panelGrid>
+                        <p:dataTable value="#{pacienteMB.pacientes}" var="paciente" >
+                            <f:facet name="header">
+                                <p:outputLabel value="Pacientes" />
+                            </f:facet>
+                            <p:column>
+                                <f:facet name="header" >
+                                    <p:outputLabel value="Id" />
+                                </f:facet>
+                                <h:outputText value="#{paciente.id}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header" >
+                                    <p:outputLabel value="Nome" />                                    
+                                </f:facet>
+                                <h:outputText value="#{paciente.nome}" />
+                            </p:column>                            
+                            <p:column>
+                                <f:facet name="header" >
+                                    <p:outputLabel value="Data de nascimento" />
+                                </f:facet>                                
+                                <h:outputText value="#{paciente.dataNascimento}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header" >
+                                    <p:outputLabel value="Etinia" />                                    
+                                </f:facet>
+                                <h:outputText value="#{paciente.etnia.nome}"  />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header" >
+                                    <p:outputLabel value="Opçoes" />                                    
+                                </f:facet>
+                                <p:button value="Detalhes" outcome="paciente_detalhe.xhtml?faces-redirect=true">
+                                    <f:param name="id" value="#{paciente.id}" />
+                                </p:button>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>                
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

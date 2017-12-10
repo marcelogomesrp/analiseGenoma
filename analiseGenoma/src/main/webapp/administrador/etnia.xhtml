@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:messages />
+                    <p:panel header="Nova Etinia">
+                        <h:inputHidden id="id" value="#{etniaMB.etnia.id}" /> 
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                        
+                            <p:outputLabel value="Sigla" for="sigla"/>
+                            <p:autoComplete id="sigla" value="#{etniaMB.etnia.sigla}" completeMethod="#{etniaMB.completeSigla}" effect="fade" />
+                            <p:outputLabel value="Nome" for="nome"/>
+                            <p:autoComplete id="nome" minQueryLength="3" value="#{etniaMB.etnia.nome}" completeMethod="#{etniaMB.completeNome}" effect="fade" />
+                            <p:outputLabel value="Origem" for="origem"/>                            
+                            <p:autoComplete id="origem" minQueryLength="3" value="#{etniaMB.etnia.origem}" completeMethod="#{etniaMB.completeOrigem}" effect="fade" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="6" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank" >    
+                            <div />
+                            <p:commandButton value="New" actionListener="#{etniaMB.defCreateMode}"  update="formulario"/>
+                            <p:commandButton value="Salvar" action="#{etniaMB.adicionar}" update="formulario" />
+                            <p:commandButton value="Pesquisar" actionListener="#{etniaMB.findByExample}" update="formulario"/>
+                            <p:commandButton value="Cancelar" action="#{etniaMB.limpar}"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{etniaMB.viewEtniaUpload}" >
+                                <p:ajax event="dialogReturn" listener="#{etniaMB.onViewEtniaUpload}" update="formulario" />
+                            </p:commandButton>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel header="Etinias">
+                        <p:dataTable value="#{etniaMB.etnias}" var="etnia"
+                                     scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="350"
+                                     >
+                            <p:column sortBy="#{etnia.id}">
+                                <f:facet name="header">
+                                    <h:outputText value="Id" />
+                                </f:facet>
+                                <h:outputText value="#{etnia.id}" />
+                            </p:column>
+                            <p:column sortBy="#{etnia.sigla}">
+                                <f:facet name="header">
+                                    <h:outputText value="Sigla" />
+                                </f:facet>
+                                <h:outputText value="#{etnia.sigla}" />
+                            </p:column>
+                            <p:column sortBy="#{etnia.nome}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nome" />
+                                </f:facet>
+                                <h:outputText value="#{etnia.nome}" />
+                            </p:column>
+                            <p:column sortBy="#{etnia.origem}">
+                                <f:facet name="header">
+                                    <h:outputText value="Origem" />
+                                </f:facet>
+                                <h:outputText value="#{etnia.origem}" />
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Opçoes" />
+                                </f:facet>
+                                <!--
+                                <p:commandButton icon="ui-icon-pencil" />
+                                <p:button outcome="etnia_editar.xhtml?faces-redirect=true" value="editar">
+                                    <f:param name="id" value="#{etnia.id}" />
+                                </p:button>
+                                -->
+                                <p:button outcome="etnia.xhtml?faces-redirect=true" value="editar" icon="ui-icon-pencil"> 
+                                    <f:param name="id" value="#{etnia.id}" />
+                                </p:button>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
+                </h:form>
+
+            </ui:define>
+
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

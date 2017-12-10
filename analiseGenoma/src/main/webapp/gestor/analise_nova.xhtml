@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Nova Análise">
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Nome" for="nome"/>
+                            <p:inputText id="nome" value="#{analiseMB.analise.nome}"/>
+                            <p:outputLabel value="cid" for="cid"/>
+                            <p:autoComplete id="cid" value="#{analiseMB.cid}" completeMethod="#{analiseMB.cidComplete}"  >
+                                <p:ajax event="itemSelect" listener="#{analiseMB.onCidSelect}" update="patologia" />
+                            </p:autoComplete>
+                            <p:outputLabel value="Patologia" for="patologia"/>
+                            <p:autoComplete id="patologia" value="#{analiseMB.patologia}" completeMethod="#{analiseMB.patologiaComplete}" >
+                                <p:ajax event="itemSelect" listener="#{analiseMB.onPatologiaSelect}" update="cid" />
+                            </p:autoComplete>
+                            <p:outputLabel value="Observacao" for="observacao"/>
+                            <p:inputTextarea id="observacao" value="#{analiseMB.analise.observacao}"/>
+
+
+                            <p:outputLabel value="Paciente" for="paciente"/>
+                            <p:autoComplete id="paciente" value="#{analiseMB.paciente}" completeMethod="#{analiseMB.pacienteComplete}"  >
+                                <p:ajax event="itemSelect" listener="#{analiseMB.onPacienteSelect}" update="vcf" />
+                            </p:autoComplete>
+
+
+                            <p:outputLabel for="vcf" value="VCF paciente" />
+                            <p:selectOneMenu value="#{analiseMB.idVcf}" id="vcf">
+                                <f:selectItem itemLabel="selecione um" itemValue="" />
+                                <f:selectItems value="#{analiseMB.selectVcfs}" />
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Correlato" for="correlato"/>
+                            <p:autoComplete id="correlato" value="#{analiseMB.correlato}" completeMethod="#{analiseMB.controleComplete}"  >
+                                <p:ajax event="itemSelect" listener="#{analiseMB.onControleSelect}" update="vcfCorrelato" /> 
+                            </p:autoComplete>
+
+                            <p:outputLabel for="vcfCorrelato" value="VCF Correlato" />
+
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-10, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+
+                                <p:selectOneMenu  value="#{analiseMB.idCorrelato}" id="vcfCorrelato">
+                                    <f:selectItem itemLabel="selecione um" itemValue="" />
+                                    <f:selectItems value="#{analiseMB.selectControleVcfs}" />
+                                </p:selectOneMenu>
+                                <p:commandButton value="Adicionar Correlato" actionListener="#{analiseMB.addCorrelato}"  update="listCorrelatos"/>
+                            </p:panelGrid> 
+                        </p:panelGrid>
+
+
+                        <h:outputText value="Correlatos" />
+
+                        <p:dataTable value="#{analiseMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" >
+                            <p:column headerText="VCF">
+                                <h:outputText value="#{correlato.nome}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <!--
+                        <p:outputLabel value="Familiar" for="controle"/>
+                        <p:autoComplete id="controle" value="{analiseMB.controle}" completeMethod="{analiseMB.controleComplete}"  >
+                            <p:ajax event="itemSelect" listener="{analiseMB.onControleSelect}" update="vcfControle" />
+                        </p:autoComplete>
+                                                    
+                        <p:outputLabel value="VCF familiar" for="vcfControle" />
+                        <p:selectOneMenu value="{analiseMB.idControle}" id="vcfControle">
+                            <f:selectItem itemLabel="selecione um" itemValue="" />
+                            <f:selectItems value="{analiseMB.selectControleVcfs}" />
+                        </p:selectOneMenu>
+                        -->
+
+
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        
+                            <p:commandButton action="#{analiseMB.adicionar}" value="Adicionar" />
+                        </p:panelGrid>
+                    </p:panel>                
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

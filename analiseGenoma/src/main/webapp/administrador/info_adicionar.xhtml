@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Banco de dados biologico">
+                        
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Banco de dados biologico" for="bd" />
+                            <p:selectOneMenu id="bd" value="#{infoAdicionarMB.idBd}">
+                                <f:selectItem itemLabel="selecione um" itemValue="" />
+                                <f:selectItems value="#{infoAdicionarMB.selectBds}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Patologia" for="patologia" />
+                            <p:autoComplete id="patologia" value="#{infoAdicionarMB.patologia}" completeMethod="#{infoAdicionarMB.patologiaComplete}" />
+                            <p:outputLabel value="Gene" for="gene" />
+                            <p:autoComplete id="gene" value="#{infoAdicionarMB.gene}" completeMethod="#{infoAdicionarMB.geneComplete}" />
+                            
+                            
+                        </p:panelGrid>                        
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Adcionar" actionListener="#{infoAdicionarMB.adicionar}" update="formulario"/>
+                        </p:panelGrid>
+                    </p:panel>        
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

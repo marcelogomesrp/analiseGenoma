@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="Show" onclick="PF('bar').show()" icon="ui-icon-arrow-1-s"/> 
+            <p:submenu label="Patient" >
+                <p:menuitem value="New" outcome="paciente_novo.xhtml" />
+                <p:menuitem value="Search"  outcome="paciente_pesquisar.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Analyze" >
+                <p:menuitem value="New" outcome="analise_nova.xhtml" />
+                <p:menuitem value="Search"  outcome="analise_pesquisar.xhtml"/>
+                <p:menuitem value="Select variants"  outcome="analise_selecionar_variantes.xhtml"/>                
+            </p:submenu>
+            <p:submenu label="Options" >
+                <p:menuitem value="Change password" outcome="analise_nova.xhtml" />
+                <p:menuitem value="Edit profile" outcome="analise_nova.xhtml" />
+                <p:menuitem value="Logout" action="#{logoffMB.sairDoSistema}" ajax="false"/>                
+            </p:submenu>                           
+        </p:menubar>
+            
+    </h:form>
+
+
+</ui:composition>

@@ -1,0 +1,11 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+/**
+ * Author:  marcelo
+ * Created: Jul 1, 2017
+ */
+INSERT INTO usuario (nome,email,senha,telefone,administrador,gestor,revisor) VALUES ('admin','admin@admin.com','admin','111111',true,true,true);
+INSERT INTO etnia (sigla,nome,local) VALUES('ASW','African Ancestry','USA');

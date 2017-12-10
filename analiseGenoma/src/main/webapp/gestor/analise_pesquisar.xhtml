@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                    <p:panel header="Pesquisar analise">
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <h:outputText value="Selecione uma opção" />
+                        </p:panelGrid>
+                    </p:panel>                
+                    <p:dataTable value="#{analisePesquisarMB.analises}" var="analise" >
+                        <p:column>
+                            <f:facet name="header" >
+                                <h:outputText value="Id" />
+                            </f:facet>
+                            <h:outputText value="#{analise.id}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{analise.nome}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Opcoes" />
+                            </f:facet>
+                            <p:commandButton value="Selecionar Variantes" action="#{analisePesquisarMB.selecionarVariante(analise)}"/>
+                        </p:column>
+                    </p:dataTable>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

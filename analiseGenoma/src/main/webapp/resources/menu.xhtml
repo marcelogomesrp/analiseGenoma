@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <p:menubar>
+            <p:submenu label="Opçoes" >
+                <p:menuitem value="Trocar senha" outcome="analise_nova.xhtml" />
+                <p:menuitem value="Editar perfil" outcome="analise_nova.xhtml" />
+                <p:menuitem value="Sair" action="#{logoffMB.sairDoSistema}" ajax="false"/>                
+            </p:submenu>                           
+        </p:menubar>
+            
+    </h:form>
+
+
+</ui:composition>

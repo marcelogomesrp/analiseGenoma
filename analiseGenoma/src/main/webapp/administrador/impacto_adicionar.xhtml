@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Gene">
+                        <h:inputHidden value="#{impactoMB.impacto.id}" />
+                        <p:panelGrid columns="3" columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Nome" for="nome" />
+                            <p:inputText id="nome" value="#{impactoMB.impacto.nome}"  >
+                                <p:ajax event="blur" update="nomeMsg" />
+                            </p:inputText>
+                            <p:message for="nome" id="nomeMsg" />
+                        </p:panelGrid>                        
+
+                        <p:panelGrid columns="3" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Adicionar" actionListener="#{impactoMB.adicionar}" update="formulario" rendered="#{impactoMB.insertMode}"/>
+                            <p:commandButton value="Atualizar" actionListener="#{impactoMB.atualizar}" update="formulario" rendered="#{impactoMB.updateMode}"/>
+                            <p:commandButton value="Pesquisar" actionListener="#{impactoMB.pesquisar}" update="formulario"/>
+                            <p:commandButton value="Cancelar" actionListener="#{impactoMB.cancelar}" update="formulario"/>
+                        </p:panelGrid>
+                    </p:panel>  
+                    <p:dataTable value="#{impactoMB.listImpacto}" var="impacto">
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Id" />
+                            </f:facet>
+                            <h:outputText value="#{impacto.id}" />
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{impacto.nome}" />
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Editar" />
+                            </f:facet>
+                            <p:commandButton value="Editar" actionListener="#{impactoMB.editar(impacto)}" update="formulario"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                
+            </ui:define>
+            
+            
+
+        </ui:composition>
+
+    </body>
+</html>

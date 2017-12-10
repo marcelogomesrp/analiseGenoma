@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Selecionar revisores">
+                        <!-- <h:inputHidden id="id" value="{pacienteMB.paciente.id}" /> -->
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Analise" for="nome"/>
+                            <p:outputLabel id="nome" value="#{revSelecionarMB.analise.nome}" />                            
+                        </p:panelGrid>
+                        <p:commandButton value="Submeter" action="#{revSelecionarMB.showPage()}" ajax="false"/>
+
+                        <p:dataGrid value="#{revSelecionarMB.revisores}" var="rev" columns="3" id="dataGridRev"  style="width:100%">
+
+                            <p:panel header="#{rev.nome}" >
+                                <p:tabView>
+                                    <p:tab title="#{rev.nome}">
+                                        <p:graphicImage url="/images/#{rev.id}" width="210px" height="250px"/>
+                                    </p:tab>
+                                    <p:tab title="info">
+                                        <p:panelGrid columns="2" >
+                                            <p:outputLabel value="Nome" />
+                                            <h:outputText value="#{rev.nome}" />
+                                            <p:outputLabel value="Email" />
+                                            <h:outputText value="#{rev.email}" />
+                                            <p:outputLabel value="Telefone" />
+                                            <h:outputText value="#{rev.telefone}" />
+                                            <p:outputLabel value="Selecionado" />
+                                            <h:outputText value="#{revSelecionarMB.isSelecionado(rev)}" />
+                                        </p:panelGrid>
+                                    </p:tab>
+                                </p:tabView>
+                                <p:commandButton value="Selecionar" actionListener="#{revSelecionarMB.addRevisor(rev)}" update="dataGridRev" rendered="#{!revSelecionarMB.isSelecionado(rev)}"/>
+                                <p:commandButton value="Desmarcar" actionListener="#{revSelecionarMB.removeRevisor(rev)}" update="dataGridRev" rendered="#{revSelecionarMB.isSelecionado(rev)}"/>
+                            </p:panel>
+                        </p:dataGrid>     
+                    </p:panel>                
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

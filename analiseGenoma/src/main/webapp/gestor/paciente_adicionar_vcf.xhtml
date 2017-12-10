@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario" enctype="multipart/form-data">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Adicionar VCF">
+                        <h:inputHidden value="#{pacienteVcfMB.paciente.id}" />
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Nome do paciente" for="nomePaciente"/>
+                            <p:inputText id="nomePaciente" value="#{pacienteVcfMB.paciente.nome}"/>
+                            <p:outputLabel value="Idade" for="idade"/>
+                            <p:inputText id="idade" value="#{pacienteVcfMB.vcf.idadeDoPaciente}"/>
+                            <p:outputLabel value="Nome do vcf" for="nomeVcf" />
+                            <p:inputText id="nomeVcf" value="#{pacienteVcfMB.vcf.nome}"/>
+                            <p:outputLabel value="VCF" for="vcf"/>                            
+                            <p:fileUpload  id="vcf" mode="simple" skinSimple="true" value="#{pacienteVcfMB.uploadedFile}"/>
+
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                            
+                            <p:commandButton value="Adicionar" action="#{pacienteVcfMB.adicionar}" ajax="false"/>
+                        </p:panelGrid>
+                    </p:panel>                
+                </h:form>
+            </ui:define>
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario" enctype="multipart/form-data">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Gene">                        
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Lista de gene" for="lista"/>
+                            <p:fileUpload  id="lista" mode="simple" skinSimple="true" value="#{geneImportarMB.uploadedFile}"/>
+                        </p:panelGrid>                        
+
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                            
+                            <p:commandButton value="Adicionar" action="#{geneImportarMB.adicionar}" ajax="false"/>
+                        </p:panelGrid>
+                        <h:outputLink value="http://www.genenames.org">
+                            <h:outputText value="Download hugo" />
+                        </h:outputLink> 
+                        
+                    </p:panel>        
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

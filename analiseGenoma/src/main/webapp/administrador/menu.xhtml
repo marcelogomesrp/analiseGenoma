@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="Etnia" outcome="etnia.xhtml"/>
+            <p:submenu label="Gene" >
+                <p:menuitem value="Adicionar" outcome="gene_adicionar.xhtml"/>
+                <p:menuitem value="Pesquisar" outcome="gene_pesquisar.xhtml"/>
+                <p:menuitem value="Importar" outcome="gene_importar.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Impacto" >
+                <p:menuitem value="Adicionar" outcome="impacto_adicionar.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Patologia" >
+                <p:menuitem value="Adicionar" outcome="patologia_adicionar.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Banco Biologico" >
+                <p:menuitem value="Adicionar banco" outcome="bdbio_adicionar.xhtml"/>
+                <p:menuitem value="Adicionar Informacao" outcome="info_adicionar.xhtml"/>
+                <p:menuitem value="Importar Informacao" outcome="info_importar.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Opçoes" >
+                <p:menuitem value="Trocar senha" />
+                <p:menuitem value="Editar perfil" />
+                <p:menuitem value="Sair" action="#{logoffMB.sairDoSistema}" ajax="false"/>                
+            </p:submenu>                           
+        </p:menubar>
+            
+    </h:form>
+
+
+</ui:composition>

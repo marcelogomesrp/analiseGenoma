@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario" enctype="multipart/form-data">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Importar informacoes para Banco de dados biologico">
+
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Banco de dados biologico" for="bd" />
+                            <p:selectOneMenu id="bd" value="#{infoImportarMB.idBd}">
+                                <f:selectItem itemLabel="selecione um" itemValue="" />
+                                <f:selectItems value="#{infoImportarMB.selectBds}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Arquivo" for="arquivo"/>
+                            <p:fileUpload  id="arquivo" mode="simple" skinSimple="true" value="#{infoImportarMB.uploadedFile}"/>
+                        </p:panelGrid>                        
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Adicionar" action="#{infoImportarMB.adicionar}" ajax="false"/>
+                        </p:panelGrid>                        
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">
+                            <h:outputText value="Os dados devem ser um arquivo texto separado por tab, com o seguinte conteudo:" />
+                            <h:outputText value="patologia, cid, genes, outros" />
+                            <h:outputText value="exemplo faca download do arquivo morbidmap do omim: " />
+                            <h:outputText value="grep -v \# morbidmap.txt | awk -F'\t' '{print $1'\t\t'$2'\t'$3}' > morbidmap_importar" />
+                        </p:panelGrid>
+                    </p:panel>        
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
