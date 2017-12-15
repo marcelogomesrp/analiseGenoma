@@ -12,6 +12,7 @@ public class VarianteService extends Service<Variante>{
     private CromossomoService cromossomoService;
     @Inject
     private GeneService geneService;
+    //@Inject private VcfService vcfService;
     @Inject private UmdPredictorService umdPredictorService;
     @Inject private ZygosityService zygosityService;
     
@@ -25,6 +26,8 @@ public class VarianteService extends Service<Variante>{
     @Override
     @Transactional
     public void adicionar(Variante variante) {
+        //if(variante.getVcf() != null)
+            //vcfService.atualizar(variante.getVcf());
         if(variante.getCromossomo() !=null)
             cromossomoService.atualizar(variante.getCromossomo());
         if(variante.getGene() != null)
@@ -33,6 +36,7 @@ public class VarianteService extends Service<Variante>{
             umdPredictorService.atualizar(variante.getUmdPredictor());
         if(variante.getZygosity() != null)
             zygosityService.atualizar(variante.getZygosity());
+        
         super.adicionar(variante); 
     }
     

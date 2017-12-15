@@ -23,7 +23,6 @@
                             <p:inputText id="nomeVcf" value="#{pacienteVcfMB.vcf.nome}"/>
                             <p:outputLabel value="VCF" for="vcf"/>                            
                             <p:fileUpload  id="vcf" mode="simple" skinSimple="true" value="#{pacienteVcfMB.uploadedFile}"/>
-
                         </p:panelGrid>
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                            
                             <p:commandButton value="Adicionar" action="#{pacienteVcfMB.adicionar}" ajax="false"/>

@@ -13,7 +13,8 @@ import org.analiseGenoma.dao.EtniaDao;
 import org.analiseGenoma.model.Etnia;
 
 @Named
-public class EtniaService implements Serializable{
+public class EtniaService implements Serializable {
+
     @Inject
     private EtniaDao etniaDao;
 
@@ -22,23 +23,22 @@ public class EtniaService implements Serializable{
     }
 
     @Transactional
-    public void adicionar(Etnia etnia){
+    public void adicionar(Etnia etnia) {
         etniaDao.adicionar(etnia);
     }
-    
+
     @Transactional
     public void atualizar(Etnia etnia) {
         etniaDao.atualizar(etnia);
     }
-    
-    
-    public void adicionar(List<Etnia> list) {        
+
+    public void adicionar(List<Etnia> list) {
         list.forEach((e) -> {
             adicionar(e);
         });
     }
-    
-    public List<Etnia> buscar(){
+
+    public List<Etnia> buscar() {
         return etniaDao.buscar();
     }
 
@@ -48,20 +48,13 @@ public class EtniaService implements Serializable{
 
     @Transactional
     public void upload(byte[] contents) {
-         if(contents.length > 0){
-             String[] arquivo = new String(contents, StandardCharsets.UTF_8).split("\n");
-             List<Etnia> lista = new ArrayList<>();
-             for(String ln:arquivo){
-                 String[] linha = ln.split("\t");
-                 Etnia e = new Etnia();
-                 e.setSigla(linha[0]);
-                 e.setNome(linha[1]);
-                 e.setOrigem(linha[2]);
-                 this.adicionar(e);
-                 //lista.add(e);
-             }
-             this.adicionar(lista);             
-         }
+        if (contents.length > 0) {
+            Runnable r = () -> {
+                this.importar(contents);
+            };
+            Thread t = new Thread(r);
+            t.start();
+        }
     }
 
     public List<Etnia> findByExample(Etnia etnia) {
@@ -70,9 +63,9 @@ public class EtniaService implements Serializable{
 
     public List<String> findNamesByName(String name) {
         Etnia etnia = new Etnia();
-        etnia.setNome(name + "%");        
-        List<String> retorno =  etniaDao.findByExample(etnia)
-                .stream()                
+        etnia.setNome(name + "%");
+        List<String> retorno = etniaDao.findByExample(etnia)
+                .stream()
                 .map(e -> e.getNome())
                 .distinct()
                 .collect(Collectors.toList());
@@ -81,9 +74,9 @@ public class EtniaService implements Serializable{
 
     public List<String> findSiglasBySigla(String sigla) {
         Etnia etnia = new Etnia();
-        etnia.setSigla(sigla + "%");        
-        List<String> retorno =  etniaDao.findByExample(etnia)
-                .stream()                
+        etnia.setSigla(sigla + "%");
+        List<String> retorno = etniaDao.findByExample(etnia)
+                .stream()
                 .map(e -> e.getSigla())
                 .distinct()
                 .collect(Collectors.toList());
@@ -92,16 +85,27 @@ public class EtniaService implements Serializable{
 
     public List<String> findOrigensByOrigem(String origem) {
         Etnia etnia = new Etnia();
-        etnia.setSigla(origem + "%");        
-        List<String> retorno =  etniaDao.findByExample(etnia)
-                .stream()                
+        etnia.setSigla(origem + "%");
+        List<String> retorno = etniaDao.findByExample(etnia)
+                .stream()
                 .map(e -> e.getOrigem())
                 .distinct()
                 .collect(Collectors.toList());
-        return retorno;        
+        return retorno;
     }
 
-
-
+    private void importar(byte[] contents) {
+        String[] arquivo = new String(contents, StandardCharsets.UTF_8).split("\n");
+        List<Etnia> lista = new ArrayList<>();
+        for (String ln : arquivo) {
+            String[] linha = ln.split("\t");
+            Etnia e = new Etnia();
+            e.setSigla(linha[0]);
+            e.setNome(linha[1]);
+            e.setOrigem(linha[2]);
+            this.adicionar(e);
+        }
+        this.adicionar(lista);
+    }
 
 }

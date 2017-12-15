@@ -127,20 +127,12 @@ public class EtniaMB implements Serializable {
     
 
     public void upload() {
-        //RequestContext.getCurrentInstance().closeDialog();
         String msg = "Erro ao realizar o upload";
         if (uploadedFile != null) {
-//            usuarioService.adicionar(usuario, confirmaSenha, uploadedFile.getContents());
             etniaService.upload(uploadedFile.getContents());
             msg = "Importado com sucesso";
             RequestContext.getCurrentInstance().closeDialog(msg);            
         }
-//        context.getExternalContext()
-//                .getFlash().setKeepMessages(true);
-//        context.addMessage(null, new FacesMessage(msg));
-//        this.refresh();
-//        return "etnia.xhtml?faces-redirect=true";
-
     }
 
     public UploadedFile getUploadedFile() {

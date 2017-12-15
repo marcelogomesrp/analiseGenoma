@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Import Variante file</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
+        <!-- <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i> -->
+        <h:form enctype="multipart/form-data" id="formularioUpload">
+
+            <p:panel header="Adicionar VCF">
+                <h:inputHidden value="#{pacienteVcfMB.paciente.id}" />
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">          
+                     <p:outputLabel value="a" for="a"/>
+                     <p:inputText id="a" value="#{pacienteMB.id}"/>
+                    
+                    <p:outputLabel value="Nome do paciente" for="nomePaciente"/>
+                    <p:inputText id="nomePaciente" value="#{pacienteVcfMB.paciente.nome}"/>
+                    <p:outputLabel value="age" for="idade"/>
+                    <p:inputText id="idade" value="#{pacienteVcfMB.vcf.idadeDoPaciente}"/>
+                    <p:outputLabel value="Variante file id" for="nomeVcf" />
+                    <p:inputText id="nomeVcf" value="#{pacienteVcfMB.vcf.nome}"/>
+                    <p:outputLabel value="VCF" for="vcf"/>                            
+                    <p:fileUpload  id="vcf" mode="simple" skinSimple="true" value="#{pacienteVcfMB.uploadedFile}" />
+                </p:panelGrid>
+                <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                            
+                    <p:commandButton value="Adicionar" action="#{pacienteVcfMB.adicionar}" ajax="false"/>
+                </p:panelGrid>
+               
+                
+            </p:panel>                
+        </h:form>
+
+    </h:body>
+
+</html>

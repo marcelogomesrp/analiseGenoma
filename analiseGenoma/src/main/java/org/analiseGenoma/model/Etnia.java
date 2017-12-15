@@ -7,6 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+//import org.hibernate.validator.constraints.NotEmpty;
+
+
+
+
+
 
 @Entity
 @Table(name = "etnia")
@@ -15,6 +21,8 @@ public class Etnia implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_etnia")
     private Long id;
+    //@NotEmpty
+//    @NotEmpty(message = "not a well-formed email address")
     private String sigla;
     private String nome;   
     private String origem;

@@ -2,11 +2,14 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+//import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -17,9 +20,13 @@ import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.EtniaService;
 import org.analiseGenoma.service.PacienteService;
 import org.analiseGenoma.service.VcfService;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 @Named(value = "pacienteMB")
-@RequestScoped
+@ViewScoped
+//@RequestScoped
 public class PacienteMB implements Serializable {
 
     @Inject
@@ -38,11 +45,14 @@ public class PacienteMB implements Serializable {
     @RequestParam
     private String id;
     private String gender;
+    private UploadedFile vcfUploadedFile;
+    private Vcf vcf;
 
     private List<Vcf> vcfs;
 
     @PostConstruct
     public void init() {
+        System.out.println("Pagina pacienteMB instanciada novamente");
         paciente = new Paciente();
         pacientes = pacienteService.buscar();
 
@@ -165,7 +175,65 @@ public class PacienteMB implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    
-    
 
+    public void viewAddVcf(Long id) {
+        paciente = pacienteService.buscarId(id);
+        vcf = new Vcf();
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 800);
+        options.put("height", 600);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+        options.put("resizable", false);
+        
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
+        values.add(id.toString());
+        params.put("id", values);
+        RequestContext.getCurrentInstance().openDialog("viewAddVcf", options, params);
+        paciente = new Paciente();
+    }
+
+    public void onViewAddVcf(SelectEvent event) {
+        String msg = (String) event.getObject();
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage(msg));
+
+    }
+
+    public void uploadVcf() {
+        String msg = "Erro ao realizar o upload";
+        if (vcfUploadedFile != null) {
+                        Runnable r = () -> {                
+                pacienteService.importVcf(vcfUploadedFile.getContents(), vcf);
+            };
+            Thread t = new Thread(r);
+            t.start();            
+        }else{
+            msg = "Erro ao importar o arquivo";
+        }    
+        RequestContext.getCurrentInstance().closeDialog(msg);        
+    }
+
+    public UploadedFile getVcfUploadedFile() {
+        return vcfUploadedFile;
+    }
+
+    public void setVcfUploadedFile(UploadedFile vcfUploadedFile) {
+        this.vcfUploadedFile = vcfUploadedFile;
+    }
+
+    public Vcf getVcf() {
+        return vcf;
+    }
+
+    public void setVcf(Vcf vcf) {
+        this.vcf = vcf;
+    }
+
+    
+    
 }

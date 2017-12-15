@@ -11,36 +11,76 @@
         <ui:composition template="./template.xhtml">
 
             <ui:define name="content">
-                <h:form>
-                <p:growl id="messages" showDetail="true"/>
-                <p:panel header="New Patient">
-                    <h:inputHidden id="id" value="#{pacienteMB.paciente.id}" />
-                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
-                        <p:outputLabel value="Name" for="nome"/>
-                        <p:inputText id="nome" value="#{pacienteMB.paciente.nome}"/>
-                        <p:outputLabel value="Birthday" for="dtNascimento"/>
-                        <p:calendar id="dtNascimento" value="#{pacienteMB.paciente.dataNascimento}"/>
-                        <p:outputLabel value="Second Id" for="secondId" />
-                        <p:inputText id="secondId" value="#{pacienteMB.paciente.secondId}" />
-                        <p:outputLabel value="Etinia" />
-                        <p:selectOneMenu value="#{pacienteMB.idEtnia}">
-                            <f:selectItem itemLabel="select one" itemValue="" />
-                            <f:selectItems value="#{pacienteMB.selectEtnias}" />
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Gender" for="gender"/>
-                        <p:selectOneMenu value="#{pacienteMB.gender}" id="gender">
-                            <f:selectItem itemLabel="select one" itemValue="" />
-                            <f:selectItem itemLabel="Female" itemValue="f" />
-                            <f:selectItem itemLabel="Male" itemValue="m" />
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Note" for="observacao"/>
-                        <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                        <p:commandButton value="Add" action="#{pacienteMB.adicionar}"/>
-                        <p:commandButton value="Clean" action="#{pacienteMB.limpar}"/>
-                    </p:panelGrid>
-                </p:panel>                
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="New Patient">
+                        <h:inputHidden id="id" value="#{pacienteMB.paciente.id}" />
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Name" for="nome"/>
+                            <p:inputText id="nome" value="#{pacienteMB.paciente.nome}"/>
+                            <p:outputLabel value="Birthday" for="dtNascimento"/>
+                            <p:calendar id="dtNascimento" value="#{pacienteMB.paciente.dataNascimento}"/>
+                            <p:outputLabel value="Second Id" for="secondId" />
+                            <p:inputText id="secondId" value="#{pacienteMB.paciente.secondId}" />
+                            <p:outputLabel value="Etinia" />
+                            <p:selectOneMenu value="#{pacienteMB.idEtnia}">
+                                <f:selectItem itemLabel="select one" itemValue="" />
+                                <f:selectItems value="#{pacienteMB.selectEtnias}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Gender" for="gender"/>
+                            <p:selectOneMenu value="#{pacienteMB.gender}" id="gender">
+                                <f:selectItem itemLabel="select one" itemValue="" />
+                                <f:selectItem itemLabel="Female" itemValue="f" />
+                                <f:selectItem itemLabel="Male" itemValue="m" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Note" for="observacao"/>
+                            <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Add" action="#{pacienteMB.adicionar}"/>
+                            <p:commandButton value="Clean" action="#{pacienteMB.limpar}"/>
+                        </p:panelGrid>
+                    </p:panel>  
+                    <p:dataTable value="#{pacienteMB.pacientes}" var="paciente" 
+                                 scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="350"
+                                 >
+                        <p:column sortBy="#{paciente.id}">
+                            <f:facet name="header">
+                                <h:outputText value="Id" />
+                            </f:facet>
+                            <h:outputText value="#{paciente.id}" />
+                        </p:column>
+                        <p:column sortBy="#{paciente.nome}">
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{paciente.nome}" />
+                        </p:column>
+                        <p:column sortBy="#{paciente.secondId}">
+                            <f:facet name="header">
+                                <h:outputText value="Second Id" />
+                            </f:facet>
+                            <h:outputText value="#{paciente.secondId}" />
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Opçoes" />
+                            </f:facet>
+                            
+                            <p:commandButton value="Add new variant file" icon="ui-icon-circle-plus" actionListener="#{pacienteMB.viewAddVcf(paciente.id)}" >                                
+                                <p:ajax event="dialogReturn" listener="#{pacienteMB.onViewAddVcf}" update="formulario" />                                
+                            </p:commandButton>
+                            
+
+                            
+                            
+                            <p:button outcome="paciente_novo.xhtml?faces-redirect=true" value="editar" icon="ui-icon-pencil"> 
+                                <f:param name="id" value="#{paciente.id}" />
+                            </p:button>
+                        </p:column>
+
+                    </p:dataTable>
+
                 </h:form>
             </ui:define>
 

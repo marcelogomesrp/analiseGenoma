@@ -278,7 +278,14 @@ public class Variante implements Serializable {
     public Integer getExonIntron() {
         return exonIntron;
     }
-
+    
+    public void setExonIntron(String exonIntron) {
+        try{
+            Integer n = Integer.valueOf(idSNP);
+            this.setExonIntron(n);
+        }catch(Exception ex){}
+    }
+    
     public void setExonIntron(Integer exonIntron) {
         this.exonIntron = exonIntron;
     }

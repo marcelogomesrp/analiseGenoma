@@ -1,6 +1,8 @@
 package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -10,8 +12,10 @@ import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Paciente;
 import org.analiseGenoma.model.Vcf;
+import org.analiseGenoma.model.VcfStatus;
 import org.analiseGenoma.service.PacienteService;
 import org.analiseGenoma.service.VcfService;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 
 @Named(value = "pacienteVcfMB")
@@ -64,9 +68,12 @@ public class PacienteVcfMB implements Serializable {
         this.vcf = vcf;
     }
 
-    public String adicionar() {
+    
+    public void adicionar() {
+        String msg = "arquivo adicionado com sucesso";
         System.out.println("Adicionando o vcf");
-        vcf.setPaciente(pacienteService.buscarId(paciente.getId()));        
+        vcf.setPaciente(pacienteService.buscarId(paciente.getId()));       
+        vcf.setStatus(VcfStatus.importando);
         vcfService.adicionar(vcf);
         if (uploadedFile != null) {
             System.out.println("Fancendo o upload :D");
@@ -75,16 +82,10 @@ public class PacienteVcfMB implements Serializable {
             };
             Thread t = new Thread(r);
             t.start();
-
-            //vcfService.importar(uploadedFile.getContents(), vcf);
         } else {
             System.out.println("Marcelo: " + "Opa nao veio nada no upload");
-        }
-
-        context.getExternalContext()
-                .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
-        return "paciente_pesquisar.xhtml?faces-redirect=true";
+        }        
+        RequestContext.getCurrentInstance().closeDialog(msg);  
 
     }
 
@@ -95,5 +96,30 @@ public class PacienteVcfMB implements Serializable {
     public void setUploadedFile(UploadedFile uploadedFile) {
         this.uploadedFile = uploadedFile;
     }
+    
+    public void viewAddVcf(Long id) {
+        paciente = pacienteService.buscarId(id);
+        vcf = new Vcf();
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 800);
+        options.put("height", 600);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+
+        options.put("resizable", false);
+        RequestContext.getCurrentInstance().openDialog("viewAddVcf", options, null);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
 
 }
