@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.DAO;
+import org.analiseGenoma.model.ClinvarDisease;
 
 public abstract class Service<T> implements Serializable {
 
@@ -38,5 +39,23 @@ public abstract class Service<T> implements Serializable {
     public T buscarPorId(Long id) {
         return dao.buscarPorId(id);
     }
- 
+    
+    /*
+    
+    public List<T> findByName(String name){
+        return dao.findByName(name);
+    }
+        @Transactional
+    public T findOrCreate(String name) {
+        List<T> list = this.findByName(name);
+        if (list.size() == 1) {
+            return list.get(0);
+        }
+        Class c = null;
+        T obj = (T)c.newInstance();
+        obj.setName(name);
+        this.adicionar(obj);
+        return obj;
+    }
+ */
 }

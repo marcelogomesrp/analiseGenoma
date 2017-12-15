@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Ensembl implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_lrt")
+    @Column(name = "id_ensembl")
     private Long id;
     @Column(unique = true)
     private String idEnsembl;

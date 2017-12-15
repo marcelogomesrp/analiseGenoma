@@ -11,11 +11,11 @@ public class EnsemblDao extends DAO<Ensembl> {
         super(Ensembl.class);
     }
 
-    public List<Ensembl> findByName(String name) {
+    public List<Ensembl> findByIdEnsembl(String idEnsembl) {
         List<Ensembl> list = null;
         try {
-            Query query = manager.createQuery("SELECT i FROM Ensembl i WHERE i.name like :name");
-            query.setParameter("name", name);
+            Query query = manager.createQuery("SELECT i FROM Ensembl i WHERE i.idEnsembl like :idEnsembl");
+            query.setParameter("idEnsembl", idEnsembl);
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

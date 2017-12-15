@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.analiseGenoma.dao.ImpactDao;
 import org.analiseGenoma.dao.CromossomoDao;
 import org.analiseGenoma.dao.GeneDao;
-import org.analiseGenoma.model.Effect;
 import org.analiseGenoma.model.Impact;
 
 @Named

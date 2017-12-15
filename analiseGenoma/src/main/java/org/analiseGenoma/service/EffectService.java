@@ -4,7 +4,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.EffectDao;
 import org.analiseGenoma.model.Effect;
-import org.analiseGenoma.model.Type;
 
 public class EffectService extends Service<Effect> { 
     

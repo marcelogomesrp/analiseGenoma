@@ -45,6 +45,19 @@ public class VcfService implements Serializable {
     @Inject private TypeService typeService;
     @Inject private EffectService effectService;
     @Inject private ImpactService impactService;
+    @Inject private ClinvarSignificanceService clinvarSignificanceService;
+    @Inject private ClinvarDiseaseService clinvarDiseaseService;
+    @Inject private ClinvarAccessionService clinvarAccessionService;
+    @Inject private ClinvarAlleleTypeService clinvarAlleleTypeService;
+    @Inject private ClinvarAlleleOriginService clinvarAlleleOriginService;
+    @Inject private SiftService siftService;
+    @Inject private PolyphenHdivService polyphenHdivService;
+    @Inject private PolyphenHvarService polyphenHvarService;
+    @Inject private MutationTasterService mutationTasterService;
+    @Inject private LrtService lrtService;
+    @Inject private FeatureService featureService;
+    @Inject private EnsemblService ensemblService;
+    
 
     @PostConstruct
     public void init() {
@@ -119,10 +132,25 @@ public class VcfService implements Serializable {
             variante.setType(typeService.findOrCreate(linha[13]));
             variante.setEffect(effectService.findOrCreate(linha[14]));
             variante.setImpact(impactService.findOrCreate(linha[15]));
+            variante.setClinvarSignificance(clinvarSignificanceService.findOrCreate(linha[16]));
+            variante.setClinvarDisease(clinvarDiseaseService.findOrCreate(linha[17]));
+            variante.setClinvarAccession(clinvarAccessionService.findOrCreate(linha[18]));
+            variante.setClinvarAlleleType(clinvarAlleleTypeService.findOrCreate(linha[19]));
+            variante.setClinvarAlleleOrigin(clinvarAlleleOriginService.findOrCreate(linha[20]));
+            variante.setSift(siftService.findOrCreate(linha[21]));
+            variante.setPolyphenHdiv(polyphenHdivService.findOrCreate(linha[22]));
+            variante.setPolyphenHvar(polyphenHvarService.findOrCreate(linha[23]));
+            variante.setMutationTaster(mutationTasterService.findOrCreate(linha[24]));
+            variante.setLrt(lrtService.findOrCreate(linha[25]));
+            variante.setGerpRsScore(linha[26]);
+            variante.setGerpNeutralRate(linha[27]);
+            variante.setFeature(featureService.findOrCreate(linha[28]));
+            variante.setEnsembl(ensemblService.findOrCreate(linha[29]));
+            variante.setVertebrateGenomesConservationScore(linha[30]);
+            
+            
             
             varianteService.adicionar(variante);
-            
-            
         }
         vcf.setStatus(VcfStatus.importado);
         this.atualizar(vcf);

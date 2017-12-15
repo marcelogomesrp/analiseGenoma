@@ -20,7 +20,7 @@ public class Variante implements Serializable {
     @Column(name = "id_informacaovcf")
     private Long id;
     //@Column(columnDefinition = "text")
-    
+
     //1
     @OneToOne
     @JoinColumn(name = "cromossomo_id")
@@ -51,15 +51,15 @@ public class Variante implements Serializable {
     @ManyToOne
     @JoinColumn(name = "vcf_id")
     private Vcf vcf;
-    
+
     @ManyToOne
     @JoinColumn(name = "umdpredictor_id")
     private UmdPredictor umdPredictor;
-    
+
     @ManyToOne
     @JoinColumn(name = "zygosity_id")
     private Zygosity zygosity;
-    
+
     private String allelicDeph;
     @ManyToOne
     @JoinColumn(name = "filter_id")
@@ -81,7 +81,7 @@ public class Variante implements Serializable {
     private ClinvarSignificance clinvarSignificance;
     @ManyToOne
     @JoinColumn(name = "clinvardisease_id")
-    private ClinvarDisease clinvarDisease; 
+    private ClinvarDisease clinvarDisease;
     @ManyToOne
     @JoinColumn(name = "clinvaraccession_id")
     private ClinvarAccession clinvarAccession;
@@ -105,7 +105,7 @@ public class Variante implements Serializable {
     private MutationTaster mutationTaster;
     @ManyToOne
     @JoinColumn(name = "lrt_id")
-    private Lrt lrt;    
+    private Lrt lrt;
     private Double gerpRsScore;
     private Double gerpNeutralRate;
     @ManyToOne
@@ -113,7 +113,7 @@ public class Variante implements Serializable {
     private Feature feature;
     @ManyToOne
     @JoinColumn(name = "_id")
-    private Ensembl ensembl;    
+    private Ensembl ensembl;
     private Double vertebrateGenomesConservationScore;
     @ManyToOne
     @JoinColumn(name = "interprodomain_id")
@@ -136,7 +136,7 @@ public class Variante implements Serializable {
     private Double asianVarintFreq;
     private Double americanVarintFreq;
     private Double wholeVarintFreq;
-   
+
     public Long getId() {
         return id;
     }
@@ -152,8 +152,6 @@ public class Variante implements Serializable {
     public void setCromossomo(Cromossomo cromossomo) {
         this.cromossomo = cromossomo;
     }
-
-
 
     public String getPosition() {
         return position;
@@ -278,14 +276,15 @@ public class Variante implements Serializable {
     public Integer getExonIntron() {
         return exonIntron;
     }
-    
+
     public void setExonIntron(String exonIntron) {
-        try{
+        try {
             Integer n = Integer.valueOf(idSNP);
             this.setExonIntron(n);
-        }catch(Exception ex){}
+        } catch (Exception ex) {
+        }
     }
-    
+
     public void setExonIntron(Integer exonIntron) {
         this.exonIntron = exonIntron;
     }
@@ -390,12 +389,28 @@ public class Variante implements Serializable {
         return gerpRsScore;
     }
 
+    public void setGerpRsScore(String gerpRsScore) {
+        try {
+            Double d = Double.valueOf(gerpRsScore);
+            this.setGerpRsScore(d);
+        } catch (Exception ex) {
+        }
+    }
+
     public void setGerpRsScore(Double gerpRsScore) {
         this.gerpRsScore = gerpRsScore;
     }
 
     public Double getGerpNeutralRate() {
         return gerpNeutralRate;
+    }
+
+    public void setGerpNeutralRate(String gerpNeutralRate) {
+        try {
+            Double d = Double.valueOf(gerpNeutralRate);
+            this.setGerpRsScore(d);
+        } catch (Exception ex) {
+        }
     }
 
     public void setGerpNeutralRate(Double gerpNeutralRate) {
@@ -420,6 +435,14 @@ public class Variante implements Serializable {
 
     public Double getVertebrateGenomesConservationScore() {
         return vertebrateGenomesConservationScore;
+    }
+
+    public void setVertebrateGenomesConservationScore(String vertebrateGenomesConservationScore) {
+        try {
+            Double d = Double.valueOf(vertebrateGenomesConservationScore);
+            this.setVertebrateGenomesConservationScore(d);
+        } catch (Exception ex) {
+        }
     }
 
     public void setVertebrateGenomesConservationScore(Double vertebrateGenomesConservationScore) {
