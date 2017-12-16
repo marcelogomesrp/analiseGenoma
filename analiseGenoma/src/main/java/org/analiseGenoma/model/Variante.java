@@ -11,10 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "variante")
 public class Variante implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_informacaovcf")
@@ -127,6 +127,7 @@ public class Variante implements Serializable {
     private String readDepth;
     private Double alleleMutFraction;
     private Double meanBaseQuality;
+    private String varintType;
     private Boolean validate;
     private Boolean donorSpliceSite;
     private Boolean acceptorSpliceSite;
@@ -189,6 +190,7 @@ public class Variante implements Serializable {
         return qualidade;
     }
 
+    //@Transient
     public void setQualidade(String qualidade) {
         try {
             this.setQualidade(Double.valueOf(qualidade));
@@ -277,6 +279,7 @@ public class Variante implements Serializable {
         return exonIntron;
     }
 
+    //@Transient
     public void setExonIntron(String exonIntron) {
         try {
             Integer n = Integer.valueOf(idSNP);
@@ -389,6 +392,7 @@ public class Variante implements Serializable {
         return gerpRsScore;
     }
 
+    //@Transient
     public void setGerpRsScore(String gerpRsScore) {
         try {
             Double d = Double.valueOf(gerpRsScore);
@@ -405,6 +409,7 @@ public class Variante implements Serializable {
         return gerpNeutralRate;
     }
 
+    //@Transient
     public void setGerpNeutralRate(String gerpNeutralRate) {
         try {
             Double d = Double.valueOf(gerpNeutralRate);
@@ -437,6 +442,7 @@ public class Variante implements Serializable {
         return vertebrateGenomesConservationScore;
     }
 
+    //@Transient
     public void setVertebrateGenomesConservationScore(String vertebrateGenomesConservationScore) {
         try {
             Double d = Double.valueOf(vertebrateGenomesConservationScore);
@@ -485,12 +491,30 @@ public class Variante implements Serializable {
         return alleleMutFraction;
     }
 
+    //@Transient
+    public void setAlleleMutFraction(String alleleMutFraction) {
+        try {
+            Double d = Double.valueOf(alleleMutFraction);
+            this.setAlleleMutFraction(d);
+        } catch (Exception ex) {
+        }
+    }
+
     public void setAlleleMutFraction(Double alleleMutFraction) {
         this.alleleMutFraction = alleleMutFraction;
     }
 
     public Double getMeanBaseQuality() {
         return meanBaseQuality;
+    }
+
+    //@Transient
+    public void setMeanBaseQuality(String meanBaseQuality) {
+        try {
+            Double d = Double.valueOf(meanBaseQuality);
+            this.setMeanBaseQuality(d);
+        } catch (Exception ex) {
+        }
     }
 
     public void setMeanBaseQuality(Double meanBaseQuality) {
@@ -501,12 +525,32 @@ public class Variante implements Serializable {
         return validate;
     }
 
+    //@Transient
+    public void setValidate(String validate) {
+        if ("yes".equalsIgnoreCase(validate)) {
+            this.setValidate(true);
+        }
+        if ("no".equalsIgnoreCase(validate)) {
+            this.setValidate(false);
+        }
+    }
+
     public void setValidate(Boolean validate) {
         this.validate = validate;
     }
 
     public Boolean getDonorSpliceSite() {
         return donorSpliceSite;
+    }
+    
+    //@Transient
+    public void setDonorSpliceSite(String valor) {
+        if ("yes".equalsIgnoreCase(valor)) {
+            this.setDonorSpliceSite(true);
+        }
+        if ("no".equalsIgnoreCase(valor)) {
+            this.setDonorSpliceSite(false);
+        }
     }
 
     public void setDonorSpliceSite(Boolean donorSpliceSite) {
@@ -517,12 +561,32 @@ public class Variante implements Serializable {
         return acceptorSpliceSite;
     }
 
+    //@Transient
+    public void setAcceptorSpliceSite(String valor) {
+        if ("yes".equalsIgnoreCase(valor)) {
+            this.setAcceptorSpliceSite(true);
+        }
+        if ("no".equalsIgnoreCase(valor)) {
+            this.setAcceptorSpliceSite(false);
+        }
+    }
+
     public void setAcceptorSpliceSite(Boolean acceptorSpliceSite) {
         this.acceptorSpliceSite = acceptorSpliceSite;
     }
 
     public Boolean getMutation() {
         return mutation;
+    }
+    
+    //@Transient
+    public void setMutation(String valor) {
+        if ("yes".equalsIgnoreCase(valor)) {
+            this.setMutation(true);
+        }
+        if ("no".equalsIgnoreCase(valor)) {
+            this.setMutation(false);
+        }
     }
 
     public void setMutation(Boolean mutation) {
@@ -567,6 +631,14 @@ public class Variante implements Serializable {
 
     public void setWholeVarintFreq(Double wholeVarintFreq) {
         this.wholeVarintFreq = wholeVarintFreq;
+    }
+
+    public String getVarintType() {
+        return varintType;
+    }
+
+    public void setVarintType(String varintType) {
+        this.varintType = varintType;
     }
 
     @Override

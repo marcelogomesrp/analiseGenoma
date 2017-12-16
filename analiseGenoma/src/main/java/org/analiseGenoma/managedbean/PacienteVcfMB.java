@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Paciente;
 import org.analiseGenoma.model.Vcf;
@@ -69,6 +70,7 @@ public class PacienteVcfMB implements Serializable {
     }
 
     
+    @Transactional
     public void adicionar() {
         String msg = "arquivo adicionado com sucesso";
         System.out.println("Adicionando o vcf");

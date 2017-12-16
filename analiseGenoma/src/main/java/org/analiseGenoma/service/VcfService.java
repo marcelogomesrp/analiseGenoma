@@ -17,6 +17,7 @@ import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.model.VcfStatus;
+import org.analiseGenoma.service.util.DoubleFactory;
 
 @Named
 public class VcfService implements Serializable {
@@ -57,7 +58,9 @@ public class VcfService implements Serializable {
     @Inject private LrtService lrtService;
     @Inject private FeatureService featureService;
     @Inject private EnsemblService ensemblService;
-    
+    @Inject private InterproDomainService interproDomainService;
+    @Inject private VariantStatusService variantStatusService;
+    @Inject private GenoTypeService genoTypeService;
 
     @PostConstruct
     public void init() {
@@ -147,9 +150,22 @@ public class VcfService implements Serializable {
             variante.setFeature(featureService.findOrCreate(linha[28]));
             variante.setEnsembl(ensemblService.findOrCreate(linha[29]));
             variante.setVertebrateGenomesConservationScore(linha[30]);
-            
-            
-            
+            variante.setInterproDomain(interproDomainService.findOrCreate(linha[31]));
+            variante.setVariantStatus(variantStatusService.findOrCreate(linha[32]));
+            variante.setGenoType(genoTypeService.findOrCreate(linha[33]));
+            variante.setReadDepth(linha[34]);
+            variante.setAlleleMutFraction(linha[35]);
+            variante.setMeanBaseQuality(linha[36]);
+            variante.setVarintType(linha[37]);
+            variante.setValidate(linha[38]);
+            variante.setDonorSpliceSite(linha[39]);
+            variante.setAcceptorSpliceSite(linha[40]);
+            variante.setMutation(linha[41]);
+            variante.setEuropeanVarintFreq(new DoubleFactory().make(linha[42]));
+            variante.setAfricanVarintFreq(new DoubleFactory().make(linha[43]));
+            variante.setAsianVarintFreq(new DoubleFactory().make(linha[44]));
+            variante.setAmericanVarintFreq(new DoubleFactory().make(linha[45]));
+            variante.setWholeVarintFreq(new DoubleFactory().make(linha[46]));
             varianteService.adicionar(variante);
         }
         vcf.setStatus(VcfStatus.importado);
