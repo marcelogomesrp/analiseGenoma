@@ -26,7 +26,7 @@
                         </p:panelGrid>
                         <p:panelGrid columns="6" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank" >    
                             <div />
-                            <p:commandButton value="New" actionListener="#{etniaMB.defCreateMode}"  update="formulario"/>
+                            <p:commandButton value="New" actionListener="#{etniaMB.defCreateMode}"  update="formulario" immediate="true"/>
                             <p:commandButton value="Salvar" action="#{etniaMB.adicionar}" update="formulario" />
                             <p:commandButton value="Pesquisar" actionListener="#{etniaMB.findByExample}" update="formulario"/>
                             <p:commandButton value="Cancelar" action="#{etniaMB.limpar}"/>
