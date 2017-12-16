@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 //import javax.enterprise.context.RequestScoped;
@@ -47,6 +48,8 @@ public class PacienteMB implements Serializable {
     private String gender;
     private UploadedFile vcfUploadedFile;
     private Vcf vcf;
+    private String father;
+    private String mother;
 
     private List<Vcf> vcfs;
 
@@ -82,6 +85,22 @@ public class PacienteMB implements Serializable {
     }
 
     public String adicionar() {
+        if (father != null) {
+            if (!father.isEmpty()) {
+                List<Paciente> list = pacienteService.findMenByName(father);
+                if (list.size() == 1) {
+                    paciente.setFather(list.get(0));
+                }
+            }
+        }
+        if (mother != null) {
+            if (!mother.isEmpty()) {
+                List<Paciente> list = pacienteService.findMenByName(mother);
+                if (list.size() == 1) {
+                    paciente.setMother(list.get(0));
+                }
+            }
+        }
         paciente.setEtnia(etniaService.buscarPorId(idEtnia));
         paciente.setGender(gender.charAt(0));
         pacienteService.adicionar(paciente);
@@ -187,7 +206,7 @@ public class PacienteMB implements Serializable {
         options.put("contentHeight", "100%");
         options.put("headerElement", "customheader");
         options.put("resizable", false);
-        
+
         Map<String, List<String>> params = new HashMap<String, List<String>>();
         List<String> values = new ArrayList<String>();
         values.add(id.toString());
@@ -207,15 +226,15 @@ public class PacienteMB implements Serializable {
     public void uploadVcf() {
         String msg = "Erro ao realizar o upload";
         if (vcfUploadedFile != null) {
-                        Runnable r = () -> {                
+            Runnable r = () -> {
                 pacienteService.importVcf(vcfUploadedFile.getContents(), vcf);
             };
             Thread t = new Thread(r);
-            t.start();            
-        }else{
+            t.start();
+        } else {
             msg = "Erro ao importar o arquivo";
-        }    
-        RequestContext.getCurrentInstance().closeDialog(msg);        
+        }
+        RequestContext.getCurrentInstance().closeDialog(msg);
     }
 
     public UploadedFile getVcfUploadedFile() {
@@ -234,6 +253,43 @@ public class PacienteMB implements Serializable {
         this.vcf = vcf;
     }
 
-    
-    
+    public int qtdVcf(Paciente p) {
+        return vcfService.buscarPacienteId(p.getId()).size();
+    }
+
+    public List<Vcf> vcfs(Paciente p) {
+        return vcfService.buscarPacienteId(p.getId());
+    }
+
+    public String getFather() {
+        return father;
+    }
+
+    public void setFather(String father) {
+        this.father = father;
+    }
+
+    public String getMother() {
+        return mother;
+    }
+
+    public void setMother(String mother) {
+        this.mother = mother;
+    }
+
+    public List<String> fatherComplete(String query) {
+//        return pacienteService.findFatherByName(query).forEach(p -> results.add(p.getNome()));                                
+        return pacienteService.findMenByName(query + "%")
+                .stream()
+                .map(p -> p.getNome())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> motherComplete(String query) {
+        return pacienteService.findWomansByName(query + "%")
+                .stream()
+                .map(p -> p.getNome())
+                .collect(Collectors.toList());
+    }
+
 }

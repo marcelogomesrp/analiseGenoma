@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,13 +23,20 @@ public class Paciente implements Serializable{
     private String nome;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascimento;
-    @OneToOne
+    //@OneToOne
+    @ManyToOne
     @JoinColumn(name = "etnia_id")
     private Etnia etnia;
     @Column(columnDefinition="text")
     private String observacao;    
     private Character gender;
-    private String secondId;
+    private String secondId;    
+    @ManyToOne
+    @JoinColumn(name = "father_id")
+    private Paciente father;
+    @ManyToOne
+    @JoinColumn(name = "mother_id")
+    private Paciente mother;
 
     public Long getId() {
         return id;
@@ -88,7 +96,22 @@ public class Paciente implements Serializable{
     public void setSecondId(String secondId) {
         this.secondId = secondId;
     }
-    
+
+    public Paciente getFather() {
+        return father;
+    }
+
+    public void setFather(Paciente father) {
+        this.father = father;
+    }
+
+    public Paciente getMother() {
+        return mother;
+    }
+
+    public void setMother(Paciente mother) {
+        this.mother = mother;
+    }
     
     @Override
     public String toString() {

@@ -97,4 +97,18 @@ public class PacienteService implements Serializable {
             varianteService.adicionar(variante);
         }
     }
+
+    public List<Paciente> findMenByName(String query) {
+        Paciente p = new Paciente();
+        p.setNome(query);
+        p.setGender('m');
+        return pacienteDao.findByExample(p);
+    }
+    
+    public List<Paciente> findWomansByName(String query) {
+        Paciente p = new Paciente();
+        p.setNome(query);
+        p.setGender('f');
+        return pacienteDao.findByExample(p);
+    }
 }

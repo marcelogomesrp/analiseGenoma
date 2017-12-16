@@ -1,8 +1,15 @@
 package org.analiseGenoma.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.analiseGenoma.model.Paciente;
 
 public class PacienteDao extends DAO<Paciente> {
@@ -22,4 +29,35 @@ public class PacienteDao extends DAO<Paciente> {
             return null;
         }
     }
+    
+    
+    public List<Paciente> findByExample(Paciente p) {
+        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+        CriteriaQuery<Paciente> criteriaQuery = criteriaBuilder.createQuery(Paciente.class);
+        Root<Paciente> root = criteriaQuery.from(Paciente.class);
+        List<Predicate> condicoes = new ArrayList<>();
+        if(!(null == p.getId())){
+            Path<Long> atributoId = root.get("id");
+            Predicate whereId = criteriaBuilder.equal(atributoId, p.getId());
+            condicoes.add(whereId);
+        }        
+        if(!(null == p.getNome() || "".equals(p.getNome()))){
+            Path<String> atributoSigla = root.get("nome");
+            Predicate where = criteriaBuilder.like(atributoSigla, p.getNome());
+            condicoes.add(where);
+        }
+        if(!(null == p.getGender() || "".equals(p.getGender()))){
+            Path<String> atributoSigla = root.get("gender");
+            Predicate where = criteriaBuilder.equal(atributoSigla, p.getGender());
+            condicoes.add(where);
+        }
+        
+        Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
+        Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
+        criteriaQuery.where(todasCondicoes);
+        TypedQuery<Paciente> query = manager.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
+
+    
 }

@@ -33,6 +33,10 @@
                                 <f:selectItem itemLabel="Female" itemValue="f" />
                                 <f:selectItem itemLabel="Male" itemValue="m" />
                             </p:selectOneMenu>
+                            <p:outputLabel value="Father" for="father" />
+                            <p:autoComplete id="father" value="#{pacienteMB.father}" completeMethod="#{pacienteMB.fatherComplete}"  />
+                            <p:outputLabel value="Mother" for="mother" />
+                            <p:autoComplete id="mother" value="#{pacienteMB.mother}" completeMethod="#{pacienteMB.motherComplete}"  />
                             <p:outputLabel value="Note" for="observacao"/>
                             <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
                         </p:panelGrid>
@@ -42,43 +46,91 @@
                         </p:panelGrid>
                     </p:panel>  
                     <p:dataTable value="#{pacienteMB.pacientes}" var="paciente" 
-                                 scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="350"
+                                 
                                  >
-                        <p:column sortBy="#{paciente.id}">
+                        <p:column style="width:16px">
+                            <!-- <div class="ui-row-toggler"><a href="##" class="ui-row-toggler">Test</a></div> -->
+                            <p:rowToggler />                                                            
+                        </p:column>
+                        
+                        <p:column sortBy="#{paciente.id}" >
                             <f:facet name="header">
-                                <h:outputText value="Id" />
+                                <h:outputText value="" />
+                                <p:commandButton value="Id" icon="ui-icon-search" />
                             </f:facet>
                             <h:outputText value="#{paciente.id}" />
                         </p:column>
+                        
                         <p:column sortBy="#{paciente.nome}">
                             <f:facet name="header">
-                                <h:outputText value="Nome" />
+                                <h:outputText value="" />
+                                <p:commandButton value="Name" icon="ui-icon-search" />
                             </f:facet>
                             <h:outputText value="#{paciente.nome}" />
                         </p:column>
+                        
                         <p:column sortBy="#{paciente.secondId}">
                             <f:facet name="header">
-                                <h:outputText value="Second Id" />
+                                <h:outputText value="Second Id." />
                             </f:facet>
                             <h:outputText value="#{paciente.secondId}" />
                         </p:column>
+
+ 
                         <p:column >
                             <f:facet name="header">
-                                <h:outputText value="Opçoes" />
+                                <h:outputText value="Options" />
                             </f:facet>
-                            
+
                             <p:commandButton value="Add new variant file" icon="ui-icon-circle-plus" actionListener="#{pacienteMB.viewAddVcf(paciente.id)}" >                                
                                 <p:ajax event="dialogReturn" listener="#{pacienteMB.onViewAddVcf}" update="formulario" />                                
                             </p:commandButton>
-                            
 
-                            
-                            
+
+
+
                             <p:button outcome="paciente_novo.xhtml?faces-redirect=true" value="editar" icon="ui-icon-pencil"> 
                                 <f:param name="id" value="#{paciente.id}" />
                             </p:button>
                         </p:column>
-
+                        
+                        <p:rowExpansion>
+                            <p:panel header="Variante Files">
+                            <p:dataTable value="#{pacienteMB.vcfs(paciente)}" var="vcf">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="id" />
+                                    </f:facet>
+                                    <h:outputText value="#{vcf.id}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Name" />
+                                    </f:facet>
+                                    <h:outputText value="#{vcf.nome}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Status" />
+                                    </f:facet>
+                                    <h:outputText value="#{vcf.status}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Options" />
+                                    </f:facet>
+                                    <p:commandButton value="View Data" />
+                                    <p:commandButton value="Create new analysis" />
+                                    <p:commandButton value="View analysis" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
+                                <p:outputLabel value="Variante File" />
+                                <p:outputLabel value="#{pacienteMB.qtdVcf(paciente)}" />
+                            </p:panelGrid>
+                                </p:panel>
+                        </p:rowExpansion>   
+                        
                     </p:dataTable>
 
                 </h:form>
