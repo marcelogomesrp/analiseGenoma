@@ -3,7 +3,6 @@ package org.analiseGenoma.dao;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import org.analiseGenoma.model.Paciente;
 import org.analiseGenoma.model.Vcf;
 
 public class VcfDao extends DAO<Vcf> {

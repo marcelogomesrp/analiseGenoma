@@ -9,3 +9,6 @@ INSERT INTO etnia (sigla,nome,origem) VALUES('MKK','Kassai','Kingyawa Kenya');
 INSERT INTO etnia (sigla,nome,origem) VALUES('MXL','Mexican','Los Angeles, CA, USA');
 INSERT INTO etnia (sigla,nome,origem) VALUES('TSI','Toscani','Italia');
 INSERT INTO etnia (sigla,nome,origem) VALUES('YRI','Ibadan','Nigeria');
+
+
+INSERT INTO paciente (nome,gender,etnia_id) VALUES ('teste','m',1);

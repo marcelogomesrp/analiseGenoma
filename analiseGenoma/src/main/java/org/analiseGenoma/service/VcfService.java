@@ -61,6 +61,8 @@ public class VcfService implements Serializable {
     @Inject private InterproDomainService interproDomainService;
     @Inject private VariantStatusService variantStatusService;
     @Inject private GenoTypeService genoTypeService;
+    
+    @Inject private VcfMetadataService vcfMetadataService;
 
     @PostConstruct
     public void init() {
@@ -166,10 +168,14 @@ public class VcfService implements Serializable {
             variante.setAsianVarintFreq(new DoubleFactory().make(linha[44]));
             variante.setAmericanVarintFreq(new DoubleFactory().make(linha[45]));
             variante.setWholeVarintFreq(new DoubleFactory().make(linha[46]));
-            varianteService.adicionar(variante);
+            varianteService.adicionar(variante);            
         }
-        vcf.setStatus(VcfStatus.importado);
+        
+        vcfMetadataService.adicionar(vcfMetadataService.makeMetadata(vcf));
+        
+        vcf.setStatus(VcfStatus.importado);        
         this.atualizar(vcf);
+        
     }
     
     public List<Variante> buscarVariante(Long idAnalise, Filtro filtro) {

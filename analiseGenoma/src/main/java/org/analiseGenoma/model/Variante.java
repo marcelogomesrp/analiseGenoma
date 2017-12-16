@@ -27,7 +27,7 @@ public class Variante implements Serializable {
     private Cromossomo cromossomo;
     //2
     @Column(columnDefinition = "text")
-    private String position;
+    private Long position;
     //12
     @Column(columnDefinition = "text")
     private String idSNP;
@@ -154,13 +154,22 @@ public class Variante implements Serializable {
         this.cromossomo = cromossomo;
     }
 
-    public String getPosition() {
+    public Long getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(String s) {
+        try{
+            Long l = Long.valueOf(s);
+            this.setPosition(l);
+        }catch(Exception e){}
+    }
+    
+    public void setPosition(Long position) {
         this.position = position;
     }
+
+
 
     public String getIdSNP() {
         return idSNP;

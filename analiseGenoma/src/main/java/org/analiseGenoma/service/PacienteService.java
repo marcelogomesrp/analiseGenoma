@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
-import org.analiseGenoma.dao.CromossomoDao;
 import org.analiseGenoma.dao.PacienteDao;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Paciente;

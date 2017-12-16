@@ -12,6 +12,18 @@ public class VarianteDao extends DAO<Variante> {
         super(Variante.class);
     }
     
+    public List<Variante> findByVCF(Long vcfId){
+        List<Variante> variantes = null;
+        try {
+            Query query = manager.createQuery("SELECT v FROM Variante v WHERE v.vcf.id like :vcfId");
+            query.setParameter("vcfId", vcfId);
+            variantes = query.getResultList();
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+        }
+        return variantes;
+    }
+    
     public List<Variante> buscarAnalise(Long vcfId){
         List<Variante> variantes = null;
         try {
