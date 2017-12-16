@@ -119,6 +119,9 @@
                                     <f:facet name="header">
                                         <h:outputText value="Options" />
                                     </f:facet>
+                                    <p:button value="View Data" outcome="vcfView.xhtml?faces-redirect=true">
+                                        <f:param name="id" value="#{vcf.id}" />
+                                    </p:button>
                                     <p:commandButton value="View Data" />
                                     <p:commandButton value="Create new analysis" />
                                     <p:commandButton value="View analysis" />
