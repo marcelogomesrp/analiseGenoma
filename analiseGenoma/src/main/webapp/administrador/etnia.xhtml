@@ -30,7 +30,7 @@
                             <p:commandButton value="Salvar" action="#{etniaMB.adicionar}" update="formulario" />
                             <p:commandButton value="Pesquisar" actionListener="#{etniaMB.findByExample}" update="formulario"/>
                             <p:commandButton value="Cancelar" action="#{etniaMB.limpar}"/>
-                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{etniaMB.viewEtniaUpload}" >
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{etniaMB.viewEtniaUpload}" immediate="true">
                                 <p:ajax event="dialogReturn" listener="#{etniaMB.onViewEtniaUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>

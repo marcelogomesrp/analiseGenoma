@@ -147,11 +147,21 @@ public class EtniaMB implements Serializable {
     }
 
     public void viewEtniaUpload() {
+    //    System.out.println("------------------------------------> rodando...");
+
+        //return "etnia.xhtml?faces-redirect=true";       
+        //em funcao do bean validator
+//        Application application = context.getApplication();
+//        ViewHandler viewHandler = application.getViewHandler();
+//        UIViewRoot viewRoot = viewHandler.createView(context, context.getViewRoot().getViewId());
+//        context.setViewRoot(viewRoot);
+//        context.renderResponse();
+        
+        
         Map<String, Object> options = new HashMap<String, Object>();
         options.put("resizable", false);
         RequestContext.getCurrentInstance().openDialog("viewEtniaUpload", options, null);
-
-        //return "etnia.xhtml?faces-redirect=true";        
+//        System.out.println("rodou ate o fim...");
     }
 
 //    private void refresh() {
@@ -186,6 +196,7 @@ public class EtniaMB implements Serializable {
     }
     
     public void defCreateMode(){
+        System.out.println("rodando o new");
         this.etnia = new Etnia();        
         mode = CrudMode.Create;
         Application application = context.getApplication();
@@ -193,6 +204,7 @@ public class EtniaMB implements Serializable {
         UIViewRoot viewRoot = viewHandler.createView(context, context.getViewRoot().getViewId());
         context.setViewRoot(viewRoot);
         context.renderResponse();
+
     }
     
     public boolean isReadMode(){
