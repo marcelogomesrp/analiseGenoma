@@ -119,6 +119,15 @@ public class VcfMetadataService extends Service<VcfMetadata>{
                 .distinct()
                 .collect(Collectors.toSet());
     }
+
+    public VcfMetadata findByVcfId(Long id) {
+        List<VcfMetadata> list = getDao().findByVcf(id);
+        if(list.size() == 1)
+            return list.get(0);
+        return null;
+    }
+
+
     
     
     

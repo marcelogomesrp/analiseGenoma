@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Variante;
+import org.analiseGenoma.model.VcfMetadata;
+import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
 
 @Named(value = "vcfViewMB")
@@ -17,11 +19,13 @@ import org.analiseGenoma.service.VcfService;
 public class VcfViewMB implements Serializable {
 
     private Vcf vcf;
+    private VcfMetadata vcfMetadata;
     private List<Variante> variants;
     @Inject
     @RequestParam
     private String id;
     @Inject private VcfService vcfService;
+    @Inject private VcfMetadataService vcfMetadataService;
 
     @PostConstruct
     public void init() {
@@ -31,6 +35,7 @@ public class VcfViewMB implements Serializable {
                 Long lid = Long.valueOf(id);
                 vcf = vcfService.buscarId(lid);
                 variants = vcfService.buscarVariante(vcf.getId());
+                vcfMetadata = vcfMetadataService.findByVcfId(vcf.getId());
             }else{
                 id="vz";
             }
@@ -61,6 +66,14 @@ public class VcfViewMB implements Serializable {
 
     public void setVariants(List<Variante> variants) {
         this.variants = variants;
+    }
+
+    public VcfMetadata getVcfMetadata() {
+        return vcfMetadata;
+    }
+
+    public void setVcfMetadata(VcfMetadata vcfMetadata) {
+        this.vcfMetadata = vcfMetadata;
     }
     
     
