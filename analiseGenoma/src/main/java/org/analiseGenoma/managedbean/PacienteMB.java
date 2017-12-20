@@ -291,5 +291,8 @@ public class PacienteMB implements Serializable {
                 .map(p -> p.getNome())
                 .collect(Collectors.toList());
     }
+    
+    
+
 
 }

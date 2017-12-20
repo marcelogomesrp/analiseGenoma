@@ -1,15 +1,23 @@
 package org.analiseGenoma.managedbean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import org.analiseGenoma.managedbean.util.ColumnModel;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
@@ -22,6 +30,7 @@ import org.analiseGenoma.model.Impact;
 import org.analiseGenoma.model.InformacaoBiologica;
 import org.analiseGenoma.model.Patologia;
 import org.analiseGenoma.model.Variante;
+import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.CromossomoService;
@@ -30,7 +39,10 @@ import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.ImpactoService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
 import org.analiseGenoma.service.PatologiaService;
+import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 
 @Named(value = "analiseSelcMB")
@@ -49,6 +61,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     @Inject private CromossomoService cromossomoService;
     @Inject private ImpactoService impactoService;
     @Inject private PatologiaService patologiaService;
+    @Inject private VcfMetadataService vcfMetadataService;
     
     @Inject 
     @RequestParam
@@ -75,6 +88,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     
     private String idBd; 
     private String patologia;
+    private VcfMetadata vcfMetadata;
     
     
     
@@ -98,6 +112,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 //                
                 filtro = filtroService.buscarPorAnalise(analise.getId());           
                 variantes = vcfService.findVariante(analise, filtro);
+                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
                 //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
                 //qtdVariante = variantes.size();
 //                listGene = geneService.buscarAnalise(analise.getId());
@@ -374,9 +389,11 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     
     
     public void testar(){
-        for(String c : selectedCromossomo){
-            System.out.println("\t\t\t---> " + c);
-        }
+        filtro.setPositionMin(54268135L);
+        filtroService.atualizar(filtro);
+//        for(String c : selectedCromossomo){
+//            System.out.println("\t\t\t---> " + c);
+//        }
     }
     
     public void cromossomoDeselecionarTodos(){
@@ -495,7 +512,59 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             }
         }
     }
+
+    public void viewFilterPositon() {        
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 800);
+        options.put("height", 600);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+        options.put("resizable", false);
+
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
+        values.add("1");
+        params.put("id", values);
+        RequestContext.getCurrentInstance().openDialog("viewfilter_position", options, params);   
+        variantes = vcfService.findVariante(analise, filtro);
+    }
+
+    public void onViewFilterClose(SelectEvent event) {
+        String msg = (String) event.getObject();
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage(msg));
+    }
     
+    public void closeView(){
+        filtroService.atualizar(filtro);
+        variantes = vcfService.findVariante(analise, filtro);
+        RequestContext.getCurrentInstance().closeDialog("Filtro aplicado com sucesso");  
+         //org.primefaces.context.DefaultRequestContext.getCurrentInstance().update("formulario:tabela");
+             
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+        } catch (IOException ex) {
+            Logger.getLogger(AnaliseSelecionarVarianteMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+         
+    }
+
+    public VcfMetadata getVcfMetadata() {
+        return vcfMetadata;
+    }
+
+    public void setVcfMetadata(VcfMetadata vcfMetadata) {
+        this.vcfMetadata = vcfMetadata;
+    }
+
+    
+    
+
 }
 
 //        for(String g: duaListGene.getTarget()){

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Import Variante file</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
+                <h:form id="formView">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Variante File">
+                        <p:outputLabel value="min" />                        
+                        <p:spinner value="#{analiseSelcMB.filtro.positionMin}" stepFactor="1" min="#{analiseSelcMB.vcfMetadata.positonMin}" max="#{analiseSelcMB.filtro.positionMax}"/>   
+                        <p:outputLabel value="max" />                        
+                        <p:spinner value="#{analiseSelcMB.filtro.positionMax}" stepFactor="1" min="#{analiseSelcMB.filtro.positionMin}" max="#{analiseSelcMB.vcfMetadata.positonMax}"/>   
+                        <p:commandButton value="Aplicar" actionListener="#{analiseSelcMB.closeView()}"/>
+                    </p:panel>
+                </h:form>
+
+    </h:body>
+</html>
