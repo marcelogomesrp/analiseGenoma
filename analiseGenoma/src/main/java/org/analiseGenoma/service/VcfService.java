@@ -12,6 +12,7 @@ import org.analiseGenoma.dao.CromossomoDao;
 import org.analiseGenoma.dao.FiltroDao;
 import org.analiseGenoma.dao.VarianteDao;
 import org.analiseGenoma.dao.VcfDao;
+import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Variante;
@@ -180,6 +181,14 @@ public class VcfService implements Serializable {
     
     public List<Variante> buscarVariante(Long idAnalise, Filtro filtro) {
         return varianteDao.buscarAnalise(idAnalise, filtro);
+    }
+
+    public List<Variante> findVariante(Analise analise, Filtro filtro) {
+        if(filtro == null){
+            return varianteDao.find(analise);
+        }else{
+            return varianteDao.findByAnaliseFiltro(analise, filtro);
+        }
     }
 
     

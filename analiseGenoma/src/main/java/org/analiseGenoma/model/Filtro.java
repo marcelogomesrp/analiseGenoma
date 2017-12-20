@@ -2,6 +2,7 @@ package org.analiseGenoma.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,9 +30,14 @@ public class Filtro  implements Serializable{
     private List<Gene> genes;
     //@OneToMany
     @ManyToMany
-    private List<Cromossomo> cromossomos;
+    private Set<Cromossomo> cromossomos;
+    
     private Double qualidadeMin;
     private Double qualidadeMax;
+    
+    private Long positionMin;
+    private Long positionMax;
+    
     //@OneToMany
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Impact> impacto;
@@ -63,13 +69,14 @@ public class Filtro  implements Serializable{
         this.genes = genes;
     }
 
-    public List<Cromossomo> getCromossomos() {
+    public Set<Cromossomo> getCromossomos() {
         return cromossomos;
     }
 
-    public void setCromossomos(List<Cromossomo> cromossomos) {
+    public void setCromossomos(Set<Cromossomo> cromossomos) {
         this.cromossomos = cromossomos;
     }
+
 
     public Double getQualidadeMin() {
         return qualidadeMin;
@@ -102,6 +109,25 @@ public class Filtro  implements Serializable{
     public void setInfBiologica(List<InformacaoBiologica> infBiologica) {
         this.infBiologica = infBiologica;
     }
+
+    public Long getPositionMin() {
+        return positionMin;
+    }
+
+    public void setPositionMin(Long positionMin) {
+        this.positionMin = positionMin;
+    }
+
+    public Long getPositionMax() {
+        return positionMax;
+    }
+
+    public void setPositionMax(Long positionMax) {
+        this.positionMax = positionMax;
+    }
+
+    
+    
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -92,54 +93,55 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             System.out.println("--> " + value);
             if (value != null) {
                 analise = analiseService.buscarPorId(value);
-                //analiseSelcMB.analise.vcf.id
-                //filtro = new Filtro();
-                
+//                //analiseSelcMB.analise.vcf.id
+//                //filtro = new Filtro();
+//                
                 filtro = filtroService.buscarPorAnalise(analise.getId());           
-                variantes = vcfService.buscarVariante(analise.getVcf().getId(),filtro);
-                qtdVariante = variantes.size();
-                listGene = geneService.buscarAnalise(analise.getId());
-                listCromossomos = new ArrayList<>();
-                listImpactos = new ArrayList<>();
-                List<String> genesSource = new ArrayList<String>();
-                List<String> genesTarget = new ArrayList<String>();
-                for(Gene g: geneService.buscarAnalise(analise.getId())){
-//                    if(filtro.getGenes()!= null){
-//                        if(filtro.getGenes().contains(g)){
-//                            genesTarget.add(g.getSimbolo());
-//                        }else{
-//                            genesSource.add(g.getSimbolo());
-//                        }
-//                    }
-                     genesSource.add(g.getSimbolo());
-                    //genesTarget.add(g.getSimbolo());                    
-                }
-                for(Gene g: filtro.getGenes()){
-                    genesTarget.add(g.getSimbolo());
-                    genesSource.remove(g.getSimbolo());
-                }
-                
-                
-                //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
-                duaListGene = new DualListModel<String>(genesSource, genesTarget);
-                qualidadeMax = analiseService.buscarQualidadeMax(analise.getId());
-                //qualidadeMax = 100.0;
-                qualidadeMin = 10.0;
-                
-                
-                for(Cromossomo c : analiseService.buscarCromossomos(analise.getId())){
-                    listCromossomos.add(c.getNome());
-                }
-                
-                for(Impact i : analiseService.buscarImpactos(analise.getId())){
-                    listImpactos.add(i.getName());
-                }
-                
-                this.cromossomoSelecionarFromFiltro();
-                this.impactoSelecionarFromFiltro();
-                this.addDBColumn();
-                //https://stackoverflow.com/questions/39632619/how-to-generate-dynamic-columns-in-jsf-datatable
-                
+                variantes = vcfService.findVariante(analise, filtro);
+                //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
+                //qtdVariante = variantes.size();
+//                listGene = geneService.buscarAnalise(analise.getId());
+//                listCromossomos = new ArrayList<>();
+//                listImpactos = new ArrayList<>();
+//                List<String> genesSource = new ArrayList<String>();
+//                List<String> genesTarget = new ArrayList<String>();
+//                for(Gene g: geneService.buscarAnalise(analise.getId())){
+////                    if(filtro.getGenes()!= null){
+////                        if(filtro.getGenes().contains(g)){
+////                            genesTarget.add(g.getSimbolo());
+////                        }else{
+////                            genesSource.add(g.getSimbolo());
+////                        }
+////                    }
+//                     genesSource.add(g.getSimbolo());
+//                    //genesTarget.add(g.getSimbolo());                    
+//                }
+//                for(Gene g: filtro.getGenes()){
+//                    genesTarget.add(g.getSimbolo());
+//                    genesSource.remove(g.getSimbolo());
+//                }
+//                
+//                
+//                //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
+//                duaListGene = new DualListModel<String>(genesSource, genesTarget);
+//                qualidadeMax = analiseService.buscarQualidadeMax(analise.getId());
+//                //qualidadeMax = 100.0;
+//                qualidadeMin = 10.0;
+//                
+//                
+//                for(Cromossomo c : analiseService.buscarCromossomos(analise.getId())){
+//                    listCromossomos.add(c.getNome());
+//                }
+//                
+//                for(Impact i : analiseService.buscarImpactos(analise.getId())){
+//                    listImpactos.add(i.getName());
+//                }
+//                
+//                this.cromossomoSelecionarFromFiltro();
+//                this.impactoSelecionarFromFiltro();
+//                this.addDBColumn();
+//                //https://stackoverflow.com/questions/39632619/how-to-generate-dynamic-columns-in-jsf-datatable
+//                
             }
         } catch (Exception ex) {
             System.out.println("Ops... deu erro aqui: " + ex.toString());
@@ -263,7 +265,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             filtroTemporario.getGenes().add(geneService.buscarNovoSimbolo(g));
         }
         
-        filtroTemporario.setCromossomos( new ArrayList<Cromossomo>());
+        filtroTemporario.setCromossomos( new HashSet<Cromossomo>());
         //for(String s: getListCromossomos()){
         System.out.println("qtd cromosssomo: " + getSelectedCromossomo().length);
         for(String s: getSelectedCromossomo()){
@@ -334,10 +336,11 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         System.out.println("Fim: " + variantes.size());
     }
     public void cromossomoSelecionarFromFiltro(){
-        List<Cromossomo> lcromossomo = filtro.getCromossomos();
+        List<Cromossomo> lcromossomo = new ArrayList<Cromossomo>(filtro.getCromossomos());
         
         selectedCromossomo = new String[lcromossomo.size()];
         for(int x=0;x<lcromossomo.size();x++){
+            
             selectedCromossomo[x] = lcromossomo.get(x).getNome();
         }
     }

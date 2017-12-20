@@ -17,6 +17,7 @@ import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Impact;
 import org.analiseGenoma.model.Vcf;
+import org.analiseGenoma.model.VcfMetadata;
 
 public class AnaliseService implements Serializable {
     @Inject
@@ -33,6 +34,7 @@ public class AnaliseService implements Serializable {
     @Inject PacienteDao pacienteDao;
     @Inject
     private ImpactoDao impactoDao;
+    @Inject private VcfMetadataService vcfMetadataService;
     
     
     @Transactional
@@ -59,15 +61,18 @@ public class AnaliseService implements Serializable {
             System.out.println("Opa já tinha Id ai nao pode dar um persiste ?");
         }
         
-        Filtro filtro = new Filtro();
-        filtro.setGenes(this.getGenes(analise));
-        filtro.setCromossomos(this.getCromossomos(analise));
-        filtro.setQualidadeMin(this.buscarQualidadeMin(analise.getId()));
-        filtro.setQualidadeMax(this.buscarQualidadeMax(analise.getId()) );
-        filtro.setImpacto(this.getImpactos(analise));
-        filtro.setAnalise(analise);
-        filtroDao.adicionar(filtro);
+//        Filtro filtro = new Filtro();
+//        filtro.setGenes(this.getGenes(analise));
+//        filtro.setCromossomos(this.getCromossomos(analise));
+//        filtro.setQualidadeMin(this.buscarQualidadeMin(analise.getId()));
+//        filtro.setQualidadeMax(this.buscarQualidadeMax(analise.getId()) );
+//        filtro.setImpacto(this.getImpactos(analise));
+//        filtro.setAnalise(analise);
+//        filtroDao.adicionar(filtro);
         
+          //Filtro filtro = this.makeFiltro(analise);
+          //filtroDao.adicionar(filtro);
+    
         System.out.println("Filtro adicionado com sucesso");
     }
     
@@ -112,6 +117,8 @@ public class AnaliseService implements Serializable {
     public List<Impact> buscarImpactos(Long idAnalise) {
         return analiseDao.buscarImpactos(idAnalise);
     }    
+
+
     
 
  

@@ -11,7 +11,7 @@ INSERT INTO etnia (sigla,nome,origem) VALUES('TSI','Toscani','Italia');
 INSERT INTO etnia (sigla,nome,origem) VALUES('YRI','Ibadan','Nigeria');
 
 
-INSERT INTO paciente (nome,gender,etnia_id) VALUES ('teste','m',1);
+INSERT INTO paciente (nome,gender,etnia_id) VALUES ('1teste','m',1);
 
 INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene1A','g1a',null);
 INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene2A','g2a',null);

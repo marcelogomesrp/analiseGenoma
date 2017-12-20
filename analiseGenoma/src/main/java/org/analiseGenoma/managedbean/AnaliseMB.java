@@ -26,6 +26,8 @@ import org.analiseGenoma.service.PatologiaService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.event.SelectEvent;
 import org.analiseGenoma.managedbean.util.FacesUtil;
+import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.service.FiltroService;
 
 @Named(value = "analiseMB")
 //@RequestScoped
@@ -38,6 +40,7 @@ public class AnaliseMB implements Serializable {
     @Inject private PacienteService pacienteService;
     @Inject private VcfService vcfService;
     @Inject private AnaliseSelecionarVarianteMB selecionarMB;
+    @Inject private FiltroService filtroService;
     private Analise analise;
     private String cid;
     private String patologia;
@@ -145,7 +148,7 @@ public class AnaliseMB implements Serializable {
     }
 
     public String adicionar() {
-        analise.setEstado("criado");
+        analise.setEstado("criando");
         if(idPaciente != null)
             analise.setPaciente(pacienteService.buscarId(idPaciente));
         if(idControle != null)
@@ -161,13 +164,17 @@ public class AnaliseMB implements Serializable {
         }            
         analiseService.adicionar(analise);
         
+        Filtro filtro = filtroService.makeFiltro(analise);
+        filtroService.adicionar(filtro);
+        
         context.getExternalContext()
                .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
 
         
         FacesUtil.setSessionMapValue("id", analise.getId());
-        
+        analise.setEstado("criado");
+        analiseService.atualizar(analise);
         analise = new Analise();
         //return "analise_nova.xhtml?faces-redirect=true";
         return "analise_selecionar_variantes.xhtml?faces-redirect=true";
@@ -287,6 +294,25 @@ public class AnaliseMB implements Serializable {
             analise.getVcfsCorrelatos().add(vcfCorrelato);
     }
     
+    public boolean pacienteHasFather(){
+        if(idPaciente != null){
+            Paciente p = pacienteService.buscarId(idPaciente);
+            if(p.getFather() != null){
+                return true;
+            }
+        }
+        return false;    
+    }
+
+    public boolean pacienteHasMother(){
+        if(idPaciente != null){
+            Paciente p = pacienteService.buscarId(idPaciente);
+            if(p.getMother()!= null){
+                return true;
+            }
+        }
+        return false;    
+    }    
     
     /*
     
