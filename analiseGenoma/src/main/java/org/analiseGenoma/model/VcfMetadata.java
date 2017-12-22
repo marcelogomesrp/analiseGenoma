@@ -1,6 +1,7 @@
 package org.analiseGenoma.model;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -10,7 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -37,12 +40,18 @@ public class VcfMetadata implements Serializable {
     private Long positonMin;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Gene> genes;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     private Set<UmdPredictor> umdPredictors;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     private Set<Effect> effects;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     private Set<Sift> sifts;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name="gene_qtd", joinColumns=@JoinColumn(name="id"))
+    @MapKeyColumn (name="gene_id")
+    @Column(name="qtd")
+    private Map<Gene, Integer> mapGene;
 
     public Long getId() {
         return id;
@@ -138,6 +147,14 @@ public class VcfMetadata implements Serializable {
 
     public void setSifts(Set<Sift> sifts) {
         this.sifts = sifts;
+    }
+
+    public Map<Gene, Integer> getMapGene() {
+        return mapGene;
+    }
+
+    public void setMapGene(Map<Gene, Integer> mapGene) {
+        this.mapGene = mapGene;
     }
     
     

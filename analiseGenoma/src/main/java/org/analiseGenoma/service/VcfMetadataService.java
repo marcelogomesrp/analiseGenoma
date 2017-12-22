@@ -1,6 +1,8 @@
 package org.analiseGenoma.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -52,6 +54,9 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         vmd.setUmdPredictors(this.getUmdPredictors());
         vmd.setEffects(this.getEffect());
         vmd.setSifts(this.getSift());
+        vmd.setMapGene(this.getMapGene());
+        
+        
         return vmd;
     }
 
@@ -125,6 +130,20 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         if(list.size() == 1)
             return list.get(0);
         return null;
+    }
+
+    private Map<Gene, Integer> getMapGene() {
+        HashMap<Gene, Integer> map = new HashMap<Gene,Integer>();
+        for(Variante v: variantes){
+            Integer total = map.get(v.getGene());
+            if(total == null){
+                total = 0;
+            }
+            total++;
+            map.put(v.getGene(), total);
+        }
+        return map;
+            
     }
 
 
