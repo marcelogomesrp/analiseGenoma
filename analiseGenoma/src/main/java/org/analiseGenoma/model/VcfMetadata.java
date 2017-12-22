@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class VcfMetadata implements Serializable {
     @JoinColumn(name = "vcf_id")    
     private Vcf vcf;
     private int qtdVariante;    
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     private Set<Cromossomo> cromossomos;
     @ElementCollection
     //@CollectionTable(name="vcfmetadata_referencias")
@@ -34,7 +35,7 @@ public class VcfMetadata implements Serializable {
     private Set<String> alterado;
     private Long positonMax;
     private Long positonMin;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     private Set<Gene> genes;
     @ManyToMany
     private Set<UmdPredictor> umdPredictors;

@@ -26,7 +26,7 @@ public class Filtro  implements Serializable{
     @JoinColumn(name = "analise_id")
     private Analise analise;
     //@OneToMany
-    @ManyToMany
+    @ManyToMany  //(fetch = FetchType.EAGER)
     private List<Gene> genes;
     //@OneToMany
     @ManyToMany
@@ -68,6 +68,10 @@ public class Filtro  implements Serializable{
     public void setGenes(List<Gene> genes) {
         this.genes = genes;
     }
+
+
+
+
 
     public Set<Cromossomo> getCromossomos() {
         return cromossomos;

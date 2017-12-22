@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -113,6 +114,18 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 filtro = filtroService.buscarPorAnalise(analise.getId());           
                 variantes = vcfService.findVariante(analise, filtro);
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
+                  //  List<String> genesSource = new ArrayList<>();
+                //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
+                //List<String> genesTarget = new ArrayList<>(vcfMetadata.getGenes()); 
+                List<String> genesSource = vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
+                List<String> genesTarget = filtro.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
+                        //vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
+                 duaListGene = new DualListModel<>(genesSource, genesTarget );
+                
+                
+                
+                
+                
                 //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
                 //qtdVariante = variantes.size();
 //                listGene = geneService.buscarAnalise(analise.getId());
@@ -512,6 +525,29 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             }
         }
     }
+    
+    private void callView(String view){
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 800);
+        options.put("height", 600);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+        options.put("resizable", false);
+
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
+        values.add("1");
+        params.put("id", values);
+        RequestContext.getCurrentInstance().openDialog(view, options, params);   
+        variantes = vcfService.findVariante(analise, filtro);
+    }
+    
+    public void viewFilterChr(){
+        String view = "viewfilter_chr";
+        this.callView(view);
+    }
 
     public void viewFilterPositon() {        
         Map<String, Object> options = new HashMap<>();
@@ -528,6 +564,24 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         values.add("1");
         params.put("id", values);
         RequestContext.getCurrentInstance().openDialog("viewfilter_position", options, params);   
+        variantes = vcfService.findVariante(analise, filtro);
+    }
+    
+    public void viewFilterGene(){
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 800);
+        options.put("height", 600);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+        options.put("resizable", false);
+
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
+        values.add("1");
+        params.put("id", values);
+        RequestContext.getCurrentInstance().openDialog("viewfilter_gene", options, params);   
         variantes = vcfService.findVariante(analise, filtro);
     }
 

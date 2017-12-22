@@ -12,9 +12,8 @@
 
             <ui:define name="content" id="content">
                 <h:form id="formulario">
-
                     <p:panel header="Selecionar variantes da análise">
-                        <p:messages />
+                        
                         <p:accordionPanel multiple="true">
                             <p:tab title="Analise">
                                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
@@ -38,7 +37,9 @@
                         </p:column>
                         <p:column style="width:40px">
                             <f:facet name="header" >
-                                <h:outputText value="Chr" />
+                                <p:commandLink value="Chr" actionListener="#{analiseSelcMB.viewFilterChr()}"   >
+                                    <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                </p:commandLink>
                             </f:facet>    
                             <h:outputText value="#{variant.cromossomo.nome}" />
                         </p:column>
@@ -47,7 +48,7 @@
                                 <p:commandLink value="Position" actionListener="#{analiseSelcMB.viewFilterPositon()}"   >
                                     <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
                                 </p:commandLink>
-                               
+
                             </f:facet>    
                             <h:outputText value="#{variant.position}" />
                         </p:column>
@@ -65,7 +66,9 @@
                         </p:column>
                         <p:column style="width:80px">
                             <f:facet name="header" >
-                                <h:outputText value="gene" />
+                                <p:commandLink value="Gene" actionListener="#{analiseSelcMB.viewFilterGene()}"   >
+                                    <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                </p:commandLink>
                             </f:facet>    
                             <h:outputText value="#{variant.gene.simbolo}" />
                         </p:column>

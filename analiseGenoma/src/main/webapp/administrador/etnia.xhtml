@@ -18,7 +18,9 @@
                         <h:inputHidden id="id" value="#{etniaMB.etnia.id}" /> 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                        
                             <p:outputLabel value="Sigla" for="sigla"/>
-                            <p:autoComplete id="sigla" value="#{etniaMB.etnia.sigla}" completeMethod="#{etniaMB.completeSigla}" effect="fade" />
+                            <p:autoComplete id="sigla" value="#{etniaMB.etnia.sigla}" completeMethod="#{etniaMB.completeSigla}" effect="fade" >
+                                <f:validateBean disabled="#{etniaMB.disabledValidation}"/> 
+                            </p:autoComplete>
                             <p:outputLabel value="Nome" for="nome"/>
                             <p:autoComplete id="nome" minQueryLength="3" value="#{etniaMB.etnia.nome}" completeMethod="#{etniaMB.completeNome}" effect="fade" />
                             <p:outputLabel value="Origem" for="origem"/>                            
@@ -26,11 +28,11 @@
                         </p:panelGrid>
                         <p:panelGrid columns="6" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank" >    
                             <div />
-                            <p:commandButton value="New" actionListener="#{etniaMB.defCreateMode}"  update="formulario" immediate="true"/>
-                            <p:commandButton value="Salvar" action="#{etniaMB.adicionar}" update="formulario" />
-                            <p:commandButton value="Pesquisar" actionListener="#{etniaMB.findByExample}" update="formulario"/>
-                            <p:commandButton value="Cancelar" action="#{etniaMB.limpar}"/>
-                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{etniaMB.viewEtniaUpload}" immediate="true">
+                            <p:commandButton value="New" actionListener="#{etniaMB.defCreateMode}"  update="formulario" rendered="#{etniaMB.crudModeRead}"/>
+                            <p:commandButton value="Salvar" action="#{etniaMB.adicionar}" rendered="#{etniaMB.crudModeUpdate}" ajax="false" />
+                            <p:commandButton value="Pesquisar" actionListener="#{etniaMB.findByExample}" update="formulario" rendered="#{etniaMB.crudModeRead}" />
+                            <p:commandButton value="Cancelar" action="#{etniaMB.limpar}"  immediate="true" process="@this"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{etniaMB.viewEtniaUpload}" immediate="true" rendered="#{etniaMB.crudModeRead}" >
                                 <p:ajax event="dialogReturn" listener="#{etniaMB.onViewEtniaUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>
@@ -68,14 +70,13 @@
                                     <h:outputText value="Opçoes" />
                                 </f:facet>
                                 <!--
-                                <p:commandButton icon="ui-icon-pencil" />
-                                <p:button outcome="etnia_editar.xhtml?faces-redirect=true" value="editar">
-                                    <f:param name="id" value="#{etnia.id}" />
-                                </p:button>
-                                -->
                                 <p:button outcome="etnia.xhtml?faces-redirect=true" value="editar" icon="ui-icon-pencil"> 
                                     <f:param name="id" value="#{etnia.id}" />
                                 </p:button>
+                                -->
+                                <p:commandButton value="Edit" actionListener="#{etniaMB.editar(etnia)}" update="formulario" immediate="true" process="@this" icon="ui-icon-pencil">
+                                    
+                                </p:commandButton>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
