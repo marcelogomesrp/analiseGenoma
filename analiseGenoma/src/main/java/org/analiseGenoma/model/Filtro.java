@@ -27,7 +27,7 @@ public class Filtro  implements Serializable{
     private Analise analise;
     //@OneToMany
     @ManyToMany  //(fetch = FetchType.EAGER)
-    private List<Gene> genes;
+    private Set<Gene> genes;
     //@OneToMany
     @ManyToMany
     private Set<Cromossomo> cromossomos;
@@ -61,13 +61,15 @@ public class Filtro  implements Serializable{
         this.analise = analise;
     }
 
-    public List<Gene> getGenes() {
+    public Set<Gene> getGenes() {
         return genes;
     }
 
-    public void setGenes(List<Gene> genes) {
+    public void setGenes(Set<Gene> genes) {
         this.genes = genes;
     }
+
+
 
 
 

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -117,8 +118,15 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                   //  List<String> genesSource = new ArrayList<>();
                 //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
                 //List<String> genesTarget = new ArrayList<>(vcfMetadata.getGenes()); 
-                List<String> genesSource = vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
+                //List<String> genesSource = vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
                 List<String> genesTarget = filtro.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
+                List<String> genesSource = vcfMetadata.getGenes()
+                        .stream()
+                        .map(g -> g.getSimbolo())
+                        .filter(g -> !genesTarget.contains(g))
+                        .collect(Collectors.toList());
+                
+                
                         //vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
                  duaListGene = new DualListModel<>(genesSource, genesTarget );
                 
@@ -288,10 +296,10 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     public void filtrar(){
         System.out.println("Filtrando...");
         Filtro filtroTemporario = new Filtro();
-        filtroTemporario.setGenes(new ArrayList<Gene>());
-        for(String g: duaListGene.getTarget()){
-            filtroTemporario.getGenes().add(geneService.buscarNovoSimbolo(g));
-        }
+//        filtroTemporario.setGenes(new ArrayList<Gene>());
+//        for(String g: duaListGene.getTarget()){
+//            filtroTemporario.getGenes().add(geneService.buscarNovoSimbolo(g));
+//        }
         
         filtroTemporario.setCromossomos( new HashSet<Cromossomo>());
         //for(String s: getListCromossomos()){
@@ -593,6 +601,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     }
     
     public void closeView(){
+        this.updateFiltro();
         filtroService.atualizar(filtro);
         variantes = vcfService.findVariante(analise, filtro);
         RequestContext.getCurrentInstance().closeDialog("Filtro aplicado com sucesso");  
@@ -614,6 +623,29 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
     public void setVcfMetadata(VcfMetadata vcfMetadata) {
         this.vcfMetadata = vcfMetadata;
+    }
+
+    private void updateFiltro() {
+        Set<Gene> genes = new HashSet<>();
+        for(String geneSymbol: duaListGene.getTarget()){
+            genes.add(geneService.buscarNovoSimbolo(geneSymbol));
+        }
+        filtro.setGenes(genes);
+        
+        
+                        //for(Gene g: geneService.buscarAnalise(analise.getId())){
+//                    if(filtro.getGenes()!= null){
+//                        if(filtro.getGenes().contains(g)){
+//                            genesTarget.add(g.getSimbolo());
+//                        }else{
+//                            genesSource.add(g.getSimbolo());
+//                        }
+//                    }
+                     //genesSource.add(g.getSimbolo());
+                    //genesTarget.add(g.getSimbolo());                    
+                //}
+        
+        
     }
 
     

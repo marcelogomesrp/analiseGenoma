@@ -1,5 +1,6 @@
 package org.analiseGenoma.service;
 
+import java.util.HashSet;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,8 +34,8 @@ public class FiltroService extends Service<Filtro> {
 
     public Filtro buscarPorAnalise(Long idAnalise) {
         Filtro filtro =  getDao().buscarPorAnalise(idAnalise);
-        List<Gene> lgenes = getDao().buscarGene(filtro.getId());
-        filtro.setGenes(lgenes);
+        //List<Gene> lgenes = getDao().buscarGene(filtro.getId());
+        filtro.setGenes(getDao().buscarGene(filtro.getId()));
         filtro.setCromossomos(filtroDao.buscarCromossomos(filtro.getId()));        
         //filtro.setCromossomos(getDao().buscarCromossomos(filtro.getId()));
         //filtro.setGenes(geneDao.buscarAnalise(idAnalise));
@@ -50,8 +51,8 @@ public class FiltroService extends Service<Filtro> {
         filtro.setCromossomos(vcfMetada.getCromossomos());
         filtro.setPositionMin(vcfMetada.getPositonMin());
         filtro.setPositionMax(vcfMetada.getPositonMax());
+        filtro.setGenes(new HashSet<>( vcfMetada.getGenes() ) );
         
-        //filtro.setGenes((List<Gene>) vcfMetada.getGenes());
         return filtro;
     }
 

@@ -32,11 +32,11 @@ public class FiltroDao extends DAO<Filtro> {
         }
     }
 
-    public List<Gene> buscarGene(Long idFiltro) {
+    public Set<Gene> buscarGene(Long idFiltro) {
         Query query = manager.createQuery("SELECT f.genes FROM Filtro f WHERE f.id = :idFiltro");
         query.setParameter("idFiltro", idFiltro);        
         List<Gene> genes = query.getResultList();
-        return genes;
+        return new HashSet<>(genes);
     }
 
     public Set<Cromossomo> buscarCromossomos(Long idFiltro) {
