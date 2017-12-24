@@ -31,6 +31,8 @@ public class PolyphenHvarService extends Service<PolyphenHvar> {
 
     @Transactional
     public PolyphenHvar findOrCreate(String name) {
+        if(("-").equals(name))
+            return null;
         List<PolyphenHvar> list = this.findByName(name);
         if (list.size() == 1) {
             return list.get(0);

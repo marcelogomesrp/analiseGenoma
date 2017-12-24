@@ -31,6 +31,8 @@ public class PolyphenHdivService extends Service<PolyphenHdiv> {
 
     @Transactional
     public PolyphenHdiv findOrCreate(String name) {
+        if(("-").equals(name))
+            return null;
         List<PolyphenHdiv> list = this.findByName(name);
         if (list.size() == 1) {
             return list.get(0);

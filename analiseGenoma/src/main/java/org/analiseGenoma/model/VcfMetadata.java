@@ -3,6 +3,7 @@ package org.analiseGenoma.model;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -40,7 +41,14 @@ public class VcfMetadata implements Serializable {
     private Long positonMin;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Gene> genes;
-    @ManyToMany(fetch=FetchType.EAGER)
+//    @ManyToMany(fetch=FetchType.EAGER )
+//    //@JoinColumn(columnDefinition="integer", name="customer_id")
+//    @JoinColumn( columnDefinition = "bigint(20)" ,nullable = true, insertable=true, updatable=true)    
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "vcf_metadata_umd_predictor", joinColumns = {
+			@JoinColumn(name = "vcfMetadata_id_vcfmetadata", nullable = true, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "umdPredictors_id_umdpredictor",
+					nullable = true, updatable = false) })
     private Set<UmdPredictor> umdPredictors;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Effect> effects;

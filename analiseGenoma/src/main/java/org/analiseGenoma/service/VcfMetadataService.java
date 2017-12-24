@@ -3,6 +3,7 @@ package org.analiseGenoma.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -67,6 +68,7 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         return variantes.stream()
                 .map(v -> v.getCromossomo())
                 .distinct()
+                .filter(v -> Objects.nonNull(v))
                 .collect(Collectors.toSet());
     }
     
@@ -74,6 +76,7 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         return variantes.stream()
                 .map(v -> v.getReferencia())
                 .distinct()
+                .filter(v -> Objects.nonNull(v))
                 .collect(Collectors.toSet());
     }
     
@@ -81,6 +84,7 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         return variantes.stream()
                 .map(v -> v.getAlterado())
                 .distinct()
+                .filter(v -> Objects.nonNull(v))
                 .collect(Collectors.toSet());
     }
     
@@ -102,14 +106,17 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         return variantes.stream()
                 .map(v -> v.getGene())
                 .distinct()
+                .filter(v -> Objects.nonNull(v))
                 .collect(Collectors.toSet());
     }
     
     public Set<UmdPredictor> getUmdPredictors(){
-        return variantes.stream()
+        Set<UmdPredictor> out =  variantes.stream()
                 .map(v -> v.getUmdPredictor())
                 .distinct()
+                .filter(v -> Objects.nonNull(v))
                 .collect(Collectors.toSet());
+        return out;
     }
 
     public Set<Effect> getEffect(){
@@ -122,6 +129,7 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         return variantes.stream()
                 .map(v -> v.getSift())
                 .distinct()
+                .filter(v -> Objects.nonNull(v))
                 .collect(Collectors.toSet());
     }
 

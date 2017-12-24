@@ -31,6 +31,8 @@ public class GenoTypeService extends Service<GenoType> {
 
     @Transactional
     public GenoType findOrCreate(String name) {
+        if(("-").equals(name))
+            return null;
         List<GenoType> list = this.findByName(name);
         if (list.size() == 1) {
             return list.get(0);

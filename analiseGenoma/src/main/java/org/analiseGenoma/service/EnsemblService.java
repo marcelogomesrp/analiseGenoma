@@ -31,6 +31,8 @@ public class EnsemblService extends Service<Ensembl> {
 
     @Transactional
     public Ensembl findOrCreate(String idEnsembl) {
+        if(("-").equals(idEnsembl))
+            return null;
         List<Ensembl> list = this.findByIdEnsembl(idEnsembl);
         if (list.size() == 1) {
             return list.get(0);

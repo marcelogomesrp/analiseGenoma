@@ -28,6 +28,8 @@ public class UmdPredictorService extends Service<UmdPredictor>{
 
     @Transactional
     public UmdPredictor findOrCreate(String name) {
+        if(("-").equals(name))
+                return null;
         List<UmdPredictor> list = this.findByName(name);
         if(list.size() == 1)
             return list.get(0);

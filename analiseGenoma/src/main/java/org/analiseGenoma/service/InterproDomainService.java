@@ -28,6 +28,8 @@ public class InterproDomainService extends Service<InterproDomain>{
 
     @Transactional
     public InterproDomain findOrCreate(String name) {
+        if(("-").equals(name))
+            return null;
         List<InterproDomain> list = this.findByName(name);
         if (list.size() == 1) {
             return list.get(0);

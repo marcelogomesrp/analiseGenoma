@@ -31,6 +31,9 @@ public class ClinvarAccessionService extends Service<ClinvarAccession> {
 
     @Transactional
     public ClinvarAccession findOrCreate(String name) {
+        if(("-".equals(name))){
+            return null;
+        }
         List<ClinvarAccession> list = this.findByName(name);
         if (list.size() == 1) {
             return list.get(0);

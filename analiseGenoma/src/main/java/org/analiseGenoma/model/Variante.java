@@ -52,8 +52,8 @@ public class Variante implements Serializable {
     @JoinColumn(name = "vcf_id")
     private Vcf vcf;
 
-    @ManyToOne
-    @JoinColumn(name = "umdpredictor_id")
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "umdpredictor_id",  nullable = true, insertable=true, updatable=true)
     private UmdPredictor umdPredictor;
 
     @ManyToOne
@@ -176,6 +176,8 @@ public class Variante implements Serializable {
     }
 
     public void setIdSNP(String idSNP) {
+        if(("-").equals(idSNP))
+            idSNP = null;
         this.idSNP = idSNP;
     }
 
@@ -281,6 +283,9 @@ public class Variante implements Serializable {
     }
 
     public void setHgvsP(String hgvsP) {
+        if("-".equals(hgvsP)){
+            hgvsP = null;
+        }
         this.hgvsP = hgvsP;
     }
 
@@ -306,6 +311,8 @@ public class Variante implements Serializable {
     }
 
     public void setType(Type type) {
+        if(("-").equals(type.getName()))
+            type = null;
         this.type = type;
     }
 
@@ -493,6 +500,8 @@ public class Variante implements Serializable {
     }
 
     public void setReadDepth(String readDepth) {
+        if(("-").equals(readDepth))
+            readDepth = null;
         this.readDepth = readDepth;
     }
 
@@ -647,6 +656,8 @@ public class Variante implements Serializable {
     }
 
     public void setVarintType(String varintType) {
+        if(("-").equals(varintType))
+            varintType = null;
         this.varintType = varintType;
     }
 

@@ -28,6 +28,9 @@ public class MutationTasterService extends Service<MutationTaster>{
 
     @Transactional
     public MutationTaster findOrCreate(String name) {
+        
+        if(("-").equals(name))
+            return null;
         List<MutationTaster> list = this.findByName(name);
         if (list.size() == 1) {
             return list.get(0);
