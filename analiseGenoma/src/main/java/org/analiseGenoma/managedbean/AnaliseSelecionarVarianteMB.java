@@ -592,6 +592,24 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         RequestContext.getCurrentInstance().openDialog("viewfilter_gene", options, params);   
         variantes = vcfService.findVariante(analise, filtro);
     }
+    
+        public void viewFilterUmdPredictor(){
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 700);
+        options.put("height", 350);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+        options.put("resizable", false);
+
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
+        RequestContext.getCurrentInstance().openDialog("viewfilter_umdPredictor", options, params);   
+        variantes = vcfService.findVariante(analise, filtro);
+    }
+    
+    
 
     public void onViewFilterClose(SelectEvent event) {
         String msg = (String) event.getObject();

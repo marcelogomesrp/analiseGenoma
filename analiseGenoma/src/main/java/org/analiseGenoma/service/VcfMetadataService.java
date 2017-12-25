@@ -55,8 +55,7 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         vmd.setUmdPredictors(this.getUmdPredictors());
         vmd.setEffects(this.getEffect());
         vmd.setSifts(this.getSift());
-        vmd.setMapGene(this.getMapGene());
-        
+        vmd.setMapGene(this.getMapGene());                
         
         return vmd;
     }

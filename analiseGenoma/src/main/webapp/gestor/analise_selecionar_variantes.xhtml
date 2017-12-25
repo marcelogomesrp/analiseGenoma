@@ -73,8 +73,10 @@
                             <h:outputText value="#{variant.gene.simbolo}" />
                         </p:column>
                         <p:column style="width:160px">
-                            <f:facet name="header" >
-                                <h:outputText value="Umd predictor" />
+                            <f:facet name="header" >                                
+                                <p:commandLink value="Umd predictor" actionListener="#{analiseSelcMB.viewFilterUmdPredictor() }" >
+                                    <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                </p:commandLink>
                             </f:facet>    
                             <h:outputText value="#{variant.umdPredictor.name}" />
                         </p:column>

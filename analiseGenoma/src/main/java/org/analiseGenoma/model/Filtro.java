@@ -44,6 +44,8 @@ public class Filtro  implements Serializable{
     //@OneToMany
     @ManyToMany
     private List<InformacaoBiologica> infBiologica;
+    @ManyToMany
+    private Set<UmdPredictor> umdPredictors;
 
     public Long getId() {
         return id;
@@ -68,6 +70,16 @@ public class Filtro  implements Serializable{
     public void setGenes(Set<Gene> genes) {
         this.genes = genes;
     }
+
+    public Set<UmdPredictor> getUmdPredictors() {
+        return umdPredictors;
+    }
+
+    public void setUmdPredictors(Set<UmdPredictor> umdPredictors) {
+        this.umdPredictors = umdPredictors;
+    }
+    
+    
 
 
 

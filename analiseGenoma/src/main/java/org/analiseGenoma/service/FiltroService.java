@@ -52,6 +52,7 @@ public class FiltroService extends Service<Filtro> {
         filtro.setPositionMin(vcfMetada.getPositonMin());
         filtro.setPositionMax(vcfMetada.getPositonMax());
         filtro.setGenes(new HashSet<>( vcfMetada.getGenes() ) );
+        filtro.setUmdPredictors(new HashSet<>(vcfMetada.getUmdPredictors()));
         
         return filtro;
     }
