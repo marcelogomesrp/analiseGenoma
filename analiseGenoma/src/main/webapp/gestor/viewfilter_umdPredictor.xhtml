@@ -18,19 +18,16 @@
         <h:form id="formView">
             <p:growl id="messages" showDetail="true"/>
             <p:panel header="Umd Predictor">
-                <h:outputText value="#{VfUmdPredictor.value}" />
                 <p:pickList value="#{VfUmdPredictor.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
                             showSourceFilter="true"
                             showTargetFilter="true" 
                             filterMatchMode="contains"
-                            id="geneFiltro"
+                            id="filtro"
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
-
-
                 <p:commandButton value="Aplicar" actionListener="#{VfUmdPredictor.closeView()}"/>
             </p:panel>
         </h:form>

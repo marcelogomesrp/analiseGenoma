@@ -15,6 +15,7 @@ import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.UmdPredictor;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.Vcf;
 
@@ -92,6 +93,12 @@ public class VarianteDao extends DAO<Variante> {
         if(!(null == filtro.getGenes())){
             Expression<Gene> parentExpression = root.get("gene");
             Predicate where = parentExpression.in(filtro.getGenes());
+            condicoes.add(where);
+        }
+        
+        if(!(null == filtro.getUmdPredictors())){
+            Expression<UmdPredictor> parentExpression = root.get("umdPredictor");
+            Predicate where = parentExpression.in(filtro.getUmdPredictors());
             condicoes.add(where);
         }
         
