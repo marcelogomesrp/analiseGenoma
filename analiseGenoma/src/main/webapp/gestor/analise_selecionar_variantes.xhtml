@@ -26,9 +26,11 @@
                                 </p:panelGrid>
                             </p:tab>
                         </p:accordionPanel>
-                    </p:panel>
+                        <p:panelGrid columns="2"  styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Finalizar seleção" action="#{aSelcReviserMB.openView(analiseSelcMB.analise)}"/>
+                        </p:panelGrid>
 
-                    <p:dataTable value="#{analiseSelcMB.variantes}" var="variant" scrollable="true" scrollWidth="100%" scrollHeight="600" id="tabela">
+                    <p:dataTable value="#{analiseSelcMB.variantes}" var="variant" scrollable="true" scrollWidth="100%" id="tabela">
                         <p:column style="width:32px">
                             <f:facet name="header" >
                                 <h:outputText value="Id" />
@@ -327,7 +329,7 @@
                             <h:outputText value="#{variant.wholeVarintFreq}" />
                         </p:column>
                     </p:dataTable>
-
+                    </p:panel>
                 </h:form>
             </ui:define>
         </ui:composition>
