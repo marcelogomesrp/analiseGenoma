@@ -13,11 +13,9 @@ import org.analiseGenoma.dao.PacienteDao;
 import org.analiseGenoma.dao.PatologiaDao;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Cromossomo;
-import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Impact;
 import org.analiseGenoma.model.Vcf;
-import org.analiseGenoma.model.VcfMetadata;
 
 public class AnaliseService implements Serializable {
     @Inject
@@ -35,6 +33,8 @@ public class AnaliseService implements Serializable {
     @Inject
     private ImpactoDao impactoDao;
     @Inject private VcfMetadataService vcfMetadataService;
+    
+
     
     
     @Transactional

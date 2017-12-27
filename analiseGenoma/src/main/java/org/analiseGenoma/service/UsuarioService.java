@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -72,6 +73,13 @@ public class UsuarioService implements Serializable {
 
     public Usuario buscarPorId(Long id) {
         return usuarioDao.buscarPorId(id);
+    }
+
+    public Usuario findRevisoresByName(String name) {
+        List<Usuario> users = usuarioDao.findRevisorByName(name);
+        if(users.size() == 1)
+            return users.get(0);
+        return null;
     }
 
 }

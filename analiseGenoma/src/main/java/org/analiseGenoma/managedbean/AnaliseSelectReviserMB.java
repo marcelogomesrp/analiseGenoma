@@ -2,7 +2,10 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -26,7 +29,7 @@ public class AnaliseSelectReviserMB implements Serializable {
     @Inject
     private UsuarioService usuarioService;
     private Analise analise;
-    private DualListModel<Usuario> revisers;
+    private DualListModel<String> revisers;
     
     @PostConstruct
     public void init() {
@@ -34,22 +37,41 @@ public class AnaliseSelectReviserMB implements Serializable {
             Long value = (Long) FacesUtil.getSessionMapValue("id");
             analise = analiseService.buscarPorId(value);
             
-            List<Usuario> source = new ArrayList<>();
-            List<Usuario> target = new ArrayList<>();
+            //List<String> source = new ArrayList<>();
+            //List<String> target = new ArrayList<>();
 //            Usuario u = new Usuario();
 //            u.setNome("Teste");
 //            source.add(u);
-            source = usuarioService.buscarRevisores();
+                List<String> target = analise.getRevisores().stream().map(r -> r.getNome()).collect(Collectors.toList());            
+                List<String> source = usuarioService.buscarRevisores()
+                        .stream()
+                        .map(r -> r.getNome())
+                        .filter(g -> !target.contains(g))
+                        .collect(Collectors.toList());           
+                
+                 //vcfMetadata.getUmdPredictors().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());
+            //filtro.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
             revisers = new DualListModel<>(source, target);
             
         } catch (Exception ex) {
-            System.out.println("Erro no init");
+            System.out.println("Erro no init" + ex.getMessage());
         }
 
     }
     
     public String openView(Analise analise){
         FacesUtil.setSessionMapValue("id", analise.getId());
+        return "analise_select_reviser.xhtml?faces-redirect=true";
+    }
+    
+    public String submit(){
+       // List<Usuario> listUser = revisers.getTarget();
+        Set<Usuario> rev = new HashSet<>();
+        for(String name : revisers.getTarget()){
+            rev.add(usuarioService.findRevisoresByName(name));
+        }
+        analise.setRevisores(rev);
+        analiseService.atualizar(analise);
         return "analise_select_reviser.xhtml?faces-redirect=true";
     }
 
@@ -61,11 +83,16 @@ public class AnaliseSelectReviserMB implements Serializable {
         this.analise = analise;
     }
 
-    public DualListModel<Usuario> getRevisers() {
+    public DualListModel<String> getRevisers() {
+        if(revisers == null){
+            List<String> source = new ArrayList<>();
+            List<String> target = new ArrayList<>();
+            revisers = new DualListModel<>(source, target);
+        }
         return revisers;
     }
 
-    public void setRevisers(DualListModel<Usuario> revisers) {
+    public void setRevisers(DualListModel<String> revisers) {
         this.revisers = revisers;
     }
     

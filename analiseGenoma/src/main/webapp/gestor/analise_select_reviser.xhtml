@@ -15,11 +15,10 @@
                     <p:panel header="Select reviser">
                         <p:outputLabel value="Analise" />
                         <h:outputText value="#{aSelcReviserMB.analise.nome}" />
-                        <p:pickList id="pickList" value="#{aSelcReviserMB.revisers}" var="rev" itemLabel="#{rev.nome}" itemValue="#{rev.nome}" responsive="true"
+                        <p:pickList id="pickList" value="#{aSelcReviserMB.revisers}" var="rev" itemLabel="#{rev}" itemValue="#{rev}" responsive="true"
                                     showCheckbox="true" effect="bounce">
-
-
                         </p:pickList>
+                        <p:commandButton value="Submit" action="#{aSelcReviserMB.submit}" ajax="false"/>
                     </p:panel>
                 </h:form>
             </ui:define>

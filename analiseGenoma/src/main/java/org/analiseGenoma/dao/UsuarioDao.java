@@ -21,5 +21,16 @@ public class UsuarioDao extends DAO<Usuario> {
         }
     }
 
+    public List<Usuario> findRevisorByName(String name) {
+        try {
+            Query query = manager.createQuery("SELECT u FROM Usuario u WHERE u.revisor = true and u.nome = :nome");
+             query.setParameter("nome", name);
+            return (List<Usuario>) query.getResultList();
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+            return null;
+        }
+    }
+
 
 }
