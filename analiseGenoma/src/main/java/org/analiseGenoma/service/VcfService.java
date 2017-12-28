@@ -179,9 +179,9 @@ public class VcfService implements Serializable {
         
     }
     
-    public List<Variante> buscarVariante(Long idAnalise, Filtro filtro) {
-        return varianteDao.buscarAnalise(idAnalise, filtro);
-    }
+//    public List<Variante> buscarVariante(Long idAnalise, Filtro filtro) {
+//        return varianteDao.buscarAnalise(idAnalise, filtro);
+//    }
 
     public List<Variante> findVariante(Analise analise, Filtro filtro) {
         if(filtro == null){

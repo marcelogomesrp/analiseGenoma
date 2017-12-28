@@ -291,7 +291,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     public void desfazerFiltrar(){
         System.out.println("Filtrando...");
         Filtro filtro = filtroService.buscarPorAnalise(analise.getId());           
-        variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
+        //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
+        variantes = vcfService.findVariante(analise, filtro);
     }
     public void filtrar(){
         System.out.println("Filtrando...");
@@ -323,7 +324,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         
         //getSelectedCromossomo
         
-        variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtroTemporario);
+        //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtroTemporario);
+        variantes = vcfService.findVariante(analise, filtroTemporario);
         
                 
         System.out.println("Filtro a ser aplicado: " );

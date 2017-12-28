@@ -42,7 +42,7 @@ public class RevisorAnaliseRevisarMB implements Serializable {
         if (id != null) {
             analise = analiseService.buscarPorId(Long.valueOf(id));
             filtro = filtroService.buscarPorAnalise(analise.getId());
-            variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
+            variantes = vcfService.findVariante(analise, filtro);
         } else {
             analise = new Analise();
         }
