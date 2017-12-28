@@ -2,6 +2,7 @@ package org.analiseGenoma.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -61,6 +62,18 @@ public class VarianteDao extends DAO<Variante> {
             return null;
         }
     }*/
+    private boolean listaHasItens(List list){
+        if(list == null)
+            return false;
+        if(list.isEmpty())
+            return false;
+        return true;
+    }
+    
+    private boolean listaHasItens(Set set){
+        return this.listaHasItens(new ArrayList(set));
+    }
+    
     public List<Variante> findByAnaliseFiltro(Analise analise, Filtro filtro) {
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         CriteriaQuery<Variante> criteriaQuery = criteriaBuilder.createQuery(Variante.class);
@@ -73,7 +86,8 @@ public class VarianteDao extends DAO<Variante> {
             condicoes.add(where);
         }
         
-        if (!(null == filtro.getCromossomos())) {
+        //if ( (!(null == filtro.getCromossomos())) && (!(filtro.getCromossomos().isEmpty())) ) {
+        if(this.listaHasItens(filtro.getCromossomos())){
             Expression<Cromossomo> parentExpression = root.get("cromossomo");
             Predicate where = parentExpression.in(filtro.getCromossomos());
             condicoes.add(where);
@@ -90,13 +104,15 @@ public class VarianteDao extends DAO<Variante> {
             Predicate where = criteriaBuilder.lessThanOrEqualTo(atributo, filtro.getPositionMax());        
             condicoes.add(where);
         }
-        if(!(null == filtro.getGenes())){
+        //if(!(null == filtro.getGenes())){
+        if(listaHasItens(filtro.getGenes())){
             Expression<Gene> parentExpression = root.get("gene");
             Predicate where = parentExpression.in(filtro.getGenes());
             condicoes.add(where);
         }
         
-        if(!(null == filtro.getUmdPredictors())){
+        //if(!(null == filtro.getUmdPredictors())){
+        if(listaHasItens(filtro.getUmdPredictors())){
             Expression<UmdPredictor> parentExpression = root.get("umdPredictor");
             Predicate where = parentExpression.in(filtro.getUmdPredictors());
             condicoes.add(where);

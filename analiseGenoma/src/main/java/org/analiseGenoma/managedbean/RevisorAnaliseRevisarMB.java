@@ -10,9 +10,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Analise;
+import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Usuario;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.service.AnaliseService;
+import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfService;
 
 @Named(value = "revAnaliseRevisarMB")
@@ -31,12 +33,16 @@ public class RevisorAnaliseRevisarMB implements Serializable {
     private VcfService vcfService;
     @Inject
     private FacesContext context;
+    private Filtro filtro;
+    @Inject
+    private FiltroService filtroService;
 
     @PostConstruct
     public void init() {
         if (id != null) {
             analise = analiseService.buscarPorId(Long.valueOf(id));
-            variantes = vcfService.buscarVariante(analise.getVcf().getId());
+            filtro = filtroService.buscarPorAnalise(analise.getId());
+            variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
         } else {
             analise = new Analise();
         }
