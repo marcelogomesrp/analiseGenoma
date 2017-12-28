@@ -1,6 +1,7 @@
 package org.analiseGenoma.service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -64,11 +65,13 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         return variantes.size();
     }
     public Set<Cromossomo> getCromossomos(){
-        return variantes.stream()
+        return new HashSet<>(
+                variantes.stream()
                 .map(v -> v.getCromossomo())
                 .distinct()
                 .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet())
+                );
     }
     
     public Set<String> getReferencias(){
