@@ -13,7 +13,7 @@ public class GestorMB implements Serializable {
     private ThemeSwitcherMB themeSwitcherMB;
     
     public String login(){
-        themeSwitcherMB.changeGestor();
+        themeSwitcherMB.changeGestor();        
         return "gestor/index.xhtml";
     }
     

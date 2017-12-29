@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.analiseGenoma.model.validator.PatientUniqueName;
 
@@ -25,10 +26,11 @@ public class Paciente implements Serializable{
     private Long id;
     @NotEmpty
     @NotNull
-    @Column(unique = true)  
+    //@Column(unique = true)  
     //@PatientUniqueName(message = "Name already exists")
     private String nome;
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Past
     private Date dataNascimento;
     @ManyToOne
     @JoinColumn(name = "etnia_id")

@@ -27,6 +27,7 @@ public class Usuario implements Serializable{
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] image;
+    
 
     public Usuario() {
     }

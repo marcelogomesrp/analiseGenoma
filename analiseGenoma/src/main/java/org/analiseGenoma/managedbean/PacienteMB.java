@@ -53,14 +53,19 @@ public class PacienteMB implements Serializable {
     private Vcf vcf;
     private String father;
     private String mother;
+    private boolean disabledValidation;
+    private CrudMode crudMode;
 
     private List<Vcf> vcfs;
 
     @PostConstruct
-    public void init() {
+    public void init() {      
+        this.defCrudModeRead();
         System.out.println("Pagina pacienteMB instanciada novamente");
+        disabledValidation = true;
         paciente = new Paciente();
         pacientes = pacienteService.buscar();
+        
 
         if (id != null) {
             if (!id.equals("")) {
@@ -88,7 +93,7 @@ public class PacienteMB implements Serializable {
     }
 
     public String adicionar() {
-        if (isValid()) {
+//        if (isValid()) {
 //        context.addMessage("formulario:nome", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "error message"));
 //        return "paciente_novo.xhtml";
 
@@ -114,27 +119,29 @@ public class PacienteMB implements Serializable {
                     paciente.setGender(gender.charAt(0));
                 }
                 pacienteService.adicionar(paciente);
+                this.viewAddVcf(paciente.getId());
                 this.limpar();
                 context.getExternalContext()
                         .getFlash().setKeepMessages(true);
-                context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
-                this.limpar();
-                return "paciente_novo.xhtml?faces-redirect=true";
+                context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));                                                
+                return "paciente.xhtml?faces-redirect=true";
             } catch (Exception ex) {
                 context.getExternalContext()
                         .getFlash().setKeepMessages(true);
                 context.addMessage(null, new FacesMessage("Ocorreu erros ao realizar o cadastro " + ex.getMessage()));
-                return "paciente_novo.xhtml";
+                return "paciente.xhtml";
             }
-        }else{
-            context.addMessage("formulario:nome", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Nome do paciente ja cadastrado"));
-            context.addMessage("formulario:secondId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Second Id do paciente ja cadastrado"));
-            return "paciente_novo.xhtml";
-        }
+//        }else{
+//            context.addMessage("formulario:nome", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Nome do paciente ja cadastrado"));
+//            context.addMessage("formulario:secondId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Second Id do paciente ja cadastrado"));
+//            return "paciente_novo.xhtml";
+//        }
     }
 
     public void limpar() {
         paciente = new Paciente();
+        gender = "";
+        idEtnia = 0L;
 
         pacientes = pacienteService.buscar();
         if (id != null) {
@@ -346,5 +353,41 @@ public class PacienteMB implements Serializable {
         message.setSeverity(FacesMessage.SEVERITY_ERROR);
         throw new ValidatorException(message);
     }    
+
+    public boolean isDisabledValidation() {
+        return disabledValidation;
+    }
+
+    public void setDisabledValidation(boolean disabledValidation) {
+        this.disabledValidation = disabledValidation;
+    }
+    
+        public boolean isCrudModeRead(){
+        return crudMode.equals(CrudMode.Read);
+    }
+    public void defCrudModeRead(){
+        disabledValidation = true;
+        crudMode = CrudMode.Read;
+    }
+    public boolean isCrudModeUpdate(){
+        return crudMode.equals(CrudMode.Update);
+    }
+    public void defCrudModeUpdate(){
+        crudMode = CrudMode.Update;
+    }
+    
+    public boolean isCrudModeFind(){
+        return crudMode.equals(CrudMode.Find);
+    }
+    public void defCrudModeFind(){
+        crudMode = CrudMode.Find;
+    }    
+    
+    public void defCreateMode(){
+        this.disabledValidation = false;
+//        this.etnia = new Etnia();     
+        this.defCrudModeUpdate();       
+    }
+    
 
 }
