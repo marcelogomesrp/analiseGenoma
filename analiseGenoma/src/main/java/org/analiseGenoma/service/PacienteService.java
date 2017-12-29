@@ -47,6 +47,7 @@ public class PacienteService implements Serializable {
         return pacienteDao.buscar();
     }
 
+    
     public List<Paciente> buscarNome(String nome) {
         return pacienteDao.buscarNome(nome);
     }

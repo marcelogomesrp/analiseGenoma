@@ -11,15 +11,18 @@
         <ui:composition template="./template.xhtml">
 
             <ui:define name="content">
-                <h:form>   
+                <h:form id="formulario">   
+                    <p:growl />
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-1 ui-lg-1"></div>
                                           
                         <div class="ui-g-12 ui-md-10 ui-lg-10">
                         <p:panel header="Log in">
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                    
-                                <p:outputLabel value="Email" />
-                                <p:inputText value="#{usuarioMB.usuario.email}" />
+                                <p:outputLabel value="Email" for="email" />
+                                <p:inputText value="#{usuarioMB.usuario.email}" id="email"  >
+                                
+                                </p:inputText>
                                 <p:outputLabel value="Password" />
                                 <p:password  value="#{usuarioMB.usuario.senha}" />
                             </p:panelGrid>

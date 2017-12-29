@@ -9,9 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.analiseGenoma.model.validator.PatientUniqueName;
+
 
 @Entity
 @Table(name = "paciente")
@@ -20,10 +23,13 @@ public class Paciente implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_paciente")
     private Long id;
+    @NotEmpty
+    @NotNull
+    @Column(unique = true)  
+    //@PatientUniqueName(message = "Name already exists")
     private String nome;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascimento;
-    //@OneToOne
     @ManyToOne
     @JoinColumn(name = "etnia_id")
     private Etnia etnia;

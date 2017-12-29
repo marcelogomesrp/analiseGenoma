@@ -16,12 +16,16 @@
                     <p:panel header="New Patient">
                         <h:inputHidden id="id" value="#{pacienteMB.paciente.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:outputLabel value="Name" for="nome"/>
-                            <p:inputText id="nome" value="#{pacienteMB.paciente.nome}"/>
+                            <p:outputLabel value="Name*" for="nome"/>
+                            <p:inputText id="nome" value="#{pacienteMB.paciente.nome}" >
+                                <f:validator binding="#{pacienteNomelValidator}" />
+                            </p:inputText>
                             <p:outputLabel value="Birthday" for="dtNascimento"/>
                             <p:calendar id="dtNascimento" value="#{pacienteMB.paciente.dataNascimento}"/>
                             <p:outputLabel value="Second Id" for="secondId" />
-                            <p:inputText id="secondId" value="#{pacienteMB.paciente.secondId}" />
+                            <p:inputText id="secondId" value="#{pacienteMB.paciente.secondId}" validator="#{pacienteMB.validateSecond}" >
+                                
+                            </p:inputText>
                             <p:outputLabel value="Etinia" />
                             <p:selectOneMenu value="#{pacienteMB.idEtnia}">
                                 <f:selectItem itemLabel="select one" itemValue="" />
@@ -41,7 +45,7 @@
                             <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Add" action="#{pacienteMB.adicionar}"/>
+                            <p:commandButton value="Add" actionListener="#{pacienteMB.adicionar}" update="formulario"/>
                             <p:commandButton value="Clean" action="#{pacienteMB.limpar}"/>
                         </p:panelGrid>
                     </p:panel>  

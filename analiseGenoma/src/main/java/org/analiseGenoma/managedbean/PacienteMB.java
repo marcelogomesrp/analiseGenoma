@@ -10,9 +10,11 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 //import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Etnia;
@@ -20,6 +22,7 @@ import org.analiseGenoma.model.Paciente;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.EtniaService;
 import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.service.UsuarioService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -85,34 +88,66 @@ public class PacienteMB implements Serializable {
     }
 
     public String adicionar() {
-        if (father != null) {
-            if (!father.isEmpty()) {
-                List<Paciente> list = pacienteService.findMenByName(father);
-                if (list.size() == 1) {
-                    paciente.setFather(list.get(0));
+        if (isValid()) {
+//        context.addMessage("formulario:nome", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "error message"));
+//        return "paciente_novo.xhtml";
+
+            try {
+                if (father != null) {
+                    if (!father.isEmpty()) {
+                        List<Paciente> list = pacienteService.findMenByName(father);
+                        if (list.size() == 1) {
+                            paciente.setFather(list.get(0));
+                        }
+                    }
                 }
-            }
-        }
-        if (mother != null) {
-            if (!mother.isEmpty()) {
-                List<Paciente> list = pacienteService.findMenByName(mother);
-                if (list.size() == 1) {
-                    paciente.setMother(list.get(0));
+                if (mother != null) {
+                    if (!mother.isEmpty()) {
+                        List<Paciente> list = pacienteService.findMenByName(mother);
+                        if (list.size() == 1) {
+                            paciente.setMother(list.get(0));
+                        }
+                    }
                 }
+                paciente.setEtnia(etniaService.buscarPorId(idEtnia));
+                if (gender != null) {
+                    paciente.setGender(gender.charAt(0));
+                }
+                pacienteService.adicionar(paciente);
+                this.limpar();
+                context.getExternalContext()
+                        .getFlash().setKeepMessages(true);
+                context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
+                this.limpar();
+                return "paciente_novo.xhtml?faces-redirect=true";
+            } catch (Exception ex) {
+                context.getExternalContext()
+                        .getFlash().setKeepMessages(true);
+                context.addMessage(null, new FacesMessage("Ocorreu erros ao realizar o cadastro " + ex.getMessage()));
+                return "paciente_novo.xhtml";
             }
+        }else{
+            context.addMessage("formulario:nome", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Nome do paciente ja cadastrado"));
+            context.addMessage("formulario:secondId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Second Id do paciente ja cadastrado"));
+            return "paciente_novo.xhtml";
         }
-        paciente.setEtnia(etniaService.buscarPorId(idEtnia));
-        paciente.setGender(gender.charAt(0));
-        pacienteService.adicionar(paciente);
-        this.limpar();
-        context.getExternalContext()
-                .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
-        return "paciente_novo.xhtml?faces-redirect=true";
     }
 
     public void limpar() {
         paciente = new Paciente();
+
+        pacientes = pacienteService.buscar();
+        if (id != null) {
+            if (!id.equals("")) {
+                paciente = pacienteService.buscarId(Long.valueOf(id));
+                if (paciente != null) {
+                    if (paciente.getEtnia() != null) {
+                        idEtnia = paciente.getEtnia().getId();
+                    }
+                    vcfs = vcfService.buscarPacienteId(paciente.getId());
+                }
+            }
+        }
     }
 
     public List<SelectItem> getSelectEtnias() {
@@ -291,8 +326,25 @@ public class PacienteMB implements Serializable {
                 .map(p -> p.getNome())
                 .collect(Collectors.toList());
     }
-    
-    
 
+    private boolean isValid() {
+        return pacienteService.buscarNome(paciente.getNome()).isEmpty();
+    }
+    
+    
+    public void validateSecond(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        String nome = (String) o;
+        List<Paciente> list = pacienteService.buscarNome(nome);
+        if(list == null){
+            return;
+        }
+        if(list.isEmpty()){
+            return;
+        }
+                FacesMessage message
+                = new FacesMessage("Second erro !!! :D");
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+        throw new ValidatorException(message);
+    }    
 
 }
