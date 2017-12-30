@@ -1,7 +1,6 @@
 package org.analiseGenoma.model.validator.impl;
 
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.analiseGenoma.model.validator.PatientUniqueName;
@@ -14,7 +13,7 @@ import org.analiseGenoma.service.PacienteService;
 
 //http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-declaring-bean-constraints
 //http://www.springfuse.com/2012/09/27/jsf2-jpa2-unique-validator.html
-@ApplicationScoped
+//@ApplicationScoped
 public class PatientUniqueNameValidator implements ConstraintValidator<PatientUniqueName, String> {
 
     //@Inject

@@ -1,6 +1,7 @@
 package org.analiseGenoma.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -51,6 +52,22 @@ public class PacienteDao extends DAO<Paciente> {
             Predicate where = criteriaBuilder.equal(atributoSigla, p.getGender());
             condicoes.add(where);
         }
+        if(! (null == p.getEtnia()) ){
+            Path<String> atributo = root.get("etnia");
+            Predicate where = criteriaBuilder.equal(atributo, p.getEtnia());
+            condicoes.add(where);
+        }
+        
+        if(!(p.getDataNascimento() == null)){
+            Path<Date> atributo = root.get("dataNascimento");
+            Predicate where = criteriaBuilder.equal(atributo, p.getDataNascimento());
+            condicoes.add(where);
+        }
+        if(!(null == p.getSecondId() || "".equals(p.getSecondId() ))){
+            Path<String> atributo = root.get("secondId");
+            Predicate where = criteriaBuilder.equal(atributo, p.getSecondId());
+            condicoes.add(where);
+        }        
         
         Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
         Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);

@@ -112,4 +112,8 @@ public class PacienteService implements Serializable {
         p.setGender('f');
         return pacienteDao.findByExample(p);
     }
+
+    public List<Paciente> findByExample(Paciente paciente) {
+        return pacienteDao.findByExample(paciente);
+    }
 }

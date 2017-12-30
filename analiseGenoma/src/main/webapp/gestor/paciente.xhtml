@@ -18,13 +18,12 @@
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:outputLabel value="Name*" for="nome"/>
                             <p:inputText id="nome" value="#{pacienteMB.paciente.nome}" >
-                                <f:validator binding="#{pacienteNomelValidator}" />
                                 <f:validateBean disabled="#{pacienteMB.disabledValidation}"/> 
                             </p:inputText>
                             <p:outputLabel value="Birthday" for="dtNascimento"/>
                             <p:calendar id="dtNascimento" value="#{pacienteMB.paciente.dataNascimento}"/>
                             <p:outputLabel value="Second Id" for="secondId" />
-                            <p:inputText id="secondId" value="#{pacienteMB.paciente.secondId}" validator="#{pacienteMB.validateSecond}" >
+                            <p:inputText id="secondId" value="#{pacienteMB.paciente.secondId}"  >
                                 <f:validateBean disabled="#{pacienteMB.disabledValidation}"/> 
                             </p:inputText>
                             <p:outputLabel value="Etinia" />
@@ -44,15 +43,18 @@
                             <p:autoComplete id="mother" value="#{pacienteMB.mother}" completeMethod="#{pacienteMB.motherComplete}"  />
                             <p:outputLabel value="Note" for="observacao"/>
                             <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
-
-
+                            <p:outputLabel value="read:" />
+                            <h:outputText value="#{pacienteMB.crudModeRead}" />
+                            <p:outputLabel value="update:" />
+                            <h:outputText value="#{pacienteMB.crudModeUpdate}" />
                         </p:panelGrid>
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="New" update="formulario" actionListener="#{pacienteMB.defCrudModeUpdate()}" rendered="#{etniaMB.crudModeRead}" />
-                            <p:commandButton value="Save" actionListener="#{pacienteMB.adicionar}" update="formulario" rendered="#{etniaMB.crudModeUpdate}">
+                            <p:commandButton value="New" update="formulario" actionListener="#{pacienteMB.novo()}" rendered="#{pacienteMB.crudModeRead}" />
+                            <p:commandButton value="Save" actionListener="#{pacienteMB.adicionar}" update="formulario" rendered="#{pacienteMB.crudModeUpdate}">
                                 <p:ajax event="dialogReturn" listener="#{pacienteMB.onViewAddVcf}" update="formulario" /> 
                             </p:commandButton>
-                            <p:commandButton value="Clean" action="#{pacienteMB.limpar}"/>
+                            <p:commandButton value="Find" actionListener="#{pacienteMB.find}" update="formulario" rendered="#{pacienteMB.crudModeRead}" />
+                            <p:commandButton value="Cancel" actionListener="#{pacienteMB.limpar}" update="formulario" immediate="true" process="@this"/>
                         </p:panelGrid>
                     </p:panel>  
                     <p:dataTable value="#{pacienteMB.pacientes}" var="paciente" 

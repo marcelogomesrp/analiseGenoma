@@ -22,7 +22,6 @@ import org.analiseGenoma.model.Paciente;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.EtniaService;
 import org.analiseGenoma.service.PacienteService;
-import org.analiseGenoma.service.UsuarioService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -30,7 +29,6 @@ import org.primefaces.model.UploadedFile;
 
 @Named(value = "pacienteMB")
 @ViewScoped
-//@RequestScoped
 public class PacienteMB implements Serializable {
 
     @Inject
@@ -59,21 +57,22 @@ public class PacienteMB implements Serializable {
     private List<Vcf> vcfs;
 
     @PostConstruct
-    public void init() {      
+    public void init() {
         this.defCrudModeRead();
         System.out.println("Pagina pacienteMB instanciada novamente");
-        disabledValidation = true;
         paciente = new Paciente();
         pacientes = pacienteService.buscar();
-        
 
         if (id != null) {
             if (!id.equals("")) {
+                this.defCrudModeUpdate(); 
                 System.out.println("Pesquisando paciente com o o id " + id);
                 paciente = pacienteService.buscarId(Long.valueOf(id));
                 if (paciente != null) {
                     if (paciente.getEtnia() != null) {
-                        idEtnia = paciente.getEtnia().getId();
+                        if(paciente.getEtnia().getId() != null){
+                            idEtnia = paciente.getEtnia().getId();
+                        }
                     }
                     vcfs = vcfService.buscarPacienteId(paciente.getId());
                 }
@@ -97,40 +96,53 @@ public class PacienteMB implements Serializable {
 //        context.addMessage("formulario:nome", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "error message"));
 //        return "paciente_novo.xhtml";
 
-            try {
-                if (father != null) {
-                    if (!father.isEmpty()) {
-                        List<Paciente> list = pacienteService.findMenByName(father);
-                        if (list.size() == 1) {
-                            paciente.setFather(list.get(0));
-                        }
-                    }
+//            try {
+        if (father != null) {
+            if (!father.isEmpty()) {
+                List<Paciente> list = pacienteService.findMenByName(father);
+                if (list.size() == 1) {
+                    paciente.setFather(list.get(0));
                 }
-                if (mother != null) {
-                    if (!mother.isEmpty()) {
-                        List<Paciente> list = pacienteService.findMenByName(mother);
-                        if (list.size() == 1) {
-                            paciente.setMother(list.get(0));
-                        }
-                    }
-                }
-                paciente.setEtnia(etniaService.buscarPorId(idEtnia));
-                if (gender != null) {
-                    paciente.setGender(gender.charAt(0));
-                }
-                pacienteService.adicionar(paciente);
-                this.viewAddVcf(paciente.getId());
-                this.limpar();
-                context.getExternalContext()
-                        .getFlash().setKeepMessages(true);
-                context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));                                                
-                return "paciente.xhtml?faces-redirect=true";
-            } catch (Exception ex) {
-                context.getExternalContext()
-                        .getFlash().setKeepMessages(true);
-                context.addMessage(null, new FacesMessage("Ocorreu erros ao realizar o cadastro " + ex.getMessage()));
-                return "paciente.xhtml";
             }
+        }
+        if (mother != null) {
+            if (!mother.isEmpty()) {
+                List<Paciente> list = pacienteService.findMenByName(mother);
+                if (list.size() == 1) {
+                    paciente.setMother(list.get(0));
+                }
+            }
+        }
+        paciente.setEtnia(etniaService.buscarPorId(idEtnia));
+        if (gender != null) {
+            paciente.setGender(gender.charAt(0));
+        }
+        //pacienteService.adicionar(paciente);
+//        boolean insert = false;
+        String msg = "";
+        if(paciente.getId() == null){
+//            insert = true;
+            pacienteService.adicionar(paciente);
+            this.viewAddVcf(paciente.getId());
+            msg = "Patient successfully registered";
+        }else{
+            pacienteService.atualizar(paciente);
+            msg = "Patient successfully updated";
+        }
+//        if(insert)
+//            this.viewAddVcf(paciente.getId());
+        this.limpar();
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage(msg));
+        return "paciente.xhtml?faces-redirect=true";
+//            } catch (Exception ex) {
+//                context.getExternalContext()
+//                        .getFlash().setKeepMessages(true);
+//                context.addMessage(null, new FacesMessage("Ocorreu erros ao realizar o cadastro " + ex.getMessage()));
+//                return "paciente.xhtml";
+//            }
+
 //        }else{
 //            context.addMessage("formulario:nome", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Nome do paciente ja cadastrado"));
 //            context.addMessage("formulario:secondId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "error message", "Second Id do paciente ja cadastrado"));
@@ -144,17 +156,18 @@ public class PacienteMB implements Serializable {
         idEtnia = 0L;
 
         pacientes = pacienteService.buscar();
-        if (id != null) {
-            if (!id.equals("")) {
-                paciente = pacienteService.buscarId(Long.valueOf(id));
-                if (paciente != null) {
-                    if (paciente.getEtnia() != null) {
-                        idEtnia = paciente.getEtnia().getId();
-                    }
-                    vcfs = vcfService.buscarPacienteId(paciente.getId());
-                }
-            }
-        }
+//        if (id != null) {
+//            if (!id.equals("")) {
+//                paciente = pacienteService.buscarId(Long.valueOf(id));
+//                if (paciente != null) {
+//                    if (paciente.getEtnia() != null) {
+//                        idEtnia = paciente.getEtnia().getId();
+//                    }
+//                    vcfs = vcfService.buscarPacienteId(paciente.getId());
+//                }
+//            }
+//        }
+        this.defCrudModeRead();
     }
 
     public List<SelectItem> getSelectEtnias() {
@@ -337,22 +350,51 @@ public class PacienteMB implements Serializable {
     private boolean isValid() {
         return pacienteService.buscarNome(paciente.getNome()).isEmpty();
     }
-    
-    
+
     public void validateSecond(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
         String nome = (String) o;
         List<Paciente> list = pacienteService.buscarNome(nome);
-        if(list == null){
+        if (list == null) {
             return;
         }
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             return;
         }
-                FacesMessage message
+        FacesMessage message
                 = new FacesMessage("Second erro !!! :D");
         message.setSeverity(FacesMessage.SEVERITY_ERROR);
         throw new ValidatorException(message);
-    }    
+    }
+
+//    public void validateName(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+//        String nome = (String) o;
+//        List<Paciente> list = pacienteService.buscarNome(nome);
+//        if(list == null){
+//            return;
+//        }
+//        if(list.isEmpty()){
+//            return;
+//        }
+//                FacesMessage message
+//                = new FacesMessage("Second erro !!! :D");
+//        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+//        throw new ValidatorException(message);
+//    }    
+    public void find() {
+        paciente.setEtnia(etniaService.buscarPorId(idEtnia));
+        if (gender != null) {
+            paciente.setGender(gender.charAt(0));
+        }
+        pacientes = pacienteService.findByExample(paciente);
+    }
+    
+    public void novo(){
+        defCrudModeUpdate();
+        paciente = new Paciente();
+        idEtnia = 0;
+        gender = "";
+        
+    }
 
     public boolean isDisabledValidation() {
         return disabledValidation;
@@ -361,33 +403,38 @@ public class PacienteMB implements Serializable {
     public void setDisabledValidation(boolean disabledValidation) {
         this.disabledValidation = disabledValidation;
     }
-    
-        public boolean isCrudModeRead(){
+
+    public boolean isCrudModeRead() {
         return crudMode.equals(CrudMode.Read);
     }
-    public void defCrudModeRead(){
+
+    public void defCrudModeRead() {
         disabledValidation = true;
         crudMode = CrudMode.Read;
     }
-    public boolean isCrudModeUpdate(){
+
+    public boolean isCrudModeUpdate() {
         return crudMode.equals(CrudMode.Update);
     }
-    public void defCrudModeUpdate(){
+
+    public void defCrudModeUpdate() {
+        
         crudMode = CrudMode.Update;
+        this.disabledValidation = false;
     }
-    
-    public boolean isCrudModeFind(){
+
+    public boolean isCrudModeFind() {
         return crudMode.equals(CrudMode.Find);
     }
-    public void defCrudModeFind(){
+
+    public void defCrudModeFind() {
         crudMode = CrudMode.Find;
-    }    
-    
-    public void defCreateMode(){
-        this.disabledValidation = false;
-//        this.etnia = new Etnia();     
-        this.defCrudModeUpdate();       
     }
-    
+
+    public void defCreateMode() {
+        //this.disabledValidation = false;
+//        this.etnia = new Etnia();     
+        this.defCrudModeUpdate();
+    }
 
 }
