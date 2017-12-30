@@ -65,14 +65,20 @@ public class PacienteMB implements Serializable {
 
         if (id != null) {
             if (!id.equals("")) {
-                this.defCrudModeUpdate(); 
+                this.defCrudModeUpdate();
                 System.out.println("Pesquisando paciente com o o id " + id);
                 paciente = pacienteService.buscarId(Long.valueOf(id));
                 if (paciente != null) {
                     if (paciente.getEtnia() != null) {
-                        if(paciente.getEtnia().getId() != null){
+                        if (paciente.getEtnia().getId() != null) {
                             idEtnia = paciente.getEtnia().getId();
                         }
+                    }
+                    if(paciente.getFather() != null){
+                        father = paciente.getFather().getNome();
+                    }
+                    if(paciente.getMother() != null){
+                        mother = paciente.getMother().getNome();
                     }
                     vcfs = vcfService.buscarPacienteId(paciente.getId());
                 }
@@ -107,7 +113,7 @@ public class PacienteMB implements Serializable {
         }
         if (mother != null) {
             if (!mother.isEmpty()) {
-                List<Paciente> list = pacienteService.findMenByName(mother);
+                List<Paciente> list = pacienteService.findWomansByName(mother);
                 if (list.size() == 1) {
                     paciente.setMother(list.get(0));
                 }
@@ -117,20 +123,16 @@ public class PacienteMB implements Serializable {
         if (gender != null) {
             paciente.setGender(gender.charAt(0));
         }
-        //pacienteService.adicionar(paciente);
-//        boolean insert = false;
         String msg = "";
-        if(paciente.getId() == null){
+        if (paciente.getId() == null) {
 //            insert = true;
             pacienteService.adicionar(paciente);
             this.viewAddVcf(paciente.getId());
             msg = "Patient successfully registered";
-        }else{
+        } else {
             pacienteService.atualizar(paciente);
             msg = "Patient successfully updated";
         }
-//        if(insert)
-//            this.viewAddVcf(paciente.getId());
         this.limpar();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
@@ -154,7 +156,9 @@ public class PacienteMB implements Serializable {
         paciente = new Paciente();
         gender = "";
         idEtnia = 0L;
-
+        father = "";
+        mother = "";
+                
         pacientes = pacienteService.buscar();
 //        if (id != null) {
 //            if (!id.equals("")) {
@@ -333,11 +337,17 @@ public class PacienteMB implements Serializable {
     }
 
     public List<String> fatherComplete(String query) {
-//        return pacienteService.findFatherByName(query).forEach(p -> results.add(p.getNome()));                                
-        return pacienteService.findMenByName(query + "%")
-                .stream()
-                .map(p -> p.getNome())
-                .collect(Collectors.toList());
+//        return pacienteService.findFatherByName(query).forEach(p -> results.add(p.getNome()));     
+        try {
+            List<String> pais = pacienteService.findMenByName(query + "%")
+                    .stream()
+                    .map(p -> p.getNome())
+                    .collect(Collectors.toList());
+            return pais;
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
+        }
+        return new ArrayList<>();
     }
 
     public List<String> motherComplete(String query) {
@@ -387,13 +397,15 @@ public class PacienteMB implements Serializable {
         }
         pacientes = pacienteService.findByExample(paciente);
     }
-    
-    public void novo(){
+
+    public void novo() {
         defCrudModeUpdate();
         paciente = new Paciente();
         idEtnia = 0;
         gender = "";
-        
+        father = "";
+        mother = "";
+
     }
 
     public boolean isDisabledValidation() {
@@ -418,7 +430,7 @@ public class PacienteMB implements Serializable {
     }
 
     public void defCrudModeUpdate() {
-        
+
         crudMode = CrudMode.Update;
         this.disabledValidation = false;
     }
@@ -432,8 +444,6 @@ public class PacienteMB implements Serializable {
     }
 
     public void defCreateMode() {
-        //this.disabledValidation = false;
-//        this.etnia = new Etnia();     
         this.defCrudModeUpdate();
     }
 

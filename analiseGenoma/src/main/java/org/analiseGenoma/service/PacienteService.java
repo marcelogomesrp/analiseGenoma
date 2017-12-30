@@ -103,7 +103,8 @@ public class PacienteService implements Serializable {
         Paciente p = new Paciente();
         p.setNome(query);
         p.setGender('m');
-        return pacienteDao.findByExample(p);
+        List<Paciente> pais = pacienteDao.findByExample(p);
+        return pais;
     }
     
     public List<Paciente> findWomansByName(String query) {

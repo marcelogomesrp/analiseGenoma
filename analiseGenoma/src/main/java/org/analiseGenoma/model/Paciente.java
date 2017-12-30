@@ -71,9 +71,9 @@ public class Paciente implements Serializable{
     }
 
     public Etnia getEtnia() {
-        if(etnia == null){
-            etnia = new Etnia();
-        }
+//        if(etnia == null){
+//            etnia = new Etnia();
+//        }
         return etnia;
     }
 
