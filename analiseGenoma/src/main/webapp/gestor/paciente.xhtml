@@ -46,12 +46,8 @@
                             <p:autoComplete id="mother" value="#{pacienteMB.mother}" completeMethod="#{pacienteMB.motherComplete}"  validator="#{pacienteMB.validateMother}"/>
                             <p:outputLabel value="Note" for="observacao"/>
                             <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
-                            <p:outputLabel value="read:" />
-                            <h:outputText value="#{pacienteMB.crudModeRead}" />
-                            <p:outputLabel value="update:" />
-                            <h:outputText value="#{pacienteMB.crudModeUpdate}" />
                         </p:panelGrid>
-                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                        <p:panelGrid columns="3" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="New" update="formulario" actionListener="#{pacienteMB.novo()}" rendered="#{pacienteMB.crudModeRead}" />
                             <p:commandButton value="Save" actionListener="#{pacienteMB.adicionar}" update="formulario" rendered="#{pacienteMB.crudModeUpdate}">
                                 <p:ajax event="dialogReturn" listener="#{pacienteMB.onViewAddVcf}" update="formulario" /> 

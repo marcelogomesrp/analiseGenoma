@@ -12,7 +12,7 @@
         <ui:composition template="./template.xhtml">
 
             <ui:define name="content">
-                <h:form enctype="multipart/form-data">
+                <h:form enctype="multipart/form-data" id="formulario">
                     <p:growl id="messages" showDetail="true"/>
                     <!-- <p:messages /> -->
                     <p:panel header="Create new account">
@@ -37,7 +37,7 @@
                             
                         </p:panelGrid>
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Add" action="#{cadastrarMB.salvar}" ajax="false"/>
+                            <p:commandButton value="Add" action="#{cadastrarMB.salvar}" ajax="false" id="add"/>
                             <p:commandButton value="Clear" action="#{cadastrarMB.limpar}"/>
                         </p:panelGrid>
                     </p:panel>
