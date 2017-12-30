@@ -108,6 +108,8 @@ public class PacienteMB implements Serializable {
                 List<Paciente> list = pacienteService.findMenByName(father);
                 if (list.size() == 1) {
                     paciente.setFather(list.get(0));
+                }else{
+                    //da erro pois o nome do pai informado nao e valido
                 }
             }
         }
@@ -116,6 +118,7 @@ public class PacienteMB implements Serializable {
                 List<Paciente> list = pacienteService.findWomansByName(mother);
                 if (list.size() == 1) {
                     paciente.setMother(list.get(0));
+                    
                 }
             }
         }
@@ -337,7 +340,6 @@ public class PacienteMB implements Serializable {
     }
 
     public List<String> fatherComplete(String query) {
-//        return pacienteService.findFatherByName(query).forEach(p -> results.add(p.getNome()));     
         try {
             List<String> pais = pacienteService.findMenByName(query + "%")
                     .stream()
@@ -375,21 +377,7 @@ public class PacienteMB implements Serializable {
         message.setSeverity(FacesMessage.SEVERITY_ERROR);
         throw new ValidatorException(message);
     }
-
-//    public void validateName(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-//        String nome = (String) o;
-//        List<Paciente> list = pacienteService.buscarNome(nome);
-//        if(list == null){
-//            return;
-//        }
-//        if(list.isEmpty()){
-//            return;
-//        }
-//                FacesMessage message
-//                = new FacesMessage("Second erro !!! :D");
-//        message.setSeverity(FacesMessage.SEVERITY_ERROR);
-//        throw new ValidatorException(message);
-//    }    
+  
     public void find() {
         paciente.setEtnia(etniaService.buscarPorId(idEtnia));
         if (gender != null) {
@@ -405,8 +393,56 @@ public class PacienteMB implements Serializable {
         gender = "";
         father = "";
         mother = "";
-
     }
+    
+    
+    public void validateFather(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        if(disabledValidation)
+            return;
+        String nome = (String) o;
+        if( (nome == null) || ("".equals(nome)) ){
+            return;            
+        }
+        List<Paciente> list = pacienteService.findMenByName(nome);
+        if(list.size() == 1){
+            return;
+        }
+        FacesMessage message
+                = new FacesMessage("Father not found");
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+        throw new ValidatorException(message);
+    }    
+
+    public void validateMother(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        if(disabledValidation)
+            return;
+        String nome = (String) o;
+        if( (nome == null) || ("".equals(nome)) ){
+            return;            
+        }
+        List<Paciente> list = pacienteService.findWomansByName(nome);
+        if(list.size() == 1){
+            return;
+        }
+        FacesMessage message
+                = new FacesMessage("Mother not found");
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+        throw new ValidatorException(message);
+    }  
+    
+    public void validateName(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        if(disabledValidation)
+            return;
+        String nome = (String) o;
+        List<Paciente> list = pacienteService.buscarNome(nome);
+        if(list.isEmpty()){
+            return;
+        }
+        FacesMessage message
+                = new FacesMessage("Name already exists");
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+        throw new ValidatorException(message);
+    } 
 
     public boolean isDisabledValidation() {
         return disabledValidation;

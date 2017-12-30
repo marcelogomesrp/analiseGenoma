@@ -17,8 +17,9 @@
                         <h:inputHidden id="id" value="#{pacienteMB.paciente.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:outputLabel value="Name*" for="nome"/>
-                            <p:inputText id="nome" value="#{pacienteMB.paciente.nome}" >
+                            <p:inputText id="nome" value="#{pacienteMB.paciente.nome}" validator="#{pacienteMB.validateName}">
                                 <f:validateBean disabled="#{pacienteMB.disabledValidation}"/> 
+                                <!-- <f:ajax event="blur" execute="@this" render="formulario" />  -->
                             </p:inputText>
                             <p:outputLabel value="Birthday" for="dtNascimento"/>
                             <p:calendar id="dtNascimento" value="#{pacienteMB.paciente.dataNascimento}"/>
@@ -38,9 +39,11 @@
                                 <f:selectItem itemLabel="Male" itemValue="m" />
                             </p:selectOneMenu>
                             <p:outputLabel value="Father" for="father" />
-                            <p:autoComplete id="father" value="#{pacienteMB.father}" completeMethod="#{pacienteMB.fatherComplete}"  />
+                            <p:autoComplete id="father" value="#{pacienteMB.father}" completeMethod="#{pacienteMB.fatherComplete}"   validator="#{pacienteMB.validateFather}"  >
+                                <f:validateBean disabled="#{pacienteMB.disabledValidation}"/>                                   
+                            </p:autoComplete>
                             <p:outputLabel value="Mother" for="mother" />
-                            <p:autoComplete id="mother" value="#{pacienteMB.mother}" completeMethod="#{pacienteMB.motherComplete}"  />
+                            <p:autoComplete id="mother" value="#{pacienteMB.mother}" completeMethod="#{pacienteMB.motherComplete}"  validator="#{pacienteMB.validateMother}"/>
                             <p:outputLabel value="Note" for="observacao"/>
                             <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
                             <p:outputLabel value="read:" />

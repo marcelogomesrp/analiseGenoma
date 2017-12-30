@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import org.analiseGenoma.model.validator.PatientUniqueName;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
