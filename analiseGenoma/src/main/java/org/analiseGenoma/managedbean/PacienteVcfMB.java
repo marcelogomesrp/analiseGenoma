@@ -88,7 +88,11 @@ public class PacienteVcfMB implements Serializable {
             System.out.println("Marcelo: " + "Opa nao veio nada no upload");
         }        
         RequestContext.getCurrentInstance().closeDialog(msg);  
-
+    }
+    
+    public void cancelar(){
+        String msg = "";
+        RequestContext.getCurrentInstance().closeDialog(msg); 
     }
 
     public UploadedFile getUploadedFile() {
@@ -104,8 +108,8 @@ public class PacienteVcfMB implements Serializable {
         vcf = new Vcf();
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
-        options.put("width", 800);
-        options.put("height", 600);
+        options.put("width", 400);
+        options.put("height", 300);
         options.put("contentWidth", "100%");
         options.put("contentHeight", "100%");
         options.put("headerElement", "customheader");

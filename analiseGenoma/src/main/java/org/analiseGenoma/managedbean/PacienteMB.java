@@ -258,12 +258,13 @@ public class PacienteMB implements Serializable {
     }
 
     public void viewAddVcf(Long id) {
+        System.out.println("----> Abrindo o view");
         paciente = pacienteService.buscarId(id);
         vcf = new Vcf();
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
-        options.put("width", 800);
-        options.put("height", 600);
+        options.put("width", 400);
+        options.put("height", 300);
         options.put("contentWidth", "100%");
         options.put("contentHeight", "100%");
         options.put("headerElement", "customheader");
@@ -437,6 +438,11 @@ public class PacienteMB implements Serializable {
         List<Paciente> list = pacienteService.buscarNome(nome);
         if(list.isEmpty()){
             return;
+        }
+        if(list.size() == 1){
+            if(paciente.getId() == list.get(0).getId()){
+                return;
+            }
         }
         FacesMessage message
                 = new FacesMessage("Name already exists");
