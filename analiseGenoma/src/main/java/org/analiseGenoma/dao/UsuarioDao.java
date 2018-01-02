@@ -32,5 +32,7 @@ public class UsuarioDao extends DAO<Usuario> {
         }
     }
 
+    
+
 
 }

@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -79,6 +81,15 @@ public class UsuarioService implements Serializable {
         List<Usuario> users = usuarioDao.findRevisorByName(name);
         if(users.size() == 1)
             return users.get(0);
+        return null;
+    }
+
+    public List<Usuario> findByExample(Usuario u) {
+        try {
+            return usuarioDao.findByExample(u);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 

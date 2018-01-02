@@ -10,16 +10,18 @@ import org.junit.Test;
 
 public class UsuarioDaoTest implements Serializable{
     
-    private EntityManagerFactory emf;
+   // private EntityManagerFactory emf;
     
     @Before
     public void init(){
-        //emf = Persistence.createEntityManagerFactory("AnaliseGenomaPU");        
+      //  emf = JPAUtil.getEntityManagerFactory();
+        //emf = Persistence.createEntityManagerFactory("TestePU");        
     }
     
     @After
     public void destroy(){
-        //emf.close();        
+       // emf.close();    
+        
     }
     
     

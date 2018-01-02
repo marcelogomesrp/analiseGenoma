@@ -1,12 +1,18 @@
 package org.analiseGenoma.dao;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -48,27 +54,63 @@ public class DAO<T> implements Serializable {
         return manager.find(classe, id);
     }
     
-    protected List<T> findByExample(T obj,List<Predicate> condicoes  ) {
+    public List<T> findByExample(T obj) throws Exception {
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(classe);
-        Root<T> root = criteriaQuery.from(classe);        
-        /*
-        if(!(null == p.getId())){
-            Path<Long> atributoId = root.get("id");
-            Predicate whereId = criteriaBuilder.equal(atributoId, p.getId());
-            condicoes.add(whereId);
-        }        
-        if(!(null == p.getNome() || "".equals(p.getNome()))){
-            Path<String> atributoSigla = root.get("nome");
-            Predicate where = criteriaBuilder.like(atributoSigla, p.getNome());
-            condicoes.add(where);
+        Root<T> root = criteriaQuery.from(classe);     
+        List<Predicate> condicoes = new ArrayList<Predicate>();
+        
+        for (Field atributo : classe.getDeclaredFields()) {
+            if(atributo.getType().equals(Long.class)){
+                atributo.setAccessible(true);
+                Long value = (Long) atributo.get(obj);
+                if(!(null == value )){
+                    Path<Long> atribf = root.get(atributo.getName());
+                    Predicate where = criteriaBuilder.equal(atribf, value);
+                    condicoes.add(where);
+                }
+            }
+            if(atributo.getType().equals(String.class)){
+                atributo.setAccessible(true);
+                String value = (String) atributo.get(obj);
+                if(! (null == value )  || "".equals(value) ){
+                    Path<String> atribf = root.get(atributo.getName());
+                    Predicate where = criteriaBuilder.like(atribf, value);
+                    condicoes.add(where);
+                }
+            }
+            
+            if(atributo.getType().equals(Date.class)){
+                atributo.setAccessible(true);
+                Date value = (Date) atributo.get(obj);
+                if(!(null == value )){
+                    Path<String> atribf = root.get(atributo.getName());
+                    Predicate where = criteriaBuilder.equal(atribf, value);
+                    condicoes.add(where);
+                }
+            }
+
+            if(atributo.getType().equals(Integer.class)){
+                atributo.setAccessible(true);
+                Integer value = (Integer) atributo.get(obj);
+                if(!(null == value )){
+                    Path<Integer> atribf = root.get(atributo.getName());
+                    Predicate where = criteriaBuilder.equal(atribf, value);
+                    condicoes.add(where);
+                }
+            }
+            
+            if(atributo.getType().equals(Boolean.class)){
+                atributo.setAccessible(true);
+                Boolean value = (Boolean) atributo.get(obj);
+                if(!(null == value )){
+                    Path<Boolean> atribf = root.get(atributo.getName());
+                    Predicate where = criteriaBuilder.equal(atribf, value);
+                    condicoes.add(where);
+                }
+            }
         }
-        if(!(null == p.getGender() || "".equals(p.getGender()))){
-            Path<String> atributoSigla = root.get("gender");
-            Predicate where = criteriaBuilder.equal(atributoSigla, p.getGender());
-            condicoes.add(where);
-        }
-        */
+        
         Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
         Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
         criteriaQuery.where(todasCondicoes);
