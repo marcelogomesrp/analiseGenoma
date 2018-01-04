@@ -51,6 +51,7 @@ public class AnaliseMB implements Serializable {
     private Long idCorrelato;
     private String controle;
     private Long idControle;
+    
             
 
     @PostConstruct
@@ -275,8 +276,37 @@ public class AnaliseMB implements Serializable {
         }
         return vcfs;
     }
+    
+    public List<SelectItem> getSelectVcfsFather(){        
+        List<SelectItem> vcfs = new ArrayList<SelectItem>();
+        if(idPaciente != null){
+            Paciente p = pacienteService.buscarId(idPaciente);
+            if(p.getFather() != null){
+                if(p.getFather().getId() != null){
+                    for (Vcf v : vcfService.buscarPacienteId(p.getFather().getId())) {
+                        vcfs.add(new SelectItem(v.getId(), v.getNome()));
+                    }
+                }
+            }
+        }
+        return vcfs;
+    }
 
-
+    public List<SelectItem> getSelectVcfsMother(){        
+        List<SelectItem> vcfs = new ArrayList<SelectItem>();
+        if(idPaciente != null){
+            Paciente p = pacienteService.buscarId(idPaciente);
+            if(p.getMother()!= null){
+                if(p.getMother().getId() != null){
+                    for (Vcf v : vcfService.buscarPacienteId(p.getMother().getId())) {
+                        vcfs.add(new SelectItem(v.getId(), v.getNome()));
+                    }
+                }
+            }
+        }
+        return vcfs;
+    }
+    
     public List<SelectItem> getSelectControleVcfs() {
         List<SelectItem> vcfs = new ArrayList<SelectItem>();
         if(idControle != null){

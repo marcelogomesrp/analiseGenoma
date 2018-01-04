@@ -30,7 +30,7 @@
 
                             <p:outputLabel value="Paciente" for="paciente"/>
                             <p:autoComplete id="paciente" value="#{analiseMB.paciente}" completeMethod="#{analiseMB.pacienteComplete}"  >
-                                <p:ajax event="itemSelect" listener="#{analiseMB.onPacienteSelect}" update="vcf" />
+                                <p:ajax event="itemSelect" listener="#{analiseMB.onPacienteSelect}" update="vcf fathervcf lblFathervcf mothervcf lblMothervcf" />
                             </p:autoComplete>
 
 
@@ -40,17 +40,26 @@
                                 <f:selectItems value="#{analiseMB.selectVcfs}" />
                             </p:selectOneMenu>
 
-                                                      
 
-                            <p:outputLabel for="fathervcf" value="Vcf father" rendered="#{analiseMB.pacienteHasFather()}"/>
-                            <p:selectOneMenu id="fathervcf" rendered="#{analiseMB.pacienteHasFather()}">
-                                <f:selectItem itemLabel="selecione um" itemValue="" />                               
-                            </p:selectOneMenu>
+                            <h:panelGroup id="lblFathervcf" >
+                                <p:outputLabel for="fathervcf2" value="Vcf father" rendered="#{analiseMB.pacienteHasFather()}" />
+                            </h:panelGroup>
+                            <h:panelGroup  id="fathervcf" >
+                                <p:selectOneMenu id="fathervcf2" rendered="#{analiseMB.pacienteHasFather()}" >
+                                    <f:selectItem itemLabel="selecione um" itemValue="" />  
+                                    <f:selectItems value="#{analiseMB.selectVcfsFather}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
 
-                            <p:outputLabel for="mothervcf" value="Vcf mother" rendered="#{analiseMB.pacienteHasMother()}" />
-                            <p:selectOneMenu id="mothervcf" rendered="#{analiseMB.pacienteHasMother()}">
-                                <f:selectItem itemLabel="selecione um" itemValue="" />                               
+                            <h:panelGroup id="lblMothervcf" >
+                            <p:outputLabel for="mothervcf2" value="Vcf mother" rendered="#{analiseMB.pacienteHasMother()}" />
+                            </h:panelGroup>
+                            <h:panelGroup id="mothervcf" >
+                            <p:selectOneMenu id="mothervcf2" rendered="#{analiseMB.pacienteHasMother()}">
+                                <f:selectItem itemLabel="selecione um" itemValue="" />          
+                                <f:selectItems value="#{analiseMB.selectVcfsMother}" />
                             </p:selectOneMenu>                            
+                            </h:panelGroup>
 
                             <p:outputLabel value="Correlato" for="correlato"/>
                             <p:autoComplete id="correlato" value="#{analiseMB.correlato}" completeMethod="#{analiseMB.controleComplete}"  >
