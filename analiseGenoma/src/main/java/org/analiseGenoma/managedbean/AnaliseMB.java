@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 //import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,13 +36,20 @@ import org.analiseGenoma.service.FiltroService;
 @ViewScoped
 public class AnaliseMB implements Serializable {
 
-    @Inject private FacesContext context;
-    @Inject private AnaliseService analiseService;
-    @Inject private PatologiaService patologiaService;
-    @Inject private PacienteService pacienteService;
-    @Inject private VcfService vcfService;
-    @Inject private AnaliseSelecionarVarianteMB selecionarMB;
-    @Inject private FiltroService filtroService;
+    @Inject
+    private FacesContext context;
+    @Inject
+    private AnaliseService analiseService;
+    @Inject
+    private PatologiaService patologiaService;
+    @Inject
+    private PacienteService pacienteService;
+    @Inject
+    private VcfService vcfService;
+    @Inject
+    private AnaliseSelecionarVarianteMB selecionarMB;
+    @Inject
+    private FiltroService filtroService;
     private Analise analise;
     private String cid;
     private String patologia;
@@ -51,8 +60,8 @@ public class AnaliseMB implements Serializable {
     private Long idCorrelato;
     private String controle;
     private Long idControle;
-    
-            
+    private Long idVcfFather;
+    private Long idVcfMother;
 
     @PostConstruct
     public void init() {
@@ -63,15 +72,14 @@ public class AnaliseMB implements Serializable {
     public Analise getAnalise() {
         return analise;
     }
-    
-            
+
     public String getCid() {
         return cid;
     }
 
     public void setCid(String cid) {
         this.cid = cid;
-        
+
     }
 
     public String getPatologia() {
@@ -93,7 +101,7 @@ public class AnaliseMB implements Serializable {
     public void setIdVcf(String idVcf) {
         this.idVcf = idVcf;
     }
-    
+
     public void setPaciente(String paciente) {
         this.paciente = paciente;
     }
@@ -137,42 +145,66 @@ public class AnaliseMB implements Serializable {
     public void setIdCorrelato(Long idCorrelato) {
         this.idCorrelato = idCorrelato;
     }
-    
-    
-    
 
+    public Long getIdVcfFather() {
+        return idVcfFather;
+    }
+
+    public void setIdVcfFather(Long idVcfFather) {
+        this.idVcfFather = idVcfFather;
+    }
+
+    public Long getIdVcfMother() {
+        return idVcfMother;
+    }
+
+    public void setIdVcfMother(Long idVcfMother) {
+        this.idVcfMother = idVcfMother;
+    }
 
     public void setAnalise(Analise analise) {
-        if(analise == null)
+        if (analise == null) {
             analise = new Analise();
+        }
         this.analise = analise;
     }
 
     public String adicionar() {
         analise.setEstado("criando");
-        if(idPaciente != null)
+        if (idPaciente != null) {
             analise.setPaciente(pacienteService.buscarId(idPaciente));
-        if(idControle != null)
+        }
+        if (idControle != null) {
             analise.setControle(pacienteService.buscarId(idControle));
-        if(idVcf != null)
+        }
+        if (idVcf != null) {
             analise.setVcf(vcfService.buscarId(Long.valueOf(idVcf)));
+        }
+
+        if (idVcfFather != null) {
+            analise.setVcfFather(vcfService.buscarId(idVcfFather));
+        }
+        if (idVcfMother != null) {
+            analise.setVcfMother(vcfService.buscarId(idVcfMother));
+        }
+
         //if(idControle != null)
-            //analise.setVcfControle(vcfService.buscarId(Long.valueOf(idControle)));
-        if(analise.getVcfsCorrelatos() != null){
-            for(Vcf vcf: analise.getVcfsCorrelatos()){
+        //analise.setVcfControle(vcfService.buscarId(Long.valueOf(idControle)));
+        if (analise.getVcfsCorrelatos() != null) {
+            for (Vcf vcf : analise.getVcfsCorrelatos()) {
                 vcfService.atualizar(vcf);
             }
-        }            
+        }
+
         analiseService.adicionar(analise);
-        
+
         Filtro filtro = filtroService.makeFiltro(analise);
         filtroService.adicionar(filtro);
-        
+
         context.getExternalContext()
-               .getFlash().setKeepMessages(true);
+                .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
 
-        
         FacesUtil.setSessionMapValue("id", analise.getId());
         analise.setEstado("criado");
         analiseService.atualizar(analise);
@@ -180,64 +212,62 @@ public class AnaliseMB implements Serializable {
         //return "analise_nova.xhtml?faces-redirect=true";
         return "analise_selecionar_variantes.xhtml?faces-redirect=true";
         //return selecionarMB.ShowPage(analise);
-        
+
     }
-    
+
     public List<String> cidComplete(String query) {
         System.out.println("Cid auto complet");
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarCid(query + "%").forEach(p -> results.add(p.getCid()));                
+        patologiaService.buscarCid(query + "%").forEach(p -> results.add(p.getCid()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
 
-    
     public List<String> patologiaComplete(String query) {
         System.out.println("Patologia auto complet");
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));                
+        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
-    
+
     public List<String> pacienteComplete(String query) {
         System.out.println("Patciente auto complet");
         List<String> results = new ArrayList<String>();
-        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));                
+        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
-    
+
     public List<String> controleComplete(String query) {
         System.out.println("Controle auto complet");
         List<String> results = new ArrayList<String>();
-        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));                
+        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
-    
-       
+
     public void onCidSelect(SelectEvent event) {
         List<Patologia> patologias = patologiaService.buscarCid(cid);
-        if(patologias != null){
-            if(patologias.size() > 0 ){
+        if (patologias != null) {
+            if (patologias.size() > 0) {
                 analise.setPatologia(patologias.get(0));
                 patologia = patologias.get(0).getNome();
             }
         }
     }
-        
+
     public void onPatologiaSelect(SelectEvent event) {
         List<Patologia> patologias = patologiaService.buscarNome(patologia);
-        if(patologias!= null){
-        if(patologias.size() > 0 ){
-            analise.setPatologia(patologias.get(0));
-            cid = patologias.get(0).getCid();
-            System.out.println("Definodo a patologia " + cid);
-        }
+        if (patologias != null) {
+            if (patologias.size() > 0) {
+                analise.setPatologia(patologias.get(0));
+                cid = patologias.get(0).getCid();
+                System.out.println("Definodo a patologia " + cid);
+            }
         }
     }
-    
+
     public void onPacienteSelect(SelectEvent event) {
         List<Paciente> pacientes = pacienteService.buscarNome(paciente);
         if (pacientes != null) {
@@ -246,17 +276,16 @@ public class AnaliseMB implements Serializable {
             }
         }
     }
-    
+
     public void onCorrelatoSelect(SelectEvent event) {
         List<Paciente> pacientes = pacienteService.buscarNome(paciente);
-        if(pacientes != null){
-            if(pacientes.size() > 0){
+        if (pacientes != null) {
+            if (pacientes.size() > 0) {
                 idCorrelato = pacientes.get(0).getId();
             }
         }
     }
-    
-    
+
     public void onControleSelect(SelectEvent event) {
         List<Paciente> pacientes = pacienteService.buscarNome(correlato);
         if (pacientes != null) {
@@ -265,24 +294,23 @@ public class AnaliseMB implements Serializable {
             }
         }
     }
-    
-    
+
     public List<SelectItem> getSelectVcfs() {
         List<SelectItem> vcfs = new ArrayList<SelectItem>();
-        if(idPaciente != null){
+        if (idPaciente != null) {
             for (Vcf v : vcfService.buscarPacienteId(idPaciente)) {
                 vcfs.add(new SelectItem(v.getId(), v.getNome()));
             }
         }
         return vcfs;
     }
-    
-    public List<SelectItem> getSelectVcfsFather(){        
+
+    public List<SelectItem> getSelectVcfsFather() {
         List<SelectItem> vcfs = new ArrayList<SelectItem>();
-        if(idPaciente != null){
+        if (idPaciente != null) {
             Paciente p = pacienteService.buscarId(idPaciente);
-            if(p.getFather() != null){
-                if(p.getFather().getId() != null){
+            if (p.getFather() != null) {
+                if (p.getFather().getId() != null) {
                     for (Vcf v : vcfService.buscarPacienteId(p.getFather().getId())) {
                         vcfs.add(new SelectItem(v.getId(), v.getNome()));
                     }
@@ -292,12 +320,12 @@ public class AnaliseMB implements Serializable {
         return vcfs;
     }
 
-    public List<SelectItem> getSelectVcfsMother(){        
+    public List<SelectItem> getSelectVcfsMother() {
         List<SelectItem> vcfs = new ArrayList<SelectItem>();
-        if(idPaciente != null){
+        if (idPaciente != null) {
             Paciente p = pacienteService.buscarId(idPaciente);
-            if(p.getMother()!= null){
-                if(p.getMother().getId() != null){
+            if (p.getMother() != null) {
+                if (p.getMother().getId() != null) {
                     for (Vcf v : vcfService.buscarPacienteId(p.getMother().getId())) {
                         vcfs.add(new SelectItem(v.getId(), v.getNome()));
                     }
@@ -306,10 +334,10 @@ public class AnaliseMB implements Serializable {
         }
         return vcfs;
     }
-    
+
     public List<SelectItem> getSelectControleVcfs() {
         List<SelectItem> vcfs = new ArrayList<SelectItem>();
-        if(idControle != null){
+        if (idControle != null) {
             for (Vcf v : vcfService.buscarPacienteId(idControle)) {
                 vcfs.add(new SelectItem(v.getId(), v.getNome()));
             }
@@ -317,33 +345,34 @@ public class AnaliseMB implements Serializable {
         return vcfs;
     }
 
-    public void addCorrelato(){
-        System.out.println("Correlato: " + idCorrelato);     
+    public void addCorrelato() {
+        System.out.println("Correlato: " + idCorrelato);
         Vcf vcfCorrelato = vcfService.buscarId(idCorrelato);
-        if(vcfCorrelato!= null)
+        if (vcfCorrelato != null) {
             analise.getVcfsCorrelatos().add(vcfCorrelato);
-    }
-    
-    public boolean pacienteHasFather(){
-        if(idPaciente != null){
-            Paciente p = pacienteService.buscarId(idPaciente);
-            if(p.getFather() != null){
-                return true;
-            }
         }
-        return false;    
     }
 
-    public boolean pacienteHasMother(){
-        if(idPaciente != null){
+    public boolean pacienteHasFather() {
+        if (idPaciente != null) {
             Paciente p = pacienteService.buscarId(idPaciente);
-            if(p.getMother()!= null){
+            if (p.getFather() != null) {
                 return true;
             }
         }
-        return false;    
-    }    
-    
+        return false;
+    }
+
+    public boolean pacienteHasMother() {
+        if (idPaciente != null) {
+            Paciente p = pacienteService.buscarId(idPaciente);
+            if (p.getMother() != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*
     
     public void onPacienteSelect(SelectEvent event) {
@@ -362,6 +391,27 @@ public class AnaliseMB implements Serializable {
         return results;
     }
     
-    */
+     */
+    public void validateVcf(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        String vIdVCF = (String) o;
+        if ((vIdVCF == null) || (vIdVCF.isEmpty())) {
+            FacesMessage message
+                    = new FacesMessage("vcf is required");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            //context.addMessage("correlato",message);
+            throw new ValidatorException(message);
+        }
+    }
     
+    public void validateNome(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        String name = (String) o;
+        if ((name == null) || (name.isEmpty())) {
+            FacesMessage message
+                    = new FacesMessage("name is required");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            //context.addMessage("correlato",message);
+            throw new ValidatorException(message);
+        }
+    }
+
 }

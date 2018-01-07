@@ -46,6 +46,10 @@ public class Analise  implements Serializable{
     private List<Vcf> vcfsCorrelatos;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Usuario> revisores; 
+    @ManyToOne
+    private Vcf vcfFather;
+    @ManyToOne
+    private Vcf vcfMother;
 
     public Long getId() {
         return id;
@@ -129,6 +133,24 @@ public class Analise  implements Serializable{
     public void setRevisores(Set<Usuario> revisores) {
         this.revisores = revisores;
     }
+
+    public Vcf getVcfFather() {
+        return vcfFather;
+    }
+
+    public void setVcfFather(Vcf vcfFather) {
+        this.vcfFather = vcfFather;
+    }
+
+    public Vcf getVcfMother() {
+        return vcfMother;
+    }
+
+    public void setVcfMother(Vcf vcfMother) {
+        this.vcfMother = vcfMother;
+    }
+
+
     
     
     @Override

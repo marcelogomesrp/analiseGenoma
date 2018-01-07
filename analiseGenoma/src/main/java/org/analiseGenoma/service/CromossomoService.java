@@ -36,4 +36,10 @@ public class CromossomoService implements Serializable{
     public Cromossomo buscarOuCriar(String nome){
         return cromossomoDao.buscarOuCriar(nome);
     }
+
+    public List<Cromossomo> findByName(String name) throws Exception {
+        Cromossomo c = new Cromossomo();
+        c.setNome(name);
+        return cromossomoDao.findByExample(c);
+    }
 }

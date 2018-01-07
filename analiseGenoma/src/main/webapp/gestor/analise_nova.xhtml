@@ -15,7 +15,7 @@
                     <p:panel header="Nova Análise">
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <p:outputLabel value="Nome" for="nome"/>
-                            <p:inputText id="nome" value="#{analiseMB.analise.nome}"/>
+                            <p:inputText id="nome" value="#{analiseMB.analise.nome}" validator="#{analiseMB.validateNome}"/>
                             <p:outputLabel value="cid" for="cid"/>
                             <p:autoComplete id="cid" value="#{analiseMB.cid}" completeMethod="#{analiseMB.cidComplete}"  >
                                 <p:ajax event="itemSelect" listener="#{analiseMB.onCidSelect}" update="patologia" />
@@ -34,8 +34,8 @@
                             </p:autoComplete>
 
 
-                            <p:outputLabel for="vcf" value="VCF paciente" />
-                            <p:selectOneMenu value="#{analiseMB.idVcf}" id="vcf">
+                            <p:outputLabel for="vcf" value="VCF paciente *"  />
+                            <p:selectOneMenu value="#{analiseMB.idVcf}" id="vcf" validator="#{analiseMB.validateVcf}">
                                 <f:selectItem itemLabel="selecione um" itemValue="" />
                                 <f:selectItems value="#{analiseMB.selectVcfs}" />
                             </p:selectOneMenu>
@@ -45,7 +45,7 @@
                                 <p:outputLabel for="fathervcf2" value="Vcf father" rendered="#{analiseMB.pacienteHasFather()}" />
                             </h:panelGroup>
                             <h:panelGroup  id="fathervcf" >
-                                <p:selectOneMenu id="fathervcf2" rendered="#{analiseMB.pacienteHasFather()}" >
+                                <p:selectOneMenu value="#{analiseMB.idVcfFather}" id="fathervcf2" rendered="#{analiseMB.pacienteHasFather()}" >
                                     <f:selectItem itemLabel="selecione um" itemValue="" />  
                                     <f:selectItems value="#{analiseMB.selectVcfsFather}" />
                                 </p:selectOneMenu>
@@ -55,7 +55,7 @@
                             <p:outputLabel for="mothervcf2" value="Vcf mother" rendered="#{analiseMB.pacienteHasMother()}" />
                             </h:panelGroup>
                             <h:panelGroup id="mothervcf" >
-                            <p:selectOneMenu id="mothervcf2" rendered="#{analiseMB.pacienteHasMother()}">
+                            <p:selectOneMenu  value="#{analiseMB.idVcfMother}" id="mothervcf2" rendered="#{analiseMB.pacienteHasMother()}">
                                 <f:selectItem itemLabel="selecione um" itemValue="" />          
                                 <f:selectItems value="#{analiseMB.selectVcfsMother}" />
                             </p:selectOneMenu>                            
@@ -102,7 +102,7 @@
 
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        
-                            <p:commandButton action="#{analiseMB.adicionar}" value="Adicionar" />
+                            <p:commandButton action="#{analiseMB.adicionar}" value="Adicionar" update="formulario" ajax="true"/>
                         </p:panelGrid>
                     </p:panel>                
                 </h:form>

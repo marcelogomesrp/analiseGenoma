@@ -540,7 +540,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("width", 800);
-        options.put("height", 600);
+        options.put("height", 380);
         options.put("contentWidth", "100%");
         options.put("contentHeight", "100%");
         options.put("headerElement", "customheader");
