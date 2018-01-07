@@ -60,6 +60,90 @@ public class VcfMetadata implements Serializable {
     @MapKeyColumn (name="gene_id")
     @Column(name="qtd")
     private Map<Gene, Integer> mapGene;
+    
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Zygosity> zygosities;
+    @ElementCollection
+    private Set<String> allelicDeph;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Filter> filters;
+    @ElementCollection
+    private Set<String> hgvsCs;
+    @ElementCollection
+    private Set<String> hgvsPs;
+    @ElementCollection
+    private Set<String> idSNPs;
+    @ElementCollection
+    private Set<Integer> exonIntrons;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Type> typies;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Impact> impacts;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<ClinvarSignificance> clinvarSignificances;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<ClinvarDisease> clinvarDiseases;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<ClinvarAccession> clinvarAccessions;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<ClinvarAlleleType> clinvarAlleleTypies;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<ClinvarAlleleOrigin> clinvarAlleleOrigins;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<PolyphenHdiv> polyphenHdivs;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<PolyphenHvar> polyphenHvars;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<MutationTaster> mutationTasters;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Lrt> lrts;
+    @ElementCollection
+    private Set<Double> gerpRsScores;
+    @ElementCollection
+    private Set<Double> gerpNeutralRates;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Feature> features;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Ensembl> ensembls;
+    @ElementCollection
+    private Set<Double> vertebrateGenomesConservationScores;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<InterproDomain> interproDomains;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<VariantStatus> variantStatus;
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<GenoType> genoTypies;
+    @ElementCollection
+    private Set<String> readDepths;    
+    @ElementCollection
+    private Set<Double> alleleMutFraction;
+    @ElementCollection
+    private Set<Double> meanBaseQuality;
+    @ElementCollection
+    private Set<String> varintType;
+    @ElementCollection
+    private Set<Boolean> validate;
+    @ElementCollection
+    private Set<Boolean> donorSpliceSite;
+    @ElementCollection
+    private Set<Boolean> acceptorSpliceSite;
+    @ElementCollection
+    private Set<Boolean> mutation;
+    @ElementCollection
+    private Set<Double> europeanVarintFreq;
+    @ElementCollection
+    private Set<Double> africanVarintFreq;
+    @ElementCollection
+    private Set<Double> asianVarintFreq;
+    @ElementCollection
+    private Set<Double> americanVarintFreq;
+    @ElementCollection
+    private Set<Double> wholeVarintFreq;
+    
+    
+    
+    
+    
 
     public Long getId() {
         return id;
@@ -163,6 +247,318 @@ public class VcfMetadata implements Serializable {
 
     public void setMapGene(Map<Gene, Integer> mapGene) {
         this.mapGene = mapGene;
+    }
+
+    public Set<Zygosity> getZygosities() {
+        return zygosities;
+    }
+
+    public void setZygosities(Set<Zygosity> zygosities) {
+        this.zygosities = zygosities;
+    }
+
+    public Set<String> getAllelicDeph() {
+        return allelicDeph;
+    }
+
+    public void setAllelicDeph(Set<String> allelicDeph) {
+        this.allelicDeph = allelicDeph;
+    }
+
+    public Set<Filter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Set<Filter> filters) {
+        this.filters = filters;
+    }
+
+    public Set<String> getHgvsCs() {
+        return hgvsCs;
+    }
+
+    public void setHgvsCs(Set<String> hgvsCs) {
+        this.hgvsCs = hgvsCs;
+    }
+
+    public Set<String> getHgvsPs() {
+        return hgvsPs;
+    }
+
+    public void setHgvsPs(Set<String> hgvsPs) {
+        this.hgvsPs = hgvsPs;
+    }
+
+    public Set<String> getIdSNPs() {
+        return idSNPs;
+    }
+
+    public void setIdSNPs(Set<String> idSNPs) {
+        this.idSNPs = idSNPs;
+    }
+
+    public Set<Integer> getExonIntrons() {
+        return exonIntrons;
+    }
+
+    public void setExonIntrons(Set<Integer> exonIntrons) {
+        this.exonIntrons = exonIntrons;
+    }
+
+    public Set<Type> getTypies() {
+        return typies;
+    }
+
+    public void setTypies(Set<Type> typies) {
+        this.typies = typies;
+    }
+
+    public Set<Impact> getImpacts() {
+        return impacts;
+    }
+
+    public void setImpacts(Set<Impact> impacts) {
+        this.impacts = impacts;
+    }
+
+    public Set<ClinvarSignificance> getClinvarSignificances() {
+        return clinvarSignificances;
+    }
+
+    public void setClinvarSignificances(Set<ClinvarSignificance> clinvarSignificances) {
+        this.clinvarSignificances = clinvarSignificances;
+    }
+
+    public Set<ClinvarDisease> getClinvarDiseases() {
+        return clinvarDiseases;
+    }
+
+    public void setClinvarDiseases(Set<ClinvarDisease> clinvarDiseases) {
+        this.clinvarDiseases = clinvarDiseases;
+    }
+
+    public Set<ClinvarAccession> getClinvarAccessions() {
+        return clinvarAccessions;
+    }
+
+    public void setClinvarAccessions(Set<ClinvarAccession> clinvarAccessions) {
+        this.clinvarAccessions = clinvarAccessions;
+    }
+
+    public Set<ClinvarAlleleType> getClinvarAlleleTypies() {
+        return clinvarAlleleTypies;
+    }
+
+    public void setClinvarAlleleTypies(Set<ClinvarAlleleType> clinvarAlleleTypies) {
+        this.clinvarAlleleTypies = clinvarAlleleTypies;
+    }
+
+    public Set<ClinvarAlleleOrigin> getClinvarAlleleOrigins() {
+        return clinvarAlleleOrigins;
+    }
+
+    public void setClinvarAlleleOrigins(Set<ClinvarAlleleOrigin> clinvarAlleleOrigins) {
+        this.clinvarAlleleOrigins = clinvarAlleleOrigins;
+    }
+
+    public Set<PolyphenHdiv> getPolyphenHdivs() {
+        return polyphenHdivs;
+    }
+
+    public void setPolyphenHdivs(Set<PolyphenHdiv> polyphenHdivs) {
+        this.polyphenHdivs = polyphenHdivs;
+    }
+
+    public Set<PolyphenHvar> getPolyphenHvars() {
+        return polyphenHvars;
+    }
+
+    public void setPolyphenHvars(Set<PolyphenHvar> polyphenHvars) {
+        this.polyphenHvars = polyphenHvars;
+    }
+
+    public Set<MutationTaster> getMutationTasters() {
+        return mutationTasters;
+    }
+
+    public void setMutationTasters(Set<MutationTaster> mutationTasters) {
+        this.mutationTasters = mutationTasters;
+    }
+
+    public Set<Lrt> getLrts() {
+        return lrts;
+    }
+
+    public void setLrts(Set<Lrt> lrts) {
+        this.lrts = lrts;
+    }
+
+    public Set<Double> getGerpRsScores() {
+        return gerpRsScores;
+    }
+
+    public void setGerpRsScores(Set<Double> gerpRsScores) {
+        this.gerpRsScores = gerpRsScores;
+    }
+
+    public Set<Double> getGerpNeutralRates() {
+        return gerpNeutralRates;
+    }
+
+    public void setGerpNeutralRates(Set<Double> gerpNeutralRates) {
+        this.gerpNeutralRates = gerpNeutralRates;
+    }
+
+    public Set<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Set<Feature> features) {
+        this.features = features;
+    }
+
+    public Set<Ensembl> getEnsembls() {
+        return ensembls;
+    }
+
+    public void setEnsembls(Set<Ensembl> ensembls) {
+        this.ensembls = ensembls;
+    }
+
+    public Set<Double> getVertebrateGenomesConservationScores() {
+        return vertebrateGenomesConservationScores;
+    }
+
+    public void setVertebrateGenomesConservationScores(Set<Double> vertebrateGenomesConservationScores) {
+        this.vertebrateGenomesConservationScores = vertebrateGenomesConservationScores;
+    }
+
+    public Set<InterproDomain> getInterproDomains() {
+        return interproDomains;
+    }
+
+    public void setInterproDomains(Set<InterproDomain> interproDomains) {
+        this.interproDomains = interproDomains;
+    }
+
+    public Set<VariantStatus> getVariantStatus() {
+        return variantStatus;
+    }
+
+    public void setVariantStatus(Set<VariantStatus> variantStatus) {
+        this.variantStatus = variantStatus;
+    }
+
+    public Set<GenoType> getGenoTypies() {
+        return genoTypies;
+    }
+
+    public void setGenoTypies(Set<GenoType> genoTypies) {
+        this.genoTypies = genoTypies;
+    }
+
+    public Set<String> getReadDepths() {
+        return readDepths;
+    }
+
+    public void setReadDepths(Set<String> readDepths) {
+        this.readDepths = readDepths;
+    }
+
+    public Set<Double> getAlleleMutFraction() {
+        return alleleMutFraction;
+    }
+
+    public void setAlleleMutFraction(Set<Double> alleleMutFraction) {
+        this.alleleMutFraction = alleleMutFraction;
+    }
+
+    public Set<Double> getMeanBaseQuality() {
+        return meanBaseQuality;
+    }
+
+    public void setMeanBaseQuality(Set<Double> meanBaseQuality) {
+        this.meanBaseQuality = meanBaseQuality;
+    }
+
+    public Set<String> getVarintType() {
+        return varintType;
+    }
+
+    public void setVarintType(Set<String> varintType) {
+        this.varintType = varintType;
+    }
+
+    public Set<Boolean> getValidate() {
+        return validate;
+    }
+
+    public void setValidate(Set<Boolean> validate) {
+        this.validate = validate;
+    }
+
+    public Set<Boolean> getDonorSpliceSite() {
+        return donorSpliceSite;
+    }
+
+    public void setDonorSpliceSite(Set<Boolean> donorSpliceSite) {
+        this.donorSpliceSite = donorSpliceSite;
+    }
+
+    public Set<Boolean> getAcceptorSpliceSite() {
+        return acceptorSpliceSite;
+    }
+
+    public void setAcceptorSpliceSite(Set<Boolean> acceptorSpliceSite) {
+        this.acceptorSpliceSite = acceptorSpliceSite;
+    }
+
+    public Set<Boolean> getMutation() {
+        return mutation;
+    }
+
+    public void setMutation(Set<Boolean> mutation) {
+        this.mutation = mutation;
+    }
+
+    public Set<Double> getEuropeanVarintFreq() {
+        return europeanVarintFreq;
+    }
+
+    public void setEuropeanVarintFreq(Set<Double> europeanVarintFreq) {
+        this.europeanVarintFreq = europeanVarintFreq;
+    }
+
+    public Set<Double> getAfricanVarintFreq() {
+        return africanVarintFreq;
+    }
+
+    public void setAfricanVarintFreq(Set<Double> africanVarintFreq) {
+        this.africanVarintFreq = africanVarintFreq;
+    }
+
+    public Set<Double> getAsianVarintFreq() {
+        return asianVarintFreq;
+    }
+
+    public void setAsianVarintFreq(Set<Double> asianVarintFreq) {
+        this.asianVarintFreq = asianVarintFreq;
+    }
+
+    public Set<Double> getAmericanVarintFreq() {
+        return americanVarintFreq;
+    }
+
+    public void setAmericanVarintFreq(Set<Double> americanVarintFreq) {
+        this.americanVarintFreq = americanVarintFreq;
+    }
+
+    public Set<Double> getWholeVarintFreq() {
+        return wholeVarintFreq;
+    }
+
+    public void setWholeVarintFreq(Set<Double> wholeVarintFreq) {
+        this.wholeVarintFreq = wholeVarintFreq;
     }
     
     
