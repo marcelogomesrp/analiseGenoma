@@ -1,4 +1,4 @@
-# analiseGenoma
+# AnaliseGenoma
 Sistema para analise de genoma
 
 1  - Install webserver
@@ -55,27 +55,31 @@ vim /java/servers/wildfly/standalone/configuration/standalone-full.xml
             </datasources>
 
 ...
-<http-listener name="default" socket-binding="http" max-post-size="974247881" max-header-size="974247881" redirect-socket="https" enable-http2="true"/>
+    <http-listener name="default" socket-binding="http" max-post-size="974247881" max-header-size="974247881" redirect-socket="https" enable-http2="true"/>
 
 
 
 mkdir -p /java/servers/wildfly/modules/com/mysql/main
+
 cd /java/servers/wildfly/modules/com/mysql/main
+
 wget mysql-connector-java-5.1.38.jar
+
 vim module.xml
-<?xml version='1.0' encoding='UTF-8'?>
 
-<module xmlns="urn:jboss:module:1.1" name="com.mysql">
+    <?xml version='1.0' encoding='UTF-8'?>
 
-    <resources>
-        <resource-root path="mysql-connector-java-5.1.38.jar"/>
-    </resources>
+    <module xmlns="urn:jboss:module:1.1" name="com.mysql">
 
-    <dependencies>
-        <module name="javax.api"/>
-        <module name="javax.transaction.api"/>
-    </dependencies>
-</module>
+        <resources>
+            <resource-root path="mysql-connector-java-5.1.38.jar"/>
+        </resources>
+
+        <dependencies>
+            <module name="javax.api"/>
+            <module name="javax.transaction.api"/>
+        </dependencies>
+    </module>
 
 
 
