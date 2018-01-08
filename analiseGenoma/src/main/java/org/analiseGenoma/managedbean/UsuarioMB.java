@@ -3,6 +3,7 @@ package org.analiseGenoma.managedbean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -12,7 +13,8 @@ import javax.inject.Named;
 import org.analiseGenoma.model.Usuario;
 
 @Named(value = "usuarioMB")
-@RequestScoped
+//@RequestScoped
+@SessionScoped
 public class UsuarioMB implements Serializable {
 
     private Usuario usuario;

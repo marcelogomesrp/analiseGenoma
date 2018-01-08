@@ -21,9 +21,9 @@ public class Usuario implements Serializable{
     private String email;
     private String senha;
     private String telefone;
-    private boolean gestor;
-    private boolean revisor;
-    private boolean administrador;
+    private Boolean gestor;
+    private Boolean revisor;
+    private Boolean administrador;
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] image;

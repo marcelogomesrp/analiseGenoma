@@ -70,7 +70,7 @@ public class DAO<T> implements Serializable {
                     condicoes.add(where);
                 }
             }
-            if(atributo.getType().equals(String.class)){
+            else if(atributo.getType().equals(String.class)){
                 atributo.setAccessible(true);
                 String value = (String) atributo.get(obj);
                 if(! (null == value )  || "".equals(value) ){
@@ -80,7 +80,7 @@ public class DAO<T> implements Serializable {
                 }
             }
             
-            if(atributo.getType().equals(Date.class)){
+            else if(atributo.getType().equals(Date.class)){
                 atributo.setAccessible(true);
                 Date value = (Date) atributo.get(obj);
                 if(!(null == value )){
@@ -90,7 +90,7 @@ public class DAO<T> implements Serializable {
                 }
             }
 
-            if(atributo.getType().equals(Integer.class)){
+            else if(atributo.getType().equals(Integer.class)){
                 atributo.setAccessible(true);
                 Integer value = (Integer) atributo.get(obj);
                 if(!(null == value )){
@@ -100,7 +100,7 @@ public class DAO<T> implements Serializable {
                 }
             }
             
-            if(atributo.getType().equals(Boolean.class)){
+            else if( (atributo.getType().equals(Boolean.class)) || (atributo.getType().equals(boolean.class))  ){
                 atributo.setAccessible(true);
                 Boolean value = (Boolean) atributo.get(obj);
                 if(!(null == value )){
