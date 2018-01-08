@@ -55,8 +55,10 @@
                             <h:outputText value="#{variant.position}" />
                         </p:column>
                         <p:column style="width:80px">
-                            <f:facet name="header" >
-                                <h:outputText value="ref" />
+                            <f:facet name="header" >                                
+                                <p:commandLink value="ref" actionListener="#{analiseSelcMB.viewFilterRef()}"   >
+                                    <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                </p:commandLink>
                             </f:facet>    
                             <h:outputText value="#{variant.referencia}" />
                         </p:column>

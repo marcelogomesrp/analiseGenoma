@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -46,6 +47,9 @@ public class Filtro  implements Serializable{
     private List<InformacaoBiologica> infBiologica;
     @ManyToMany
     private Set<UmdPredictor> umdPredictors;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> referencias;
 
     public Long getId() {
         return id;
@@ -142,6 +146,14 @@ public class Filtro  implements Serializable{
 
     public void setPositionMax(Long positionMax) {
         this.positionMax = positionMax;
+    }
+
+    public Set<String> getReferencias() {
+        return referencias;
+    }
+
+    public void setReferencias(Set<String> referencias) {
+        this.referencias = referencias;
     }
 
     

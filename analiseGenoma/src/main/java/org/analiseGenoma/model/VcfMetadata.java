@@ -32,7 +32,7 @@ public class VcfMetadata implements Serializable {
     private int qtdVariante;    
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Cromossomo> cromossomos;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     //@CollectionTable(name="vcfmetadata_referencias")
     private Set<String> referencias;
     @ElementCollection
