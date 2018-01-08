@@ -1,16 +1,24 @@
 # analiseGenoma
 Sistema para analise de genoma
 
-1 Install
+1  - Install webserver
 =========
 mkdir /java/src
+
 cd /java/src
+
 Download do wildfly-10.1.0.Final
+
 wget http://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.tar.gz
+
 mkdir /java/servers
+
 cd /java/servers
+
 tar -xvzf wildfly-11.0.0.Final.tar.gz
+
 vim /java/servers/wildfly/standalone/configuration/standalone-full.xml
+
 
             <datasources>
                 <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
