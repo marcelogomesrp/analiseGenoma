@@ -16,7 +16,7 @@ public class VarianteRevisada implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_varianterevisada")
-    private Long id;    
+    private Long id; 
     @ManyToOne
     private Variante variant;
     @ManyToOne

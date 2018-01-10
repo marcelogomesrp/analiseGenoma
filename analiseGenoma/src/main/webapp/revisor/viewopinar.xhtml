@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Opinar</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formView">
+            <p:panelGrid columns="2" >
+            <p:outputLabel value="Analise nome" />
+            <h:outputText value="#{ViewOpinarMB.analise.nome}" />
+            <p:outputLabel value="Variante" />
+            <h:outputText value="#{ViewOpinarMB.variante.id}" />
+            <p:outputLabel value="Revisor"/>
+            <h:outputText value="#{ViewOpinarMB.revisor.nome}" />
+            <p:outputLabel value="Patogenic" />
+            <p:selectBooleanButton value="#{ViewOpinarMB.varianteRevisada.patogenic}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+            <p:outputLabel value="Note" />
+            <p:textEditor  value="#{ViewOpinarMB.varianteRevisada.note}" height="300" style="margin-bottom:10px"/>
+            </p:panelGrid>
+            
+            <p:commandButton value="Aplicar" actionListener="#{ViewOpinarMB.closeView()}"/>
+
+        </h:form>
+
+    </h:body>
+</html>
