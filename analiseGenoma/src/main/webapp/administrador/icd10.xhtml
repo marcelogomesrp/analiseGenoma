@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+
+                    <p:panel header="#{msg.ICD10}">
+                        <h:inputHidden id="id" value="#{icd10MB.icd10.id}" /> 
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Code" />
+                            <p:inputText value="#{icd10MB.icd10.code}" />
+                            <p:outputLabel value="Description" />
+                            <p:inputText value="#{icd10MB.icd10.description}" />
+                            <p:outputLabel value="Long Description" />
+                            <p:inputTextarea value="#{icd10MB.icd10.longDescription}" />           
+                        </p:panelGrid>  
+                        <p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Add" actionListener="#{icd10MB.add}" update="formulario"/>
+                            <p:commandButton value="Importar" actionListener="#{icd10MB.viewIcd10Upload()}">
+                                <p:ajax event="dialogReturn" listener="#{icd10MB.onViewEtniaUpload}" update="formulario" />
+                            </p:commandButton>
+                            <p:commandLink value="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2018/" />
+                        </p:panelGrid>  
+
+                        <p:dataTable value="#{icd10MB.list}" var="icd"  >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id" />
+                                </f:facet>
+                                <h:outputText value="#{icd.id}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Code" />
+                                </f:facet>
+                                <h:outputText value="#{icd.code}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Description" />
+                                </f:facet>
+                                <h:outputText value="#{icd.description}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Long description" />
+                                </f:facet>
+                                <h:outputText value="#{icd.longDescription}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+
+                </h:form>
+
+            </ui:define>
+
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

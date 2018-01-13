@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <p:panel header="Laudar">
+                <h:form>
+                    <h:panelGrid columns="2" >
+                        <p:outputLabel value="Analise" />
+                        <h:outputText value="#{analiseLaudarMB.analiseLaudo.analise.nome}"/>
+
+                        <p:outputLabel value="cid" for="cid"/>
+                        <p:autoComplete id="cid" value="#{analiseLaudarMB.cid}" completeMethod="#{analiseLaudarMB.cidComplete}"  >
+                            <p:ajax event="itemSelect" listener="#{analiseLaudarMB.onCidSelect}" update="patologia" />
+                        </p:autoComplete>
+                        <p:outputLabel value="Patologia" for="patologia"/>
+                        <p:autoComplete id="patologia" value="#{analiseLaudarMB.patologia}" completeMethod="#{analiseLaudarMB.patologiaComplete}" >
+                            <p:ajax event="itemSelect" listener="#{analiseLaudarMB.onPatologiaSelect}" update="cid" />
+                        </p:autoComplete>
+                        <p:outputLabel value="Latogenic" />
+                        <p:selectBooleanButton value="#{analiseLaudarMB.analiseLaudo.correlato}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:80px"/>
+                        <p:outputLabel value="Note" />
+                        <p:textEditor  value="#{analiseLaudarMB.analiseLaudo.note}" height="300" style="margin-bottom:10px"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Save" action="#{analiseLaudarMB.salvar}"/>
+                </h:form>
+                </p:panel>
+                <h:outputText value="Incluir os genes e as respostas dos revisores" />
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

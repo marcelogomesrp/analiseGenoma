@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
+import org.analiseGenoma.model.AnaliseLaudo;
+import org.analiseGenoma.service.AnaliseLaudoService;
 import org.analiseGenoma.service.AnaliseService;
 
 @Named(value = "analisePesquisarMB")
@@ -23,9 +25,12 @@ public class AnalisePesquisarMB implements Serializable {
     private AnaliseService analiseService;
     private List<Analise> analises;
     private Analise analise;
-
+    @Inject
+    private AnaliseLaudoService analiseLaudoService;
+    
+    
     @PostConstruct
-    public void init() {
+    public void init() {        
         analise = new Analise();
         analises = analiseService.buscar();
     }
@@ -46,5 +51,15 @@ public class AnalisePesquisarMB implements Serializable {
         FacesUtil.setSessionMapValue("id", analise.getId());
         return "analise_selecionar_variantes.xhtml?faces-redirect=true";
     }
+    
+    //temp
+    public String viewLaudar(Analise selected) {
+        Analise analise1 = selected;
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);        
+        FacesUtil.setSessionMapValue("idAnalise", analise.getId());
+        return "analise_laudar.xhtml?faces-redirect=true";
+    }
+    
         
 }

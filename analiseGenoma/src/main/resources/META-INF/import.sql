@@ -1,7 +1,9 @@
 INSERT INTO usuario (nome,email,senha,telefone,administrador,gestor,revisor) VALUES ('admin','admin@admin.com','admin','111111',true,true,true);
+INSERT INTO usuario (nome,email,senha,telefone,administrador,gestor,revisor) VALUES ('1','1','1','111111',true,true,true);
 INSERT INTO usuario (nome,email,senha,telefone,administrador,gestor,revisor) VALUES ('admin1','admin1@admin.com','admin','111112',true,true,true);
 INSERT INTO usuario (nome,email,senha,telefone,administrador,gestor,revisor) VALUES ('admin2','admin2@admin.com','admin','111113',true,true,true);
 INSERT INTO usuario (nome,email,senha,telefone,administrador,gestor,revisor) VALUES ('admin3','admin3@admin.com','admin','1111114',true,true,true);
+INSERT INTO usuario (nome,email,senha,telefone,administrador,gestor,revisor) VALUES ('wilsonjr','wilsonjr@usp.br','senha','111111',true,true,true);
 
 INSERT INTO etnia (sigla,nome,origem) VALUES('ASW','African Ancestry','SW USA');
 INSERT INTO etnia (sigla,nome,origem) VALUES('CHD','Chinese','Metropolitan Denver, CO, USA');
