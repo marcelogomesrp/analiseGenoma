@@ -16,22 +16,26 @@
                     <p:panel header="Gene">
                         <h:inputHidden value="#{geneMB.gene.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
-                            <p:outputLabel value="Nome" for="nome" />
-                            <p:inputText id="nome" value="#{geneMB.gene.nome}" />
-                            <p:outputLabel value="Simbolo" for="simbolo" />
-                            <p:inputText id="simbolo" value="#{geneMB.gene.simbolo}" />
-                            <p:outputLabel value="Novo Gene" for="novoGene " />
-                            <p:selectOneMenu id="novoGene" value="#{geneMB.idgenenovo}">
-                                <f:selectItem itemLabel="selecione um" itemValue="" />
+                            <p:outputLabel value="Name" for="name" />
+                            <p:inputText id="name" value="#{geneMB.gene.name}" />
+                            <p:outputLabel value="Symbol" for="symbol" />
+                            <p:inputText id="symbol" value="#{geneMB.gene.symbol}" />
+                            <p:outputLabel value="Synonymous" for="synonymous" />
+                            <p:selectOneMenu id="synonymous" value="#{geneMB.idgenenovo}">
+                                <f:selectItem itemLabel="select one" itemValue="" />
                                 <f:selectItems value="#{geneMB.selectGenes}" />
                             </p:selectOneMenu>
                         </p:panelGrid>                        
 
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Adcionar" actionListener="#{geneMB.adicionar}" update="formulario"/>
+                            <p:commandButton value="Add" actionListener="#{geneMB.adicionar}" update="formulario"/>
+                            <p:commandButton value="Import" actionListener="#{geneMB.adicionar}" update="formulario"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{geneMB.viewEtniaUpload}" immediate="true" rendered="#{etniaMB.crudModeRead}" >
+                                <p:ajax event="dialogReturn" listener="#{geneMB.onViewEtniaUpload}" update="formulario" />
+                            </p:commandButton>
                         </p:panelGrid>
-                        
-                        
+
+
                     </p:panel>        
                 </h:form>
             </ui:define>

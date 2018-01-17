@@ -85,9 +85,9 @@ public class PacienteService implements Serializable {
             Gene gene = geneService.buscarNovoSimbolo(linha[3]);
             if (gene == null) {
                 gene = new Gene();
-                gene.setSimbolo(linha[3]);
-                gene.setNome(linha[4]);
-                gene.setNovoGene(null);
+                gene.setSymbol(linha[3]);
+                gene.setName(linha[4]);
+                gene.setSynonymou(null);
                 geneService.adicionar(gene);
             }
             variante.setGene(gene);

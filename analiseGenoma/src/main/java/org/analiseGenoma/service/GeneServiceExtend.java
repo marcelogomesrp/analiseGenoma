@@ -18,10 +18,10 @@ public class GeneServiceExtend implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Gene buscarSimboloAdd(Gene gene) {
-        Gene geneBd = geneDao.buscarSimbolo(gene.getSimbolo());
+        Gene geneBd = geneDao.buscarSimbolo(gene.getSymbol());
         if (geneBd == null) {
-            if (gene.getNovoGene() != null) {
-                geneDao.atualizar(gene.getNovoGene());
+            if (gene.getSynonymou() != null) {
+                geneDao.atualizar(gene.getSynonymou());
             }
             geneDao.adicionar(gene);
             return gene;
@@ -32,7 +32,7 @@ public class GeneServiceExtend implements Serializable {
     //@Transactional(Transactional.TxType.REQUIRES_NEW)
     @Transactional
     public Gene buscarSimboloAdd(Gene gene, String sinonimo) {
-        Gene geneBd = geneDao.buscarSimbolo(gene.getSimbolo());
+        Gene geneBd = geneDao.buscarSimbolo(gene.getSymbol());
         if (geneBd == null) {
             geneDao.adicionar(gene);
             geneBd = gene;
@@ -43,9 +43,9 @@ public class GeneServiceExtend implements Serializable {
                 Gene gs = geneDao.buscarSimbolo(simbolo);
                 if(gs == null){
                     gs = new Gene();
-                    gs.setNome(geneBd.getNome());
-                    gs.setSimbolo(simbolo);
-                    gs.setNovoGene(geneBd);
+                    gs.setName(geneBd.getName());
+                    gs.setSymbol(simbolo);
+                    gs.setSynonymou(geneBd);
                     geneDao.adicionar(gs);
                 }
             }

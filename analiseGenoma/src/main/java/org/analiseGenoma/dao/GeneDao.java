@@ -35,10 +35,10 @@ public class GeneDao extends DAO<Gene> {
         }
     }
 
-    public Gene buscarSimbolo(String simbolo) {
+    public Gene buscarSimbolo(String symbol) {
         try {
-            Query query = manager.createQuery("SELECT g FROM Gene g WHERE g.simbolo = :simbolo");
-            query.setParameter("simbolo", simbolo);
+            Query query = manager.createQuery("SELECT g FROM Gene g WHERE g.symbol = :symbol");
+            query.setParameter("symbol", symbol);
             //return (Gene) query.getSingleResult();
             //Gene gene = (Gene) query.getSingleResult();
             List<Gene> genes = query.getResultList();
@@ -46,7 +46,7 @@ public class GeneDao extends DAO<Gene> {
             if (genes.size() > 0) {
                 gene = genes.get(0);
             }
-            System.out.println("Buscando pelo simbolo: " + simbolo);
+            System.out.println("Buscando pelo simbolo: " + symbol);
             System.out.println("Retornando: " + gene);
             return gene;
         } catch (NoResultException ex) {

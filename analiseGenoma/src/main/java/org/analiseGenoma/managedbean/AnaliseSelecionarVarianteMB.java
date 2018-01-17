@@ -128,10 +128,10 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
                 //List<String> genesTarget = new ArrayList<>(vcfMetadata.getGenes()); 
                 //List<String> genesSource = vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
-                List<String> genesTarget = filtro.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
+                List<String> genesTarget = filtro.getGenes().stream().map(g -> g.getSymbol()).collect(Collectors.toList());
                 List<String> genesSource = vcfMetadata.getGenes()
                         .stream()
-                        .map(g -> g.getSimbolo())
+                        .map(g -> g.getSymbol())
                         .filter(g -> !genesTarget.contains(g))
                         .collect(Collectors.toList());
 
@@ -524,7 +524,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             for (Gene g : genesP) {
                 //System.out.println("\t\t--------->\n " + g.toString());
                 //filtro.getGenes().add(g);
-                duaListGene.getTarget().add(g.getSimbolo());
+                duaListGene.getTarget().add(g.getSymbol());
             }
         }
     }

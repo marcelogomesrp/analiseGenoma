@@ -19,12 +19,17 @@ public class Gene implements Serializable{
     @Column(name = "id_gene")
     private Long id;
     @Column
-    private String nome;
+    private String name;
     @Column(unique = true)
-    private String simbolo; 
+    private String symbol; 
+    private String dbIdentifier;
     @ManyToOne
-    @JoinColumn(name = "novogene_id")
-    private Gene novoGene;
+    @JoinColumn(name = "synonymou_id")
+    private Gene synonymou;
+    private String url;
+    @ManyToOne
+    @JoinColumn(name = "dbbio_id")    
+    private BancoBiologico dbbio;
 
     public Long getId() {
         return id;
@@ -34,34 +39,57 @@ public class Gene implements Serializable{
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSimbolo() {
-        return simbolo;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setSimbolo(String simbolo) {
-        this.simbolo = simbolo;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public Gene getNovoGene() {
-        return novoGene;
+    public Gene getSynonymou() {
+        return synonymou;
     }
 
-    public void setNovoGene(Gene novoGene) {
-        this.novoGene = novoGene;
+    public void setSynonymou(Gene synonymou) {
+        this.synonymou = synonymou;
+    }
+
+    public String getDbIdentifier() {
+        return dbIdentifier;
+    }
+
+    public void setDbIdentifier(String dbIdentifier) {
+        this.dbIdentifier = dbIdentifier;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public BancoBiologico getDbbio() {
+        return dbbio;
+    }
+
+    public void setDbbio(BancoBiologico dbbio) {
+        this.dbbio = dbbio;
     }
 
     @Override
     public String toString() {
-        return "Gene{" + "id=" + id + ", nome=" + nome + ", simbolo=" + simbolo + ", novoGene=" + novoGene + '}';
+        return "Gene{" + "id=" + id + ", name=" + name + ", symbol=" + symbol + ", dbIdentifier=" + dbIdentifier + ", synonymou=" + synonymou + ", url=" + url + ", dbbio=" + dbbio + '}';
     }
-        
-        
+
 }

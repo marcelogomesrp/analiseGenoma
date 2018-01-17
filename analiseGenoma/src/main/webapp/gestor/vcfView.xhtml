@@ -57,7 +57,7 @@
                                         <f:facet name="header" >
                                             <h:outputText value="gene" />
                                         </f:facet>    
-                                        <h:outputText value="#{variant.gene.simbolo}" />
+                                        <h:outputText value="#{variant.gene.symbol}" />
                                     </p:column>
                                     <p:column style="width:160px">
                                         <f:facet name="header" >
@@ -344,8 +344,8 @@
                                         </f:facet>
                                         <p:dataList value="#{vcfViewMB.genes}" var="gene" type="ordered" itemType="none" >
                                             <p:panelGrid columns="2">
-                                                <h:outputText value="#{gene.simbolo}" />
-                                                <h:outputText value="#{gene.nome}" />
+                                                <h:outputText value="#{gene.symbol}" />
+                                                <h:outputText value="#{gene.name}" />
                                             </p:panelGrid>                                            
                                         </p:dataList>
                                     </p:outputPanel>

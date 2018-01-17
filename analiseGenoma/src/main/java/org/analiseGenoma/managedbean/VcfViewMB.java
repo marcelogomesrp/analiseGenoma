@@ -47,7 +47,7 @@ public class VcfViewMB implements Serializable {
                 vcfMetadata = vcfMetadataService.findByVcfId(vcf.getId());
                 genePieModel = new PieChartModel();                
                for (Gene g : vcfMetadata.getMapGene().keySet()){
-                    genePieModel.set(g.getSimbolo(), vcfMetadata.getMapGene().get(g));
+                    genePieModel.set(g.getSymbol(), vcfMetadata.getMapGene().get(g));
                 }
                genePieModel.setTitle("Qtd genes");
                 genePieModel.setLegendPosition("w");

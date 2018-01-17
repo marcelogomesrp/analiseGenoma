@@ -19,18 +19,23 @@ INSERT INTO etnia (sigla,nome,origem) VALUES('YRI','Ibadan','Nigeria');
 
 INSERT INTO paciente (nome,gender,etnia_id) VALUES ('1teste','m',1);
 
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene1A','g1a',null);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene2A','g2a',null);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene3A','g3a',null);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene1B','g1b',1);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene2B','g2b',2);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene1C','g1c',4);
+INSERT INTO banco_biologico (nome,site,descricao,urlInfo) VALUES ('OMIM','http://omim.org','bla bla bla','https://www.omim.org/entry/[UTIL]');
+INSERT INTO banco_biologico (nome,site,descricao,urlInfo) VALUES ('ClinVar','https://www.ncbi.nlm.nih.gov/clinvar/','bla bla bla','https://www.ncbi.nlm.nih.gov/gene/[UTIL]');
 
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene teste D','DDX11L1',null);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene teste W','WASH7P',null);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene teste W','FAM41C',null);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene teste W','TUBB8P11',null);
-INSERT INTO gene (nome,simbolo,novogene_id) VALUES('gene teste W','RP11-54O7.16',null);
+
+
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene1A','g1a',null);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene2A','g2a',null);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene3A','g3a',null);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene1B','g1b',1);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene2B','g2b',2);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene1C','g1c',4);
+
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene teste D','DDX11L1',null);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene teste W','WASH7P',null);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene teste W','FAM41C',null);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene teste W','TUBB8P11',null);
+INSERT INTO gene (name,symbol,synonymou_id) VALUES('gene teste W','RP11-54O7.16',null);
 
 
 INSERT INTO banco_biologico (nome,site,descricao,urlInfo) VALUES ('OMIM','http://omim.org','bla bla bla','https://www.omim.org/entry/[UTIL]');

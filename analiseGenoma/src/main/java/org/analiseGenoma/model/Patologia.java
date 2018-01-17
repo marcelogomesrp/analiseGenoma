@@ -17,6 +17,11 @@ public class Patologia implements Serializable{
     private Long id;
     private String nome;
     private String cid;
+    @Column(columnDefinition = "text")
+    private String longDescription;
+    
+    
+            
 
     public Long getId() {
         return id;

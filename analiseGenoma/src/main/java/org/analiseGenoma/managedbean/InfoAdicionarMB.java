@@ -86,7 +86,7 @@ public class InfoAdicionarMB implements Serializable {
 
     public List<String> geneComplete(String query) {
         List<String> results = new ArrayList<String>();
-        geneService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));        
+        geneService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));        
         return results;
     }
     
