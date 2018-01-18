@@ -51,6 +51,14 @@ public class GeneMB implements Serializable {
         }
         return genesSelect;
     }
+    
+    public List<SelectItem> getSelectDbbios() {
+        List<SelectItem> select = new ArrayList<SelectItem>();
+        for (BancoBiologico dbbio : bdService.buscar()) {
+            select.add(new SelectItem(dbbio.getId(), dbbio.getNome()));
+        }
+        return select;
+    }
 
     @PostConstruct
     public void init() {

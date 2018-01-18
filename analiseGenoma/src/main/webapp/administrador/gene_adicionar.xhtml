@@ -25,6 +25,15 @@
                                 <f:selectItem itemLabel="select one" itemValue="" />
                                 <f:selectItems value="#{geneMB.selectGenes}" />
                             </p:selectOneMenu>
+                            <p:outputLabel value="Db identifier" />
+                            <p:inputText value="#{geneMB.gene.dbIdentifier}" />
+                            <p:outputLabel value="URL" />
+                            <p:inputText value="#{geneMB.gene.url}" />
+                            <p:outputLabel value="Db bio" for="dbbio" />
+                            <p:selectOneMenu id="dbbio" value="#{geneMB.idBd}">
+                                <f:selectItem itemLabel="select one" itemValue="" />
+                                <f:selectItems value="#{geneMB.selectDbbios}" />
+                            </p:selectOneMenu>
                         </p:panelGrid>                        
 
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
