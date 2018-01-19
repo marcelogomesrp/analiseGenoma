@@ -30,7 +30,7 @@ import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Impact;
 import org.analiseGenoma.model.InformacaoBiologica;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
@@ -512,12 +512,12 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
     public List<String> patologiaComplete(String query) {
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));
+        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
         return results;
     }
 
     public void adicionarGenePorPatologia() {
-        Patologia p = patologiaService.buscarAddNome(patologia);
+        Disease p = patologiaService.buscarAddNome(patologia);
         if (p != null) {
             List<Gene> genesP = infoBioService.buscarGenePorPatologia(p);
             //geneService.buscarPorPatologia(p);

@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.analiseGenoma.model.BancoBiologico;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.InformacaoBiologica;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
@@ -49,7 +49,7 @@ public class InfoAdicionarMB implements Serializable {
             infoBio.setBdBio(bdBioService.buscarPorId(Long.valueOf(idBd)));            
         }
         if(patologia != null){
-            List<Patologia> patologias = patologiaService.buscarNome(patologia);
+            List<Disease> patologias = patologiaService.buscarNome(patologia);
             if(patologias.size() > 0)
                 infoBio.setPatologia(patologias.get(0));
         }
@@ -80,7 +80,7 @@ public class InfoAdicionarMB implements Serializable {
     
     public List<String> patologiaComplete(String query) {
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));        
+        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));        
         return results;
     }
 

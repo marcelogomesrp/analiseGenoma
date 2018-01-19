@@ -26,7 +26,7 @@ public class InformacaoBiologica implements Serializable{
     private Gene gene;
     @OneToOne
     @JoinColumn(name = "patologia_id")
-    private Patologia patologia;     
+    private Disease patologia;     
     private String util;
 
     public Long getId() {
@@ -53,11 +53,11 @@ public class InformacaoBiologica implements Serializable{
         this.gene = gene;
     }
 
-    public Patologia getPatologia() {
+    public Disease getPatologia() {
         return patologia;
     }
 
-    public void setPatologia(Patologia patologia) {
+    public void setPatologia(Disease patologia) {
         this.patologia = patologia;
     }
 

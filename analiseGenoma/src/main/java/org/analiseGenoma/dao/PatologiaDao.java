@@ -3,19 +3,19 @@ package org.analiseGenoma.dao;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 
-public class PatologiaDao extends DAO<Patologia> {
+public class PatologiaDao extends DAO<Disease> {
 
     public PatologiaDao() {
-        super(Patologia.class);
+        super(Disease.class);
     }
 
-    public List<Patologia> buscarLikeNome(String nome) {
+    public List<Disease> buscarLikeNome(String nome) {
         try {
             Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.nome like :nome");
             query.setParameter("nome", nome);
-            List<Patologia> patologias = query.getResultList();
+            List<Disease> patologias = query.getResultList();
             return patologias;
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());
@@ -23,11 +23,11 @@ public class PatologiaDao extends DAO<Patologia> {
         }
     }
     
-    public Patologia buscarNome(String nome) {
+    public Disease buscarNome(String nome) {
         try {
             Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.nome = :nome");
             query.setParameter("nome", nome);
-            return (Patologia) query.getSingleResult();
+            return (Disease) query.getSingleResult();
             //List<Patologia> patologias = query.getResultList();
             //return patologias;
         } catch (NoResultException ex) {
@@ -37,11 +37,11 @@ public class PatologiaDao extends DAO<Patologia> {
     }
     
 
-    public List<Patologia>  buscarCid(String cid) {
+    public List<Disease>  buscarCid(String cid) {
         try {
             Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.cid like :cid");
             query.setParameter("cid", cid);
-            List<Patologia> patologias = query.getResultList();
+            List<Disease> patologias = query.getResultList();
             return patologias;
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

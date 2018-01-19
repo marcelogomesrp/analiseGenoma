@@ -14,7 +14,7 @@ import org.analiseGenoma.dao.PatologiaDao;
 import org.analiseGenoma.model.BancoBiologico;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.InformacaoBiologica;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 
 public class InformacaoBiologicaService implements Serializable {
 
@@ -72,7 +72,7 @@ public class InformacaoBiologicaService implements Serializable {
                         String genes = scanner.next();
                         String outros = scanner.next();
 
-                        Patologia p = patologiaService.buscarAddNome(patologia);
+                        Disease p = patologiaService.buscarAddNome(patologia);
 
                         String[] listGenes = genes.replaceAll(" ", "").split(",");
                         Gene mainGene = null;
@@ -105,7 +105,7 @@ public class InformacaoBiologicaService implements Serializable {
         }
     }
 
-    private void adicionarPatologia(Patologia p) {
+    private void adicionarPatologia(Disease p) {
         try {
             patologiaDao.adicionar(p);
         } catch (Exception ex) {
@@ -113,7 +113,7 @@ public class InformacaoBiologicaService implements Serializable {
         }
     }
 
-    public List<Gene> buscarGenePorPatologia(Patologia p) {
+    public List<Gene> buscarGenePorPatologia(Disease p) {
         return informacaoBiologicaDao.buscarGenePorPatologia(p);
     }
 

@@ -6,17 +6,27 @@
     <h:form>
         <p:menubar>
             <p:menuitem value="Etnia" outcome="etnia.xhtml"/>
+
+            <p:menuitem value="DB Bio" outcome="dbbio.xhtml"/>
+            <p:menuitem value="DB Bio info" outcome="dbbioinfo.xhtml"/>
+            <p:menuitem value="Age" outcome="age.xhtml"/>            
+            <p:menuitem value="Inheritance" outcome="Inheritance.xhtml"/>
+            <p:menuitem value="Gene" outcome="gene.xhtml"/>
+            <p:menuitem value="Disease" outcome="disease.xhtml"/>
+            
             <p:submenu label="Gene" >
                 <p:menuitem value="Adicionar" outcome="gene_adicionar.xhtml"/>
                 <p:menuitem value="Pesquisar" outcome="gene_pesquisar.xhtml"/>
                 <p:menuitem value="Importar" outcome="gene_importar.xhtml"/>
             </p:submenu>
+            
             <p:submenu label="Impacto" >
                 <p:menuitem value="Adicionar" outcome="impacto_adicionar.xhtml"/>
             </p:submenu>
+            
             <p:menuitem value="ICD10" outcome="icd10.xhtml"/>
             <p:submenu label="Patologia" >
-                <p:menuitem value="Adicionar" outcome="patologia_adicionar.xhtml"/>
+                <p:menuitem value="Adicionar" outcome="disease.xhtml"/>
             </p:submenu>
             <p:submenu label="Banco Biologico" >
                 <p:menuitem value="Adicionar banco" outcome="bdbio_adicionar.xhtml"/>

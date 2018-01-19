@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Paciente;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.PacienteService;
@@ -218,7 +218,7 @@ public class AnaliseMB implements Serializable {
     public List<String> cidComplete(String query) {
         System.out.println("Cid auto complet");
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarCid(query + "%").forEach(p -> results.add(p.getCid()));
+        patologiaService.buscarCid(query + "%").forEach(p -> results.add(p.getIcd()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
@@ -226,7 +226,7 @@ public class AnaliseMB implements Serializable {
     public List<String> patologiaComplete(String query) {
         System.out.println("Patologia auto complet");
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));
+        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
@@ -248,21 +248,21 @@ public class AnaliseMB implements Serializable {
     }
 
     public void onCidSelect(SelectEvent event) {
-        List<Patologia> patologias = patologiaService.buscarCid(cid);
+        List<Disease> patologias = patologiaService.buscarCid(cid);
         if (patologias != null) {
             if (patologias.size() > 0) {
                 analise.setPatologia(patologias.get(0));
-                patologia = patologias.get(0).getNome();
+                patologia = patologias.get(0).getName();
             }
         }
     }
 
     public void onPatologiaSelect(SelectEvent event) {
-        List<Patologia> patologias = patologiaService.buscarNome(patologia);
+        List<Disease> patologias = patologiaService.buscarNome(patologia);
         if (patologias != null) {
             if (patologias.size() > 0) {
                 analise.setPatologia(patologias.get(0));
-                cid = patologias.get(0).getCid();
+                cid = patologias.get(0).getIcd();
                 System.out.println("Definodo a patologia " + cid);
             }
         }

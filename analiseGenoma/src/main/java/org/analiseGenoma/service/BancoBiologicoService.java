@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.analiseGenoma.dao.BancoBiologicoDao;
 import org.analiseGenoma.model.BancoBiologico;
 import org.analiseGenoma.model.Gene;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 
 public class BancoBiologicoService implements Serializable{
     @Inject

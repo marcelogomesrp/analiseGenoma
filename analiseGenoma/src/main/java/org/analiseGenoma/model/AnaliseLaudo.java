@@ -22,7 +22,7 @@ public class AnaliseLaudo implements Serializable{
     @OneToOne
     private Analise analise;
     @ManyToOne
-    private Patologia patologia;
+    private Disease patologia;
     @ManyToMany
     List<Gene> genes;
     @Column(columnDefinition = "text")
@@ -45,11 +45,11 @@ public class AnaliseLaudo implements Serializable{
         this.analise = analise;
     }
 
-    public Patologia getPatologia() {
+    public Disease getPatologia() {
         return patologia;
     }
 
-    public void setPatologia(Patologia patologia) {
+    public void setPatologia(Disease patologia) {
         this.patologia = patologia;
     }
 

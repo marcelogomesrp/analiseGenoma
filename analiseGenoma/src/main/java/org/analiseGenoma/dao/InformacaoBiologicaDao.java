@@ -5,7 +5,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.InformacaoBiologica;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 
 public class InformacaoBiologicaDao extends DAO<InformacaoBiologica> {
 
@@ -32,7 +32,7 @@ public class InformacaoBiologicaDao extends DAO<InformacaoBiologica> {
         return null;
     }
 
-    public List<Gene> buscarGenePorPatologia(Patologia p) {
+    public List<Gene> buscarGenePorPatologia(Disease p) {
         Query query = manager.createQuery("SELECT i.gene FROM InformacaoBiologica i WHERE i.patologia.id = :patologiaId");
         query.setParameter("patologiaId", p.getId());
         List<Gene> genes = query.getResultList();

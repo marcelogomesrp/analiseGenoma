@@ -5,50 +5,50 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.PatologiaDao;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 
 public class PatologiaService implements Serializable{
     @Inject
     private PatologiaDao patologiaDao;
     @Transactional
-    public void adicionar(Patologia patologia){
+    public void adicionar(Disease patologia){
         patologiaDao.adicionar(patologia);
     }
     
     //https://emmanuelneri.com.br/2016/04/03/abrindo-novas-transacoes-dentro-de-metodos-transacionais/
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    void adicionar2(Patologia patologia) {
+    void adicionar2(Disease patologia) {
         patologiaDao.adicionar(patologia);
     }
     
     
     @Transactional
-    public void atualizar(Patologia patologia) {
+    public void atualizar(Disease patologia) {
         patologiaDao.atualizar(patologia);
     }
     
-    public List<Patologia> buscar(){
+    public List<Disease> buscar(){
         return patologiaDao.buscar();
     }
 
-    public Patologia buscarPorId(Long id) {
+    public Disease buscarPorId(Long id) {
         return patologiaDao.buscarPorId(id);
     }
 
-    public List<Patologia> buscarNome(String nome) {
+    public List<Disease> buscarNome(String nome) {
         return patologiaDao.buscarLikeNome(nome);
     }
 
-    public List<Patologia>  buscarCid(String cid) {
+    public List<Disease>  buscarCid(String cid) {
         return patologiaDao.buscarCid(cid);
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Patologia buscarAddNome(String nome) {
-        Patologia p = patologiaDao.buscarNome(nome);        
+    public Disease buscarAddNome(String name) {
+        Disease p = patologiaDao.buscarNome(name);        
         if(p == null){
-            p = new Patologia();
-            p.setNome(nome);
+            p = new Disease();
+            p.setName(name);
             patologiaDao.adicionar(p);            
         }
         return p;

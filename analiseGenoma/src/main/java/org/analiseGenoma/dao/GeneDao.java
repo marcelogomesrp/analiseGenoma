@@ -4,7 +4,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Gene;
-import org.analiseGenoma.model.Patologia;
+import org.analiseGenoma.model.Disease;
 
 public class GeneDao extends DAO<Gene> {
 

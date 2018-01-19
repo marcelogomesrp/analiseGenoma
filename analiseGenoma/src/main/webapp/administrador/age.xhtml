@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Age">
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Description" />
+                            <p:inputText value="#{ageMB.age.description}" />
+                            <p:outputLabel value="Start" />
+                            <p:inputText value="#{ageMB.age.beginning}" />
+                            <p:outputLabel value="End" />
+                            <p:inputText value="#{ageMB.age.finish}" />                            
+                        </p:panelGrid>                        
+                        <p:commandButton value="Add" actionListener="#{ageMB.add}" update="formulario"/>
+                    </p:panel>
+                    <p:dataTable value="#{ageMB.ages}" var="age" >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Id" />
+                            </f:facet>
+                            <h:outputText value="#{age.id}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Description" />
+                            </f:facet>
+                            <h:outputText value="#{age.description}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Start" />
+                            </f:facet>
+                            <h:outputText value="#{age.beginning}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="End" />
+                            </f:facet>
+                            <h:outputText value="#{age.finish}" />
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+
+            </ui:define>
+
+
+
+
+        </ui:composition>
+
+    </body>
+</html>
