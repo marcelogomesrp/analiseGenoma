@@ -35,7 +35,7 @@ public class ClinvarSignificanceService extends Service<ClinvarSignificance>{
         }
         ClinvarSignificance obj = new ClinvarSignificance();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
     

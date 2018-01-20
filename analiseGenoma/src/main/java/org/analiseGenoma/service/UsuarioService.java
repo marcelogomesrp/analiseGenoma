@@ -32,7 +32,7 @@ public class UsuarioService implements Serializable {
     @Transactional
     public void adicionar(Usuario usuario, String confirmaSenha) throws Exception {
         if(senhaValida(usuario.getSenha(), confirmaSenha)){
-            usuarioDao.adicionar(usuario);
+            usuarioDao.persist(usuario);
         }
     }
 
@@ -74,7 +74,7 @@ public class UsuarioService implements Serializable {
     }
 
     public Usuario buscarPorId(Long id) {
-        return usuarioDao.buscarPorId(id);
+        return usuarioDao.findById(id);
     }
 
     public Usuario findRevisoresByName(String name) {

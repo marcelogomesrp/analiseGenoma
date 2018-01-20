@@ -37,7 +37,7 @@ public class FilterService extends Service<Filter> {
         }
         Filter obj = new Filter();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

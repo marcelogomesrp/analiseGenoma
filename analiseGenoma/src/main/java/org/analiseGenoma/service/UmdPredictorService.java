@@ -36,7 +36,7 @@ public class UmdPredictorService extends Service<UmdPredictor>{
             return list.get(0);
         UmdPredictor uPredictor = new UmdPredictor();
         uPredictor.setName(name);
-        this.adicionar(uPredictor);
+        this.persiste(uPredictor);
         return uPredictor;        
     }
     

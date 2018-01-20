@@ -39,7 +39,7 @@ public class GenoTypeService extends Service<GenoType> {
         }
         GenoType obj = new GenoType();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

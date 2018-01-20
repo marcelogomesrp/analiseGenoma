@@ -34,7 +34,7 @@ public class ClinvarAlleleOriginService extends Service<ClinvarAlleleOrigin>{
         }
         ClinvarAlleleOrigin obj = new ClinvarAlleleOrigin();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 }

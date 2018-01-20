@@ -14,7 +14,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
-import org.analiseGenoma.model.BancoBiologico;
+import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
@@ -54,8 +54,8 @@ public class GeneMB implements Serializable {
     
     public List<SelectItem> getSelectDbbios() {
         List<SelectItem> select = new ArrayList<SelectItem>();
-        for (BancoBiologico dbbio : bdService.buscar()) {
-            select.add(new SelectItem(dbbio.getId(), dbbio.getNome()));
+        for (DbBio dbbio : bdService.buscar()) {
+            select.add(new SelectItem(dbbio.getId(), dbbio.getName()));
         }
         return select;
     }
@@ -65,8 +65,8 @@ public class GeneMB implements Serializable {
         gene = new Gene();
         genes = geneService.buscar();
         bds = new ArrayList<SelectItem>();
-        for(BancoBiologico bd: bdService.buscar()){
-            bds.add(new SelectItem(bd.getId(), bd.getNome()));
+        for(DbBio bd: bdService.buscar()){
+            bds.add(new SelectItem(bd.getId(), bd.getName()));
         }
                 
         

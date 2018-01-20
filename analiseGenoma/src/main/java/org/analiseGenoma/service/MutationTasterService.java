@@ -37,7 +37,7 @@ public class MutationTasterService extends Service<MutationTaster>{
         }
         MutationTaster obj = new MutationTaster();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
     

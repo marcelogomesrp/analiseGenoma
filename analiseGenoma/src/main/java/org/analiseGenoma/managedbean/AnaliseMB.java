@@ -199,7 +199,7 @@ public class AnaliseMB implements Serializable {
         analiseService.adicionar(analise);
 
         Filtro filtro = filtroService.makeFiltro(analise);
-        filtroService.adicionar(filtro);
+        filtroService.persiste(filtro);
 
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);

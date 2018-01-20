@@ -73,20 +73,20 @@ public class VcfService implements Serializable {
     public void adicionar(Vcf vcf) {
         vcf.setStatus(VcfStatus.importando);
         vcf.setDataImportacao(new Date());
-        vcfDao.adicionar(vcf);
+        vcfDao.persist(vcf);
     }
 
     @Transactional
     public void atualizar(Vcf vcf) {
-        vcfDao.atualizar(vcf);
+        vcfDao.merge(vcf);
     }
 
     public List<Vcf> buscar() {
-        return vcfDao.buscar();
+        return vcfDao.find();
     }
 
     public Vcf buscarId(Long id) {
-        return vcfDao.buscarPorId(id);
+        return vcfDao.findById(id);
     }
 
     public List<Vcf> buscarPacienteId(Long id) {
@@ -99,7 +99,7 @@ public class VcfService implements Serializable {
     
     public List<Variante> buscarVariante(Long idAnalise, Long idFiltro){
        // acertar a busca
-       Filtro filtro = filtroDao.buscarPorId(idFiltro);
+       Filtro filtro = filtroDao.findById(idFiltro);
        
        return varianteDao.buscarAnalise(idAnalise);
     }
@@ -169,10 +169,10 @@ public class VcfService implements Serializable {
             variante.setAsianVarintFreq(new DoubleFactory().make(linha[44]));
             variante.setAmericanVarintFreq(new DoubleFactory().make(linha[45]));
             variante.setWholeVarintFreq(new DoubleFactory().make(linha[46]));
-            varianteService.adicionar(variante);            
+            varianteService.persiste(variante);            
         }
         
-        vcfMetadataService.adicionar(vcfMetadataService.makeMetadata(vcf));
+        vcfMetadataService.persiste(vcfMetadataService.makeMetadata(vcf));
         
         vcf.setStatus(VcfStatus.importado);        
         this.atualizar(vcf);

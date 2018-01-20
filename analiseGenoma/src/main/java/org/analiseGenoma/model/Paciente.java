@@ -35,7 +35,7 @@ public class Paciente implements Serializable{
     private Date dataNascimento;
     @ManyToOne
     @JoinColumn(name = "etnia_id")
-    private Etnia etnia;
+    private Population etnia;
     @Column(columnDefinition="text")
     private String observacao;    
     private Character gender;
@@ -71,14 +71,14 @@ public class Paciente implements Serializable{
         this.dataNascimento = dataNascimento;
     }
 
-    public Etnia getEtnia() {
+    public Population getEtnia() {
 //        if(etnia == null){
 //            etnia = new Etnia();
 //        }
         return etnia;
     }
 
-    public void setEtnia(Etnia etnia) {
+    public void setEtnia(Population etnia) {
         this.etnia = etnia;
     }
 

@@ -41,13 +41,13 @@ public class AgeMB implements Serializable {
     @PostConstruct
     public void init() {
         age = new Age();
-        ages = ageService.buscar();
+        ages = ageService.find();
     }
     
     public void add(){
-        ageService.adicionar(age);
+        ageService.persiste(age);
         context.addMessage(null, new FacesMessage("It's done") );
         age = new Age();
-        ages = ageService.buscar();
+        ages = ageService.find();
     }
 }

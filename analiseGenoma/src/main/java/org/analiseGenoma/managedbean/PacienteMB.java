@@ -17,10 +17,10 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.analiseGenoma.managedbean.util.RequestParam;
-import org.analiseGenoma.model.Etnia;
+import org.analiseGenoma.model.Population;
 import org.analiseGenoma.model.Paciente;
 import org.analiseGenoma.model.Vcf;
-import org.analiseGenoma.service.EtniaService;
+import org.analiseGenoma.service.PopulationService;
 import org.analiseGenoma.service.PacienteService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
@@ -41,7 +41,7 @@ public class PacienteMB implements Serializable {
     private long idEtnia;
     private String nome;
     @Inject
-    private EtniaService etniaService;
+    private PopulationService etniaService;
     private List<Paciente> pacientes;
     @Inject
     @RequestParam
@@ -122,7 +122,7 @@ public class PacienteMB implements Serializable {
                 }
             }
         }
-        paciente.setEtnia(etniaService.buscarPorId(idEtnia));
+        paciente.setEtnia(etniaService.findById(idEtnia));
         if (gender != null) {
             paciente.setGender(gender.charAt(0));
         }
@@ -179,8 +179,8 @@ public class PacienteMB implements Serializable {
 
     public List<SelectItem> getSelectEtnias() {
         List<SelectItem> etnias = new ArrayList<SelectItem>();
-        for (Etnia e : etniaService.buscar()) {
-            etnias.add(new SelectItem(e.getId(), e.getSigla() + " - " + e.getNome()));
+        for (Population e : etniaService.find()) {
+            //TODO: etnias.add(new SelectItem(e.getId(), e.getSigla() + " - " + e.getNome()));
         }
         return etnias;
     }
@@ -224,7 +224,7 @@ public class PacienteMB implements Serializable {
 
     public void salvar() {
         System.out.println("-----> " + paciente.toString());
-        paciente.setEtnia(etniaService.buscarPorId(idEtnia));
+        paciente.setEtnia(etniaService.findById(idEtnia));
         pacienteService.atualizar(paciente);
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
@@ -380,7 +380,7 @@ public class PacienteMB implements Serializable {
     }
   
     public void find() {
-        paciente.setEtnia(etniaService.buscarPorId(idEtnia));
+        paciente.setEtnia(etniaService.findById(idEtnia));
         if (gender != null) {
             paciente.setGender(gender.charAt(0));
         }

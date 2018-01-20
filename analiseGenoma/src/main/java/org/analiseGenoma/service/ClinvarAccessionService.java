@@ -40,7 +40,7 @@ public class ClinvarAccessionService extends Service<ClinvarAccession> {
         }
         ClinvarAccession obj = new ClinvarAccession();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

@@ -39,7 +39,7 @@ public class VariantStatusService extends Service<VariantStatus> {
         }
         VariantStatus obj = new VariantStatus();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

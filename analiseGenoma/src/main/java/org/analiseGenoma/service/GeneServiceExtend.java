@@ -21,9 +21,9 @@ public class GeneServiceExtend implements Serializable {
         Gene geneBd = geneDao.buscarSimbolo(gene.getSymbol());
         if (geneBd == null) {
             if (gene.getSynonymou() != null) {
-                geneDao.atualizar(gene.getSynonymou());
+                geneDao.merge(gene.getSynonymou());
             }
-            geneDao.adicionar(gene);
+            geneDao.persist(gene);
             return gene;
         }
         return geneBd;
@@ -34,7 +34,7 @@ public class GeneServiceExtend implements Serializable {
     public Gene buscarSimboloAdd(Gene gene, String sinonimo) {
         Gene geneBd = geneDao.buscarSimbolo(gene.getSymbol());
         if (geneBd == null) {
-            geneDao.adicionar(gene);
+            geneDao.persist(gene);
             geneBd = gene;
         }
         if (sinonimo != null) {
@@ -46,7 +46,7 @@ public class GeneServiceExtend implements Serializable {
                     gs.setName(geneBd.getName());
                     gs.setSymbol(simbolo);
                     gs.setSynonymou(geneBd);
-                    geneDao.adicionar(gs);
+                    geneDao.persist(gs);
                 }
             }
         }

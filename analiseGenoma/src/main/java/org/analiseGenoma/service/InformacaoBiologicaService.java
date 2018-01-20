@@ -7,11 +7,11 @@ import java.util.concurrent.TimeUnit;
 import javax.ejb.Asynchronous;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import org.analiseGenoma.dao.BancoBiologicoDao;
+import org.analiseGenoma.dao.DbBioDao;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.dao.InformacaoBiologicaDao;
 import org.analiseGenoma.dao.PatologiaDao;
-import org.analiseGenoma.model.BancoBiologico;
+import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.InformacaoBiologica;
 import org.analiseGenoma.model.Disease;
@@ -25,7 +25,7 @@ public class InformacaoBiologicaService implements Serializable {
     @Inject
     private GeneService geneService;
     @Inject
-    private BancoBiologicoDao bancoBiologicoDao;
+    private DbBioDao bancoBiologicoDao;
 
     @Inject
     private InformacaoBiologicaServiceExtend infoBioServiceExtend;
@@ -35,20 +35,20 @@ public class InformacaoBiologicaService implements Serializable {
 
     @Transactional
     public void adicionar(InformacaoBiologica informacaoBiologica) {
-        informacaoBiologicaDao.adicionar(informacaoBiologica);
+        informacaoBiologicaDao.persist(informacaoBiologica);
     }
 
     @Transactional
     public void atualizar(InformacaoBiologica informacaoBiologica) {
-        informacaoBiologicaDao.atualizar(informacaoBiologica);
+        informacaoBiologicaDao.merge(informacaoBiologica);
     }
 
     public List<InformacaoBiologica> buscar() {
-        return informacaoBiologicaDao.buscar();
+        return informacaoBiologicaDao.find();
     }
 
     public InformacaoBiologica buscarPorId(Long id) {
-        return informacaoBiologicaDao.buscarPorId(id);
+        return informacaoBiologicaDao.findById(id);
     }
     
     public InformacaoBiologica buscaBdGene(Long bdBioId, Long geneId){
@@ -62,7 +62,7 @@ public class InformacaoBiologicaService implements Serializable {
         if (contents.length > 0) {
             try {
                 Runnable r = () -> {
-                    BancoBiologico bdBio = bancoBiologicoDao.buscarPorId(new Long(idBd));
+                    DbBio bdBio = bancoBiologicoDao.findById(new Long(idBd));
                     Scanner scanner = new Scanner(new String(contents))
                             .useDelimiter("\t|\\n");
                     while (scanner.hasNext()) {
@@ -107,7 +107,7 @@ public class InformacaoBiologicaService implements Serializable {
 
     private void adicionarPatologia(Disease p) {
         try {
-            patologiaDao.adicionar(p);
+            patologiaDao.persist(p);
         } catch (Exception ex) {
             System.out.println("Erro add: " + ex.getMessage());
         }

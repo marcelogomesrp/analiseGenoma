@@ -13,7 +13,7 @@ public class InformacaoBiologicaServiceExtend implements Serializable {
     
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public InformacaoBiologica BuscarAdd(InformacaoBiologica info){
-        informacaoBiologicaDao.adicionar(info);
+        informacaoBiologicaDao.persist(info);
         return info;
     }
 }

@@ -12,27 +12,27 @@ public class PatologiaService implements Serializable{
     private PatologiaDao patologiaDao;
     @Transactional
     public void adicionar(Disease patologia){
-        patologiaDao.adicionar(patologia);
+        patologiaDao.persist(patologia);
     }
     
     //https://emmanuelneri.com.br/2016/04/03/abrindo-novas-transacoes-dentro-de-metodos-transacionais/
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     void adicionar2(Disease patologia) {
-        patologiaDao.adicionar(patologia);
+        patologiaDao.persist(patologia);
     }
     
     
     @Transactional
     public void atualizar(Disease patologia) {
-        patologiaDao.atualizar(patologia);
+        patologiaDao.merge(patologia);
     }
     
     public List<Disease> buscar(){
-        return patologiaDao.buscar();
+        return patologiaDao.find();
     }
 
     public Disease buscarPorId(Long id) {
-        return patologiaDao.buscarPorId(id);
+        return patologiaDao.findById(id);
     }
 
     public List<Disease> buscarNome(String nome) {
@@ -49,7 +49,7 @@ public class PatologiaService implements Serializable{
         if(p == null){
             p = new Disease();
             p.setName(name);
-            patologiaDao.adicionar(p);            
+            patologiaDao.persist(p);            
         }
         return p;
     }    

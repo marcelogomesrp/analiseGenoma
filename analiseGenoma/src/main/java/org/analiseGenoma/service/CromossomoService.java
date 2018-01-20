@@ -12,20 +12,20 @@ public class CromossomoService implements Serializable{
     private CromossomoDao cromossomoDao;
     @Transactional
     public void adicionar(Cromossomo cromossomo){
-        cromossomoDao.adicionar(cromossomo);
+        cromossomoDao.persist(cromossomo);
     }
     
     @Transactional
     public void atualizar(Cromossomo cromossomo) {
-        cromossomoDao.atualizar(cromossomo);
+        cromossomoDao.merge(cromossomo);
     }
     
     public List<Cromossomo> buscar(){
-        return cromossomoDao.buscar();
+        return cromossomoDao.find();
     }
 
     public Cromossomo buscarPorId(Long id) {
-        return cromossomoDao.buscarPorId(id);
+        return cromossomoDao.findById(id);
     }
 
     public Cromossomo buscarPorNome(String nome) {

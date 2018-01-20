@@ -25,7 +25,7 @@ public class VarianteService extends Service<Variante>{
 
     @Override
     @Transactional
-    public void adicionar(Variante variante) {
+    public void persiste(Variante variante) {
         //if(variante.getVcf() != null)
             //vcfService.atualizar(variante.getVcf());
         if(variante.getCromossomo() !=null)
@@ -35,9 +35,9 @@ public class VarianteService extends Service<Variante>{
 //        if(variante.getUmdPredictor() != null)
 //            umdPredictorService.atualizar(variante.getUmdPredictor());
         if(variante.getZygosity() != null)
-            zygosityService.atualizar(variante.getZygosity());
+            zygosityService.merge(variante.getZygosity());
         
-        super.adicionar(variante); 
+        super.persiste(variante); 
     }
     
    

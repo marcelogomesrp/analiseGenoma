@@ -29,7 +29,7 @@ public class Gene implements Serializable{
     private String url;
     @ManyToOne
     @JoinColumn(name = "dbbio_id")    
-    private BancoBiologico dbbio;
+    private DbBio dbbio;
 
     public Long getId() {
         return id;
@@ -79,11 +79,11 @@ public class Gene implements Serializable{
         this.url = url;
     }
 
-    public BancoBiologico getDbbio() {
+    public DbBio getDbbio() {
         return dbbio;
     }
 
-    public void setDbbio(BancoBiologico dbbio) {
+    public void setDbbio(DbBio dbbio) {
         this.dbbio = dbbio;
     }
 

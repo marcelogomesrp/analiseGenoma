@@ -1,9 +1,14 @@
 package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 //import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -12,62 +17,69 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
-import org.analiseGenoma.model.Etnia;
-import org.analiseGenoma.service.EtniaService;
+import org.analiseGenoma.model.Population;
+import org.analiseGenoma.service.PopulationService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
-@Named(value = "etniaMB")
+@Named(value = "populationMB")
 @ViewScoped
 //@RequestScoped
-public class EtniaMB implements Serializable {
+public class PopulationMB implements Serializable {
     @Inject private FacesContext context;
     @Inject @RequestParam private String id;
-    @Inject private EtniaService etniaService;
-    private Etnia etnia;
-    private List<Etnia> etnias;    
+    @Inject private PopulationService populationService;
+    private Population population;
+    private List<Population> list;    
     private UploadedFile uploadedFile;
     private CrudMode crudMode;
     private boolean disabledValidation;
+    private String superPopulationCode;
 
     @PostConstruct
     public void init() {
         disabledValidation = true;
         this.defCrudModeRead();
-        etnias = etniaService.buscar();
+        list = populationService.find();
         if (id != null) {
             if (!id.equals("")) {
-                etnia = etniaService.buscarPorId(Long.valueOf(id));
+                population = populationService.findById(Long.valueOf(id));
             }
         }
 
     }
 
-    public String adicionar() {
+    public String persiste() {
         try {
-            etniaService.atualizar(etnia);
-            etnia = new Etnia();
+            if(!superPopulationCode.isEmpty()){
+                Population sp = populationService.findByCode(superPopulationCode);
+                if(sp != null){
+                    population.setSuperPopulation(sp);
+                }
+            }
+            populationService.merge(population);
+            population = new Population();
             context.getExternalContext()
                     .getFlash().setKeepMessages(true);
-            context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
-            return "etnia.xhtml?faces-redirect=true";
+            context.addMessage(null, new FacesMessage("It's done"));
+            return "population.xhtml?faces-redirect=true";
         } catch (Exception ex) {
             context.getExternalContext()
                     .getFlash().setKeepMessages(true);
-            context.addMessage(null, new FacesMessage("Ocorreu erros ao realizar o cadastro"));
+            context.addMessage(null, new FacesMessage("Fault has occurred" + ex.getMessage()));
             return null;
         }
     }
 
-    public void atualizarMode(Etnia etinia) {
+    public void atualizarMode(Population etinia) {
         System.out.println("Rodando o atualizar mode");
-        this.etnia = etinia;
+        this.population = etinia;
     }
 
     public String atualizar() {
-        System.out.println("Atualizadon....." + id + " - " + this.getEtnia().toString());
-        etniaService.atualizar(this.getEtnia());
+        System.out.println("Atualizadon....." + id + " - " + this.getPopulation().toString());
+        populationService.merge(this.getPopulation());
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("Atualizado com sucesso"));
@@ -81,14 +93,19 @@ public class EtniaMB implements Serializable {
 
 
     public void findByExample(){
-        this.etnias = etniaService.findByExample(etnia);
+        try {
+            this.list = populationService.findByExample(population);
+        } catch (Exception ex) {
+            Logger.getLogger(PopulationMB.class.getName()).log(Level.SEVERE, null, ex);
+            list = new ArrayList<>();
+        }
     }
     
 
     public void upload() {
         String msg = "Erro ao realizar o upload";
         if (uploadedFile != null) {
-            etniaService.upload(uploadedFile.getContents());
+            populationService.upload(uploadedFile.getContents());
             msg = "Importado com sucesso";
             RequestContext.getCurrentInstance().closeDialog(msg);            
         }
@@ -109,29 +126,30 @@ public class EtniaMB implements Serializable {
     }
 
     public void onViewEtniaUpload(SelectEvent event) {
-        etnias = etniaService.buscar();
+        list = populationService.find();
         String msg = (String) event.getObject();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage(msg));
 
     }
-    
-    public List<String> completeNome(String name){
-        return etniaService.findNamesByName(name);
-    }
 
-    public List<String> completeSigla(String sigla){
-        return etniaService.findSiglasBySigla(sigla);
-    }
     
-    public List<String> completeOrigem(String origem){
-        return etniaService.findOrigensByOrigem(origem);
-    }
+//    public List<String> completeNome(String name){
+//        return populationService.findNamesByName(name);
+//    }
+//
+//    public List<String> completeSigla(String sigla){
+//        return populationService.findSiglasBySigla(sigla);
+//    }
+//    
+//    public List<String> completeOrigem(String origem){
+//        return populationService.findOrigensByOrigem(origem);
+//    }
 
     public void defCreateMode(){
         this.disabledValidation = false;
-        this.etnia = new Etnia();     
+        this.population = new Population();     
         this.defCrudModeUpdate();
         
 //        Application application = context.getApplication();
@@ -141,27 +159,27 @@ public class EtniaMB implements Serializable {
 //        context.renderResponse();
     }
 
-    public Etnia getEtnia() {
-        if (etnia == null) {
-            etnia = new Etnia();
+    public Population getPopulation() {
+        if (population == null) {
+            population = new Population();
         }
-        return etnia;
+        return population;
     }
 
-    public void setEtnia(Etnia etnia) {
-        this.etnia = etnia;
+    public void setPopulation(Population population) {
+        this.population = population;
     }
 
-    public List<Etnia> getEtnias() {
-        return etnias;
+    public List<Population> getPopulations() {
+        return list;
     }
 
-    public void setEtnias(List<Etnia> etnias) {
-        this.etnias = etnias;
+    public void setPopulations(List<Population> populations) {
+        this.list = populations;
     }
 
-    public void editar(Etnia etnia) {
-        this.etnia = etnia;
+    public void editar(Population population) {
+        this.population = population;
         this.disabledValidation = false;        
         this.defCrudModeUpdate();
     }
@@ -194,8 +212,18 @@ public class EtniaMB implements Serializable {
     public void defCrudModeFind(){
         crudMode = CrudMode.Find;
     }    
+
+    public String getSuperPopulationCode() {
+        return superPopulationCode;
+    }
+
+    public void setSuperPopulationCode(String superPopulationCode) {
+        this.superPopulationCode = superPopulationCode;
+    }
     
 
+    
+    
 //    public boolean isCrudModeRead() {
 //        return crudModeRead;
 //    }
@@ -212,8 +240,23 @@ public class EtniaMB implements Serializable {
         this.disabledValidation = disabledValidation;
     }
     
-    
+    public List<String> codeComplete(String code) {
+        List<String> results = new ArrayList<String>();
+        return populationService.findByLikeCode(code)
+                .stream()
+                .map(p -> p.getCode())
+                .distinct()
+                .collect(Collectors.toList());
+                
+//        
+//        populationService.findByCode(query + "%").forEach(p -> results.add(p.getCode());
+//        geneService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));        
+//        return results;
+    }
 
+//        public List<String> completeCode(String code){
+//        return populationService.findByCode(code);
+//    }
 }
 
 

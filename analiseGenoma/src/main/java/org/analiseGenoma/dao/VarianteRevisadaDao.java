@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.analiseGenoma.model.Etnia;
+import org.analiseGenoma.model.Population;
 import org.analiseGenoma.model.Usuario;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
@@ -66,7 +66,7 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
     public List<VarianteRevisada> findByExample(VarianteRevisada vr) throws Exception {
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         CriteriaQuery<VarianteRevisada> criteriaQuery = criteriaBuilder.createQuery(VarianteRevisada.class);
-        Root<Etnia> root = criteriaQuery.from(Etnia.class);
+        Root<Population> root = criteriaQuery.from(Population.class);
         List<Predicate> condicoes = new ArrayList<Predicate>();
         if (!(null == vr.getId())) {
             Path<Long> atributoId = root.get("id");

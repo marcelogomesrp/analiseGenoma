@@ -37,7 +37,7 @@ public class ClinvarDiseaseService extends Service<ClinvarDisease>{
         }
         ClinvarDisease obj = new ClinvarDisease();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
     

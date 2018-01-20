@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:messages />
+                    <p:panel header="#{msg.Etnia}">
+                        <h:inputHidden id="id" value="#{populationMB.population.id}" /> 
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                        
+                            <p:outputLabel value="Code*" for="code"/>
+                            <p:autoComplete id="code" value="#{populationMB.population.code}" completeMethod="#{populationMB.completeCode}" effect="fade" >
+                                <f:validateBean disabled="#{populationMB.disabledValidation}"/> 
+                            </p:autoComplete>
+                            
+                            <p:outputLabel value="Description" for="description"/>
+                            <p:inputText id="description" value="#{populationMB.population.description}" />
+                            
+                            <p:outputLabel value="Super Population" for="superPopulation"/>                            
+                            <p:autoComplete id="superPopulation" value="#{populationMB.superPopulationCode}" completeMethod="#{populationMB.codeComplete}" />
+                            
+                            
+                        </p:panelGrid>
+                        <p:panelGrid columns="6" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank" >    
+                            <div />
+                            <p:commandButton value="New" actionListener="#{populationMB.defCreateMode}"  update="formulario" rendered="#{populationMB.crudModeRead}"/>
+                            <p:commandButton value="Salvar" action="#{populationMB.persiste}" rendered="#{populationMB.crudModeUpdate}" ajax="false" />
+                            <p:commandButton value="Pesquisar" actionListener="#{populationMB.findByExample}" update="formulario" rendered="#{populationMB.crudModeRead}" />
+                            <p:commandButton value="Cancelar" action="#{populationMB.limpar}"  immediate="true" process="@this"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{populationMB.viewEtniaUpload}" immediate="true" rendered="#{populationMB.crudModeRead}" >
+                                <p:ajax event="dialogReturn" listener="#{populationMB.onViewEtniaUpload}" update="formulario" />
+                            </p:commandButton>
+                        </p:panelGrid>
+                    </p:panel>
+
+                </h:form>
+
+            </ui:define>
+
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

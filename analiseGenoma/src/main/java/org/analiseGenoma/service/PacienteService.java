@@ -40,11 +40,11 @@ public class PacienteService implements Serializable {
 
     @Transactional
     public void adicionar(Paciente paciente) {
-        pacienteDao.adicionar(paciente);
+        pacienteDao.persist(paciente);
     }
 
     public List<Paciente> buscar() {
-        return pacienteDao.buscar();
+        return pacienteDao.find();
     }
 
     
@@ -53,12 +53,12 @@ public class PacienteService implements Serializable {
     }
 
     public Paciente buscarId(Long id) {
-        return pacienteDao.buscarPorId(id);
+        return pacienteDao.findById(id);
     }
 
     @Transactional
     public void atualizar(Paciente paciente) {
-        pacienteDao.atualizar(paciente);
+        pacienteDao.merge(paciente);
     }
 
     public void uploadVcf(byte[] contents) {
@@ -95,7 +95,7 @@ public class PacienteService implements Serializable {
             variante.setZygosity(zygosityService.findOrCreate(linha[6]));
             variante.setAllelicDeph(linha[7]);
             variante.setFilter(filterService.findOrCreate(linha[8]));
-            varianteService.adicionar(variante);
+            varianteService.persiste(variante);
         }
     }
 

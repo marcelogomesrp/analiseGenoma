@@ -34,7 +34,7 @@ public class ImpactService extends Service<Impact>{
         }
         Impact obj = new Impact();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
     

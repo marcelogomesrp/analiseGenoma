@@ -20,7 +20,7 @@ public class InformacaoBiologica implements Serializable{
     private Long id;    
     @OneToOne
     @JoinColumn(name = "bancobiologico_id")
-    private BancoBiologico bdBio;
+    private DbBio bdBio;
     @OneToOne
     @JoinColumn(name = "gene_id")
     private Gene gene;
@@ -37,11 +37,11 @@ public class InformacaoBiologica implements Serializable{
         this.id = id;
     }
 
-    public BancoBiologico getBdBio() {
+    public DbBio getBdBio() {
         return bdBio;
     }
 
-    public void setBdBio(BancoBiologico bdBio) {
+    public void setBdBio(DbBio bdBio) {
         this.bdBio = bdBio;
     }
 

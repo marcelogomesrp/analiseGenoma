@@ -24,7 +24,7 @@ import org.analiseGenoma.managedbean.util.ColumnModel;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Analise;
-import org.analiseGenoma.model.BancoBiologico;
+import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
@@ -89,7 +89,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private List<String> listImpactos;
 
     private List<ColumnModel> columns;
-    private List<BancoBiologico> bancos;
+    private List<DbBio> bancos;
 
     private List<Gene> listGene = new ArrayList<Gene>();
 
@@ -407,7 +407,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
     public void testar() {
         filtro.setPositionMin(54268135L);
-        filtroService.atualizar(filtro);
+        filtroService.merge(filtro);
 //        for(String c : selectedCromossomo){
 //            System.out.println("\t\t\t---> " + c);
 //        }
@@ -429,8 +429,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 //        columns.add(new ColumnModel("NCBI", "ncbi"));
 //        columns.add(new ColumnModel("Oubrobd", "OutroBd"));
         Integer x = 0;
-        for (BancoBiologico bd : bancos) {
-            columns.add(new ColumnModel(bd.getNome(), (x++).toString()));
+        for (DbBio bd : bancos) {
+            columns.add(new ColumnModel(bd.getName(), (x++).toString()));
         }
     }
 
@@ -444,7 +444,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
     public String bdInfo(String bdName, Long geneId) {
         //return "aqui: " + bd + "id " + id;     
-        BancoBiologico bd = bancos.get(Integer.valueOf(bdName));
+        DbBio bd = bancos.get(Integer.valueOf(bdName));
 
         //return "https://www.omim.org/entry/[UTIL]".replace("[UTIL]", gene);
         InformacaoBiologica info = null;
@@ -453,13 +453,14 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         } catch (Exception ex) {
             System.out.println("AnaliseSelecionarVarianteMB: Nao foi possivel recuerar a info: " + ex.getMessage());
         }
-        if (info != null) {
-            return bd.getUrlInfo().replace("[UTIL]", info.getUtil());
-        } else {
-            //return "nao peguei o info " + bd.getId() + " - " + geneId;
-            return "";
-        }
+//        if (info != null) {
+//            return bd.getUrlInfo().replace("[UTIL]", info.getUtil());
+//        } else {
+//            //return "nao peguei o info " + bd.getId() + " - " + geneId;
+//            return "";
+//        }
         //return bd.getUrlInfo(); //+ infoBioService.buscaBdGene(bd.getId(), geneId).getUtil();
+        return "";
     }
 
     public List<Gene> getListGene() {
@@ -504,8 +505,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
     public List<SelectItem> getSelectBds() {
         List<SelectItem> bds = new ArrayList<SelectItem>();
-        for (BancoBiologico bd : bdBioService.buscar()) {
-            bds.add(new SelectItem(bd.getId(), bd.getNome()));
+        for (DbBio bd : bdBioService.buscar()) {
+            bds.add(new SelectItem(bd.getId(), bd.getName()));
         }
         return bds;
     }
@@ -613,7 +614,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
     public void closeView() {
         this.updateFiltro();
-        filtroService.atualizar(filtro);
+        filtroService.merge(filtro);
         variantes = vcfService.findVariante(analise, filtro);
         RequestContext.getCurrentInstance().closeDialog("Filtro aplicado com sucesso");
         //org.primefaces.context.DefaultRequestContext.getCurrentInstance().update("formulario:tabela");

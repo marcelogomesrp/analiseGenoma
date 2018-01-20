@@ -61,17 +61,17 @@ public class Icd10MB implements Serializable {
     @PostConstruct
     public void init() {
         icd10 = new Icd10();
-        list = icd10Service.buscar();
+        list = icd10Service.find();
 
     }
 
     public void add() {
-        icd10Service.atualizar(icd10);
+        icd10Service.merge(icd10);
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("It's done"));
         icd10 = new Icd10();
-        list = icd10Service.buscar();
+        list = icd10Service.find();
     }
     
     
@@ -91,7 +91,7 @@ public class Icd10MB implements Serializable {
     }
         
     public void onViewEtniaUpload(SelectEvent event) {
-        list = icd10Service.buscar();
+        list = icd10Service.find();
         String msg = (String) event.getObject();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);

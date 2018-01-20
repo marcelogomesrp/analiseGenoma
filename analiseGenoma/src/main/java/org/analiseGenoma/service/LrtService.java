@@ -36,7 +36,7 @@ public class LrtService extends Service<Lrt>{
         }
         Lrt obj = new Lrt();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
     

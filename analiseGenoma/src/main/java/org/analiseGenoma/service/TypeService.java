@@ -38,7 +38,7 @@ public class TypeService extends Service<Type> {
         }
         Type obj = new Type();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 }

@@ -39,7 +39,7 @@ public class EnsemblService extends Service<Ensembl> {
         }
         Ensembl obj = new Ensembl();
         obj.setIdEnsembl(idEnsembl);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

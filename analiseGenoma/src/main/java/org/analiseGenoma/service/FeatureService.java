@@ -39,7 +39,7 @@ public class FeatureService extends Service<Feature> {
         }
         Feature obj = new Feature();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 }

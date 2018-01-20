@@ -27,7 +27,7 @@ public class EffectService extends Service<Effect> {
         }
         Effect obj = new Effect();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 }

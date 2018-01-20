@@ -89,7 +89,7 @@ public class AnaliseLaudarMB implements Serializable {
     }
 
     public String salvar() {
-        analiseLaudoService.atualizar(analiseLaudo);
+        analiseLaudoService.merge(analiseLaudo);
                 context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("Updated successfully"));

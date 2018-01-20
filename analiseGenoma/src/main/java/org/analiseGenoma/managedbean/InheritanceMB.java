@@ -40,14 +40,14 @@ public class InheritanceMB implements Serializable {
     @PostConstruct
     public void init() {
         inheritance = new InheritanceType();
-        inheritances =  inheritanceService.buscar();
+        inheritances =  inheritanceService.find();
     }
     
     public void add(){
-        inheritanceService.adicionar(inheritance);
+        inheritanceService.persiste(inheritance);
         context.addMessage(null, new FacesMessage("It's done") );
         inheritance = new InheritanceType();
-        inheritances =  inheritanceService.buscar();
+        inheritances =  inheritanceService.find();
 
     }
 }

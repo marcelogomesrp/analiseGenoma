@@ -39,7 +39,7 @@ public class PolyphenHvarService extends Service<PolyphenHvar> {
         }
         PolyphenHvar obj = new PolyphenHvar();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

@@ -23,7 +23,7 @@ public class Disease implements Serializable{
     private String description;
     private String dbIdentifier;
     @ManyToOne
-    private BancoBiologico dbbio;
+    private DbBio dbbio;
     private String url;
     @ManyToOne
     @JoinColumn(name = "inheritance_id")
@@ -75,11 +75,11 @@ public class Disease implements Serializable{
         this.dbIdentifier = dbIdentifier;
     }
 
-    public BancoBiologico getDbbio() {
+    public DbBio getDbbio() {
         return dbbio;
     }
 
-    public void setDbbio(BancoBiologico dbbio) {
+    public void setDbbio(DbBio dbbio) {
         this.dbbio = dbbio;
     }
 

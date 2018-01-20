@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.analiseGenoma.model.BancoBiologico;
+import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.InformacaoBiologica;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
@@ -45,8 +45,8 @@ public class InfoImportarMB implements Serializable {
 
     public List<SelectItem> getSelectBds() {
         List<SelectItem> bds = new ArrayList<SelectItem>();
-        for (BancoBiologico bd : bdBioService.buscar()) {
-            bds.add(new SelectItem(bd.getId(), bd.getNome()));
+        for (DbBio bd : bdBioService.buscar()) {
+            bds.add(new SelectItem(bd.getId(), bd.getName()));
         }
         return bds;
     }

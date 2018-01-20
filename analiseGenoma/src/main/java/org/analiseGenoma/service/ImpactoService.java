@@ -21,20 +21,20 @@ public class ImpactoService implements Serializable {
 
     @Transactional
     public void adicionar(Impact impacto) {
-        impactDao.adicionar(impacto);
+        impactDao.persist(impacto);
     }
 
     @Transactional
     public void atualizar(Impact impacto) {
-        impactDao.atualizar(impacto);
+        impactDao.merge(impacto);
     }
 
     public List<Impact> buscar() {
-        return impactDao.buscar();
+        return impactDao.find();
     }
 
     public Impact buscarPorId(Long id) {
-        return impactDao.buscarPorId(id);
+        return impactDao.findById(id);
     }
 
     public List<Impact> buscarNome(String nome) {

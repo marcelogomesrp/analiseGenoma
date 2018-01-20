@@ -21,7 +21,7 @@ public class CromossomoDao extends DAO<Cromossomo> {
             } else {
                 Cromossomo cromossomo = new Cromossomo();
                 cromossomo.setNome(nome);
-                this.adicionar(cromossomo);
+                this.persist(cromossomo);
                 return cromossomo;
             }
         } catch (NoResultException ex) {

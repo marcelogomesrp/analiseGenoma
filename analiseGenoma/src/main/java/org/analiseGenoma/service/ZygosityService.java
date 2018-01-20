@@ -34,7 +34,7 @@ public class ZygosityService extends Service<Zygosity>{
             return list.get(0);
         Zygosity obj = new Zygosity();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;    
     }
     

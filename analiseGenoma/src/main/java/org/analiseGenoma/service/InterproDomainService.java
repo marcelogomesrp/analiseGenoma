@@ -36,7 +36,7 @@ public class InterproDomainService extends Service<InterproDomain>{
         }
         InterproDomain obj = new InterproDomain();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

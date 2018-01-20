@@ -38,7 +38,7 @@ public class SiftService extends Service<Sift>{
         }
         Sift obj = new Sift();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
     

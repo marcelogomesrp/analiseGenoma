@@ -64,7 +64,7 @@ public class VfRef {
     
     public void closeView(){
         this.updateFiltro();
-        filtroService.atualizar(filtro);
+        filtroService.merge(filtro);
         RequestContext.getCurrentInstance().closeDialog("Filtro aplicado com sucesso");  
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {

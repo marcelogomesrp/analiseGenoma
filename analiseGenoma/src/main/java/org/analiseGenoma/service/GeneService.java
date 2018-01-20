@@ -6,7 +6,7 @@ import java.util.Scanner;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.GeneDao;
-import org.analiseGenoma.model.BancoBiologico;
+import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 
 public class GeneService implements Serializable {
@@ -20,20 +20,20 @@ public class GeneService implements Serializable {
 
     @Transactional
     public void adicionar(Gene gene) {
-        geneDao.adicionar(gene);
+        geneDao.persist(gene);
     }
 
     @Transactional
     public void atualizar(Gene gene) {
-        geneDao.atualizar(gene);
+        geneDao.merge(gene);
     }
 
     public List<Gene> buscar() {
-        return geneDao.buscar();
+        return geneDao.find();
     }
 
     public Gene buscarPorId(Long id) {
-        return geneDao.buscarPorId(id);
+        return geneDao.findById(id);
     }
 
     public List<Gene> buscarNome(String nome) {
@@ -113,7 +113,7 @@ public class GeneService implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     void adicionar2(Gene g) {
-        this.geneDao.adicionar(g);
+        this.geneDao.persist(g);
     }
 
     private Gene buscarSimbolo(String simbolo) {
@@ -127,7 +127,7 @@ public class GeneService implements Serializable {
             gene = new Gene();
             gene.setSymbol(simbolo);
             gene.setSynonymou(mainGene);
-            geneDao.adicionar(gene);
+            geneDao.persist(gene);
         }
         return gene;
     }
@@ -165,7 +165,7 @@ public class GeneService implements Serializable {
     public void importar(byte[] contents, Long idBd) {
         if (contents.length > 0) {
             try {
-                BancoBiologico dbBio = bdBioService.buscarPorId(idBd);
+                DbBio dbBio = bdBioService.buscarPorId(idBd);
                 
                 Scanner scanner = new Scanner(new String(contents))
                         .useDelimiter("\t|\\n");

@@ -44,14 +44,14 @@ public class Icd10Service extends Service<Icd10> {
 //            icd.setDescription(linha[3]);
 //            icd.setLongDescription(linha[4]);
             
-            this.adicionar(icd);
+            this.persiste(icd);
         }
         this.adicionar(lista);
     }
     
     public void adicionar(List<Icd10> list) {
         list.forEach((e) -> {
-            adicionar(e);
+            persiste(e);
         });
     }
     

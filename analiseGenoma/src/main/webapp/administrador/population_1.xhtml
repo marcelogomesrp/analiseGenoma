@@ -15,11 +15,11 @@
                     <p:growl id="messages" showDetail="true"/>
                     <p:messages />
                     <p:panel header="#{msg.Etnia}">
-                        <h:inputHidden id="id" value="#{etniaMB.etnia.id}" /> 
+                        <h:inputHidden id="id" value="#{populationMB.population.id}" /> 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                        
-                            <p:outputLabel value="Sigla*" for="sigla"/>
-                            <p:autoComplete id="sigla" value="#{etniaMB.etnia.sigla}" completeMethod="#{etniaMB.completeSigla}" effect="fade" >
-                                <f:validateBean disabled="#{etniaMB.disabledValidation}"/> 
+                            <p:outputLabel value="Code*" for="code"/>
+                            <p:autoComplete id="code" value="#{populationMB.population.code}" completeMethod="#{populationMB.completeCode}" effect="fade" >
+                                <f:validateBean disabled="#{populationMB.disabledValidation}"/> 
                             </p:autoComplete>
                             <p:outputLabel value="Nome*" for="nome"/>
                             <p:autoComplete id="name" minQueryLength="3" value="#{etniaMB.etnia.nome}" completeMethod="#{etniaMB.completeNome}" effect="fade" >

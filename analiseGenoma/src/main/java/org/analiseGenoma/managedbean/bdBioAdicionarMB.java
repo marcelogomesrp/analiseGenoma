@@ -8,7 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.analiseGenoma.model.BancoBiologico;
+import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.service.BancoBiologicoService;
 
@@ -18,28 +18,28 @@ public class bdBioAdicionarMB implements Serializable {
 
     @Inject
     private BancoBiologicoService bdBioService;
-    private BancoBiologico bdBio;
+    private DbBio bdBio;
     @Inject
     private FacesContext context;
 
     @PostConstruct
     public void init() {
-        bdBio = new BancoBiologico();
+        bdBio = new DbBio();
     }
 
     public void adicionar() {
         bdBioService.adicionar(bdBio);
-        bdBio = new BancoBiologico();
+        bdBio = new DbBio();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
     }
 
-    public BancoBiologico getBdBio() {
+    public DbBio getBdBio() {
         return bdBio;
     }
 
-    public void setBdBio(BancoBiologico bdBio) {
+    public void setBdBio(DbBio bdBio) {
         this.bdBio = bdBio;
     }
 

@@ -34,7 +34,7 @@ public class ClinvarAlleleTypeService extends Service<ClinvarAlleleType>{
         }
         ClinvarAlleleType obj = new ClinvarAlleleType();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
     

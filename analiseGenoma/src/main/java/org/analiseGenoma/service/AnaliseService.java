@@ -47,17 +47,17 @@ public class AnaliseService implements Serializable {
         }
         // add para evitar o detached entity
         if(analise.getPatologia() != null)
-            patologiaDao.atualizar(analise.getPatologia());
+            patologiaDao.merge(analise.getPatologia());
         if(analise.getPaciente() != null)
-            pacienteDao.atualizar(analise.getPaciente());
+            pacienteDao.merge(analise.getPaciente());
         if(analise.getVcf() != null)
             
         
         // fim do detached entity
         if(analise.getId() == null){
-            analiseDao.adicionar(analise);
+            analiseDao.persist(analise);
         }else{
-            analiseDao.atualizar(analise);
+            analiseDao.merge(analise);
             System.out.println("Opa já tinha Id ai nao pode dar um persiste ?");
         }
         
@@ -91,15 +91,15 @@ public class AnaliseService implements Serializable {
 
     @Transactional
     public void atualizar(Analise analise) {
-        analiseDao.atualizar(analise);
+        analiseDao.merge(analise);
     }
 
     public List<Analise> buscar() {
-        return analiseDao.buscar();
+        return analiseDao.find();
     }
 
     public Analise buscarPorId(Long id) {
-        return analiseDao.buscarPorId(id);
+        return analiseDao.findById(id);
     }
 
     public Double buscarQualidadeMax(Long idAnalise) {

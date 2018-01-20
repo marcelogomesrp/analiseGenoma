@@ -13,25 +13,20 @@
             <ui:define name="content">
                 <h:form id="formulario">
                     <p:growl id="messages" showDetail="true"/>
-                    <p:panel header="Banco de dados biologico">
-                        <h:inputHidden value="#{bdBioAdicionarMB.bdBio.id}" />
+                    <p:panel header="Db Bioinfo">
+                        <h:inputHidden value="#{dbBioInfoMB.dbBioInfo.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
-                            <p:outputLabel value="Name" for="name" />
-                            <p:inputText id="name" value="#{bdBioAdicionarMB.bdBio.nome}" />
-                            <p:outputLabel value="Site" for="site" />
-                            <p:inputText id="site" value="#{bdBioAdicionarMB.bdBio.site}" />
-                            <p:outputLabel value="URL info" for="urlInfo" />
-                            <p:inputText id="urlInfo" value="#{bdBioAdicionarMB.bdBio.urlInfo}" />                            
-                            <p:outputLabel value="Descricao" for="descricao" />
-                            <p:inputText id="descricao" value="#{bdBioAdicionarMB.bdBio.descricao}" />
+                            <p:outputLabel value="Db Identifier" for="bdIdentifier" />
+                            <p:inputText id="bdIdentifier" value="#{dbBioInfoMB.dbBioInfo.bdIdentifier}" />
+                            
                             
                         </p:panelGrid>                        
 
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="Adcionar" actionListener="#{bdBioAdicionarMB.adicionar}" update="formulario"/>
                         </p:panelGrid>
-                        
-                        
+
+
                     </p:panel>        
                 </h:form>
             </ui:define>

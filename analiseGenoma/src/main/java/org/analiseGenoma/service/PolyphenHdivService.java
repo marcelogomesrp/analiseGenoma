@@ -39,7 +39,7 @@ public class PolyphenHdivService extends Service<PolyphenHdiv> {
         }
         PolyphenHdiv obj = new PolyphenHdiv();
         obj.setName(name);
-        this.adicionar(obj);
+        this.persiste(obj);
         return obj;
     }
 

@@ -99,7 +99,7 @@ public class ViewOpinarMB {
         idVariante = (Long) FacesUtil.getSessionMapValue("idVariante");
         idAnalise = (Long) FacesUtil.getSessionMapValue("idAnalise");
         if(idVariante != null){
-            variante = varianteService.buscarPorId(idVariante);
+            variante = varianteService.findById(idVariante);
             vcf = variante.getVcf();
             
         }
@@ -129,7 +129,7 @@ public class ViewOpinarMB {
     }
     
     public void closeView(){
-        varianteRevisadaService.atualizar(varianteRevisada);
+        varianteRevisadaService.merge(varianteRevisada);
         //this.updateFiltro();
         //filtroService.atualizar(filtro);
         RequestContext.getCurrentInstance().closeDialog("Filtro aplicado com sucesso");  
