@@ -63,7 +63,7 @@ public class GeneMB implements Serializable {
     @PostConstruct
     public void init() {
         gene = new Gene();
-        genes = geneService.buscar();
+        genes = geneService.find();
         bds = new ArrayList<SelectItem>();
         for(DbBio bd: bdService.buscar()){
             bds.add(new SelectItem(bd.getId(), bd.getName()));
@@ -175,4 +175,6 @@ public class GeneMB implements Serializable {
 
     }
     
+        
+
 }

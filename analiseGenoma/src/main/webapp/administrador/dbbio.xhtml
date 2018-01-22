@@ -13,25 +13,48 @@
             <ui:define name="content">
                 <h:form id="formulario">
                     <p:growl id="messages" showDetail="true"/>
-                    <p:panel header="Banco de dados biologico">
-                        <h:inputHidden value="#{bdBioAdicionarMB.bdBio.id}" />
+                    <p:panel header="Biological Databases">
+                        <h:inputHidden value="#{dbBioMB.dbBio.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <p:outputLabel value="Name" for="name" />
-                            <p:inputText id="name" value="#{bdBioAdicionarMB.bdBio.name}" />
-                            <p:outputLabel value="Site" for="site" />
-                            <p:inputText id="site" value="#{bdBioAdicionarMB.bdBio.url}" />
-                            <p:outputLabel value="URL info" for="urlInfo" />
-                            <p:inputText id="urlInfo" value="#{bdBioAdicionarMB.bdBio.urlInfo}" />                            
-                            <p:outputLabel value="Descricao" for="descricao" />
-                            <p:inputText id="descricao" value="#{bdBioAdicionarMB.bdBio.description}" />
-                            
+                            <p:inputText id="name" value="#{dbBioMB.dbBio.name}" />
+                            <p:outputLabel value="URL" for="url" />
+                            <p:inputText id="url" value="#{dbBioMB.dbBio.url}" />
+                            <p:outputLabel value="Description" for="description" />
+                            <p:inputText id="description" value="#{dbBioMB.dbBio.description}" />
+
                         </p:panelGrid>                        
 
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Adcionar" actionListener="#{bdBioAdicionarMB.adicionar}" update="formulario"/>
+                            <p:commandButton value="Add" actionListener="#{dbBioMB.add}" update="formulario"/>
                         </p:panelGrid>
-                        
-                        
+                        <p:dataTable value="#{dbBioMB.dbbios}" var="db" >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id" />
+                                </f:facet>
+                                <h:outputText value="#{db.id}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Name" />
+                                </f:facet>
+                                <h:outputText value="#{db.name}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="URL" />
+                                </f:facet>
+                                <h:outputText value="#{db.url}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Description" />
+                                </f:facet>
+                                <h:outputText value="#{db.description}" />
+                            </p:column>
+                        </p:dataTable>
+
                     </p:panel>        
                 </h:form>
             </ui:define>

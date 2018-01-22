@@ -9,14 +9,18 @@ import org.analiseGenoma.dao.DAO;
 
 public abstract class Service<T> implements Serializable {
 
-    protected Class<T> classe;    
+    protected Class<T> classe;
     @Inject
     protected DAO<T> dao;
+
+    private DAO<T>  getDao() {
+        return dao;
+    }
 
     public Service(Class<T> classe) {
         this.classe = classe;
     }
-    
+
     @PostConstruct
     public void init() {
     }
@@ -25,7 +29,7 @@ public abstract class Service<T> implements Serializable {
     public void persiste(T obj) {
         dao.persist(obj);
     }
-    
+
     public void persiste(List<T> list) {
         list.forEach((o) -> {
             persiste(o);
@@ -38,19 +42,18 @@ public abstract class Service<T> implements Serializable {
     }
 
     public List<T> find() {
-        return dao.find();
+        //return dao.find();
+        return getDao().find();
     }
 
     public T findById(Long id) {
         return dao.findById(id);
     }
-    
-    public List<T> findByExample(T obj) throws Exception{
+
+    public List<T> findByExample(T obj) throws Exception {
         return dao.findByExample(obj);
     }
-    
 
-    
     /*
     
     public List<T> findByName(String name){
@@ -68,5 +71,5 @@ public abstract class Service<T> implements Serializable {
         this.adicionar(obj);
         return obj;
     }
- */
+     */
 }

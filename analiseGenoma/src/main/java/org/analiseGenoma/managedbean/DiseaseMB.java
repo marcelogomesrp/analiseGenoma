@@ -11,18 +11,22 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
+import org.analiseGenoma.model.Age;
 import org.analiseGenoma.model.DbBio;
-import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Disease;
-import org.analiseGenoma.service.BancoBiologicoService;
-import org.analiseGenoma.service.PatologiaService;
+import org.analiseGenoma.model.InheritanceType;
+import org.analiseGenoma.service.AgeService;
+import org.analiseGenoma.service.DbBioService;
+import org.analiseGenoma.service.DiseaseService;
+import org.analiseGenoma.service.InheritanceTypeService;
+import org.primefaces.event.SelectEvent;
 
 @Named(value = "diseaseMB")
 @RequestScoped
 public class DiseaseMB implements Serializable {
-    
+
     @Inject
-    private PatologiaService diseaseService;
+    private DiseaseService diseaseService;
     private Disease disease;
     @Inject
     private FacesContext context;
@@ -32,23 +36,30 @@ public class DiseaseMB implements Serializable {
     private List<Disease> diseases;
     private String nome;
     private Long idDbbio;
-        @Inject
-    private BancoBiologicoService bdService;
-    
-  
+    private Long idAge;
+    private InheritanceType inheritance;
+    @Inject
+    private DbBioService bdService;
+    @Inject
+    private AgeService ageService;
+    @Inject
+    private InheritanceTypeService inheritanceService;
     
     @PostConstruct
-    public void init(){
+    public void init() {
         disease = new Disease();
+        diseases = diseaseService.find();
     }
-    
-    public void adicionar(){
+
+    public void add() {
+        disease.setInheritanceType(inheritance);
         diseaseService.adicionar(disease);
-        disease = new Disease();        
-                context.getExternalContext()
+        disease = new Disease();
+        diseases = diseaseService.find();
+        context.getExternalContext()
                 .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
-        
+        context.addMessage(null, new FacesMessage("It's done"));
+
     }
 
     public Disease getDisease() {
@@ -66,14 +77,59 @@ public class DiseaseMB implements Serializable {
     public void setIdDbbio(Long idDbbio) {
         this.idDbbio = idDbbio;
     }
+
+    public List<Disease> getDiseases() {
+        return diseases;
+    }
+
+    public void setDiseases(List<Disease> diseases) {
+        this.diseases = diseases;
+    }
+
+    public Long getIdAge() {
+        return idAge;
+    }
+
+    public void setIdAge(Long idAge) {
+        this.idAge = idAge;
+    }
+
+    public InheritanceType getInheritance() {
+        return inheritance;
+    }
+
+    public void setInheritance(InheritanceType inheritance) {
+        this.inheritance = inheritance;
+    }
+
     
-    
+  
+
     public List<SelectItem> getSelectDbbios() {
-        List<SelectItem> select = new ArrayList<SelectItem>();
-        for (DbBio dbbio : bdService.buscar()) {
+        List<SelectItem> select = new ArrayList<>();
+        for (DbBio dbbio : bdService.find()) {
             select.add(new SelectItem(dbbio.getId(), dbbio.getName()));
         }
         return select;
     }
+
+    public List<SelectItem> getSelectAges() {
+        List<SelectItem> select = new ArrayList<>();
+        for (Age age : ageService.find()) {
+            select.add(new SelectItem(age.getId(), age.getDescription()));
+        }
+//        ageService.find()
+//                .stream()
+//                .map(a -> select.add(new SelectItem(a.getDescription())));
+        return select;
+    }
+
+    public List<InheritanceType> completeInheritance(String query) {
+        return inheritanceService.findLikeType(query);
+    }
     
+    public void onInheritanceSelect(SelectEvent event){
+        inheritance = (InheritanceType) event.getObject();
+        
+    }
 }

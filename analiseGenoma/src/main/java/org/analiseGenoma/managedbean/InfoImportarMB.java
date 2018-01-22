@@ -15,7 +15,7 @@ import org.analiseGenoma.model.InformacaoBiologica;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
-import org.analiseGenoma.service.PatologiaService;
+import org.analiseGenoma.service.DiseaseService;
 import org.primefaces.model.UploadedFile;
 
 @Named(value = "infoImportarMB")
@@ -25,7 +25,7 @@ public class InfoImportarMB implements Serializable {
     @Inject
     private BancoBiologicoService bdBioService;
     @Inject
-    private PatologiaService patologiaService;
+    private DiseaseService patologiaService;
     @Inject
     private GeneService geneService;
     @Inject

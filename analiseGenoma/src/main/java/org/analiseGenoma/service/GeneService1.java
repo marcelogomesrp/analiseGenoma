@@ -4,60 +4,40 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 
+public class GeneService1 implements Serializable {
 
-@Named
-public class GeneService  extends Service<Gene> implements Serializable {
-
-    public GeneService() {
-        super(Gene.class);
-    }
-
-    
-    
-    private GeneDao getDao() {
-        return ((GeneDao) dao);
-    }
-    
-    
+    @Inject
+    private GeneDao geneDao;
     @Inject
     private GeneServiceExtend geneServiceExtend;
     @Inject
-    private DbBioService dbBioService;
+    private BancoBiologicoService bdBioService;
 
-    public List<Gene> find2(){
-        return getDao().find();
-    }
-    
-    
-    /**     **/
     @Transactional
     public void adicionar(Gene gene) {
-        getDao().persist(gene);
+        geneDao.persist(gene);
     }
 
     @Transactional
     public void atualizar(Gene gene) {
-        getDao().merge(gene);
+        geneDao.merge(gene);
     }
 
-    
-    
     public List<Gene> buscar() {
-        return getDao().find();
+        return geneDao.find();
     }
 
     public Gene buscarPorId(Long id) {
-        return getDao().findById(id);
+        return geneDao.findById(id);
     }
 
     public List<Gene> buscarNome(String nome) {
-        return getDao().buscarLikeNome(nome);
+        return geneDao.buscarLikeNome(nome);
     }
 
     //@Transactional
@@ -133,31 +113,31 @@ public class GeneService  extends Service<Gene> implements Serializable {
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     void adicionar2(Gene g) {
-        this.getDao().persist(g);
+        this.geneDao.persist(g);
     }
 
     private Gene buscarSimbolo(String simbolo) {
-        return getDao().buscarSimbolo(simbolo);
+        return geneDao.buscarSimbolo(simbolo);
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public Gene buscarAddSimbolo(String simbolo, Gene mainGene) {
-        Gene gene = getDao().buscarSimbolo(simbolo);
+        Gene gene = geneDao.buscarSimbolo(simbolo);
         if (gene == null) {
             gene = new Gene();
             gene.setSymbol(simbolo);
             gene.setSynonymou(mainGene);
-            getDao().persist(gene);
+            geneDao.persist(gene);
         }
         return gene;
     }
 
     public List<Gene> buscarLikeSimbolo(String simbolo) {
-        return getDao().buscarLikeSimbolo(simbolo);
+        return geneDao.buscarLikeSimbolo(simbolo);
     }
 
     public List<Gene> buscarAnalise(Long analiseId) {
-        return getDao().buscarAnalise(analiseId);
+        return geneDao.buscarAnalise(analiseId);
     }
 
     @Transactional
@@ -185,7 +165,7 @@ public class GeneService  extends Service<Gene> implements Serializable {
     public void importar(byte[] contents, Long idBd) {
         if (contents.length > 0) {
             try {
-                DbBio dbBio = dbBioService.findById(idBd);
+                DbBio dbBio = bdBioService.buscarPorId(idBd);
                 
                 Scanner scanner = new Scanner(new String(contents))
                         .useDelimiter("\t|\\n");

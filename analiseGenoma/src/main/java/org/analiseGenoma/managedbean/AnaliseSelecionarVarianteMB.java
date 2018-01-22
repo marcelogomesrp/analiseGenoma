@@ -40,7 +40,7 @@ import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.ImpactoService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
-import org.analiseGenoma.service.PatologiaService;
+import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
@@ -72,7 +72,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     @Inject
     private ImpactoService impactoService;
     @Inject
-    private PatologiaService patologiaService;
+    private DiseaseService patologiaService;
     @Inject
     private VcfMetadataService vcfMetadataService;
 

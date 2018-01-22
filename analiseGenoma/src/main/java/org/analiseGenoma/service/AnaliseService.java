@@ -10,7 +10,7 @@ import org.analiseGenoma.dao.FiltroDao;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.dao.ImpactoDao;
 import org.analiseGenoma.dao.PacienteDao;
-import org.analiseGenoma.dao.PatologiaDao;
+import org.analiseGenoma.dao.DiseaseDao;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Gene;
@@ -28,7 +28,7 @@ public class AnaliseService implements Serializable {
     private CromossomoDao cromossomoDao;
     @Inject
     private VcfService vcfService;
-    @Inject PatologiaDao patologiaDao;
+    @Inject DiseaseDao patologiaDao;
     @Inject PacienteDao pacienteDao;
     @Inject
     private ImpactoDao impactoDao;

@@ -21,14 +21,14 @@
                             <p:autoComplete id="code" value="#{populationMB.population.code}" completeMethod="#{populationMB.completeCode}" effect="fade" >
                                 <f:validateBean disabled="#{populationMB.disabledValidation}"/> 
                             </p:autoComplete>
-                            
+
                             <p:outputLabel value="Description" for="description"/>
                             <p:inputText id="description" value="#{populationMB.population.description}" />
-                            
+
                             <p:outputLabel value="Super Population" for="superPopulation"/>                            
                             <p:autoComplete id="superPopulation" value="#{populationMB.superPopulationCode}" completeMethod="#{populationMB.codeComplete}" />
-                            
-                            
+
+
                         </p:panelGrid>
                         <p:panelGrid columns="6" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank" >    
                             <div />
@@ -40,6 +40,34 @@
                                 <p:ajax event="dialogReturn" listener="#{populationMB.onViewEtniaUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>
+
+                        <p:dataTable value="#{populationMB.populations}" var="p">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id" />
+                                </f:facet>
+                                <h:outputText value="#{p.id}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Code" />
+                                </f:facet>
+                                <h:outputText value="#{p.code}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Description" />
+                                </f:facet>
+                                <h:outputText value="#{p.description}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Super Population" />
+                                </f:facet>
+                                <h:outputText value="#{p.superPopulation.code}" />
+                            </p:column>
+                        </p:dataTable>
+
                     </p:panel>
 
                 </h:form>

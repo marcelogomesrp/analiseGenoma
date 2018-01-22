@@ -4,13 +4,17 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Gene;
-import org.analiseGenoma.model.Disease;
 
 public class GeneDao extends DAO<Gene> {
 
     public GeneDao() {
         super(Gene.class);
     }
+    
+//    public List<Gene> find2() {
+//        List<Gene> genes =  manager.createQuery("SELECT g FROM Gene g LEFT JOIN FETCH g.dbbio").getResultList();
+//        return genes;
+//    }
 
     public List<Gene> buscarLikeNome(String nome) {
         try {

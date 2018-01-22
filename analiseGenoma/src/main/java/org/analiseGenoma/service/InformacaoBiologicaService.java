@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import org.analiseGenoma.dao.DbBioDao;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.dao.InformacaoBiologicaDao;
-import org.analiseGenoma.dao.PatologiaDao;
+import org.analiseGenoma.dao.DiseaseDao;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.InformacaoBiologica;
@@ -21,7 +21,7 @@ public class InformacaoBiologicaService implements Serializable {
     @Inject
     private InformacaoBiologicaDao informacaoBiologicaDao;
     @Inject
-    private PatologiaDao patologiaDao;
+    private DiseaseDao patologiaDao;
     @Inject
     private GeneService geneService;
     @Inject
@@ -31,7 +31,7 @@ public class InformacaoBiologicaService implements Serializable {
     private InformacaoBiologicaServiceExtend infoBioServiceExtend;
 
     @Inject
-    private PatologiaService patologiaService;
+    private DiseaseService patologiaService;
 
     @Transactional
     public void adicionar(InformacaoBiologica informacaoBiologica) {

@@ -17,7 +17,7 @@ import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
-import org.analiseGenoma.service.PatologiaService;
+import org.analiseGenoma.service.DiseaseService;
 
 @Named(value = "infoAdicionarMB")
 @RequestScoped
@@ -26,7 +26,7 @@ public class InfoAdicionarMB implements Serializable {
     @Inject
     private BancoBiologicoService bdBioService;
     @Inject
-    private PatologiaService patologiaService;
+    private DiseaseService patologiaService;
     @Inject
     private GeneService geneService;
     @Inject

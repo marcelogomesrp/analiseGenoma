@@ -48,7 +48,7 @@ public class Disease implements Serializable{
     }
 
     public void setIcd(String icd) {
-        this.icd = icd;
+        this.icd = icd.toUpperCase().replaceAll("\\W", "");        
     }
 
     public String getName() {
@@ -56,7 +56,7 @@ public class Disease implements Serializable{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toUpperCase();
     }
 
     public String getDescription() {
@@ -64,7 +64,7 @@ public class Disease implements Serializable{
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description.toUpperCase();
     }
 
     public String getDbIdentifier() {
@@ -72,7 +72,7 @@ public class Disease implements Serializable{
     }
 
     public void setDbIdentifier(String dbIdentifier) {
-        this.dbIdentifier = dbIdentifier;
+        this.dbIdentifier = dbIdentifier.toUpperCase();
     }
 
     public DbBio getDbbio() {
@@ -88,6 +88,10 @@ public class Disease implements Serializable{
     }
 
     public void setUrl(String url) {
+        if(!url.matches("^$|^htt")){            
+            StringBuilder sb = new StringBuilder();
+            url = sb.append("http://").append(url).toString(); 
+        }
         this.url = url;
     }
 

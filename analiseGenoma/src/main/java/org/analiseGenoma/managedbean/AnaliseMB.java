@@ -24,7 +24,7 @@ import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.PacienteService;
-import org.analiseGenoma.service.PatologiaService;
+import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.event.SelectEvent;
 import org.analiseGenoma.managedbean.util.FacesUtil;
@@ -41,7 +41,7 @@ public class AnaliseMB implements Serializable {
     @Inject
     private AnaliseService analiseService;
     @Inject
-    private PatologiaService patologiaService;
+    private DiseaseService patologiaService;
     @Inject
     private PacienteService pacienteService;
     @Inject

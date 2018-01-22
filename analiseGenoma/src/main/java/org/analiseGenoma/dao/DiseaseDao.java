@@ -5,9 +5,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Disease;
 
-public class PatologiaDao extends DAO<Disease> {
+public class DiseaseDao extends DAO<Disease> {
 
-    public PatologiaDao() {
+    public DiseaseDao() {
         super(Disease.class);
     }
 

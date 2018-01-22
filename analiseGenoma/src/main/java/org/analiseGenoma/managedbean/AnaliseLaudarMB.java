@@ -15,7 +15,7 @@ import org.analiseGenoma.model.AnaliseLaudo;
 import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.service.AnaliseLaudoService;
 import org.analiseGenoma.service.AnaliseService;
-import org.analiseGenoma.service.PatologiaService;
+import org.analiseGenoma.service.DiseaseService;
 import org.primefaces.event.SelectEvent;
 
 @Named(value = "analiseLaudarMB")
@@ -30,7 +30,7 @@ public class AnaliseLaudarMB implements Serializable {
     @Inject
     private AnaliseLaudoService analiseLaudoService;
     @Inject
-    private PatologiaService patologiaService;
+    private DiseaseService patologiaService;
     
     private String cid;
     private String patologia;
