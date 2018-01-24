@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.DAO;
+import org.analiseGenoma.model.Disease;
 
 public abstract class Service<T> implements Serializable {
 
@@ -30,6 +31,7 @@ public abstract class Service<T> implements Serializable {
         dao.persist(obj);
     }
 
+    @Transactional
     public void persiste(List<T> list) {
         list.forEach((o) -> {
             persiste(o);
@@ -53,6 +55,15 @@ public abstract class Service<T> implements Serializable {
     public List<T> findByExample(T obj) throws Exception {
         return dao.findByExample(obj);
     }
+    
+    public T getFirstOrNull(List<T> list){
+       if(list != null){
+           if(list.size() == 1){
+               return list.get(0);
+           }
+       }
+       return null;
+   }
 
     /*
     

@@ -72,9 +72,9 @@ public class PopulationMB implements Serializable {
         }
     }
 
-    public void atualizarMode(Population etinia) {
+    public void atualizarMode(Population population) {
         System.out.println("Rodando o atualizar mode");
-        this.population = etinia;
+        this.population = population;
     }
 
     public String atualizar() {
@@ -103,10 +103,10 @@ public class PopulationMB implements Serializable {
     
 
     public void upload() {
-        String msg = "Erro ao realizar o upload";
+        String msg = "Error";
         if (uploadedFile != null) {
             populationService.upload(uploadedFile.getContents());
-            msg = "Importado com sucesso";
+            msg = "It's done";
             RequestContext.getCurrentInstance().closeDialog(msg);            
         }
     }
@@ -119,13 +119,13 @@ public class PopulationMB implements Serializable {
         this.uploadedFile = uploadedFile;
     }
 
-    public void viewEtniaUpload() {
+    public void viewPopulationUpload() {
         Map<String, Object> options = new HashMap<String, Object>();
         options.put("resizable", false);
-        RequestContext.getCurrentInstance().openDialog("viewEtniaUpload", options, null);
+        RequestContext.getCurrentInstance().openDialog("viewPopulationUpload", options, null);
     }
 
-    public void onViewEtniaUpload(SelectEvent event) {
+    public void onViewPopulationUpload(SelectEvent event) {
         list = populationService.find();
         String msg = (String) event.getObject();
         context.getExternalContext()

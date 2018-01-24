@@ -36,8 +36,8 @@
                             <p:commandButton value="Salvar" action="#{populationMB.persiste}" rendered="#{populationMB.crudModeUpdate}" ajax="false" />
                             <p:commandButton value="Pesquisar" actionListener="#{populationMB.findByExample}" update="formulario" rendered="#{populationMB.crudModeRead}" />
                             <p:commandButton value="Cancelar" action="#{populationMB.limpar}"  immediate="true" process="@this"/>
-                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{populationMB.viewEtniaUpload}" immediate="true" rendered="#{populationMB.crudModeRead}" >
-                                <p:ajax event="dialogReturn" listener="#{populationMB.onViewEtniaUpload}" update="formulario" />
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{populationMB.viewPopulationUpload}" immediate="true" rendered="#{populationMB.crudModeRead}" >
+                                <p:ajax event="dialogReturn" listener="#{populationMB.onViewPopulationUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>
 

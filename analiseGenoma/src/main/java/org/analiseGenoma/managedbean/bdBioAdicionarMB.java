@@ -30,6 +30,7 @@ public class bdBioAdicionarMB implements Serializable {
     public void adicionar() {
         bdBioService.adicionar(bdBio);
         bdBio = new DbBio();
+        
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));

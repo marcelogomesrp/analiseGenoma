@@ -39,7 +39,7 @@
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="Add" actionListener="#{geneMB.adicionar}" update="formulario"/>
                             <p:commandButton value="Import" actionListener="#{geneMB.adicionar}" update="formulario"/>
-                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{geneMB.viewEtniaUpload}" immediate="true" rendered="#{etniaMB.crudModeRead}" >
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{geneMB.viewGeneUpload}" immediate="true" rendered="#{etniaMB.crudModeRead}" >
                                 <p:ajax event="dialogReturn" listener="#{geneMB.onViewEtniaUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>

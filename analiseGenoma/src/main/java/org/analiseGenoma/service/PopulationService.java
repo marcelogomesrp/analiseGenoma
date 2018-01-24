@@ -1,12 +1,8 @@
 package org.analiseGenoma.service;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -41,20 +37,20 @@ public class PopulationService extends Service<Population> implements Serializab
             t.start();
         }
     }
-    
-    
+
     public List<Population> findByLikeCode(String code) {
 //        Population p = new Population();
 //        p.setCode(code + "%");
         return getDao().findByProperty("code", code, DAO.MatchMode.START);
     }
-        public Population findByCode(String code) {
+
+    public Population findByCode(String code) {
         List<Population> list = getDao().findByProperty("code", code);
-        if(list.size() == 1)
+        if (list.size() == 1) {
             return list.get(0);
+        }
         return null;
     }
-    
 
 //    public List<String> findByCode(String code) {
 //        Population p = new Population();
@@ -71,7 +67,6 @@ public class PopulationService extends Service<Population> implements Serializab
 //        }
 //        return populations;
 //    }
-
 //    public List<String> findNamesByName(String name) {
 //        Population etnia = new Population();
 //        etnia.setNome(name + "%");
@@ -105,16 +100,22 @@ public class PopulationService extends Service<Population> implements Serializab
 //    }
 //
     private void importar(byte[] contents) {
+        //http://www.internationalgenome.org/category/population/
         CSVReader csv = new CSVReader(contents);
-        List<Population> list = new ArrayList<>();
+        //List<Population> list = new ArrayList<>();
         for (Line ln : csv.getFile()) {
-            Population p = new Population();
-            p.setCode(ln.getField(0));
-            p.setDescription(ln.getField(1));
-            p.setSuperPopulation(this.findOrCreateByCode(ln.getField(2)));
-            list.add(p);
+            if (ln.getSize() >= 1) {
+                Population p = new Population();                
+                p.setCode(ln.getField(0));
+                if(ln.getSize() >= 2)
+                    p.setDescription(ln.getField(1));
+                if(ln.getSize() >= 3)
+                    p.setSuperPopulation(this.findOrCreateByCode(ln.getField(2)));
+                //list.add(p);
+                this.persiste(p);
+            }
         }
-        this.persiste(list);
+        //this.persiste(list);
 
 //        String[] arquivo = new String(contents, StandardCharsets.UTF_8).split("\n");
 //        List<Population> lista = new ArrayList<>();

@@ -160,7 +160,7 @@ public class GeneMB implements Serializable {
         }
     }
 
-    public void viewEtniaUpload() {
+    public void viewGeneUpload() {
         Map<String, Object> options = new HashMap<String, Object>();
         options.put("resizable", false);
         RequestContext.getCurrentInstance().openDialog("viewGeneUpload", options, null);

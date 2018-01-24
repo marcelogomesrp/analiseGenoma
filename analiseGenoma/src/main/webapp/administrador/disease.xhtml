@@ -40,17 +40,23 @@
                             <p:autoComplete id="inheritance"  value="#{diseaseMB.inheritance}" completeMethod="#{diseaseMB.completeInheritance}" 
                                             var="i" itemLabel="#{i.type}" effect="fade" itemValue="#{i}"
                                             converter="#{inheritanceConverter}" forceSelection="true">
-                            
+
                             </p:autoComplete>
-                                
-                                             
+
+
                         </p:panelGrid>                        
 
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="Adcionar" actionListener="#{diseaseMB.add}" update="formulario"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{diseaseMB.viewUpload}" immediate="true" >
+                                <p:ajax event="dialogReturn" listener="#{diseaseMB.onViewUpload}" update="formulario" />
+                            </p:commandButton>
                         </p:panelGrid>
 
-                        <p:dataTable value="#{diseaseMB.diseases}" var="disease" >
+                        <p:dataTable value="#{diseaseMB.diseases}" var="disease" 
+                                rows="10"
+                                paginator="true"
+                                >
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Disease" />

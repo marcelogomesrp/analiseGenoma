@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Import ethnicity </title>
+        <title>Import population </title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -17,9 +17,9 @@
         <h:form enctype="multipart/form-data">
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                 <h:outputLabel value="File" for="fileUpload"/>
-                <p:fileUpload  id="fileUpload" mode="simple" skinSimple="true" value="#{etniaMB.uploadedFile}"/>
+                <p:fileUpload  id="fileUpload" mode="simple" skinSimple="true" value="#{populationMB.uploadedFile}"/>
             </p:panelGrid>
-            <p:commandButton value="Upload" actionListener="#{etniaMB.upload()}"  ajax="false" />
+            <p:commandButton value="Upload" actionListener="#{populationMB.upload()}"  ajax="false" />
         </h:form>
 
     </h:body>

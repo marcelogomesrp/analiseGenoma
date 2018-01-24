@@ -2,7 +2,9 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -19,7 +21,9 @@ import org.analiseGenoma.service.AgeService;
 import org.analiseGenoma.service.DbBioService;
 import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.InheritanceTypeService;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 @Named(value = "diseaseMB")
 @RequestScoped
@@ -44,7 +48,8 @@ public class DiseaseMB implements Serializable {
     private AgeService ageService;
     @Inject
     private InheritanceTypeService inheritanceService;
-    
+    private UploadedFile uploadedFile;
+
     @PostConstruct
     public void init() {
         disease = new Disease();
@@ -102,8 +107,13 @@ public class DiseaseMB implements Serializable {
         this.inheritance = inheritance;
     }
 
-    
-  
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
 
     public List<SelectItem> getSelectDbbios() {
         List<SelectItem> select = new ArrayList<>();
@@ -127,9 +137,33 @@ public class DiseaseMB implements Serializable {
     public List<InheritanceType> completeInheritance(String query) {
         return inheritanceService.findLikeType(query);
     }
-    
-    public void onInheritanceSelect(SelectEvent event){
+
+    public void onInheritanceSelect(SelectEvent event) {
         inheritance = (InheritanceType) event.getObject();
-        
+
+    }
+
+    public void upload() {
+        String msg = "Error";
+        if (uploadedFile != null) {
+            diseaseService.upload(uploadedFile.getContents(), idDbbio);
+            msg = "It's done";
+            RequestContext.getCurrentInstance().closeDialog(msg);
+        }
+    }
+    
+    public void viewUpload() {
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put("resizable", false);
+        RequestContext.getCurrentInstance().openDialog("viewDiseaseUpload", options, null);
+    }
+
+    public void onViewUpload(SelectEvent event) {
+        //list = populationService.find();
+        String msg = (String) event.getObject();
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage(msg));
+
     }
 }

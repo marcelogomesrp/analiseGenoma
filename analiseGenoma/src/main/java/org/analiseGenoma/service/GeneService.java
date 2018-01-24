@@ -10,32 +10,46 @@ import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 
-
 @Named
-public class GeneService  extends Service<Gene> implements Serializable {
+public class GeneService extends Service<Gene> implements Serializable {
 
     public GeneService() {
         super(Gene.class);
     }
 
-    
-    
     private GeneDao getDao() {
         return ((GeneDao) dao);
     }
-    
-    
+
     @Inject
     private GeneServiceExtend geneServiceExtend;
     @Inject
     private DbBioService dbBioService;
 
-    public List<Gene> find2(){
+    public Gene findBySymbolOrCreate(String symbol) {
+        List<Gene> genes = getDao().findByProperty("symbol", symbol);
+        Gene gene;
+        if (genes.size() == 1) {
+            gene = genes.get(0);
+            while (gene.getSynonymou() != null) {
+                gene = gene.getSynonymou();
+            }
+        } else {
+
+            gene = new Gene();
+            gene.setSymbol(symbol);
+            this.persiste(gene);
+        }
+        return gene;
+    }
+
+    /**
+     * *
+     */
+    public List<Gene> find2() {
         return getDao().find();
     }
-    
-    
-    /**     **/
+
     @Transactional
     public void adicionar(Gene gene) {
         getDao().persist(gene);
@@ -46,8 +60,6 @@ public class GeneService  extends Service<Gene> implements Serializable {
         getDao().merge(gene);
     }
 
-    
-    
     public List<Gene> buscar() {
         return getDao().find();
     }
@@ -186,7 +198,7 @@ public class GeneService  extends Service<Gene> implements Serializable {
         if (contents.length > 0) {
             try {
                 DbBio dbBio = dbBioService.findById(idBd);
-                
+
                 Scanner scanner = new Scanner(new String(contents))
                         .useDelimiter("\t|\\n");
                 while (scanner.hasNext()) {
@@ -198,7 +210,8 @@ public class GeneService  extends Service<Gene> implements Serializable {
                     //this.adicionar(gene);
                     geneServiceExtend.buscarSimboloAdd(gene, sinonimo);
                 }
-            }catch(Exception ex){}
+            } catch (Exception ex) {
+            }
         }
     }
 

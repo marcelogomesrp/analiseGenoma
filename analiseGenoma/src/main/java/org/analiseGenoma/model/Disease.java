@@ -27,11 +27,13 @@ public class Disease implements Serializable{
     private String url;
     @ManyToOne
     @JoinColumn(name = "inheritance_id")
-    private InheritanceType inheritanceType;    
-    
-    @JoinColumn(name = "age_id")
+    private InheritanceType inheritanceType;        
     @ManyToOne
+    @JoinColumn(name = "age_id")
     private Age age;
+    @ManyToOne
+    @JoinColumn(name = "synonymous_id")
+    private Disease synonymous;
     
             
 
@@ -110,6 +112,16 @@ public class Disease implements Serializable{
     public void setAge(Age age) {
         this.age = age;
     }
+
+    public Disease getSynonymous() {
+        return synonymous;
+    }
+
+    public void setSynonymous(Disease synonymous) {
+        this.synonymous = synonymous;
+    }
+    
+    
     
     @Override
     public String toString() {

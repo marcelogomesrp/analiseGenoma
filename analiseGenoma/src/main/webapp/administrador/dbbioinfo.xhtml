@@ -18,12 +18,34 @@
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <p:outputLabel value="Db Identifier" for="bdIdentifier" />
                             <p:inputText id="bdIdentifier" value="#{dbBioInfoMB.dbBioInfo.bdIdentifier}" />
-                            
-                            
+
+                            <p:outputLabel value="Db Bio" for="bdBio" />
+                            <p:selectOneMenu id="bdBio" value="#{dbBioInfoMB.idBd}">
+                                <f:selectItem itemLabel="select one" itemValue="" />
+                                <f:selectItems value="#{dbBioInfoMB.selectDbbios}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="URL" for="url" />
+                            <p:inputText id="url" value="#{dbBioInfoMB.dbBioInfo.url}" />
+
+                            <p:outputLabel value="Disease" for="disease" />
+                            <p:autoComplete id="disease"  value="#{dbBioInfoMB.disease}" completeMethod="#{dbBioInfoMB.completeDisease}" 
+                                            var="i" itemLabel="#{i.name}" effect="fade" itemValue="#{i}"
+                                            converter="#{diseaseConverter}" forceSelection="true">
+
+                            </p:autoComplete>
+                            <p:outputLabel value="Genes" for="genes" />
+                            <p:chips id="genes" value="#{dbBioInfoMB.genes}"/><br/>
+
+
                         </p:panelGrid>                        
 
-                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Adcionar" actionListener="#{bdBioAdicionarMB.adicionar}" update="formulario"/>
+
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Adcionar" actionListener="#{dbBioInfoMB.add}" update="formulario"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{dbBioInfoMB.viewUpload}" immediate="true"  >
+                                <p:ajax event="dialogReturn" listener="#{dbBioInfoMB.onViewUpload}" update="formulario" />
+                            </p:commandButton>
                         </p:panelGrid>
 
 
