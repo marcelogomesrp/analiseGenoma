@@ -19,6 +19,8 @@ public class DiseaseService extends Service<Disease> implements Serializable {
     private DbBioService dbBioService;
     @Inject
     private InheritanceTypeService inheritanceService;
+    @Inject
+    private AgeService ageService;
 
     public DiseaseService() {
         super(Disease.class);
@@ -90,7 +92,7 @@ public class DiseaseService extends Service<Disease> implements Serializable {
         CSVReader csv = new CSVReader(contents);
         DbBio db = dbBioService.findById(idDbbio);
         for (Line ln : csv.getFile()) {
-            if (ln.getSize() >= 1) {
+            if (ln.getSize() >= 1) {                
                 Disease d = new Disease();
                 d.setDbbio(db);
                 d.setName(ln.getField(0));
@@ -105,6 +107,12 @@ public class DiseaseService extends Service<Disease> implements Serializable {
                 }
                 if(ln.getSize() >= 5){
                     d.setInheritanceType(inheritanceService.findOrCreate(ln.getField(4)));
+                }
+                if(ln.getSize() >= 6){
+                    d.setAge(ageService.findOrCreate(ln.getField(5)));
+                }
+                if(ln.getSize() >= 7){
+                    d.setPrevalence(ln.getField(6));
                 }
                                
                 this.findOrCreate(d);

@@ -20,10 +20,10 @@
                             <p:inputText id="name" value="#{geneMB.gene.name}" />
                             <p:outputLabel value="Symbol" for="symbol" />
                             <p:inputText id="symbol" value="#{geneMB.gene.symbol}" />
-                            <p:outputLabel value="Synonymous" for="synonymous" />
+                            <p:outputLabel value="Synonymous .. motivo da lentidao" for="synonymous" />
                             <p:selectOneMenu id="synonymous" value="#{geneMB.idgenenovo}">
                                 <f:selectItem itemLabel="select one" itemValue="" />
-                                <f:selectItems value="#{geneMB.selectGenes}" />
+                                <!-- <f:selectItems value="{geneMB.selectGenes}" /> -->
                             </p:selectOneMenu>
                             <p:outputLabel value="Db identifier" />
                             <p:inputText value="#{geneMB.gene.dbIdentifier}" />
@@ -43,7 +43,7 @@
                                 <p:ajax event="dialogReturn" listener="#{geneMB.onViewEtniaUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>
-                        <p:dataTable value="#{geneMB.genes}" var="gene">
+                        <p:dataTable value="#{geneMB.genes}" var="gene" rows="10" paginator="true">
 
 
 

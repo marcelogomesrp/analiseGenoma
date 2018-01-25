@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.service.util.CSVReader;
+import org.analiseGenoma.service.util.Line;
 
 @Named
 public class GeneService extends Service<Gene> implements Serializable {
@@ -183,7 +185,7 @@ public class GeneService extends Service<Gene> implements Serializable {
         }
     }
 
-    @Transactional
+    //@Transactional
     public void upload(byte[] contents, Long idBd) {
         if (contents.length > 0) {
             Runnable r = () -> {
@@ -194,24 +196,68 @@ public class GeneService extends Service<Gene> implements Serializable {
         }
     }
 
+    //@Transactional(Transactional.TxType.REQUIRES_NEW)
+    //@Transactional
     public void importar(byte[] contents, Long idBd) {
-        if (contents.length > 0) {
-            try {
-                DbBio dbBio = dbBioService.findById(idBd);
-
-                Scanner scanner = new Scanner(new String(contents))
-                        .useDelimiter("\t|\\n");
-                while (scanner.hasNext()) {
-                    Gene gene = new Gene();
-                    gene.setDbbio(dbBio);
-                    gene.setSymbol(scanner.next());
-                    gene.setName(scanner.next());
-                    String sinonimo = scanner.next();
-                    //this.adicionar(gene);
-                    geneServiceExtend.buscarSimboloAdd(gene, sinonimo);
+        CSVReader csv = new CSVReader(contents);
+        //DbBio db = dbBioService.findById(idBd);
+        for (Line ln : csv.getFile()) {
+            if (ln.getSize() >= 1) {
+                Gene g = new Gene();
+                //g.setDbbio(db);
+                g.setName(ln.getField(0));
+                if (ln.getSize() >= 2) {
+                    g.setSymbol(ln.getField(1));
                 }
-            } catch (Exception ex) {
+//                Gene master = this.findMasterBySymbol(g.getSymbol());
+//                if(master!= null){
+//                    g.setSynonymou(master);
+//                }
+                //g.setSynonymou(this.findMasterBySymbol(g.getSymbol()));
+                this.persiste(g);
             }
+        }
+    }
+    
+    //@Override
+    @Transactional
+    public void persiste2(Gene g){
+        //dbBioService.merge(g.getDbbio());
+        getDao().persist(g);
+    }
+    
+
+//    public void importar_old(byte[] contents, Long idBd) {
+//        if (contents.length > 0) {
+//            try {
+//                DbBio dbBio = dbBioService.findById(idBd);
+//
+//                Scanner scanner = new Scanner(new String(contents))
+//                        .useDelimiter("\t|\\n");
+//                while (scanner.hasNext()) {
+//                    Gene gene = new Gene();
+//                    gene.setDbbio(dbBio);
+//                    gene.setSymbol(scanner.next());
+//                    gene.setName(scanner.next());
+//                    String sinonimo = scanner.next();
+//                    //this.adicionar(gene);
+//                    geneServiceExtend.buscarSimboloAdd(gene, sinonimo);
+//                }
+//            } catch (Exception ex) {
+//            }
+//        }
+//    }
+
+    private Gene findMasterBySymbol(String symbol) {
+        List<Gene> genes = getDao().findByProperty("symbol", symbol);
+        if(genes.isEmpty()){
+            return null;
+        }else{
+            Gene g = genes.get(0);
+            while(g.getSynonymou() != null){
+                g = g.getSynonymou();
+            }
+            return g;
         }
     }
 

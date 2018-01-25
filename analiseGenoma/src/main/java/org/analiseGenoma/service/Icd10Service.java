@@ -46,7 +46,7 @@ public class Icd10Service extends Service<Icd10> {
             
             this.persiste(icd);
         }
-        this.adicionar(lista);
+        //this.adicionar(lista);
     }
     
     public void adicionar(List<Icd10> list) {

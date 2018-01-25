@@ -34,6 +34,7 @@ public class Disease implements Serializable{
     @ManyToOne
     @JoinColumn(name = "synonymous_id")
     private Disease synonymous;
+    private Double prevalence;
     
             
 
@@ -120,7 +121,22 @@ public class Disease implements Serializable{
     public void setSynonymous(Disease synonymous) {
         this.synonymous = synonymous;
     }
-    
+
+    public Double getPrevalence() {
+        return prevalence;
+    }
+
+    public void setPrevalence(Double prevalence) {
+        this.prevalence = prevalence;
+    }
+    public void setPrevalence(String prevalence) {
+        try{
+            Double n = Double.parseDouble(prevalence);
+            this.setPrevalence(n);            
+        }catch(Exception ex){
+            System.out.println("************************************************************ Erro na conversao da prevalence: " + ex.getMessage());
+        }
+    }
     
     
     @Override
