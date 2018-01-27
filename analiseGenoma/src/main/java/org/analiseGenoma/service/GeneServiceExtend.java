@@ -2,8 +2,6 @@ package org.analiseGenoma.service;
 
 import java.io.Serializable;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.model.Gene;
@@ -20,9 +18,9 @@ public class GeneServiceExtend implements Serializable {
     public Gene buscarSimboloAdd(Gene gene) {
         Gene geneBd = geneDao.buscarSimbolo(gene.getSymbol());
         if (geneBd == null) {
-            if (gene.getSynonymou() != null) {
-                geneDao.merge(gene.getSynonymou());
-            }
+//            if (gene.getSynonymou() != null) {
+//                geneDao.merge(gene.getSynonymou());
+//            }
             geneDao.persist(gene);
             return gene;
         }
@@ -45,7 +43,7 @@ public class GeneServiceExtend implements Serializable {
                     gs = new Gene();
                     gs.setName(geneBd.getName());
                     gs.setSymbol(simbolo);
-                    gs.setSynonymou(geneBd);
+//                    gs.setSynonymou(geneBd);
                     geneDao.persist(gs);
                 }
             }

@@ -1,14 +1,19 @@
 package org.analiseGenoma.service;
 
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import org.analiseGenoma.dao.DAO;
 import org.analiseGenoma.dao.DiseaseDao;
+import org.analiseGenoma.dao.DiseaseListDao;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Disease;
+import org.analiseGenoma.model.DiseaseList;
 import org.analiseGenoma.service.util.CSVReader;
 import org.analiseGenoma.service.util.Line;
 
@@ -21,7 +26,10 @@ public class DiseaseService extends Service<Disease> implements Serializable {
     private InheritanceTypeService inheritanceService;
     @Inject
     private AgeService ageService;
-
+    @Inject
+    private DiseaseListDao diseaseListDao;
+    
+    
     public DiseaseService() {
         super(Disease.class);
     }
@@ -94,7 +102,7 @@ public class DiseaseService extends Service<Disease> implements Serializable {
         for (Line ln : csv.getFile()) {
             if (ln.getSize() >= 1) {                
                 Disease d = new Disease();
-                d.setDbbio(db);
+                //d.setDbbio(db);
                 d.setName(ln.getField(0));
                 if(ln.getSize() >= 2){
                     d.setIcd(ln.getField(1));                    
@@ -103,7 +111,7 @@ public class DiseaseService extends Service<Disease> implements Serializable {
                     d.setDescription(ln.getField(2));
                 }
                 if(ln.getSize() >= 4){
-                    d.setDbIdentifier(ln.getField(3));
+                    //d.setDbIdentifier(ln.getField(3));
                 }
                 if(ln.getSize() >= 5){
                     d.setInheritanceType(inheritanceService.findOrCreate(ln.getField(4)));
@@ -133,13 +141,13 @@ public class DiseaseService extends Service<Disease> implements Serializable {
             this.persiste(disease);
             return disease;
         }else{
-            if(d.getDbbio() == disease.getDbbio()){
-                return d;
-            }else{                
-                disease.setSynonymous(d);
+//            if(d.getDbbio() == disease.getDbbio()){
+//                return d;
+//            }else{                
+                //disease.setSynonymous(d);
                 this.persiste(disease);
                 return disease;
-            }
+//            }
             
         }
     }
@@ -153,5 +161,23 @@ public class DiseaseService extends Service<Disease> implements Serializable {
     private Disease findByName(String name) {
         return this.getFirstOrNull(getDao().findByProperty("name", name));
     }
+
+    public String ObjectToXML(DiseaseList dl) throws Exception {
+//        String retorno = "";
+//        for(Disease d:dl.getDiseases()){
+//            retorno += getDao().ObjectToXML(d);
+//       }
+//        return retorno;
+        return diseaseListDao.ObjectToXML(dl).toString();
+    }
+    
+//    public String teste(){
+//        JAXBContext jaxbContext = JAXBContext.newInstance(List<Disease>.cl);
+//        Marshaller marshaller = jaxbContext.createMarshaller();
+//        StringWriter writer = new StringWriter();
+//        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//        marshaller.marshal(obj, writer);
+//        return writer;
+//    }
 
 }

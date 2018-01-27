@@ -1,17 +1,26 @@
 package org.analiseGenoma.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Entity
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Table(name = "gene")
 public class Gene implements Serializable{
     @Id
@@ -21,15 +30,13 @@ public class Gene implements Serializable{
     @Column
     private String name;
     //@Column(unique = true)
-    private String symbol; 
-    private String dbIdentifier;
-    @ManyToOne
-    @JoinColumn(name = "synonymou_id")
-    private Gene synonymou;
-    private String url;
-    @ManyToOne
-    @JoinColumn(name = "dbbio_id")    
-    private DbBio dbbio;
+    private String symbol;    
+    @OneToMany(mappedBy = "gene")
+    private Set<GeneNameSynonym> geneNameSynonym;
+    @OneToMany(mappedBy = "gene")
+    @XmlElementWrapper(name="geneSymbolSynonymous")
+    @XmlElement(name="geneSymbolSynonym")
+    private Set<GeneSymbolSynonym> geneSymbolSynonym;
 
     public Long getId() {
         return id;
@@ -54,42 +61,61 @@ public class Gene implements Serializable{
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
-
-    public Gene getSynonymou() {
-        return synonymou;
+    
+    public void addGeneSymbolSynonymous(String symbol){
+        if(getGeneSymbolSynonym() == null){
+            setGeneSymbolSynonym(new HashSet<>());            
+        }
+        getGeneSymbolSynonym().add(new GeneSymbolSynonym(symbol));
     }
 
-    public void setSynonymou(Gene synonymou) {
-        this.synonymou = synonymou;
+
+    public Set<GeneNameSynonym> getGeneNameSynonym() {
+        return geneNameSynonym;
     }
 
-    public String getDbIdentifier() {
-        return dbIdentifier;
+    public void setGeneNameSynonym(Set<GeneNameSynonym> geneNameSynonym) {
+        this.geneNameSynonym = geneNameSynonym;
     }
 
-    public void setDbIdentifier(String dbIdentifier) {
-        this.dbIdentifier = dbIdentifier;
+    public Set<GeneSymbolSynonym> getGeneSymbolSynonym() {
+        return geneSymbolSynonym;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public DbBio getDbbio() {
-        return dbbio;
-    }
-
-    public void setDbbio(DbBio dbbio) {
-        this.dbbio = dbbio;
+    public void setGeneSymbolSynonym(Set<GeneSymbolSynonym> geneSymbolSynonym) {
+        this.geneSymbolSynonym = geneSymbolSynonym;
     }
 
     @Override
     public String toString() {
-        return "Gene{" + "id=" + id + ", name=" + name + ", symbol=" + symbol + ", dbIdentifier=" + dbIdentifier + ", synonymou=" + synonymou + ", url=" + url + ", dbbio=" + dbbio + '}';
+        return "Gene{" + "id=" + id + ", name=" + name + ", symbol=" + symbol  + '}';
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Gene other = (Gene) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
 }

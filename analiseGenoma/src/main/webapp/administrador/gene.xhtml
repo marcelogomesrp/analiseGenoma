@@ -15,34 +15,25 @@
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel header="Gene">
                         <h:inputHidden value="#{geneMB.gene.id}" />
-                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:outputLabel value="Name" for="name" />
                             <p:inputText id="name" value="#{geneMB.gene.name}" />
+                            <p:outputLabel value="Name Synonyms" for="nameSynonyms" />
+                            <p:chips value="#{geneMB.nameSynonyms}" id="nameSynonyms" />
                             <p:outputLabel value="Symbol" for="symbol" />
                             <p:inputText id="symbol" value="#{geneMB.gene.symbol}" />
-                            <p:outputLabel value="Synonymous .. motivo da lentidao" for="synonymous" />
-                            <p:selectOneMenu id="synonymous" value="#{geneMB.idgenenovo}">
-                                <f:selectItem itemLabel="select one" itemValue="" />
-                                <!-- <f:selectItems value="{geneMB.selectGenes}" /> -->
-                            </p:selectOneMenu>
-                            <p:outputLabel value="Db identifier" />
-                            <p:inputText value="#{geneMB.gene.dbIdentifier}" />
-                            <p:outputLabel value="URL" />
-                            <p:inputText value="#{geneMB.gene.url}" />
-                            <p:outputLabel value="Db bio" for="dbbio" />
-                            <p:selectOneMenu id="dbbio" value="#{geneMB.idBd}">
-                                <f:selectItem itemLabel="select one" itemValue="" />
-                                <f:selectItems value="#{geneMB.selectDbbios}" />
-                            </p:selectOneMenu>
-                        </p:panelGrid>                        
-
+                            <p:outputLabel value="Symbol Synonyms" for="symbolSynonyms" />
+                            <p:chips value="#{geneMB.symbolSynonyms}" id="symbolSynonyms" />
+                        </p:panelGrid>                    
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Add" actionListener="#{geneMB.adicionar}" update="formulario"/>
-                            <p:commandButton value="Import" actionListener="#{geneMB.adicionar}" update="formulario"/>
+                            <p:commandButton value="Add" actionListener="#{geneMB.add}" update="formulario"/>
                             <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{geneMB.viewGeneUpload}" immediate="true"  >
                                 <p:ajax event="dialogReturn" listener="#{geneMB.onViewEtniaUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>
+
+
+
                         <p:dataTable value="#{geneMB.genes}" var="gene" rows="10" paginator="true">
 
 
@@ -53,12 +44,7 @@
                                 </f:facet>
                                 <h:outputText value="#{gene.id}" />
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="DbBio" />
-                                </f:facet>
-                                <h:outputText value="#{gene.dbbio.name}" />
-                            </p:column>
+
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Symbol" />
@@ -71,19 +57,6 @@
                                 </f:facet>
                                 <h:outputText value="#{gene.name}" />
                             </p:column>                            
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="URL" />
-                                </f:facet>
-                                <h:outputText value="#{gene.url}" />
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Synonymou" />
-                                </f:facet>
-                                <h:outputText value="#{gene.synonymou.dbbio.name}:"/>
-                                <h:outputText value="#{gene.synonymou.symbol}" />
-                            </p:column>
 
                         </p:dataTable>
 

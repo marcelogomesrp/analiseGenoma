@@ -105,10 +105,10 @@ public class DbBioInfoMB implements Serializable {
             dbBioInfo.setDbBio(dbBioService.findById(idBd));
         }
         dbBioInfo.setDisease(disease);
-        dbBioInfo.setGenes(new HashSet<>());
-        for (String gene : genes) {
-            dbBioInfo.getGenes().add(geneService.findBySymbolOrCreate(gene));
-        }
+//        dbBioInfo.setGenes(new HashSet<>());
+//        for (String gene : genes) {
+//            dbBioInfo.getGenes().add(geneService.findBySymbolOrCreate(gene));
+//        }
         dbBioService.persiste(dbBioInfo);
         dbBioInfo = new DbBioInfo();
         disease = new Disease();

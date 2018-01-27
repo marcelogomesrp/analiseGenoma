@@ -3,6 +3,7 @@ package org.analiseGenoma.dao;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import org.analiseGenoma.model.Gene;
 
 public class GeneDao extends DAO<Gene> {
@@ -83,6 +84,12 @@ public class GeneDao extends DAO<Gene> {
             System.out.println("Opa deu erro na busca de genes::" + ex.getMessage());
         }
         return genes;
+    }
+
+    @Transactional
+    @Override
+    public void persist(Gene g) {
+        manager.persist(g);
     }
 
 

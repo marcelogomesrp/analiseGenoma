@@ -43,14 +43,18 @@ public class GeneMB implements Serializable {
     @Inject
     private BancoBiologicoService bdService;
     private Long idBd;
+    private List<String> symbolSynonyms;
+    private List<String> nameSynonyms;
+    
+    
 
-    public List<SelectItem> getSelectGenes() {
-        List<SelectItem> genesSelect = new ArrayList<SelectItem>();
-        for (Gene g : geneService.buscar()) {
-            genesSelect.add(new SelectItem(g.getId(), g.getSymbol() + " - " + g.getName()));
-        }
-        return genesSelect;
-    }
+//    public List<SelectItem> getSelectGenes() {
+//        List<SelectItem> genesSelect = new ArrayList<SelectItem>();
+//        for (Gene g : geneService.buscar()) {
+//            genesSelect.add(new SelectItem(g.getId(), g.getSymbol() + " - " + g.getName()));
+//        }
+//        return genesSelect;
+//    }
     
     public List<SelectItem> getSelectDbbios() {
         List<SelectItem> select = new ArrayList<SelectItem>();
@@ -62,34 +66,43 @@ public class GeneMB implements Serializable {
 
     @PostConstruct
     public void init() {
-        gene = new Gene();
-        genes = geneService.find();
+//        gene = new Gene();
+//        genes = geneService.find();
+//        symbolSynonyms = new ArrayList<>();
+        this.reload();
         bds = new ArrayList<SelectItem>();
         for(DbBio bd: bdService.buscar()){
             bds.add(new SelectItem(bd.getId(), bd.getName()));
         }
                 
-        
+    }
+    
+    public void reload(){
+        gene = new Gene();
+        genes = geneService.find();
+        symbolSynonyms = new ArrayList<>();
+        nameSynonyms = new ArrayList<>();
     }
 
-    public void adicionar() {
-        if (idgenenovo != null) {
-            if (!idgenenovo.equals("")) {
-                gene.setSynonymou(geneService.buscarPorId(Long.valueOf(idgenenovo)));
-            }
-        }
-        geneService.adicionar(gene);
-        gene = new Gene();
-        idgenenovo = "";
+    public void add() {
+//        if(symbolSynonyms != null){
+//            //symbolSynonyms.forEach( s -> gene.getGeneSymbolSynonym().add(new GeneSymbolSynonym(s)));
+//            for(String s : symbolSynonyms){
+//                gene.addGeneSymbolSynonymous(s);
+//            }
+//        }
+        geneService.persiste(gene, symbolSynonyms, nameSynonyms);
+        
+        this.reload();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
+        context.addMessage(null, new FacesMessage("It's done"));
 
     }
 
     public void pesquisar() {
         //genes = geneService.buscarNome(nome);
-        genes = geneService.buscarLikeSimbolo(getGene().getSymbol());
+        //genes = geneService.buscarLikeSimbolo(getGene().getSymbol());
     }
 
     public Gene getGene() {
@@ -148,6 +161,24 @@ public class GeneMB implements Serializable {
         this.idBd = idBd;
     }
 
+    public List<String> getSymbolSynonyms() {
+        return symbolSynonyms;
+    }
+
+    public void setSymbolSynonyms(List<String> symbolSynonyms) {
+        this.symbolSynonyms = symbolSynonyms;
+    }
+
+    public List<String> getNameSynonyms() {
+        return nameSynonyms;
+    }
+
+    public void setNameSynonyms(List<String> nameSynonyms) {
+        this.nameSynonyms = nameSynonyms;
+    }
+
+    
+    
     
     
     public void upload() {

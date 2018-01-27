@@ -638,9 +638,9 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
     private void updateFiltro() {
         Set<Gene> genes = new HashSet<>();
-        for (String geneSymbol : duaListGene.getTarget()) {
-            genes.add(geneService.buscarNovoSimbolo(geneSymbol));
-        }
+//        for (String geneSymbol : duaListGene.getTarget()) {
+//            genes.add(geneService.buscarNovoSimbolo(geneSymbol));
+//        }
         filtro.setGenes(genes);
 
         //for(Gene g: geneService.buscarAnalise(analise.getId())){

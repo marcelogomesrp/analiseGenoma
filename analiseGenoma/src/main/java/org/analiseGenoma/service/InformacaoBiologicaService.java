@@ -77,15 +77,15 @@ public class InformacaoBiologicaService implements Serializable {
                         String[] listGenes = genes.replaceAll(" ", "").split(",");
                         Gene mainGene = null;
                         for (String geneSimbolo : listGenes) {
-                            Gene g = geneService.buscarAddSimbolo(geneSimbolo, mainGene);
-                            if (mainGene == null) {
-                                mainGene = g;
-                            }
+//                            Gene g = geneService.buscarAddSimbolo(geneSimbolo, mainGene);
+//                            if (mainGene == null) {
+//                                mainGene = g;
+//                            }
 
                             InformacaoBiologica info = new InformacaoBiologica();
                             info.setBdBio(bdBio);
                             info.setPatologia(p);
-                            info.setGene(g);
+//                            info.setGene(g);
                             info.setUtil(outros);
                             infoBioServiceExtend.BuscarAdd(info);
                             //informacaoBiologicaDao.adicionar(info);

@@ -31,7 +31,7 @@ public class VarianteService extends Service<Variante>{
         if(variante.getCromossomo() !=null)
             cromossomoService.atualizar(variante.getCromossomo());
         if(variante.getGene() != null)
-            geneService.atualizar(variante.getGene());
+//            geneService.atualizar(variante.getGene());
 //        if(variante.getUmdPredictor() != null)
 //            umdPredictorService.atualizar(variante.getUmdPredictor());
         if(variante.getZygosity() != null)

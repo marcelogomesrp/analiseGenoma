@@ -54,9 +54,9 @@ public class InfoAdicionarMB implements Serializable {
                 infoBio.setPatologia(patologias.get(0));
         }
         
-        if(gene != null){
-            infoBio.setGene(geneService.buscarNovoNome(gene));
-        }
+//        if(gene != null){
+//            infoBio.setGene(geneService.buscarNovoNome(gene));
+//        }
         
         infoBioService.adicionar(infoBio);     
         idBd = "";
@@ -86,7 +86,7 @@ public class InfoAdicionarMB implements Serializable {
 
     public List<String> geneComplete(String query) {
         List<String> results = new ArrayList<String>();
-        geneService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));        
+//        geneService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));        
         return results;
     }
     

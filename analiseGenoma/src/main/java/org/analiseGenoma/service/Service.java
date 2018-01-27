@@ -1,12 +1,13 @@
 package org.analiseGenoma.service;
 
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.DAO;
-import org.analiseGenoma.model.Disease;
 
 public abstract class Service<T> implements Serializable {
 
@@ -14,7 +15,7 @@ public abstract class Service<T> implements Serializable {
     @Inject
     protected DAO<T> dao;
 
-    private DAO<T>  getDao() {
+    private DAO<T> getDao() {
         return dao;
     }
 
@@ -55,15 +56,15 @@ public abstract class Service<T> implements Serializable {
     public List<T> findByExample(T obj) throws Exception {
         return dao.findByExample(obj);
     }
-    
-    public T getFirstOrNull(List<T> list){
-       if(list != null){
-           if(list.size() == 1){
-               return list.get(0);
-           }
-       }
-       return null;
-   }
+
+    public T getFirstOrNull(List<T> list) {
+        if (list != null) {
+            if (!(list.isEmpty())) {
+                return list.get(0);
+            }
+        }
+        return null;
+    }
 
     /*
     
@@ -83,4 +84,12 @@ public abstract class Service<T> implements Serializable {
         return obj;
     }
      */
+    public T XmlToObject(InputStream inputStream) throws Exception {
+        return getDao().XmlToObject(inputStream);
+
+    }
+
+    public Writer ObjectToXML(T obj) throws Exception {
+        return getDao().ObjectToXML(obj);
+    }
 }

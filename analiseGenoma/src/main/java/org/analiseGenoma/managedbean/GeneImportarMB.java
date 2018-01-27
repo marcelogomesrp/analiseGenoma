@@ -28,20 +28,20 @@ public class GeneImportarMB implements Serializable {
     public void init(){
     }
     
-    public String adicionar(){
-        System.out.println("Importando genes...");
-        if(uploadedFile != null){                    
-        geneService.importar(uploadedFile.getContents());
-                context.getExternalContext()
-                .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
-        }else{
-            context.getExternalContext()
-                .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage("Informe o arquivo"));
-        }
-        return "gene_importar.xhtml?faces-redirect=true";
-    }
+//    public String adicionar(){
+//        System.out.println("Importando genes...");
+//        if(uploadedFile != null){                    
+//        geneService.importar(uploadedFile.getContents());
+//                context.getExternalContext()
+//                .getFlash().setKeepMessages(true);
+//        context.addMessage(null, new FacesMessage("Cadastrado com sucesso"));
+//        }else{
+//            context.getExternalContext()
+//                .getFlash().setKeepMessages(true);
+//        context.addMessage(null, new FacesMessage("Informe o arquivo"));
+//        }
+//        return "gene_importar.xhtml?faces-redirect=true";
+//    }
 
     public UploadedFile getUploadedFile() {
         return uploadedFile;

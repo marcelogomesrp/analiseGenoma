@@ -1,6 +1,7 @@
 package org.analiseGenoma.model;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,11 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "disease")
-public class Disease implements Serializable{        
+
+@XmlRootElement(name = "disease")
+@XmlAccessorType(XmlAccessType.FIELD)
+
+public class Disease implements Serializable {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_disease")
     @Id
@@ -21,23 +32,19 @@ public class Disease implements Serializable{
     private String icd;
     @Column(columnDefinition = "text")
     private String description;
-    private String dbIdentifier;
-    @ManyToOne
-    private DbBio dbbio;
-    private String url;
     @ManyToOne
     @JoinColumn(name = "inheritance_id")
-    private InheritanceType inheritanceType;        
+    private InheritanceType inheritanceType;
     @ManyToOne
     @JoinColumn(name = "age_id")
     private Age age;
-    @ManyToOne
-    @JoinColumn(name = "synonymous_id")
-    private Disease synonymous;
     private Double prevalence;
-    
-            
 
+    @OneToMany
+    @XmlElementWrapper(name="genes")
+    private Set<Gene> genes;
+    @OneToMany(mappedBy = "disease")
+    private Set<DbBioInfo> dbBioInfos;
     public Long getId() {
         return id;
     }
@@ -51,7 +58,8 @@ public class Disease implements Serializable{
     }
 
     public void setIcd(String icd) {
-        this.icd = icd.toUpperCase().replaceAll("\\W", "");        
+        //this.icd = icd.toUpperCase().replaceAll("\\W", "");        
+        this.icd = icd.toUpperCase().trim();
     }
 
     public String getName() {
@@ -59,7 +67,7 @@ public class Disease implements Serializable{
     }
 
     public void setName(String name) {
-        this.name = name.toUpperCase();
+        this.name = name.toUpperCase().trim();
     }
 
     public String getDescription() {
@@ -67,37 +75,17 @@ public class Disease implements Serializable{
     }
 
     public void setDescription(String description) {
-        this.description = description.toUpperCase();
+        this.description = description.toUpperCase().trim();
     }
 
-    public String getDbIdentifier() {
-        return dbIdentifier;
-    }
-
-    public void setDbIdentifier(String dbIdentifier) {
-        this.dbIdentifier = dbIdentifier.toUpperCase();
-    }
-
-    public DbBio getDbbio() {
-        return dbbio;
-    }
-
-    public void setDbbio(DbBio dbbio) {
-        this.dbbio = dbbio;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        if(!url.matches("^$|^htt")){            
-            StringBuilder sb = new StringBuilder();
-            url = sb.append("http://").append(url).toString(); 
-        }
-        this.url = url;
-    }
-
+//
+//    public void setUrl(String url) {
+//        if(!url.matches("^$|^htt")){            
+//            StringBuilder sb = new StringBuilder();
+//            url = sb.append("http://").append(url).toString(); 
+//        }
+//        this.url = url;
+//    }
     public InheritanceType getInheritanceType() {
         return inheritanceType;
     }
@@ -114,14 +102,6 @@ public class Disease implements Serializable{
         this.age = age;
     }
 
-    public Disease getSynonymous() {
-        return synonymous;
-    }
-
-    public void setSynonymous(Disease synonymous) {
-        this.synonymous = synonymous;
-    }
-
     public Double getPrevalence() {
         return prevalence;
     }
@@ -129,19 +109,42 @@ public class Disease implements Serializable{
     public void setPrevalence(Double prevalence) {
         this.prevalence = prevalence;
     }
+
     public void setPrevalence(String prevalence) {
-        try{
+        try {
             Double n = Double.parseDouble(prevalence);
-            this.setPrevalence(n);            
-        }catch(Exception ex){
+            this.setPrevalence(n);
+        } catch (Exception ex) {
             System.out.println("************************************************************ Erro na conversao da prevalence: " + ex.getMessage());
         }
     }
-    
-    
+
+//    public Set<Gene> getGenes() {
+////        if (genes == null) {
+////            genes = new HashSet<>();
+////            if (dbBioInfos != null) {
+////                for (DbBioInfo info : this.getDbBioInfos()) {
+////                    genes.addAll(info.getGenes());
+////                }
+////            }
+////        }
+//        return genes;
+//    }
+//
+//    public void setGenes(Set<Gene> genes) {
+//        this.genes = genes;
+//    }
+//
+//    public Set<DbBioInfo> getDbBioInfos() {
+//        return dbBioInfos;
+//    }
+//
+//    public void setDbBioInfos(Set<DbBioInfo> dbBioInfos) {
+//        this.dbBioInfos = dbBioInfos;
+//}
     @Override
     public String toString() {
         return "Patologia{" + "id=" + id + ", nome=" + name + ", icd=" + icd + '}';
-    }    
-    
+    }
+
 }

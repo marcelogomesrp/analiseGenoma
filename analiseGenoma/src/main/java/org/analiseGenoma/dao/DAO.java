@@ -1,6 +1,9 @@
 package org.analiseGenoma.dao;
 
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +16,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 
 public class DAO<T> implements Serializable {
 
@@ -146,6 +153,24 @@ public class DAO<T> implements Serializable {
         Root<T> root = criteriaQuery.from(classe);
         criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.upper(root.get(propertyName)), value));
         return manager.createQuery(criteriaQuery).getResultList();
+    }
+    
+    
+    
+    public T XmlToObject(InputStream inputStream) throws Exception{
+        JAXBContext jaxbContext = JAXBContext.newInstance(classe);        
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();        
+        return (T) unmarshaller.unmarshal(inputStream);
+    }
+    
+   
+    public Writer ObjectToXML(T obj) throws Exception{
+        JAXBContext jaxbContext = JAXBContext.newInstance(classe);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        StringWriter writer = new StringWriter();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.marshal(obj, writer);
+        return writer;
     }
 
 }
