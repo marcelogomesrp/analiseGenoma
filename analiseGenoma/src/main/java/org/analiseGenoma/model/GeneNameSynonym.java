@@ -8,10 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "gene_name_synonym")
 @IdClass(GeneNameSynonymPK.class)
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GeneNameSynonym implements Serializable {
 
     @Id
@@ -19,7 +26,8 @@ public class GeneNameSynonym implements Serializable {
     private Long id;
 
     @Id
-    @ManyToOne
+    @ManyToOne    
+    @XmlTransient
     private Gene gene;
     @GeneratedValue
 
@@ -37,6 +45,7 @@ public class GeneNameSynonym implements Serializable {
         return gene;
     }
 
+    
     public void setGene(Gene gene) {
         this.gene = gene;
     }

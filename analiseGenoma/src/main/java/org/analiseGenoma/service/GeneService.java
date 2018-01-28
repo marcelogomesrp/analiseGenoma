@@ -1,7 +1,9 @@
 package org.analiseGenoma.service;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,10 +11,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.GeneDao;
+import org.analiseGenoma.dao.GeneDbBioDao;
+import org.analiseGenoma.dao.GeneListDao;
 import org.analiseGenoma.dao.GeneNameSynonymDao;
 import org.analiseGenoma.dao.GeneSymbolSynonymDao;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.GeneDbBio;
+import org.analiseGenoma.model.GeneList;
 import org.analiseGenoma.model.GeneNameSynonym;
 import org.analiseGenoma.model.GeneSymbolSynonym;
 import org.analiseGenoma.service.util.CSVReader;
@@ -33,7 +39,10 @@ public class GeneService extends Service<Gene> implements Serializable {
     private GeneSymbolSynonymDao geneSymbolSynonymDao;
     @Inject
     private GeneNameSynonymDao geneNameSynonymDao;
-    
+    @Inject
+    private GeneDbBioDao geneDbBioDao;
+    @Inject
+    private GeneListDao geneListDao;
     
     @Inject
     private DbBioService dbBioService;
@@ -114,7 +123,7 @@ public class GeneService extends Service<Gene> implements Serializable {
     }
     @Transactional
     //public void persiste(Gene gene, List<String> symbolSynonyms) {
-    public void persiste(Gene gene, List<String> symbolSynonyms, List<String> nameSynonyms) {        
+    public void persiste(Gene gene, List<String> symbolSynonyms, List<String> nameSynonyms, GeneDbBio geneDbBio) {        
         getDao().persist(gene);
         GeneSymbolSynonym gs = new GeneSymbolSynonym(gene, gene.getSymbol());
         geneSymbolSynonymDao.persist(gs);
@@ -131,6 +140,12 @@ public class GeneService extends Service<Gene> implements Serializable {
                 gn = new GeneNameSynonym(gene, name);
                 geneNameSynonymDao.persist(gn);
             }
+        }
+        if(geneDbBio.getDbBio() != null){
+            geneDbBio.setGene(gene);
+            geneDbBio.setDbBio(dbBioService.findById(geneDbBio.getDbBio().getId()));
+            //dbBioService.merge(geneDbBio.getDbBio());            
+            geneDbBioDao.persist(geneDbBio);
         }
     }
 
@@ -168,6 +183,36 @@ public class GeneService extends Service<Gene> implements Serializable {
         }
         return null;
     }
+
+    public InputStream findAsXML() {
+        //Gene g = this.getFirstOrNull(getDao().find());
+        Gene g = new Gene();
+        g.setName("name");
+        GeneList gl = new GeneList();
+        gl.setGenes(new ArrayList<>());
+        gl.getGenes().add(g);
+        gl.setGenes(getDao().find());
+        try {
+            String s = geneListDao.ObjectToXML(gl).toString();
+            InputStream is = new ByteArrayInputStream(s.getBytes());
+            return is;
+        } catch (Exception ex) {
+            Logger.getLogger(GeneService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Gene findBySymbol(String symbol) {
+//        List<GeneSymbolSynonym> geneSynonymous = geneSymbolSynonymDao.findByProperty("symbol", symbol);
+//        List<Gene> genes = new ArrayList<>();
+//        for(GeneSymbolSynonym gs: geneSynonymous){
+//            genes.add(gs.getGene());
+//        }
+            return getDao().findBySymbol(symbol);
+        
+    }
+
+
 
     
         

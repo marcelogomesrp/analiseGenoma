@@ -24,12 +24,29 @@
                             <p:inputText id="symbol" value="#{geneMB.gene.symbol}" />
                             <p:outputLabel value="Symbol Synonyms" for="symbolSynonyms" />
                             <p:chips value="#{geneMB.symbolSynonyms}" id="symbolSynonyms" />
+                            <p:outputLabel value="Db bio" for="dbbio" />
+                            <p:selectOneMenu id="dbbio" value="#{geneMB.geneDbBio.dbBio}" converter="#{dbBioConverter}">
+                                <f:selectItem itemLabel="select one" noSelectionOption="true" />
+                                <f:selectItems value="#{geneMB.selectDbbios}" />
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="Db Identifier" for="dbIdentifier" />
+                            <p:inputText id="dbIdentifier"  value="#{geneMB.geneDbBio.dbIdentifier}"/>
+                            <p:outputLabel value="URL" for="url" />
+                            <p:inputText id="url"  value="#{geneMB.geneDbBio.url}"/>
+
+
                         </p:panelGrid>                    
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="Add" actionListener="#{geneMB.add}" update="formulario"/>
                             <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{geneMB.viewGeneUpload}" immediate="true"  >
                                 <p:ajax event="dialogReturn" listener="#{geneMB.onViewEtniaUpload}" update="formulario" />
                             </p:commandButton>
+                            <p:commandButton value="Add" actionListener="#{geneMB.add}" update="formulario"/>
+                            <p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s">
+                                <p:fileDownload value="#{geneMB.fileXMLExample}"  />
+                            </p:commandButton>
+                            <p:commandButton value="Find by Symbol" actionListener="#{geneMB.findBySymbol}" update="formulario"/>
                         </p:panelGrid>
 
 
@@ -57,7 +74,34 @@
                                 </f:facet>
                                 <h:outputText value="#{gene.name}" />
                             </p:column>                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Synonimous Symbol" />
+                                </f:facet>
+                                <p:repeat value="#{gene.geneSymbolSynonym.toArray()}" var="s">
+                                    <h:outputText value="#{s.symbol}" />
+                                    <h:outputText value="   " />
+                                </p:repeat>
+                            </p:column>          
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Synonimous Name" />
+                                </f:facet>
+                                <p:repeat value="#{gene.geneNameSynonym.toArray()}" var="n">
+                                    <h:outputText value="#{n.name}" />
+                                    <h:outputText value="   " />
+                                </p:repeat>
+                            </p:column>          
 
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Db" />
+                                </f:facet>
+                                <p:repeat value="#{gene.listDbBio.toArray()}" var="db">
+                                    <h:outputText value="#{db.dbIdentifier}" />
+                                    <h:outputText value="   " />
+                                </p:repeat>
+                            </p:column>    
                         </p:dataTable>
 
                     </p:panel>        

@@ -1,7 +1,9 @@
 package org.analiseGenoma.managedbean;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import static java.util.Arrays.stream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +18,14 @@ import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.GeneDbBio;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
-
-
 
 @Named(value = "geneMB")
 @RequestScoped
@@ -42,11 +45,10 @@ public class GeneMB implements Serializable {
     private List<SelectItem> bds;
     @Inject
     private BancoBiologicoService bdService;
-    private Long idBd;
+    private DbBio dbBio;
     private List<String> symbolSynonyms;
     private List<String> nameSynonyms;
-    
-    
+    private GeneDbBio geneDbBio;
 
 //    public List<SelectItem> getSelectGenes() {
 //        List<SelectItem> genesSelect = new ArrayList<SelectItem>();
@@ -55,11 +57,11 @@ public class GeneMB implements Serializable {
 //        }
 //        return genesSelect;
 //    }
-    
     public List<SelectItem> getSelectDbbios() {
-        List<SelectItem> select = new ArrayList<SelectItem>();
+        List<SelectItem> select = new ArrayList<>();
         for (DbBio dbbio : bdService.buscar()) {
-            select.add(new SelectItem(dbbio.getId(), dbbio.getName()));
+            //select.add(new SelectItem(dbbio.getId(), dbbio.getName()));
+            select.add(new SelectItem(dbbio, dbbio.getName()));
         }
         return select;
     }
@@ -71,28 +73,24 @@ public class GeneMB implements Serializable {
 //        symbolSynonyms = new ArrayList<>();
         this.reload();
         bds = new ArrayList<SelectItem>();
-        for(DbBio bd: bdService.buscar()){
+        for (DbBio bd : bdService.buscar()) {
             bds.add(new SelectItem(bd.getId(), bd.getName()));
         }
-                
+
     }
-    
-    public void reload(){
+
+    public void reload() {
         gene = new Gene();
+        geneDbBio = new GeneDbBio();
         genes = geneService.find();
         symbolSynonyms = new ArrayList<>();
         nameSynonyms = new ArrayList<>();
+
     }
 
     public void add() {
-//        if(symbolSynonyms != null){
-//            //symbolSynonyms.forEach( s -> gene.getGeneSymbolSynonym().add(new GeneSymbolSynonym(s)));
-//            for(String s : symbolSynonyms){
-//                gene.addGeneSymbolSynonymous(s);
-//            }
-//        }
-        geneService.persiste(gene, symbolSynonyms, nameSynonyms);
-        
+        geneService.persiste(gene, symbolSynonyms, nameSynonyms, geneDbBio);
+
         this.reload();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
@@ -148,17 +146,9 @@ public class GeneMB implements Serializable {
     public void setBds(List<SelectItem> bds) {
         this.bds = bds;
     }
-    
+
     public void setUploadedFile(UploadedFile uploadedFile) {
         this.uploadedFile = uploadedFile;
-    }
-
-    public Long getIdBd() {
-        return idBd;
-    }
-
-    public void setIdBd(Long idBd) {
-        this.idBd = idBd;
     }
 
     public List<String> getSymbolSynonyms() {
@@ -177,15 +167,27 @@ public class GeneMB implements Serializable {
         this.nameSynonyms = nameSynonyms;
     }
 
-    
-    
-    
-    
+    public DbBio getDbBio() {
+        return dbBio;
+    }
+
+    public void setDbBio(DbBio dbBio) {
+        this.dbBio = dbBio;
+    }
+
+    public GeneDbBio getGeneDbBio() {
+        return geneDbBio;
+    }
+
+    public void setGeneDbBio(GeneDbBio geneDbBio) {
+        this.geneDbBio = geneDbBio;
+    }
+
     public void upload() {
         String msg = "Erro ao realizar o upload";
         if (uploadedFile != null) {
             //etniaService.upload(uploadedFile.getContents());
-            geneService.upload(uploadedFile.getContents(), idBd);
+            //geneService.upload(uploadedFile.getContents(), idBd);
             msg = "Importado com sucesso";
             RequestContext.getCurrentInstance().closeDialog(msg);
         }
@@ -197,7 +199,7 @@ public class GeneMB implements Serializable {
         RequestContext.getCurrentInstance().openDialog("viewGeneUpload", options, null);
     }
 
-        public void onViewEtniaUpload(SelectEvent event) {
+    public void onViewEtniaUpload(SelectEvent event) {
         //etnias = etniaService.buscar();
         String msg = (String) event.getObject();
         context.getExternalContext()
@@ -205,7 +207,18 @@ public class GeneMB implements Serializable {
         context.addMessage(null, new FacesMessage(msg));
 
     }
-    
+
+    public StreamedContent getFileXMLExample() {
         
+        InputStream stream = geneService.findAsXML();
+        StreamedContent file;
+        file = new DefaultStreamedContent(stream, "application/xml", "gene.xml");
+        return file;
+    }
+    
+    
+    public void findBySymbol(){
+        gene = geneService.findBySymbol(gene.getSymbol());
+    }
 
 }

@@ -2,6 +2,7 @@ package org.analiseGenoma.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -13,9 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 
 @Entity
@@ -23,20 +23,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Table(name = "gene")
 public class Gene implements Serializable{
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_gene")
+    @Column(name = "id_gene")    
     private Long id;
     @Column
     private String name;
     //@Column(unique = true)
-    private String symbol;    
+    private String symbol; 
+    
     @OneToMany(mappedBy = "gene")
     private Set<GeneNameSynonym> geneNameSynonym;
+
     @OneToMany(mappedBy = "gene")
-    @XmlElementWrapper(name="geneSymbolSynonymous")
-    @XmlElement(name="geneSymbolSynonym")
     private Set<GeneSymbolSynonym> geneSymbolSynonym;
+    
+    @OneToMany(mappedBy = "gene")
+    private Set<GeneDbBio> listDbBio;
 
     public Long getId() {
         return id;
@@ -85,6 +90,18 @@ public class Gene implements Serializable{
     public void setGeneSymbolSynonym(Set<GeneSymbolSynonym> geneSymbolSynonym) {
         this.geneSymbolSynonym = geneSymbolSynonym;
     }
+
+    public Set<GeneDbBio> getListDbBio() {
+        return listDbBio;
+    }
+
+    public void setListDbBio(Set<GeneDbBio> listDbBio) {
+        this.listDbBio = listDbBio;
+    }
+
+
+    
+    
 
     @Override
     public String toString() {
