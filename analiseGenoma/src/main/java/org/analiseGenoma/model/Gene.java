@@ -31,7 +31,7 @@ public class Gene implements Serializable{
     private Long id;
     @Column
     private String name;
-    //@Column(unique = true)
+    @Column(unique = true)
     private String symbol; 
     
     @OneToMany(mappedBy = "gene")

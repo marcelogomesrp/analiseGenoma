@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
-@Table(name = "gene_symbol_synonym")
+@Table(name = "gene_symbol")
 @IdClass(GeneSymbolSynonymPK.class)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

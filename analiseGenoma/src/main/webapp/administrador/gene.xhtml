@@ -18,8 +18,9 @@
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:outputLabel value="Name" for="name" />
                             <p:inputText id="name" value="#{geneMB.gene.name}" />
-                            <p:outputLabel value="Name Synonyms" for="nameSynonyms" />
-                            <p:chips value="#{geneMB.nameSynonyms}" id="nameSynonyms" />
+                            
+                            
+                            
                             <p:outputLabel value="Symbol" for="symbol" />
                             <p:inputText id="symbol" value="#{geneMB.gene.symbol}" />
                             <p:outputLabel value="Symbol Synonyms" for="symbolSynonyms" />
@@ -83,16 +84,17 @@
                                     <h:outputText value="   " />
                                 </p:repeat>
                             </p:column>          
+                            <!--
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Synonimous Name" />
                                 </f:facet>
-                                <p:repeat value="#{gene.geneNameSynonym.toArray()}" var="n">
-                                    <h:outputText value="#{n.name}" />
+                                <p:repeat value="{gene.geneNameSynonym.toArray()}" var="n">
+                                    <h:outputText value="{n.name}" />
                                     <h:outputText value="   " />
                                 </p:repeat>
                             </p:column>          
-
+                            -->
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Db" />

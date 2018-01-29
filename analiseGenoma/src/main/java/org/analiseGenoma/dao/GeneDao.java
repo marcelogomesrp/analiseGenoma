@@ -15,7 +15,8 @@ public class GeneDao extends DAO<Gene> {
     @Override
     public List<Gene> find(){
         //List<Gene> genes =  manager.createQuery("SELECT g FROM Gene g  LEFT JOIN FETCH g.listDbBio LEFT JOIN FETCH g.geneSymbolSynonym LEFT JOIN FETCH g.geneNameSynonym").getResultList();
-        List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g  JOIN FETCH g.listDbBio JOIN FETCH g.geneSymbolSynonym JOIN FETCH g.geneNameSynonym").getResultList();
+        //List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g  JOIN FETCH g.listDbBio JOIN FETCH g.geneSymbolSynonym JOIN FETCH g.geneNameSynonym").getResultList();
+        List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g  LEFT JOIN FETCH g.listDbBio LEFT JOIN FETCH g.geneSymbolSynonym").getResultList();
         return genes;
         //geneNameSynonym
     }
@@ -110,6 +111,16 @@ public class GeneDao extends DAO<Gene> {
         }
         return null;
                 
+    }
+
+    public List<Gene> findBySymbol(List<String> symbolList) {
+        Query q = manager.createQuery("SELECT DISTINCT g.gene from GeneSymbolSynonym g JOIN FETCH g.gene.geneSymbolSynonym WHERE g.symbol in :symbols ", Gene.class);
+        q.setParameter("symbols", symbolList);
+        List<Gene> genes = q.getResultList();
+        if(!genes.isEmpty()){
+            return genes;
+        }
+        return null;
     }
 
 

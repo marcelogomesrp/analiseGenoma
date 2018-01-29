@@ -41,10 +41,11 @@ public class Disease implements Serializable {
     private Double prevalence;
 
     @OneToMany
-    @XmlElementWrapper(name="genes")
+    @XmlElementWrapper(name = "genes")
     private Set<Gene> genes;
     @OneToMany(mappedBy = "disease")
     private Set<DbBioInfo> dbBioInfos;
+
     public Long getId() {
         return id;
     }

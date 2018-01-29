@@ -7,6 +7,8 @@ import static java.util.Arrays.stream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 import javax.enterprise.context.RequestScoped;
@@ -89,12 +91,18 @@ public class GeneMB implements Serializable {
     }
 
     public void add() {
-        geneService.persiste(gene, symbolSynonyms, nameSynonyms, geneDbBio);
-
-        this.reload();
-        context.getExternalContext()
-                .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage("It's done"));
+        try {
+            geneService.persiste(gene, symbolSynonyms, nameSynonyms, geneDbBio);
+            this.reload();
+            context.getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            context.addMessage(null, new FacesMessage("It's done"));
+        } catch (Exception ex) {
+            Logger.getLogger(GeneMB.class.getName()).log(Level.SEVERE, null, ex);
+            context.getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            context.addMessage(null, new FacesMessage("Error: " + ex.getMessage() ));
+        }
 
     }
 
@@ -209,15 +217,14 @@ public class GeneMB implements Serializable {
     }
 
     public StreamedContent getFileXMLExample() {
-        
+
         InputStream stream = geneService.findAsXML();
         StreamedContent file;
         file = new DefaultStreamedContent(stream, "application/xml", "gene.xml");
         return file;
     }
-    
-    
-    public void findBySymbol(){
+
+    public void findBySymbol() {
         gene = geneService.findBySymbol(gene.getSymbol());
     }
 
