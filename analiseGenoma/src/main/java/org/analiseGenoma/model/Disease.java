@@ -1,7 +1,7 @@
 package org.analiseGenoma.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,11 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -28,6 +26,7 @@ public class Disease implements Serializable {
     @Column(name = "id_disease")
     @Id
     private Long id;
+    @Column(unique = true)
     private String name;
     private String icd;
     @Column(columnDefinition = "text")
@@ -40,12 +39,9 @@ public class Disease implements Serializable {
     private Age age;
     private Double prevalence;
 
-    @OneToMany
-    @XmlElementWrapper(name = "genes")
-    private Set<Gene> genes;
-    @OneToMany(mappedBy = "disease")
-    private Set<DbBioInfo> dbBioInfos;
-
+    public Disease() {
+    }
+    
     public Long getId() {
         return id;
     }
@@ -119,6 +115,8 @@ public class Disease implements Serializable {
             System.out.println("************************************************************ Erro na conversao da prevalence: " + ex.getMessage());
         }
     }
+    
+    
 
 //    public Set<Gene> getGenes() {
 ////        if (genes == null) {
@@ -148,4 +146,31 @@ public class Disease implements Serializable {
         return "Patologia{" + "id=" + id + ", nome=" + name + ", icd=" + icd + '}';
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Disease other = (Disease) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
 }

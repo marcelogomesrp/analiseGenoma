@@ -22,11 +22,15 @@
                             <p:inputText id="icd" value="#{diseaseMB.disease.icd}" />
                             <p:outputLabel value="Description" for="description" />
                             <p:inputText id="description" value="#{diseaseMB.disease.description}" />
+                            <p:outputLabel value="DB identifier" for="dbIdentifier" />
+                            <p:inputText id="dbIdentifier" value="#{diseaseMB.disease.dbIdentifier}" />
                             <p:outputLabel value="DB Bio" for="dbbio" />
                             <p:selectOneMenu id="dbbio" value="#{diseaseMB.idDbbio}" >
                                 <f:selectItem itemLabel="select one" itemValue="" />
                                 <f:selectItems value="#{diseaseMB.selectDbbios}" />
                             </p:selectOneMenu>
+                            <p:outputLabel value="Url" for="url" />
+                            <p:inputText id="url" value="#{diseaseMB.disease.url}" />
                             <p:outputLabel value="Age" for="age" />
                             <p:selectOneMenu id="age" value="#{diseaseMB.idAge}" >
                                 <f:selectItem itemLabel="select one" itemValue="" />
@@ -38,15 +42,7 @@
                                             converter="#{inheritanceConverter}" forceSelection="true">
 
                             </p:autoComplete>
-                            <p:outputLabel value="Prevalence" for="prevalence" />
-                            <p:inputText id="prevalence" value="#{diseaseMB.disease.prevalence}" />
-                            
-                            <p:outputLabel value="Db Identifier" for="infoIdentifier" />
-                            <p:inputText id="infoIdentifier" value="#{diseaseMB.dbBioInfo.infoIdentifier}" />
-                            
-                            <p:outputLabel value="Genes" for="genes" />
-                            <p:chips value="#{diseaseMB.genes}" id="genes" />
-                            
+
 
                         </p:panelGrid>                        
 
@@ -80,7 +76,19 @@
                                 <h:outputText value="#{disease.icd}" />
                             </p:column>
 
-                           
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Db Bio" />
+                                </f:facet>
+                                <h:outputText value="#{disease.dbbio.name}" />
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Disease" />
+                                </f:facet>
+                                <h:outputText value="#{disease.dbIdentifier}" />
+                            </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Description" />
@@ -105,7 +113,14 @@
                                 </f:facet>
                                 <h:outputText value="#{disease.prevalence}" />
                             </p:column>
-
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="URL" />
+                                </f:facet>
+                                <h:outputLink value="#{disease.url}" target="_blank" >
+                                    <h:outputText value="#{disease.url}" />
+                                </h:outputLink>
+                            </p:column>
                             
                         </p:dataTable>
                     </p:panel>        

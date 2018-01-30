@@ -15,6 +15,7 @@ import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Age;
 import org.analiseGenoma.model.DbBio;
+import org.analiseGenoma.model.DbBioInfo;
 import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.InheritanceType;
 import org.analiseGenoma.service.AgeService;
@@ -32,6 +33,8 @@ public class DiseaseMB implements Serializable {
     @Inject
     private DiseaseService diseaseService;
     private Disease disease;
+    private DbBioInfo dbBioInfo;
+    private List<String> genes;
     @Inject
     private FacesContext context;
     @Inject
@@ -54,6 +57,7 @@ public class DiseaseMB implements Serializable {
     public void init() {
         disease = new Disease();
         diseases = diseaseService.find();
+        genes = new ArrayList<>();
     }
 
     public void add() {
@@ -61,6 +65,7 @@ public class DiseaseMB implements Serializable {
         diseaseService.adicionar(disease);
         disease = new Disease();
         diseases = diseaseService.find();
+        dbBioInfo = new DbBioInfo();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("It's done"));
@@ -114,6 +119,25 @@ public class DiseaseMB implements Serializable {
     public void setUploadedFile(UploadedFile uploadedFile) {
         this.uploadedFile = uploadedFile;
     }
+
+    public DbBioInfo getDbBioInfo() {
+        return dbBioInfo;
+    }
+
+    public void setDbBioInfo(DbBioInfo dbBioInfo) {
+        this.dbBioInfo = dbBioInfo;
+    }
+
+    public List<String> getGenes() {
+        return genes;
+    }
+
+    public void setGenes(List<String> genes) {
+        this.genes = genes;
+    }
+    
+    
+    
 
     public List<SelectItem> getSelectDbbios() {
         List<SelectItem> select = new ArrayList<>();
