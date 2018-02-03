@@ -74,16 +74,18 @@
                                     <h:outputText value="Name" />
                                 </f:facet>
                                 <h:outputText value="#{gene.name}" />
-                            </p:column>                            
+                            </p:column>     
+                            <!--
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Synonimous Symbol" />
                                 </f:facet>
-                                <p:repeat value="#{gene.geneSymbolSynonym.toArray()}" var="s">
-                                    <h:outputText value="#{s.symbol}" />
+                                <p:repeat value="{gene.geneSymbolSynonym.toArray()}" var="s">
+                                    <h:outputText value="{s.symbol}" />
                                     <h:outputText value="   " />
                                 </p:repeat>
                             </p:column>          
+                            -->
                             <!--
                             <p:column>
                                 <f:facet name="header">
@@ -95,15 +97,17 @@
                                 </p:repeat>
                             </p:column>          
                             -->
+                            <!--
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Db" />
                                 </f:facet>
-                                <p:repeat value="#{gene.listDbBio.toArray()}" var="db">
-                                    <h:outputText value="#{db.dbIdentifier}" />
+                                <p:repeat value="{gene.listDbBio.toArray()}" var="db">
+                                    <h:outputText value="{db.dbIdentifier}" />
                                     <h:outputText value="   " />
                                 </p:repeat>
                             </p:column>    
+                            -->
                         </p:dataTable>
 
                     </p:panel>        

@@ -23,6 +23,8 @@ import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.GeneDbBio;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
+import org.analiseGenoma.service.util.CSVReader;
+import org.analiseGenoma.service.util.Line;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -191,11 +193,52 @@ public class GeneMB implements Serializable {
         this.geneDbBio = geneDbBio;
     }
 
+   private Gene makeGene(Line ln) {
+        Gene g = new Gene();
+        g.setSymbol(ln.getField(1));
+        g.setName(ln.getField(2));
+        if (ln.getSize() > 3) {
+            if (!(ln.getField(3).isEmpty())) {
+                String synonymous[] = ln.getField(3).split(",");
+                for (String s : synonymous) {
+                    g.addGeneSymbolSynonymous(s);
+                }
+            }
+        }
+        if (ln.getSize() > 4) {
+            if (!(ln.getField(4).isEmpty())) {
+                String synonymous[] = ln.getField(4).split(",");
+                for (String s : synonymous) {
+                    g.addGeneSymbolSynonymous(s);
+                }
+            }
+        }
+
+        return g;
+    }
+        
     public void upload() {
         String msg = "Erro ao realizar o upload";
         if (uploadedFile != null) {
-            //etniaService.upload(uploadedFile.getContents());
-            //geneService.upload(uploadedFile.getContents(), idBd);
+            geneService.upload(uploadedFile.getContents(), dbBio);        
+//            CSVReader csv = new CSVReader(uploadedFile.getContents());
+//            int x=0;
+//            for (Line ln : csv.getFile()) {
+//            //for(x=0;x<30;x++){
+//                Gene g = this.makeGene(ln);
+//                //Gene g = new Gene();
+//                //g.setSymbol("g" + x++);
+//                //g.setName("n" + x++);
+//                
+//                
+//                try {
+//                    geneService.persiste(g);
+//                } catch (Exception ex) {
+//                    Logger.getLogger(GeneMB.class.getName()).log(Level.SEVERE, null, ex);
+//                    System.out.println("Erro no GeneMB.upload");
+//                }
+//            }
+            
             msg = "Importado com sucesso";
             RequestContext.getCurrentInstance().closeDialog(msg);
         }

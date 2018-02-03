@@ -95,6 +95,11 @@ public class GeneSymbolSynonym implements Serializable {
         this.symbol = symbol;
     }
 
+    @Override
+    public String toString() {
+        return "GeneSymbolSynonym{" + "id=" + id + ", gene=" + gene + ", symbol=" + symbol + '}';
+    }
+
 
 
 }

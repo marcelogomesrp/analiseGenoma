@@ -5,6 +5,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.GeneSymbolSynonym;
 
 public class GeneDao extends DAO<Gene> {
 
@@ -12,14 +13,14 @@ public class GeneDao extends DAO<Gene> {
         super(Gene.class);
     }
     
-    @Override
-    public List<Gene> find(){
-        //List<Gene> genes =  manager.createQuery("SELECT g FROM Gene g  LEFT JOIN FETCH g.listDbBio LEFT JOIN FETCH g.geneSymbolSynonym LEFT JOIN FETCH g.geneNameSynonym").getResultList();
-        //List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g  JOIN FETCH g.listDbBio JOIN FETCH g.geneSymbolSynonym JOIN FETCH g.geneNameSynonym").getResultList();
-        List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g  LEFT JOIN FETCH g.listDbBio LEFT JOIN FETCH g.geneSymbolSynonym").getResultList();
-        return genes;
-        //geneNameSynonym
-    }
+//    @Override
+//    public List<Gene> find(){
+//        //List<Gene> genes =  manager.createQuery("SELECT g FROM Gene g  LEFT JOIN FETCH g.listDbBio LEFT JOIN FETCH g.geneSymbolSynonym LEFT JOIN FETCH g.geneNameSynonym").getResultList();
+//        //List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g  JOIN FETCH g.listDbBio JOIN FETCH g.geneSymbolSynonym JOIN FETCH g.geneNameSynonym").getResultList();
+//        List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g  LEFT JOIN FETCH g.listDbBio LEFT JOIN FETCH g.geneSymbolSynonym").getResultList();
+//        return genes;
+//        //geneNameSynonym
+//    }
     
     
 //    public List<Gene> find2() {
@@ -96,12 +97,15 @@ public class GeneDao extends DAO<Gene> {
         return genes;
     }
 
-    @Transactional
-    @Override
-    public void persist(Gene g) {
-        manager.persist(g);
-    }
+//    @Transactional
+//    @Override
+//    public void persist(Gene g) {        
+//        manager.persist(g);
+//    }
 
+
+    
+    
     public Gene findBySymbol(String symbol) {
         Query q = manager.createQuery("SELECT g.gene from GeneSymbolSynonym g JOIN FETCH g.gene.geneSymbolSynonym WHERE g.symbol = :symbol ", Gene.class);
         q.setParameter("symbol", symbol);
@@ -122,6 +126,8 @@ public class GeneDao extends DAO<Gene> {
         }
         return null;
     }
+
+
 
 
 

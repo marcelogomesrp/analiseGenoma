@@ -30,7 +30,6 @@ public class GeneNameSynonym implements Serializable {
     @XmlTransient
     private Gene gene;
     @GeneratedValue
-
     private String name;
 
     public GeneNameSynonym() {

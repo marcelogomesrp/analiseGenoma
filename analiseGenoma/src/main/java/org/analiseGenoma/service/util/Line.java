@@ -22,7 +22,7 @@ public class Line  implements Serializable{
     }
     
     public String getField(int x) {
-        return fields.get(x);
+        return fields.get(x).replace("'", "\\'");        
     }
     
     public List<String> getFields() {

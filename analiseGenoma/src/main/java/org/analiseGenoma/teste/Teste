@@ -1,0 +1,1 @@
+insert into gene_symbol (symbol, gene_id_gene) values ('NCRNA00181', 66933)
