@@ -1,0 +1,72 @@
+select
+    variante0_.id_informacaovcf as id_infor1_52_,
+    variante0_.acceptorSpliceSite as acceptor2_52_,
+    variante0_.africanVarintFreq as africanV3_52_,
+    variante0_.alleleMutFraction as alleleMu4_52_,
+    variante0_.allelicDeph as allelicD5_52_,
+    variante0_.alterado as alterado6_52_,
+    variante0_.americanVarintFreq as american7_52_,
+    variante0_.asianVarintFreq as asianVar8_52_,
+    variante0_.clinvaraccession_id as clinvar27_52_,
+    variante0_.clinvaralleleorigin_id as clinvar28_52_,
+    variante0_.clinvaralleletype_id as clinvar29_52_,
+    variante0_.clinvardisease_id as clinvar30_52_,
+    variante0_.clinvarsignificance_id as clinvar31_52_,
+    variante0_.cromossomo_id as cromoss32_52_,
+    variante0_.donorSpliceSite as donorSpl9_52_,
+    variante0_.effect_id as effect_33_52_,
+    variante0_._id as _id34_52_,
+    variante0_.europeanVarintFreq as europea10_52_,
+    variante0_.exon_intron as exon_in11_52_,
+    variante0_.feature_id as feature35_52_,
+    variante0_.filter_id as filter_36_52_,
+    variante0_.gene_id as gene_id37_52_,
+    variante0_.genotype_id as genotyp38_52_,
+    variante0_.gerpNeutralRate as gerpNeu12_52_,
+    variante0_.gerpRsScore as gerpRsS13_52_,
+    variante0_.hgvs_c as hgvs_c14_52_,
+    variante0_.hgvs_p as hgvs_p15_52_,
+    variante0_.idSNP as idSNP16_52_,
+    variante0_.impacto_id as impacto39_52_,
+    variante0_.interprodomain_id as interpr40_52_,
+    variante0_.lrt_id as lrt_id41_52_,
+    variante0_.meanBaseQuality as meanBas17_52_,
+    variante0_.mutation as mutatio18_52_,
+    variante0_.mutationtaster_id as mutatio42_52_,
+    variante0_.polyphenhdiv_id as polyphe43_52_,
+    variante0_.polyphenHvar_id as polyphe44_52_,
+    variante0_.position as positio19_52_,
+    variante0_.qualidade as qualida20_52_,
+    variante0_.readDepth as readDep21_52_,
+    variante0_.referencia as referen22_52_,
+    variante0_.sift_id as sift_id45_52_,
+    variante0_.type_id as type_id46_52_,
+    variante0_.umdpredictor_id as umdpred47_52_,
+    variante0_.validate as validat23_52_,
+    variante0_.variantstatus_id as variant48_52_,
+    variante0_.varintType as varintT24_52_,
+    variante0_.vcf_id as vcf_id49_52_,
+    variante0_.vertebrateGenomesConservationScore as vertebr25_52_,
+    variante0_.wholeVarintFreq as wholeVa26_52_,
+    variante0_.zygosity_id as zygosit50_52_ 
+from
+    variante variante0_ 
+where
+    variante0_.vcf_id=5 
+    and (
+        variante0_.cromossomo_id in (
+            ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?
+        )
+    ) 
+    and variante0_.position>=416395 
+    and variante0_.position<=242707833 
+    and (
+        variante0_.gene_id in (
+            ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?
+        )
+    ) 
+    and (
+        variante0_.umdpredictor_id in (
+            ? , ? , ? , ? , ?
+        )
+    )

@@ -11,10 +11,10 @@ public class DiseaseDao extends DAO<Disease> {
         super(Disease.class);
     }
 
-    public List<Disease> buscarLikeNome(String nome) {
+    public List<Disease> buscarLikeNome(String name) {
         try {
-            Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.nome like :nome");
-            query.setParameter("nome", nome);
+            Query query = manager.createQuery("SELECT p FROM Disease p WHERE p.name like :name");
+            query.setParameter("name", name);
             List<Disease> patologias = query.getResultList();
             return patologias;
         } catch (NoResultException ex) {
@@ -23,10 +23,11 @@ public class DiseaseDao extends DAO<Disease> {
         }
     }
     
-    public Disease buscarNome(String nome) {
+    public Disease buscarNome(String name) {
         try {
-            Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.nome = :nome");
-            query.setParameter("nome", nome);
+            //Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.nome = :nome");
+            Query query = manager.createQuery("SELECT p FROM Disease p WHERE p.name = :name");
+            query.setParameter("name", name);
             return (Disease) query.getSingleResult();
             //List<Patologia> patologias = query.getResultList();
             //return patologias;
@@ -39,7 +40,7 @@ public class DiseaseDao extends DAO<Disease> {
 
     public List<Disease>  buscarCid(String cid) {
         try {
-            Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.cid like :cid");
+            Query query = manager.createQuery("SELECT p FROM Disease p WHERE p.cid like :cid");
             query.setParameter("cid", cid);
             List<Disease> patologias = query.getResultList();
             return patologias;

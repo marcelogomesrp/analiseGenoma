@@ -26,7 +26,7 @@ public class Variante implements Serializable {
     @JoinColumn(name = "cromossomo_id")
     private Cromossomo cromossomo;
     //2
-    @Column(columnDefinition = "text")
+    //@Column(columnDefinition = "text")
     private Long position;
     //12
     @Column(columnDefinition = "text")

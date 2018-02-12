@@ -14,7 +14,7 @@
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel header="Nova Análise">
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
-                            <p:outputLabel value="Nome" for="nome"/>
+                            <p:outputLabel value="Name" for="name"/>
                             <p:inputText id="name" value="#{analiseMB.analise.nome}" validator="#{analiseMB.validateNome}"/>
                             <p:outputLabel value="cid" for="cid"/>
                             <p:autoComplete id="cid" value="#{analiseMB.cid}" completeMethod="#{analiseMB.cidComplete}"  >
