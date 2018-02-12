@@ -6,12 +6,14 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "dbbioinfo")
+@IdClass(DbBioInfoPK.class)
 public class DbBioInfo implements Serializable{    
     @Id
     @ManyToOne
@@ -19,7 +21,8 @@ public class DbBioInfo implements Serializable{
     @Id
     @ManyToOne
     private DbBio dbBio;
-    @OneToMany
+    //@OneToMany
+    @ManyToMany   
     private Set<Gene> genes;
     private String infoIdentifier;
     private String url;
@@ -50,6 +53,24 @@ public class DbBioInfo implements Serializable{
     public void setGenes(Set<Gene> genes) {
         this.genes = genes;
     }
+
+
+    
+//    public void addGene(Gene gene){
+//        boolean existe = false;
+//        if(genes == null){
+//            genes = new ArrayList<>();
+//        }
+//        for(Gene g: genes){
+//            if(g.equals(gene)){
+//                existe = true;
+//            }
+//        }
+//        if(existe == false)
+//            genes.add(gene);
+//    }
+
+
 
     public void addGene(Gene gene){
         if(genes == null)
@@ -101,6 +122,11 @@ public class DbBioInfo implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "DbBioInfo{" + "disease=" + disease + ", dbBio=" + dbBio + ", genes=" + genes + ", infoIdentifier=" + infoIdentifier + ", url=" + url + '}';
     }
 
     

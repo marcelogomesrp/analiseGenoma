@@ -13,7 +13,7 @@ public class VcfDao extends DAO<Vcf> {
 
     public List<Vcf> buscarPacienteId(Long id) {
         try {
-            Query query = manager.createQuery("SELECT v FROM Vcf v WHERE v.paciente.id like :id");
+            Query query = manager.createQuery("SELECT v FROM Vcf v WHERE v.paciente.id = :id");
             query.setParameter("id", id);
             List<Vcf> pacientes = query.getResultList();
             return pacientes;

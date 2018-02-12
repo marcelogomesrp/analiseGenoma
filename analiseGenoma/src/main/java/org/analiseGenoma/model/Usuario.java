@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name = "usuario")
 public class Usuario implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_usuario")
     private Long id;
     private String nome;
@@ -25,7 +25,8 @@ public class Usuario implements Serializable{
     private Boolean revisor;
     private Boolean administrador;
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    //@Column(columnDefinition = "LONGBLOB")BYTEA
+    @Column(columnDefinition = "BYTEA")
     private byte[] image;
     
 

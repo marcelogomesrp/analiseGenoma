@@ -4,18 +4,21 @@
         <description>Dev persistence unit</description>
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <!-- java transaction api || JNDI -->
-        <jta-data-source>java:jboss/datasources/analiseGenomaDS</jta-data-source>
+        <!-- <jta-data-source>java:jboss/datasources/analiseGenomaDS</jta-data-source> -->
+        <jta-data-source>java:/PostgresDS</jta-data-source>
         <properties>
             <property name="javax.persistence.sql-load-script-source" value="META-INF/import.sql"/>
             <property name="hibernate.hbm2ddl.auto" value="none"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/> -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
             <property name="javax.persistence.schema-generation.database.action" value="none"/>
         </properties>
     </persistence-unit>
   
-
+<!-- http://delphitojava.com.br/2015/10/15/como-instalar-o-driver-do-postgresql-no-wildfly/ 
+    https://horochovec.com.br/configurando-um-datasource-do-postgresql-no-wildfly-973558fc155-->
   
   
     <!--

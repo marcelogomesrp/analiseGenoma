@@ -38,7 +38,7 @@ public class PacienteMB implements Serializable {
     @Inject
     private VcfService vcfService;
     private Paciente paciente;
-    private long idEtnia;
+    private Population population;
     private String nome;
     @Inject
     private PopulationService etniaService;
@@ -62,6 +62,8 @@ public class PacienteMB implements Serializable {
         System.out.println("Pagina pacienteMB instanciada novamente");
         paciente = new Paciente();
         pacientes = pacienteService.buscar();
+        
+        vcfs = new ArrayList<>();
 
         if (id != null) {
             if (!id.equals("")) {
@@ -71,7 +73,7 @@ public class PacienteMB implements Serializable {
                 if (paciente != null) {
                     if (paciente.getEtnia() != null) {
                         if (paciente.getEtnia().getId() != null) {
-                            idEtnia = paciente.getEtnia().getId();
+                            //idEtnia = paciente.getEtnia().getId();
                         }
                     }
                     if(paciente.getFather() != null){
@@ -122,7 +124,7 @@ public class PacienteMB implements Serializable {
                 }
             }
         }
-        paciente.setEtnia(etniaService.findById(idEtnia));
+        //paciente.setEtnia(etniaService.findById(idEtnia));
         if (gender != null) {
             paciente.setGender(gender.charAt(0));
         }
@@ -158,9 +160,10 @@ public class PacienteMB implements Serializable {
     public void limpar() {
         paciente = new Paciente();
         gender = "";
-        idEtnia = 0L;
+        //idEtnia = 0L;
         father = "";
         mother = "";
+        Population population = new Population();
                 
         pacientes = pacienteService.buscar();
 //        if (id != null) {
@@ -179,19 +182,22 @@ public class PacienteMB implements Serializable {
 
     public List<SelectItem> getSelectEtnias() {
         List<SelectItem> etnias = new ArrayList<SelectItem>();
-        for (Population e : etniaService.find()) {
+        for (Population p : etniaService.find()) {
             //TODO: etnias.add(new SelectItem(e.getId(), e.getSigla() + " - " + e.getNome()));
+            etnias.add(new SelectItem(p, p.getDescription()));
         }
         return etnias;
     }
 
-    public long getIdEtnia() {
-        return idEtnia;
+    public Population getPopulation() {
+        return population;
     }
 
-    public void setIdEtnia(long idEtnia) {
-        this.idEtnia = idEtnia;
+    public void setPopulation(Population population) {
+        this.population = population;
     }
+
+
 
     public void pesquisar() {
         System.out.println("Pesquisando...." + nome);
@@ -224,7 +230,7 @@ public class PacienteMB implements Serializable {
 
     public void salvar() {
         System.out.println("-----> " + paciente.toString());
-        paciente.setEtnia(etniaService.findById(idEtnia));
+        //paciente.setEtnia(etniaService.findById(idEtnia));
         pacienteService.atualizar(paciente);
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
@@ -321,7 +327,11 @@ public class PacienteMB implements Serializable {
     }
 
     public List<Vcf> vcfs(Paciente p) {
+        if(p == null){
+            return new ArrayList<>();
+        }
         return vcfService.buscarPacienteId(p.getId());
+            //return new ArrayList<Vcf>();
     }
 
     public String getFather() {
@@ -380,7 +390,7 @@ public class PacienteMB implements Serializable {
     }
   
     public void find() {
-        paciente.setEtnia(etniaService.findById(idEtnia));
+        //paciente.setEtnia(etniaService.findById(idEtnia));
         if (gender != null) {
             paciente.setGender(gender.charAt(0));
         }
@@ -390,7 +400,7 @@ public class PacienteMB implements Serializable {
     public void novo() {
         defCrudModeUpdate();
         paciente = new Paciente();
-        idEtnia = 0;
+        //idEtnia = 0;
         gender = "";
         father = "";
         mother = "";
@@ -398,20 +408,20 @@ public class PacienteMB implements Serializable {
     
     
     public void validateFather(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-        if(disabledValidation)
-            return;
-        String nome = (String) o;
-        if( (nome == null) || ("".equals(nome)) ){
-            return;            
-        }
-        List<Paciente> list = pacienteService.findMenByName(nome);
-        if(list.size() == 1){
-            return;
-        }
-        FacesMessage message
-                = new FacesMessage("Father not found");
-        message.setSeverity(FacesMessage.SEVERITY_ERROR);
-        throw new ValidatorException(message);
+//        if(disabledValidation)
+//            return;
+//        String nome = (String) o;
+//        if( (nome == null) || ("".equals(nome)) ){
+//            return;            
+//        }
+//        List<Paciente> list = pacienteService.findMenByName(nome);
+//        if(list.size() == 1){
+//            return;
+//        }
+//        FacesMessage message
+//                = new FacesMessage("Father not found");
+//        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+//        throw new ValidatorException(message);
     }    
 
     public void validateMother(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {

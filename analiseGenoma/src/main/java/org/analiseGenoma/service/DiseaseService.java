@@ -95,7 +95,19 @@ public class DiseaseService extends Service<Disease> implements Serializable {
             t.start();
         }
     }
-//Name, ICD, Description, DbIdentifier, Inheritance
+    
+    
+//        @Transactional
+//    public void upload(byte[] contents, Long idDbbio) {
+//        if (contents.length > 0) {
+//            this.importar(contents, idDbbio);
+//        }
+//    }
+    
+    
+    
+//Name, Description, ICD, DbIdentifier, Inheritance
+    //cat icd10cm_order_2018.csv | sed -r -e 's/^.{9}/&./' | sed -e 's/\. /  /g' > icd_ponto.csv
     private void importar(byte[] contents, Long idDbbio) {
         CSVReader csv = new CSVReader(contents);
         DbBio db = dbBioService.findById(idDbbio);
@@ -105,12 +117,12 @@ public class DiseaseService extends Service<Disease> implements Serializable {
                 //d.setDbbio(db);
                 d.setName(ln.getField(0));
                 if(ln.getSize() >= 2){
-                    d.setIcd(ln.getField(1));                    
+                    d.setDescription(ln.getField(1));                    
                 }
                 if(ln.getSize() >= 3){
-                    d.setDescription(ln.getField(2));
+                    d.setIcd(ln.getField(2));
                 }
-                if(ln.getSize() >= 4){
+                if(ln.getSize() >= 4){                    
                     //d.setDbIdentifier(ln.getField(3));
                 }
                 if(ln.getSize() >= 5){
@@ -131,12 +143,11 @@ public class DiseaseService extends Service<Disease> implements Serializable {
     @Transactional
     private Disease findOrCreate(Disease disease) {
         Disease d = null;
-        if(disease.getIcd() != null){
-            d = this.findByICD(disease.getIcd());
-        }
-        if(d == null){
-            d = this.findByName(disease.getName());
-        }
+//        if(disease.getIcd() != null){
+//            d = this.findByICD(disease.getIcd());
+//        }
+        d = this.findByName(disease.getName());
+        //System.out.println("Valor do banco: " + d.toString());
         if(d == null){
             this.persiste(disease);
             return disease;
@@ -145,8 +156,18 @@ public class DiseaseService extends Service<Disease> implements Serializable {
 //                return d;
 //            }else{                
                 //disease.setSynonymous(d);
-                this.persiste(disease);
-                return disease;
+//                if(d.getAge() == null){
+//                    d.setAge(disease.getAge());
+//                }
+                if(d.getDescription() == null ){
+                    d.setDescription(disease.getDescription());
+                }
+                if(d.getIcd() == null){
+                    d.setIcd(disease.getIcd());
+                }
+                this.merge(d);
+                //this.persiste(disease);
+                return d;
 //            }
             
         }
@@ -158,8 +179,8 @@ public class DiseaseService extends Service<Disease> implements Serializable {
     
 
 
-    private Disease findByName(String name) {
-        return this.getFirstOrNull(getDao().findByProperty("name", name));
+    public Disease findByName(String name) {
+        return this.getFirstOrNull(getDao().findByProperty("name", name.toUpperCase().trim()));
     }
 
     public String ObjectToXML(DiseaseList dl) throws Exception {

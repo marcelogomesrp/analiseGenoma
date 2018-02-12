@@ -172,6 +172,16 @@ public class DAO<T> implements Serializable {
         marshaller.marshal(obj, writer);
         return writer;
     }
+    
+    
+        public T getFirstOrNull(List<T> list) {
+        if (list != null) {
+            if (!(list.isEmpty())) {
+                return list.get(0);
+            }
+        }
+        return null;
+    }
 
 }
 

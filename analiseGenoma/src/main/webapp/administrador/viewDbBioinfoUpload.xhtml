@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Import gene </title>
+        <title>Import DB Bioinfo </title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -18,10 +18,12 @@
         <h:form enctype="multipart/form-data">
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                 <h:outputLabel value="Bd" />
-                <p:selectOneMenu id="bd" value="#{dbBioInfoMB.idBd}" style="width:125px">
+                <p:selectOneMenu id="bd" value="#{dbBioInfoMB.idBd}" style="width:125px"  converter="#{dbBioConverter}">  
                      <f:selectItem itemLabel="select one" itemValue="" />
                      <f:selectItems value="#{dbBioInfoMB.selectDbbios}" />
                 </p:selectOneMenu>
+
+                
                 <h:outputLabel value="File" for="fileUpload"/>
                 <p:fileUpload  id="fileUpload" mode="simple" skinSimple="true" value="#{dbBioInfoMB.uploadedFile}"/>
             </p:panelGrid>

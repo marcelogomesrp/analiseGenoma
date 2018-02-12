@@ -3,7 +3,6 @@ package org.analiseGenoma.managedbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -17,7 +16,7 @@ import javax.transaction.Transactional;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.DbBioInfo;
 import org.analiseGenoma.model.Disease;
-import org.analiseGenoma.model.InheritanceType;
+import org.analiseGenoma.service.DbBioInfoService;
 import org.analiseGenoma.service.DbBioService;
 import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.GeneService;
@@ -33,7 +32,7 @@ public class DbBioInfoMB implements Serializable {
     private FacesContext context;
     private DbBioInfo dbBioInfo;
     private List<DbBioInfo> list;
-    private Long idBd;
+    private DbBio idBd;
     @Inject
     private DbBioService dbBioService;
     @Inject
@@ -43,6 +42,8 @@ public class DbBioInfoMB implements Serializable {
     private Disease disease;
     private List<String> genes;
     private UploadedFile uploadedFile;
+    @Inject
+    private DbBioInfoService bioInfoService;
 
     public DbBioInfo getDbBioInfo() {
         return dbBioInfo;
@@ -60,11 +61,11 @@ public class DbBioInfoMB implements Serializable {
         this.list = list;
     }
 
-    public Long getIdBd() {
+    public DbBio getIdBd() {
         return idBd;
     }
 
-    public void setIdBd(Long idBd) {
+    public void setIdBd(DbBio idBd) {
         this.idBd = idBd;
     }
 
@@ -102,7 +103,7 @@ public class DbBioInfoMB implements Serializable {
     @Transactional
     public void add() {
         if (idBd != null) {
-            dbBioInfo.setDbBio(dbBioService.findById(idBd));
+            dbBioInfo.setDbBio(idBd);
         }
         dbBioInfo.setDisease(disease);
 //        dbBioInfo.setGenes(new HashSet<>());
@@ -120,13 +121,24 @@ public class DbBioInfoMB implements Serializable {
     }
 
     public List<SelectItem> getSelectDbbios() {
-        List<SelectItem> select = new ArrayList<SelectItem>();
+//        List<SelectItem> select = new ArrayList<SelectItem>();
+//        for (DbBio dbbio : dbBioService.find()) {
+//            select.add(new SelectItem(dbbio.getId(), dbbio.getName()));
+//        }
+//        return select;
+
+        List<SelectItem> select = new ArrayList<>();
         for (DbBio dbbio : dbBioService.find()) {
-            select.add(new SelectItem(dbbio.getId(), dbbio.getName()));
+            //select.add(new SelectItem(dbbio.getId(), dbbio.getName()));
+            select.add(new SelectItem(dbbio, dbbio.getName()));
         }
         return select;
+
     }
 
+    
+    
+    
     public List<Disease> completeDisease(String query) {
         return diseaseService.findLikeName(query);
     }
@@ -134,7 +146,8 @@ public class DbBioInfoMB implements Serializable {
     public void upload() {
         String msg = "Error";
         if (uploadedFile != null) {
-            dbBioService.uploadInfo(uploadedFile.getContents(), idBd);
+            bioInfoService.uploadInfo(uploadedFile.getContents(),idBd);
+            //dbBioService.uploadInfo(uploadedFile.getContents(), idBd);
             //etniaService.upload(uploadedFile.getContents());
             //geneService.upload(uploadedFile.getContents(), idBd);
             msg = "it's done";

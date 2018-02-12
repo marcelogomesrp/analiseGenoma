@@ -17,6 +17,7 @@ import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.Vcf;
+import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.model.VcfStatus;
 import org.analiseGenoma.service.util.DoubleFactory;
 
@@ -127,6 +128,17 @@ public class VcfService implements Serializable {
 //                geneService.adicionar(gene);
 //            }
 //            variante.setGene(gene);
+
+            Gene gene = geneService.findBySymbol(linha[3]);
+            if(gene == null){
+                gene = new Gene();
+                gene.setSymbol(linha[3]);
+                gene.setName(linha[4]);
+                geneService.persiste(gene);
+            }
+            variante.setGene(gene);
+            
+
             variante.setUmdPredictor(umdPredictorService.findOrCreate(linha[5]));
             variante.setZygosity(zygosityService.findOrCreate(linha[6]));
             variante.setAllelicDeph(linha[7]);
@@ -171,8 +183,8 @@ public class VcfService implements Serializable {
             variante.setWholeVarintFreq(new DoubleFactory().make(linha[46]));
             varianteService.persiste(variante);            
         }
-        
-        vcfMetadataService.persiste(vcfMetadataService.makeMetadata(vcf));
+        VcfMetadata vcfM = vcfMetadataService.makeMetadata(vcf);
+        vcfMetadataService.persiste(vcfM);
         
         vcf.setStatus(VcfStatus.importado);        
         this.atualizar(vcf);

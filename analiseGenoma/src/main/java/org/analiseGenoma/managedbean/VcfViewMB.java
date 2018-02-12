@@ -45,7 +45,8 @@ public class VcfViewMB implements Serializable {
                 vcf = vcfService.buscarId(lid);
                 variants = vcfService.buscarVariante(vcf.getId());
                 vcfMetadata = vcfMetadataService.findByVcfId(vcf.getId());
-                genePieModel = new PieChartModel();                
+                genePieModel = new PieChartModel();      
+                
                for (Gene g : vcfMetadata.getMapGene().keySet()){
                     genePieModel.set(g.getSymbol(), vcfMetadata.getMapGene().get(g));
                 }

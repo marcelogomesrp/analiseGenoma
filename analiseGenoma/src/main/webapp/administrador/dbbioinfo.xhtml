@@ -14,10 +14,9 @@
                 <h:form id="formulario">
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel header="Db Bioinfo">
-                        <h:inputHidden value="#{dbBioInfoMB.dbBioInfo.id}" />
+                        
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
-                            <p:outputLabel value="Db Identifier" for="bdIdentifier" />
-                            <p:inputText id="bdIdentifier" value="#{dbBioInfoMB.dbBioInfo.bdIdentifier}" />
+
 
                             <p:outputLabel value="Db Bio" for="bdBio" />
                             <p:selectOneMenu id="bdBio" value="#{dbBioInfoMB.idBd}">

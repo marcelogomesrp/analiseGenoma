@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Disease">
+                        <h:inputHidden value="#{diseaseMB.disease.id}" />
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            <p:outputLabel value="Name" for="name" />
+                            <p:inputText id="name" value="#{diseaseMB.disease.name}" />
+                            <p:outputLabel value="Icd" for="icd" />
+                            <p:inputText id="icd" value="#{diseaseMB.disease.icd}" />
+                            <p:outputLabel value="Description" for="description" />
+                            <p:inputText id="description" value="#{diseaseMB.disease.description}" />
+                            <p:outputLabel value="DB Bio" for="dbbio" />
+                            <p:selectOneMenu id="dbbio" value="#{diseaseMB.idDbbio}" >
+                                <f:selectItem itemLabel="select one" itemValue="" />
+                                <f:selectItems value="#{diseaseMB.selectDbbios}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Age" for="age" />
+                            <p:selectOneMenu id="age" value="#{diseaseMB.idAge}" >
+                                <f:selectItem itemLabel="select one" itemValue="" />
+                                <f:selectItems value="#{diseaseMB.selectAges}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Inheritance" for="inheritance" />
+                            <p:autoComplete id="inheritance"  value="#{diseaseMB.inheritance}" completeMethod="#{diseaseMB.completeInheritance}" 
+                                            var="i" itemLabel="#{i.type}" effect="fade" itemValue="#{i}"
+                                            converter="#{inheritanceConverter}" forceSelection="true">
+
+                            </p:autoComplete>
+                            <p:outputLabel value="Prevalence" for="prevalence" />
+                            <p:inputText id="prevalence" value="#{diseaseMB.disease.prevalence}" />
+                            
+                            <p:outputLabel value="Db Identifier" for="infoIdentifier" />
+                            <p:inputText id="infoIdentifier" value="#{diseaseMB.dbBioInfo.infoIdentifier}" />
+                            
+                            <p:outputLabel value="Genes" for="genes" />
+                            <p:chips value="#{diseaseMB.genes}" id="genes" />
+                            
+
+                        </p:panelGrid>                        
+
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Adcionar" actionListener="#{diseaseMB.add}" update="formulario"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{diseaseMB.viewUpload}" immediate="true" >
+                                <p:ajax event="dialogReturn" listener="#{diseaseMB.onViewUpload}" update="formulario" />
+                            </p:commandButton>
+                        </p:panelGrid>
+
+                        <p:dataTable value="#{diseaseMB.diseases}" var="disease" 
+                                rows="10"
+                                paginator="true"
+                                >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Disease" />
+                                </f:facet>
+                                <h:outputText value="#{disease.id}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Name" />
+                                </f:facet>
+                                <h:outputText value="#{disease.name}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Icd" />
+                                </f:facet>
+                                <h:outputText value="#{disease.icd}" />
+                            </p:column>
+
+                           
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Description" />
+                                </f:facet>
+                                <h:outputText value="#{disease.description}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Age" />
+                                </f:facet>
+                                <h:outputText value="#{disease.age.description}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Inheritance" />
+                                </f:facet>
+                                <h:outputText value="#{disease.inheritanceType.type}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Prevalence" />
+                                </f:facet>
+                                <h:outputText value="#{disease.prevalence}" />
+                            </p:column>
+
+                            
+                        </p:dataTable>
+                    </p:panel>        
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

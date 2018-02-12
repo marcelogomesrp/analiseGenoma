@@ -48,4 +48,10 @@ public class DiseaseDao extends DAO<Disease> {
             return null;
         }
     }
+
+    public Disease findByName(String name) {
+        return this.getFirstOrNull(this.findByProperty("name", name));
+    }
+
+
 }
