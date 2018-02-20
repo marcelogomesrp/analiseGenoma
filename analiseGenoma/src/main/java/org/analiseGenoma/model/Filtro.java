@@ -50,7 +50,16 @@ public class Filtro  implements Serializable{
     
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> referencias;
+    @ManyToMany
+    private Set<Effect> effects;
 
+    @ManyToMany
+    private Set<Zygosity> zygosities;
+    
+    
+    private Double prevalenceMin;
+    private Double prevalenceMax;
+    
     public Long getId() {
         return id;
     }
@@ -81,6 +90,14 @@ public class Filtro  implements Serializable{
 
     public void setUmdPredictors(Set<UmdPredictor> umdPredictors) {
         this.umdPredictors = umdPredictors;
+    }
+
+    public Set<Zygosity> getZygosities() {
+        return zygosities;
+    }
+
+    public void setZygosities(Set<Zygosity> zygosities) {
+        this.zygosities = zygosities;
     }
     
     
@@ -156,9 +173,34 @@ public class Filtro  implements Serializable{
         this.referencias = referencias;
     }
 
-    
-    
+    public Set<Effect> getEffects() {
+        return effects;
+    }
 
+    public void setEffects(Set<Effect> effects) {
+        this.effects = effects;
+    }
+
+    public Double getPrevalenceMin() {
+        return prevalenceMin;
+    }
+
+    public void setPrevalenceMin(Double prevalenceMin) {
+        this.prevalenceMin = prevalenceMin;
+    }
+
+    public Double getPrevalenceMax() {
+        return prevalenceMax;
+    }
+
+    public void setPrevalenceMax(Double prevalenceMax) {
+        this.prevalenceMax = prevalenceMax;
+    }
+
+
+
+    
+    
     @Override
     public String toString() {
         return "Filtro{" + "id=" + id + ", analise=" + analise + ", genes=" + genes + ", cromossomos=" + cromossomos + ", qualidadeMin=" + qualidadeMin + ", qualidadeMax=" + qualidadeMax + ", impacto=" + impacto + ", infBiologica=" + infBiologica + '}';

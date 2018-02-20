@@ -30,7 +30,9 @@
                             <p:commandButton value="Finalizar seleção" action="#{aSelcReviserMB.openView(analiseSelcMB.analise)}"/>
                         </p:panelGrid>
 
-                    <p:dataTable value="#{analiseSelcMB.variantes}" var="variant" scrollable="true" scrollWidth="100%" id="tabela">
+                    <p:dataTable value="#{analiseSelcMB.variantes}" var="variant" scrollable="true" scrollWidth="100%" id="tabela"
+                                  rows="10"
+                         paginator="true">
                         <p:column style="width:32px">
                             <f:facet name="header" >
                                 <h:outputText value="Id" />
@@ -132,12 +134,19 @@
                             </f:facet>    
                             <h:outputText value="#{variant.type.name}" />
                         </p:column>
+                        
+                        
                         <p:column style="width:250px">
                             <f:facet name="header" >
-                                <h:outputText value="Effect" />
+                                <p:commandLink value="Effect" actionListener="#{analiseSelcMB.viewFilterEffect()}"   >
+                                    <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                </p:commandLink>
                             </f:facet>    
                             <h:outputText value="#{variant.effect.name}" />
                         </p:column>
+                        
+                        
+                        
                         <p:column style="width:180px">
                             <f:facet name="header" >
                                 <h:outputText value="Impact" />
@@ -326,7 +335,9 @@
                         </p:column>
                         <p:column style="width:250px">
                             <f:facet name="header" >
-                                <h:outputText value="Whole variant freq" />
+                                <p:commandLink value="Whole variant freq" actionListener="#{analiseSelcMB.viewFilterPrevalence() }" >
+                                    <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                </p:commandLink>
                             </f:facet>    
                             <h:outputText value="#{variant.wholeVarintFreq}" />
                         </p:column>

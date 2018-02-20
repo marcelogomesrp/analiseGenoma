@@ -94,6 +94,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private List<Gene> listGene = new ArrayList<Gene>();
 
     private DualListModel<String> duaListGene;
+    private DualListModel<String> duaListEffect;
     private Double qualidadeMin;
     private Double qualidadeMax;
 
@@ -138,6 +139,15 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 //vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
                 duaListGene = new DualListModel<>(genesSource, genesTarget);
 
+                
+                List<String> effectsTarget = filtro.getEffects().stream().map(e -> e.getName()).collect(Collectors.toList());
+                List<String> effectsSource = vcfMetadata.getEffects()
+                        .stream()
+                        .map(e -> e.getName())
+                        .filter(e -> !effectsTarget.contains(e))
+                        .collect(Collectors.toList());
+                duaListEffect = new DualListModel<>(effectsSource, effectsTarget);
+                
                 //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
                 //qtdVariante = variantes.size();
 //                listGene = geneService.buscarAnalise(analise.getId());
@@ -479,6 +489,16 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         this.duaListGene = duaListGene;
     }
 
+    public DualListModel<String> getDuaListEffect() {
+        return duaListEffect;
+    }
+
+    public void setDuaListEffect(DualListModel<String> duaListEffect) {
+        this.duaListEffect = duaListEffect;
+    }
+
+    
+    
     public Double getQualidadeMin() {
         return qualidadeMin;
     }
@@ -660,6 +680,43 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         String view = "viewfilter_ref";
         this.callView(view);
     }
+    
+    
+        public void viewFilterEffect() {
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 800);
+        options.put("height", 600);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+        options.put("resizable", false);
+
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
+        values.add("1");
+        params.put("id", values);
+        RequestContext.getCurrentInstance().openDialog("viewfilter_effect", options, params);
+        variantes = vcfService.findVariante(analise, filtro);
+    }
+    
+    public void viewFilterPrevalence() {
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("width", 700);
+        options.put("height", 350);
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("headerElement", "customheader");
+        options.put("resizable", false);
+
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
+        RequestContext.getCurrentInstance().openDialog("viewfilter_prevalence", options, params);
+        variantes = vcfService.findVariante(analise, filtro);
+    }
+        
+    
 
 }
 

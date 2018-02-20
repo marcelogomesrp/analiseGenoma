@@ -114,6 +114,8 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         vmd.setAsianVarintFreq(this.getAsianVarintFreqs());
         vmd.setAmericanVarintFreq(this.getAmericanVarintFreqs());
         vmd.setWholeVarintFreq(this.getWholeVarintFreqs());
+        vmd.setPrevalenceMin(this.getPrevalenceMin());
+        vmd.setPrevalenceMax(this.getPrevalenceMax());
         
         return vmd;
     }
@@ -526,7 +528,22 @@ public class VcfMetadataService extends Service<VcfMetadata>{
                 .filter(v -> Objects.nonNull(v))
                 .collect(Collectors.toSet());
     }
+
+    private Double getPrevalenceMin() {
+        return variantes.stream()
+                .filter(v -> v.getWholeVarintFreq() != null)
+                .min((v1,v2) -> Double.compare(v1.getWholeVarintFreq(), v2.getWholeVarintFreq()))
+                .get()
+                .getWholeVarintFreq();
+    }
     
+    private Double getPrevalenceMax() {
+        return variantes.stream()
+                .filter(v -> v.getWholeVarintFreq() != null)
+                .max((v1,v2) -> Double.compare(v1.getWholeVarintFreq(), v2.getWholeVarintFreq()))
+                .get()
+                .getWholeVarintFreq();
+    }
     
 }
 

@@ -3,9 +3,8 @@ package org.analiseGenoma.dao;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
+import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Gene;
-import org.analiseGenoma.model.GeneSymbolSynonym;
 
 public class GeneDao extends DAO<Gene> {
 
@@ -96,6 +95,20 @@ public class GeneDao extends DAO<Gene> {
         }
         return genes;
     }
+    
+    
+    public List<Gene> find(Disease disease){
+        List<Gene> genes = null;
+        try{
+            Query query = manager.createQuery("SELECT DISTINCT db.genes from DbBioInfo db WHERE db.disease = :disease");
+            query.setParameter("disease", disease);
+            genes = query.getResultList();
+        }catch(Exception ex){
+            System.out.println("Erro na busca de gene por disease");;
+        }
+        return genes;
+    }
+    
 
 //    @Transactional
 //    @Override

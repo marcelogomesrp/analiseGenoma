@@ -140,6 +140,9 @@ public class VcfMetadata implements Serializable {
     @ElementCollection
     private Set<Double> wholeVarintFreq;
     
+    private Double prevalenceMin;
+    private Double prevalenceMax;
+    
     
     
     
@@ -559,6 +562,22 @@ public class VcfMetadata implements Serializable {
 
     public void setWholeVarintFreq(Set<Double> wholeVarintFreq) {
         this.wholeVarintFreq = wholeVarintFreq;
+    }
+
+    public Double getPrevalenceMin() {
+        return prevalenceMin;
+    }
+
+    public void setPrevalenceMin(Double prevalenceMin) {
+        this.prevalenceMin = prevalenceMin;
+    }
+
+    public Double getPrevalenceMax() {
+        return prevalenceMax;
+    }
+
+    public void setPrevalenceMax(Double prevalenceMax) {
+        this.prevalenceMax = prevalenceMax;
     }
     
     

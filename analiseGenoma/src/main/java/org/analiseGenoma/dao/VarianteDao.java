@@ -14,6 +14,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Cromossomo;
+import org.analiseGenoma.model.Effect;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.UmdPredictor;
@@ -62,71 +63,90 @@ public class VarianteDao extends DAO<Variante> {
             return null;
         }
     }*/
-    private boolean listaHasItens(List list){
-        if(list == null)
+    private boolean listaHasItens(List list) {
+        if (list == null) {
             return false;
-        if(list.isEmpty())
+        }
+        if (list.isEmpty()) {
             return false;
+        }
         return true;
     }
-    
-    private boolean listaHasItens(Set set){
+
+    private boolean listaHasItens(Set set) {
         return this.listaHasItens(new ArrayList(set));
     }
-    
+
     public List<Variante> findByAnaliseFiltro(Analise analise, Filtro filtro) {
+        List<Variante> retorno  = new ArrayList<>();
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         CriteriaQuery<Variante> criteriaQuery = criteriaBuilder.createQuery(Variante.class);
         Root<Variante> root = criteriaQuery.from(Variante.class);
         List<Predicate> condicoes = new ArrayList<>();
-        
-        if(!(null == analise.getVcf().getId())){
+
+        if (!(null == analise.getVcf().getId())) {
             Path<Long> atributoId = root.get("vcf");
             Predicate where = criteriaBuilder.equal(atributoId, analise.getVcf().getId());
             condicoes.add(where);
         }
-        
+
         //if ( (!(null == filtro.getCromossomos())) && (!(filtro.getCromossomos().isEmpty())) ) {
-        if(this.listaHasItens(filtro.getCromossomos())){
+        if (this.listaHasItens(filtro.getCromossomos())) {
             Expression<Cromossomo> parentExpression = root.get("cromossomo");
             Predicate where = parentExpression.in(filtro.getCromossomos());
             condicoes.add(where);
         }
-        
-        if(!(null == filtro.getPositionMin())){
+
+        if (!(null == filtro.getPositionMin())) {
             Path<Long> atributo = root.get("position");
-            Predicate where = criteriaBuilder.greaterThanOrEqualTo(atributo, filtro.getPositionMin());        
+            Predicate where = criteriaBuilder.greaterThanOrEqualTo(atributo, filtro.getPositionMin());
             condicoes.add(where);
         }
 
-        if(!(null == filtro.getPositionMax())){
+        if (!(null == filtro.getPositionMax())) {
             Path<Long> atributo = root.get("position");
-            Predicate where = criteriaBuilder.lessThanOrEqualTo(atributo, filtro.getPositionMax());        
+            Predicate where = criteriaBuilder.lessThanOrEqualTo(atributo, filtro.getPositionMax());
             condicoes.add(where);
         }
         //if(!(null == filtro.getGenes())){
-        if(listaHasItens(filtro.getGenes())){
+        if (listaHasItens(filtro.getGenes())) {
             Expression<Gene> parentExpression = root.get("gene");
             Predicate where = parentExpression.in(filtro.getGenes());
             condicoes.add(where);
         }
-        
+
         //if(!(null == filtro.getUmdPredictors())){
-        if(listaHasItens(filtro.getUmdPredictors())){
+        if (listaHasItens(filtro.getUmdPredictors())) {
             Expression<UmdPredictor> parentExpression = root.get("umdPredictor");
             Predicate where = parentExpression.in(filtro.getUmdPredictors());
             condicoes.add(where);
         }
-        
+
+        if (listaHasItens(filtro.getEffects())) {
+            Expression<Effect> parentExpression = root.get("effect");
+            Predicate where = parentExpression.in(filtro.getEffects());
+            condicoes.add(where);
+        }
 
         Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
         Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
         criteriaQuery.where(todasCondicoes);
         TypedQuery<Variante> query = manager.createQuery(criteriaQuery);
-        return query.getResultList();
+        retorno = query.getResultList();
+
+        while ((retorno.size() == 0) && (condicoes.size() > 0)) {
+            condicoes.remove(condicoes.size() - 1);
+            condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
+            todasCondicoes = criteriaBuilder.and(condicoesArray);
+            criteriaQuery.where(todasCondicoes);
+            query = manager.createQuery(criteriaQuery);
+            retorno = query.getResultList();
+
+        }
+
+        return retorno;
+
     }
-    
-    
 
     public List<Variante> buscarAnalise(Long vcfId, Filtro filtro) {
 //        List<Predicate> condicoes = new ArrayList<>();
@@ -138,7 +158,7 @@ public class VarianteDao extends DAO<Variante> {
         return null;
     }
 
-    public List<Variante> buscarAnalise2(Long vcfId, Filtro filtro) {        
+    public List<Variante> buscarAnalise2(Long vcfId, Filtro filtro) {
         List<Variante> variantes = null;
 
         try {
@@ -158,56 +178,53 @@ public class VarianteDao extends DAO<Variante> {
     }
 
     public List<Variante> find(Analise analise) {
-         List<Variante> variantes = null;
+        List<Variante> variantes = null;
         try {
-            Query query = manager.createQuery("SELECT v FROM Variante v WHERE v.vcf.id = :vcfId ");            
+            Query query = manager.createQuery("SELECT v FROM Variante v WHERE v.vcf.id = :vcfId ");
             query.setParameter("vcfId", analise.getVcf().getId());
             variantes = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro DAO:: " + ex.getMessage());
         }
         return variantes;
-        
+
     }
-    
-    
+
     public List<Variante> findByExample(Variante variante) {
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         CriteriaQuery<Variante> criteriaQuery = criteriaBuilder.createQuery(Variante.class);
         Root<Variante> root = criteriaQuery.from(Variante.class);
         List<Predicate> condicoes = new ArrayList<Predicate>();
-        if(!(null == variante.getId())){
+        if (!(null == variante.getId())) {
             Path<Long> atributoId = root.get("id");
             Predicate whereId = criteriaBuilder.equal(atributoId, variante.getId());
             condicoes.add(whereId);
         }
 
-        if(!(null == variante.getPosition() || "".equals(variante.getPosition()))){
+        if (!(null == variante.getPosition() || "".equals(variante.getPosition()))) {
             Path<Long> atributo = root.get("position");
             Predicate where = criteriaBuilder.equal(atributo, variante.getPosition());
             condicoes.add(where);
         }
-        
-        if(!(null == variante.getCromossomo() || "".equals(variante.getCromossomo()))){
+
+        if (!(null == variante.getCromossomo() || "".equals(variante.getCromossomo()))) {
             Path<Cromossomo> atributo = root.get("cromossomo");
             Predicate where = criteriaBuilder.equal(atributo, variante.getCromossomo());
             condicoes.add(where);
         }
 
-        if(!(null == variante.getVcf() || "".equals(variante.getVcf()))){
+        if (!(null == variante.getVcf() || "".equals(variante.getVcf()))) {
             Path<Vcf> atributo = root.get("vcf");
             Predicate where = criteriaBuilder.equal(atributo, variante.getVcf());
             condicoes.add(where);
         }
-            
+
         Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
         Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
         criteriaQuery.where(todasCondicoes);
         TypedQuery<Variante> query = manager.createQuery(criteriaQuery);
         return query.getResultList();
     }
-    
-    
 
 }
 

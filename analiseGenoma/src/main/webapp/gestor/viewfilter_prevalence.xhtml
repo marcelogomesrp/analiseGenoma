@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Prevalence filter</title>
+        <title>Import Variante file</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -16,23 +16,26 @@
         <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
         <h:form id="formView">
             <p:growl id="messages" showDetail="true"/>
-            <p:panel header="Postiton">
+            
+            <p:panel header="Prevalence">
                 <h:panelGrid columns="2">
                     <p:outputLabel value="min" />                          
                     <h:panelGrid columns="1" style="margin-bottom: 10px">
-                        <p:spinner id="min" value="#{analiseSelcMB.filtro.positionMin}" stepFactor="1" min="#{analiseSelcMB.vcfMetadata.positonMin}" max="#{analiseSelcMB.filtro.positionMax}"/>   
-                        <p:slider for="min"  minValue="#{analiseSelcMB.vcfMetadata.positonMin}" maxValue="#{analiseSelcMB.vcfMetadata.positonMax}"/>
+                        <p:spinner id="min" value="#{VfPrevalence.prevalenceMin}" stepFactor="0.000000000000000005" min="#{VfPrevalence.vcfMetadata.prevalenceMin}" max="#{VfPrevalence.vcfMetadata.prevalenceMax}"/>   
+                        <p:slider for="min"  minValue="#{VfPrevalence.vcfMetadata.prevalenceMin}" maxValue="#{VfPrevalence.vcfMetadata.prevalenceMax}"/>
                     </h:panelGrid>
 
                     <p:outputLabel value="max" />                        
                     <h:panelGrid columns="1" style="margin-bottom: 10px">
-                        <p:spinner id="max" value="#{analiseSelcMB.filtro.positionMax}" stepFactor="1" min="#{analiseSelcMB.filtro.positionMin}" max="#{analiseSelcMB.vcfMetadata.positonMax}"/>   
-                        <p:slider for="max"  minValue="#{analiseSelcMB.vcfMetadata.positonMin}" maxValue="#{analiseSelcMB.vcfMetadata.positonMax}"/>
+                        <p:spinner id="max" value="#{VfPrevalence.prevalenceMax}" stepFactor="0.000000000000000005" min="#{VfPrevalence.vcfMetadata.prevalenceMin}" max="#{VfPrevalence.vcfMetadata.prevalenceMax}"/>   
+                        <p:slider for="max"  minValue="#{VfPrevalence.vcfMetadata.prevalenceMin}" maxValue="#{VfPrevalence.vcfMetadata.prevalenceMax}"/>
                     </h:panelGrid>
                 </h:panelGrid>
 
                 <p:commandButton value="Aplicar" actionListener="#{analiseSelcMB.closeView()}"/>
             </p:panel>
+            
+
         </h:form>
 
     </h:body>
