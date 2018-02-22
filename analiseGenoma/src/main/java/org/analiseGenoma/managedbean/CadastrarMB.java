@@ -21,7 +21,7 @@ public class CadastrarMB implements Serializable {
     private UsuarioService usuarioService;
     private Usuario usuario;
     private String confirmaSenha;
-    private UploadedFile uploadedFile;
+//    private UploadedFile uploadedFile;
 
     @PostConstruct
     public void init() {
@@ -35,13 +35,13 @@ public class CadastrarMB implements Serializable {
         context.addMessage(null, new FacesMessage(message));
     }
 
-    public UploadedFile getUploadedFile() {
-        return uploadedFile;
-    }
-
-    public void setUploadedFile(UploadedFile uploadedFile) {
-        this.uploadedFile = uploadedFile;
-    }
+//    public UploadedFile getUploadedFile() {
+//        return uploadedFile;
+//    }
+//
+//    public void setUploadedFile(UploadedFile uploadedFile) {
+//        this.uploadedFile = uploadedFile;
+//    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -67,7 +67,7 @@ public class CadastrarMB implements Serializable {
     public String salvar() {
         System.out.println("Salvando...");
         System.out.println("Usuario: " + usuario.toString());
-        if (uploadedFile == null) {
+//        if (uploadedFile == null) {
             try {
                 usuarioService.adicionar(usuario, confirmaSenha);
             } catch (Exception ex) {
@@ -76,15 +76,16 @@ public class CadastrarMB implements Serializable {
                         .getFlash().setKeepMessages(true);
                 context.addMessage(null, new FacesMessage(ex.getMessage()));
             }
-        } else {
-            try{
-            usuarioService.adicionar(usuario, confirmaSenha, uploadedFile.getContents());
-            }catch(Exception ex){
-                context.getExternalContext()
-                        .getFlash().setKeepMessages(true);
-                context.addMessage(null, new FacesMessage(ex.getMessage()));
-            }
-        }
+//        } 
+//        else {
+//            try{
+//            usuarioService.adicionar(usuario, confirmaSenha, uploadedFile.getContents());
+//            }catch(Exception ex){
+//                context.getExternalContext()
+//                        .getFlash().setKeepMessages(true);
+//                context.addMessage(null, new FacesMessage(ex.getMessage()));
+//            }
+//        }
         this.limpar();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);

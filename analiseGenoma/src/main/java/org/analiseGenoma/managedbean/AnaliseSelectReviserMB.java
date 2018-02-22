@@ -60,6 +60,8 @@ public class AnaliseSelectReviserMB implements Serializable {
     }
     
     public String openView(Analise analise){
+        analise.setEstado("varianteSelecionada");
+        analiseService.atualizar(analise);
         FacesUtil.setSessionMapValue("id", analise.getId());
         return "analise_select_reviser.xhtml?faces-redirect=true";
     }

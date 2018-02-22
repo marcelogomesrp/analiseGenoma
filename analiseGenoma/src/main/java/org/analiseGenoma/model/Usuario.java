@@ -24,10 +24,10 @@ public class Usuario implements Serializable{
     private Boolean gestor;
     private Boolean revisor;
     private Boolean administrador;
-    @Lob
-    //@Column(columnDefinition = "LONGBLOB")BYTEA
-    @Column(columnDefinition = "BYTEA")
-    private byte[] image;
+//    @Lob
+//    //@Column(columnDefinition = "LONGBLOB")BYTEA
+//    @Column(columnDefinition = "BYTEA")
+//    private byte[] image;
     
 
     public Usuario() {
@@ -110,13 +110,13 @@ public class Usuario implements Serializable{
         this.administrador = administrador;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+//    public byte[] getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 
     
     

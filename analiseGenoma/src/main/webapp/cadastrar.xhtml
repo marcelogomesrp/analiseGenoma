@@ -19,7 +19,7 @@
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
                             
                             
-                            <p:outputLabel value="Name" for="nome"/>
+                            <p:outputLabel value="Name" for="name"/>
                             <p:inputText id="name" value="#{cadastrarMB.usuario.nome}" />
                             
                             <p:outputLabel value="Email" for="email"/>
@@ -32,8 +32,10 @@
                             <p:outputLabel value="Phone" for="telefone"/>
                             <p:inputText id="telefone" value="#{cadastrarMB.usuario.telefone}"/>
                             
+                            <!--
                             <p:outputLabel value="Picture" for="foto"/>
-                            <p:fileUpload  id="foto" mode="simple" skinSimple="true" value="#{cadastrarMB.uploadedFile}"/>
+                            <p:fileUpload  id="foto" mode="simple" skinSimple="true" value="{cadastrarMB.uploadedFile}"/>
+                            -->
                             
                         </p:panelGrid>
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">

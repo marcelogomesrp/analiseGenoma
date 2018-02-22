@@ -38,8 +38,8 @@ public class UsuarioService implements Serializable {
 
     @Transactional
     public void adicionar(Usuario usuario, String confirmaSenha, byte[] contents) throws Exception {
-        if(contents.length > 0)
-            usuario.setImage(contents);
+//        if(contents.length > 0)
+//            usuario.setImage(contents);
         adicionar(usuario, confirmaSenha);
         /*
         if (contents.length > 0) {
