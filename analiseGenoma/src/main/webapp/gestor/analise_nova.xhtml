@@ -17,9 +17,9 @@
                             <p:outputLabel value="Name" for="name"/>
                             <p:inputText id="name" value="#{analiseMB.analise.nome}" validator="#{analiseMB.validateNome}"/>
                             <p:outputLabel value="cid" for="cid"/>
-                            <p:autoComplete id="cid" value="#{analiseMB.cid}" completeMethod="#{analiseMB.cidComplete}"  >
-                                <p:ajax event="itemSelect" listener="#{analiseMB.onCidSelect}" update="patologia" />
-                            </p:autoComplete>
+                            
+                            <p:inputText id="cid" value="#{analiseMB.cid}" disabled="true"/>
+                            
                             <p:outputLabel value="Patologia" for="patologia"/>
                             <p:autoComplete id="patologia" value="#{analiseMB.patologia}" completeMethod="#{analiseMB.patologiaComplete}" >
                                 <p:ajax event="itemSelect" listener="#{analiseMB.onPatologiaSelect}" update="cid" />
@@ -99,6 +99,9 @@
                             <f:selectItems value="{analiseMB.selectControleVcfs}" />
                         </p:selectOneMenu>
                         -->
+                        
+                        <h:outputText value="Apply pre-filter" />
+                        <p:selectBooleanButton value="#{analiseMB.applyFilter}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:120px"/>
 
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        

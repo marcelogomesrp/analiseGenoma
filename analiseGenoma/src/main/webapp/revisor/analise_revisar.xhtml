@@ -17,6 +17,16 @@
                             <p:dataTable value="#{revAnaliseRevisarMB.variantes}" var="variant"  scrollable="true" scrollWidth="100%" >
 
 
+                                <p:column style="width:150px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="relacionado" />
+                                    </f:facet>        
+                                    <p:commandButton value="Opinar" actionListener="#{revAnaliseRevisarMB.viewOpinar(variant.id)}" />
+                                </p:column>
+                                
+                                
+                                
+                                
                                 <p:column style="width:32px">
                                     <f:facet name="header" >
                                         <h:outputText value="Id" />
@@ -324,12 +334,6 @@
                                     <h:outputText value="#{revAnaliseRevisarMB.observacao(variant.id)}" />
                                 </p:column>
                                 
-                                <p:column style="width:150px">
-                                    <f:facet name="header" >
-                                        <h:outputText value="relacionado" />
-                                    </f:facet>        
-                                    <p:commandButton value="Opinar" actionListener="#{revAnaliseRevisarMB.viewOpinar(variant.id)}" />
-                                </p:column>
 
 
 

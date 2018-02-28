@@ -62,11 +62,13 @@ public class AnaliseMB implements Serializable {
     private Long idControle;
     private Long idVcfFather;
     private Long idVcfMother;
+    private boolean applyFilter;
 
     @PostConstruct
     public void init() {
         System.out.println("Iniciando a pagina novamente...");
         analise = new Analise();
+        applyFilter = true;
     }
 
     public Analise getAnalise() {
@@ -87,7 +89,7 @@ public class AnaliseMB implements Serializable {
     }
 
     public void setPatologia(String patologia) {
-        this.patologia = patologia;
+        this.patologia = patologia.toUpperCase();
     }
 
     public String getPaciente() {
@@ -197,8 +199,15 @@ public class AnaliseMB implements Serializable {
         }
 
         analiseService.adicionar(analise);
-
-        Filtro filtro = filtroService.makeFiltro(analise);
+        
+        Filtro filtro;
+        
+        if(applyFilter){
+            filtro = filtroService.makeFiltro(analise);
+        }
+        else{
+            filtro = filtroService.makeFiltroDefault(analise);
+        }
         filtroService.persiste(filtro);
 
         context.getExternalContext()
@@ -224,7 +233,8 @@ public class AnaliseMB implements Serializable {
     }
 
     public List<String> patologiaComplete(String query) {
-        System.out.println("Patologia auto complet");
+        query = query.toUpperCase();
+        System.out.println("Patologia auto complet: " + query);
         List<String> results = new ArrayList<String>();
         patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
         System.out.println("Lista com tamanho: " + results.size());
@@ -234,7 +244,7 @@ public class AnaliseMB implements Serializable {
     public List<String> pacienteComplete(String query) {
         System.out.println("Patciente auto complet");
         List<String> results = new ArrayList<String>();
-        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));
+        pacienteService.buscarNome(query.toUpperCase() + "%").forEach(p -> results.add(p.getNome()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
@@ -413,5 +423,15 @@ public class AnaliseMB implements Serializable {
             throw new ValidatorException(message);
         }
     }
+
+    public boolean getApplyFilter() {
+        return applyFilter;
+    }
+
+    public void setApplyFilter(boolean applyFilter) {
+        this.applyFilter = applyFilter;
+    }
+    
+    
 
 }

@@ -24,7 +24,8 @@ public class FiltroDao extends DAO<Filtro> {
         try {
             //Query query = manager.createQuery("SELECT f FROM Filtro f JOIN FETCH f.genes WHERE f.analise.id = :idAnalise ");
             //Query query = manager.createQuery("SELECT f FROM Filtro f WHERE f.analise.id = :idAnalise ");
-            Query query = manager.createQuery("SELECT f FROM Filtro f JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
+            //Query query = manager.createQuery("SELECT f FROM Filtro f JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
+            Query query = manager.createQuery("SELECT f FROM Filtro f LEFT JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
             query.setParameter("idAnalise", idAnalise);
             Filtro filtro =  (Filtro) query.getSingleResult();
             //filtro.getCromossomos().size();

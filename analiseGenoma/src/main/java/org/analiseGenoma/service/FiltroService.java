@@ -130,4 +130,34 @@ public class FiltroService extends Service<Filtro> {
         return filtro;
     }
 
+    public Filtro makeFiltroDefault(Analise analise) {
+        Filtro filtro = new Filtro();
+        VcfMetadata vcfMetada = vcfMetadataService.findByVcfId(analise.getVcf().getId());
+        filtro.setAnalise(analise);
+        filtro.setCromossomos(vcfMetada.getCromossomos());
+        filtro.setPositionMin(vcfMetada.getPositonMin());
+        filtro.setPositionMax(vcfMetada.getPositonMax());
+        Disease disease =  analise.getPatologia();
+        
+        filtro.setGenes(new HashSet<>( vcfMetada.getGenes() ) );
+        
+        
+        List<Effect> effects = new ArrayList<>();
+        
+//        effectDao.findLikeName("missence").forEach(e -> effects.add(e));
+//        effectDao.findLikeName("splice").forEach(e -> effects.add(e));
+//        effectDao.findLikeName("inframe").forEach(e -> effects.add(e));
+//        
+//        filtro.setEffects(new HashSet<>(effects));
+        filtro.setEffects(vcfMetada.getEffects());
+        
+        filtro.setPrevalenceMin(vcfMetada.getPrevalenceMin());
+        filtro.setPrevalenceMax(vcfMetada.getPrevalenceMax());
+        
+        
+        filtro.setUmdPredictors(vcfMetada.getUmdPredictors());
+        
+        return filtro;        
+    }
+
 }
