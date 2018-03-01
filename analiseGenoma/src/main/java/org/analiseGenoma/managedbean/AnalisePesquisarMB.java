@@ -27,10 +27,9 @@ public class AnalisePesquisarMB implements Serializable {
     private Analise analise;
     @Inject
     private AnaliseLaudoService analiseLaudoService;
-    
-    
+
     @PostConstruct
-    public void init() {        
+    public void init() {
         analise = new Analise();
         analises = analiseService.buscar();
     }
@@ -42,24 +41,30 @@ public class AnalisePesquisarMB implements Serializable {
     public void setAnalises(List<Analise> analises) {
         this.analises = analises;
     }
-    
-    public String selecionarVariante(Analise selected){
+
+    public String selecionarVariante(Analise selected) {
         analise = selected;
-                context.getExternalContext()
-               .getFlash().setKeepMessages(true);
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("vai la"));
         FacesUtil.setSessionMapValue("id", analise.getId());
         return "analise_selecionar_variantes.xhtml?faces-redirect=true";
     }
-    
+
     //temp
     public String viewLaudar(Analise selected) {
         Analise analise1 = selected;
         context.getExternalContext()
-                .getFlash().setKeepMessages(true);        
+                .getFlash().setKeepMessages(true);
         FacesUtil.setSessionMapValue("idAnalise", analise.getId());
         return "analise_laudar.xhtml?faces-redirect=true";
     }
-    
-        
+
+    public String duplicate(Analise analise) {
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        FacesUtil.setSessionMapValue("idAnalise", analise.getId());
+        return "analise_nova.xhtml?faces-redirect=true";
+    }
+
 }

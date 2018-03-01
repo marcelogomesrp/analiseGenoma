@@ -28,6 +28,7 @@ import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.event.SelectEvent;
 import org.analiseGenoma.managedbean.util.FacesUtil;
+import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.service.FiltroService;
 
@@ -63,12 +64,28 @@ public class AnaliseMB implements Serializable {
     private Long idVcfFather;
     private Long idVcfMother;
     private boolean applyFilter;
+    
+    @Inject
+    @RequestParam
+    private String id;
 
     @PostConstruct
     public void init() {
         System.out.println("Iniciando a pagina novamente...");
         analise = new Analise();
         applyFilter = true;
+        Long value = (Long) FacesUtil.getSessionMapValue("idAnalise");
+        if(value!=null){
+            
+            Analise analiseBd = analiseService.buscarPorId(value);
+            analise.setPatologia(analiseBd.getPatologia());
+            analise.setObservacao(analiseBd.getObservacao());
+            analise.setPaciente(analiseBd.getPaciente());
+            analise.setControle(analiseBd.getControle());
+            analise.setVcf(analiseBd.getVcf());
+            
+            
+        }
     }
 
     public Analise getAnalise() {

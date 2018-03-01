@@ -11,6 +11,7 @@
         <ui:composition template="./template.xhtml">
 
             <ui:define name="content">
+                <h:form>
                     <p:panel header="Pesquisar analise">
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <h:outputText value="Selecione uma opção" />
@@ -34,9 +35,10 @@
                                 <h:outputText value="Opcoes" />
                             </f:facet>
                             <p:commandButton value="Selecionar Variantes" action="#{analisePesquisarMB.selecionarVariante(analise)}"/>
+                            <p:commandButton value="Duplicate" action="#{analisePesquisarMB.duplicate(analise)}"/>
                         </p:column>
                     </p:dataTable>
-                
+                </h:form>
             </ui:define>
 
         </ui:composition>
