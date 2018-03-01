@@ -60,7 +60,10 @@ public class Variante implements Serializable {
     @JoinColumn(name = "zygosity_id")
     private Zygosity zygosity;
 
-    private String allelicDeph;
+    //private String allelicDeph;
+    private int allelicDeph1;
+    private int allelicDeph2;
+    
     @ManyToOne
     @JoinColumn(name = "filter_id")
     private Filter filter;
@@ -254,12 +257,33 @@ public class Variante implements Serializable {
         this.zygosity = zygosity;
     }
 
+    public int getAllelicDeph1() {
+        return allelicDeph1;
+    }
+
+    public void setAllelicDeph1(int allelicDeph1) {
+        this.allelicDeph1 = allelicDeph1;
+    }
+
+    public int getAllelicDeph2() {
+        return allelicDeph2;
+    }
+
+    public void setAllelicDeph2(int allelicDeph2) {
+        this.allelicDeph2 = allelicDeph2;
+    }
+
     public String getAllelicDeph() {
-        return allelicDeph;
+        return allelicDeph1 + "/" + allelicDeph2;
     }
 
     public void setAllelicDeph(String allelicDeph) {
-        this.allelicDeph = allelicDeph;
+        //this.allelicDeph = allelicDeph;
+        String[] all = allelicDeph.split("/");
+        if(all.length == 2){
+            this.setAllelicDeph1(Integer.valueOf(all[0].trim()));
+            this.setAllelicDeph2(Integer.valueOf(all[1].trim()));
+        }
     }
 
     public Filter getFilter() {
@@ -663,7 +687,7 @@ public class Variante implements Serializable {
 
     @Override
     public String toString() {
-        return "Variante{" + "id=" + id + ", cromossomo=" + cromossomo + ", position=" + position + ", idSNP=" + idSNP + ", referencia=" + referencia + ", alterado=" + alterado + ", qualidade=" + qualidade + ", impact=" + impact + ", gene=" + gene + ", vcf=" + vcf + ", umdPredictor=" + umdPredictor + ", zygosity=" + zygosity + ", allelicDeph=" + allelicDeph + ", filter=" + filter + ", hgvsC=" + hgvsC + ", hgvsP=" + hgvsP + ", exonIntron=" + exonIntron + ", type=" + type + ", effect=" + effect + ", clinvarSignificance=" + clinvarSignificance + ", clinvarDisease=" + clinvarDisease + ", clinvarAccession=" + clinvarAccession + ", clinvarAlleleType=" + clinvarAlleleType + ", clinvarAlleleOrigin=" + clinvarAlleleOrigin + ", sift=" + sift + ", polyphenHdiv=" + polyphenHdiv + ", polyphenHvar=" + polyphenHvar + ", mutationTaster=" + mutationTaster + ", lrt=" + lrt + ", gerpRsScore=" + gerpRsScore + ", gerpNeutralRate=" + gerpNeutralRate + ", feature=" + feature + ", ensembl=" + ensembl + ", vertebrateGenomesConservationScore=" + vertebrateGenomesConservationScore + ", interproDomain=" + interproDomain + ", variantStatus=" + variantStatus + ", genoType=" + genoType + ", readDepth=" + readDepth + ", alleleMutFraction=" + alleleMutFraction + ", meanBaseQuality=" + meanBaseQuality + ", validate=" + validate + ", donorSpliceSite=" + donorSpliceSite + ", acceptorSpliceSite=" + acceptorSpliceSite + ", mutation=" + mutation + ", europeanVarintFreq=" + europeanVarintFreq + ", africanVarintFreq=" + africanVarintFreq + ", asianVarintFreq=" + asianVarintFreq + ", americanVarintFreq=" + americanVarintFreq + ", wholeVarintFreq=" + wholeVarintFreq + '}';
+        return "Variante{" + "id=" + id + ", cromossomo=" + cromossomo + ", position=" + position + ", idSNP=" + idSNP + ", referencia=" + referencia + ", alterado=" + alterado + ", qualidade=" + qualidade + ", impact=" + impact + ", gene=" + gene + ", vcf=" + vcf + ", umdPredictor=" + umdPredictor + ", zygosity=" + zygosity + ", allelicDeph=" + getAllelicDeph() + ", filter=" + filter + ", hgvsC=" + hgvsC + ", hgvsP=" + hgvsP + ", exonIntron=" + exonIntron + ", type=" + type + ", effect=" + effect + ", clinvarSignificance=" + clinvarSignificance + ", clinvarDisease=" + clinvarDisease + ", clinvarAccession=" + clinvarAccession + ", clinvarAlleleType=" + clinvarAlleleType + ", clinvarAlleleOrigin=" + clinvarAlleleOrigin + ", sift=" + sift + ", polyphenHdiv=" + polyphenHdiv + ", polyphenHvar=" + polyphenHvar + ", mutationTaster=" + mutationTaster + ", lrt=" + lrt + ", gerpRsScore=" + gerpRsScore + ", gerpNeutralRate=" + gerpNeutralRate + ", feature=" + feature + ", ensembl=" + ensembl + ", vertebrateGenomesConservationScore=" + vertebrateGenomesConservationScore + ", interproDomain=" + interproDomain + ", variantStatus=" + variantStatus + ", genoType=" + genoType + ", readDepth=" + readDepth + ", alleleMutFraction=" + alleleMutFraction + ", meanBaseQuality=" + meanBaseQuality + ", validate=" + validate + ", donorSpliceSite=" + donorSpliceSite + ", acceptorSpliceSite=" + acceptorSpliceSite + ", mutation=" + mutation + ", europeanVarintFreq=" + europeanVarintFreq + ", africanVarintFreq=" + africanVarintFreq + ", asianVarintFreq=" + asianVarintFreq + ", americanVarintFreq=" + americanVarintFreq + ", wholeVarintFreq=" + wholeVarintFreq + '}';
     }
 
 }

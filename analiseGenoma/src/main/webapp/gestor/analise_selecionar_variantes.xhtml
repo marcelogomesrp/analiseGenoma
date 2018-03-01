@@ -14,7 +14,8 @@
                 <h:form id="formulario">
                     <p:panel header="Selecionar variantes da análise">
 
-                        <p:accordionPanel multiple="true">
+                        <!-- <p:accordionPanel multiple="true"> -->
+                        <p:tabView dynamic="true" cache="true" effect="fold">
                             <p:tab title="Analise">
                                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                                     <h:outputLabel value="Id: " for="id" />
@@ -25,7 +26,48 @@
                                     <h:outputText id="obs" value="#{analiseSelcMB.analise.observacao}" />                            
                                 </p:panelGrid>
                             </p:tab>
-                        </p:accordionPanel>
+                            <p:tab title="Filtro" >
+                                <p:panelGrid >
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Chr" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.cromossomos.toArray()}" var="chr">
+                                                <h:outputText value="#{chr.nome}" />
+                                                <h:outputText value=", " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Position" />
+                                        </p:column>
+                                            <p:column>
+                                                <h:outputText value="Min: " />
+                                                <h:outputText value="#{analiseSelcMB.filtro.positionMin}" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="Max: " />
+                                                <h:outputText value="#{analiseSelcMB.filtro.positionMax}" />
+                                            </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Gene" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.genes.toArray()}" var="gene">
+                                                <h:outputText value="#{gene.symbol}" />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+
+                            </p:tab>
+                        </p:tabView>
+                        <!-- </p:accordionPanel> -->
 
 
 
@@ -47,7 +89,7 @@
                                 <h:outputText value="#{variant.cromossomo.nome}" />
                             </p:column>
                             <p:column style="width:80px">
-                                <f:facet name="header" >                                    
+                                <f:facet name="header" >                                     
                                     <p:commandLink value="Position" actionListener="#{analiseSelcMB.viewFilterPositon()}"   >
                                         <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
                                     </p:commandLink>
@@ -93,9 +135,15 @@
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Allelic deph" />
+                                    <h:outputText value="Allelic deph1" />
                                 </f:facet>    
-                                <h:outputText value="#{variant.allelicDeph}" />
+                                <h:outputText value="#{variant.allelicDeph1}" />
+                            </p:column>
+                            <p:column style="width:80px">
+                                <f:facet name="header" >
+                                    <h:outputText value="Allelic deph2" />
+                                </f:facet>    
+                                <h:outputText value="#{variant.allelicDeph2}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
