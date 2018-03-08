@@ -58,6 +58,7 @@ public class PacienteMB implements Serializable {
 
     @PostConstruct
     public void init() {
+        try{
         this.defCrudModeRead();
         System.out.println("Pagina pacienteMB instanciada novamente");
         paciente = new Paciente();
@@ -85,6 +86,9 @@ public class PacienteMB implements Serializable {
                     vcfs = vcfService.buscarPacienteId(paciente.getId());
                 }
             }
+        }
+        }catch(Exception ex){
+            System.out.println("Erro no init do PacienteMB");
         }
     }
 
@@ -181,12 +185,17 @@ public class PacienteMB implements Serializable {
     }
 
     public List<SelectItem> getSelectEtnias() {
+        try{
         List<SelectItem> etnias = new ArrayList<SelectItem>();
         for (Population p : etniaService.find()) {
             //TODO: etnias.add(new SelectItem(e.getId(), e.getSigla() + " - " + e.getNome()));
             etnias.add(new SelectItem(p, p.getDescription()));
         }
         return etnias;
+        }catch(Exception ex){
+            System.out.println("Erro no getSelectEtnias: " + ex.getMessage());
+            return new ArrayList<SelectItem>();
+        }
     }
 
     public Population getPopulation() {
@@ -398,12 +407,16 @@ public class PacienteMB implements Serializable {
     }
 
     public void novo() {
+        try{
         defCrudModeUpdate();
         paciente = new Paciente();
         //idEtnia = 0;
         gender = "";
         father = "";
         mother = "";
+        }catch(Exception ex){
+            System.out.println("Erro no novo: " + ex.getMessage());
+        }
     }
     
     

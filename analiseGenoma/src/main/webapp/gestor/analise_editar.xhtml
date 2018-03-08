@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Nova Análise">
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Name" for="name"/>
+                            <p:inputText id="name" value="#{analiseEditMB.analise.nome}" validator="#{analiseEditMB.validateNome}"/>
+
+                            <h:outputLabel value="ICD" for="icd" />                            
+                            <p:inputText id="icd" value="#{analiseEditMB.cid}" disabled="true"/>
+
+                            <p:outputLabel value="Patologia" for="patologia"/>
+                            <p:autoComplete id="patologia" value="#{analiseEditMB.patologia}" completeMethod="#{analiseEditMB.patologiaComplete}" >
+                                <p:ajax event="itemSelect" listener="#{analiseEditMB.onPatologiaSelect}" update="icd" />
+                            </p:autoComplete>
+                            <p:outputLabel value="Observacao" for="observacao"/>
+                            <p:inputTextarea id="observacao" value="#{analiseEditMB.analise.observacao}"/>
+
+                            <p:outputLabel value="Paciente" for="paciente"/>
+                            <p:autoComplete id="paciente" value="#{analiseEditMB.paciente}" completeMethod="#{analiseEditMB.pacienteComplete}"  >
+                                <p:ajax event="itemSelect" listener="#{analiseEditMB.onPacienteSelect}" update="vcf fathervcf lblFathervcf mothervcf lblMothervcf" /> <!-- update="vcf fathervcf lblFathervcf mothervcf lblMothervcf"  -->
+                            </p:autoComplete>
+
+
+                            <p:outputLabel for="vcf" value="VCF paciente *"  />
+                            <p:selectOneMenu value="#{analiseEditMB.idVcf}" id="vcf" validator="#{analiseEditMB.validateVcf}">
+                                <f:selectItem itemLabel="selecione um" itemValue="" />
+                                <f:selectItems value="#{analiseEditMB.selectVcfs}" />
+                            </p:selectOneMenu>
+
+
+                            <h:panelGroup id="lblFathervcf" >
+                                <p:outputLabel for="fathervcf2" value="Vcf father" rendered="#{analiseEditMB.pacienteHasFather()}" />
+                            </h:panelGroup>
+                            <h:panelGroup  id="fathervcf" >
+                                <p:selectOneMenu value="#{analiseEditMB.idVcfFather}" id="fathervcf2" rendered="#{analiseEditMB.pacienteHasFather()}" >
+                                    <f:selectItem itemLabel="selecione um" itemValue="" />  
+                                    <f:selectItems value="#{analiseEditMB.selectVcfsFather}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+
+                            <h:panelGroup id="lblMothervcf" >
+                                <p:outputLabel for="mothervcf2" value="Vcf mother" rendered="#{analiseEditMB.pacienteHasMother()}" />
+                            </h:panelGroup>
+                            <h:panelGroup id="mothervcf" >
+                                <p:selectOneMenu  value="#{analiseEditMB.idVcfMother}" id="mothervcf2" rendered="#{analiseEditMB.pacienteHasMother()}">
+                                    <f:selectItem itemLabel="selecione um" itemValue="" />          
+                                    <f:selectItems value="#{analiseEditMB.selectVcfsMother}" />
+                                </p:selectOneMenu>                            
+                            </h:panelGroup>
+
+
+
+
+
+                            <p:outputLabel value="Correlato" for="correlato"/>
+                            <p:autoComplete id="correlato" value="#{analiseEditMB.correlato}" completeMethod="#{analiseEditMB.controleComplete}"  >
+                                <p:ajax event="itemSelect" listener="#{analiseEditMB.onControleSelect}" update="vcfCorrelato" /> 
+                            </p:autoComplete>
+
+                            <p:outputLabel for="vcfCorrelato" value="VCF Correlato" />
+
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-10, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+
+                                <p:selectOneMenu  value="#{analiseEditMB.idCorrelato}" id="vcfCorrelato">
+                                    <f:selectItem itemLabel="selecione um" itemValue="" />
+                                    <f:selectItems value="#{analiseEditMB.selectControleVcfs}" />
+                                </p:selectOneMenu>
+                                <p:commandButton value="Adicionar Correlato" actionListener="#{analiseEditMB.addCorrelato}"  update="listCorrelatos"/>
+                            </p:panelGrid> 
+
+
+                            <h:outputText value="Correlatos" />
+
+                            <p:dataTable value="#{analiseEditMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" >
+                                <p:column headerText="VCF">
+                                    <h:outputText value="#{correlato.nome}" />
+                                </p:column>
+                            </p:dataTable>
+
+
+                            <h:outputText value="Apply pre-filter" />
+                            <p:selectOneRadio id="filter" >
+                                <f:selectItem itemLabel="Pre-filter" itemValue="Pre-filter" />
+                                <f:selectItem itemLabel="Same filter" itemValue="Same filter" />
+                                <f:selectItem itemLabel="No filter" itemValue="No filter" />
+                            </p:selectOneRadio>
+
+
+                            <p:panelGrid columns="2" >                        
+                                <p:commandButton action="#{analiseEditMB.adicionar}" value="Adicionar" update="formulario" ajax="true"/>
+                            </p:panelGrid>
+                        </p:panelGrid>                    
+                    </p:panel>                
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

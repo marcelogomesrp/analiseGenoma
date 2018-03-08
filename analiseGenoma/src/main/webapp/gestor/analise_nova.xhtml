@@ -16,25 +16,25 @@
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <p:outputLabel value="Name" for="name"/>
                             <p:inputText id="name" value="#{analiseMB.analise.nome}" validator="#{analiseMB.validateNome}"/>
-                            <p:outputLabel value="cid" for="cid"/>
                             
+                            <p:outputLabel value="ICD" for="cid"/>                            
                             <p:inputText id="cid" value="#{analiseMB.cid}" disabled="true"/>
                             
-                            <p:outputLabel value="Patologia" for="patologia"/>
+                            <p:outputLabel value="Disease" for="patologia"/>
                             <p:autoComplete id="patologia" value="#{analiseMB.patologia}" completeMethod="#{analiseMB.patologiaComplete}" >
                                 <p:ajax event="itemSelect" listener="#{analiseMB.onPatologiaSelect}" update="cid" />
                             </p:autoComplete>
-                            <p:outputLabel value="Observacao" for="observacao"/>
+                            <p:outputLabel value="Note" for="observacao"/>
                             <p:inputTextarea id="observacao" value="#{analiseMB.analise.observacao}"/>
 
 
-                            <p:outputLabel value="Paciente" for="paciente"/>
+                            <p:outputLabel value="Patient" for="paciente"/>
                             <p:autoComplete id="paciente" value="#{analiseMB.paciente}" completeMethod="#{analiseMB.pacienteComplete}"  >
                                 <p:ajax event="itemSelect" listener="#{analiseMB.onPacienteSelect}" update="vcf fathervcf lblFathervcf mothervcf lblMothervcf" />
                             </p:autoComplete>
 
 
-                            <p:outputLabel for="vcf" value="VCF paciente *"  />
+                            <p:outputLabel for="vcf" value="Variant File *"  />
                             <p:selectOneMenu value="#{analiseMB.idVcf}" id="vcf" validator="#{analiseMB.validateVcf}">
                                 <f:selectItem itemLabel="selecione um" itemValue="" />
                                 <f:selectItems value="#{analiseMB.selectVcfs}" />
@@ -61,12 +61,12 @@
                             </p:selectOneMenu>                            
                             </h:panelGroup>
 
-                            <p:outputLabel value="Correlato" for="correlato"/>
+                            <p:outputLabel value="Correlate" for="correlato"/>
                             <p:autoComplete id="correlato" value="#{analiseMB.correlato}" completeMethod="#{analiseMB.controleComplete}"  >
                                 <p:ajax event="itemSelect" listener="#{analiseMB.onControleSelect}" update="vcfCorrelato" /> 
                             </p:autoComplete>
 
-                            <p:outputLabel for="vcfCorrelato" value="VCF Correlato" />
+                            <p:outputLabel for="vcfCorrelato" value="Variant file Correlate" />
 
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-10, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
 
@@ -74,7 +74,7 @@
                                     <f:selectItem itemLabel="selecione um" itemValue="" />
                                     <f:selectItems value="#{analiseMB.selectControleVcfs}" />
                                 </p:selectOneMenu>
-                                <p:commandButton value="Adicionar Correlato" actionListener="#{analiseMB.addCorrelato}"  update="listCorrelatos"/>
+                                <p:commandButton value="Add correlate" actionListener="#{analiseMB.addCorrelato}"  update="listCorrelatos"/>
                             </p:panelGrid> 
                         </p:panelGrid>
 
@@ -105,7 +105,7 @@
 
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        
-                            <p:commandButton action="#{analiseMB.adicionar}" value="Adicionar" update="formulario" ajax="true"/>
+                            <p:commandButton action="#{analiseMB.adicionar}" value="Add" update="formulario" ajax="true"/>
                         </p:panelGrid>
                     </p:panel>                
                 </h:form>

@@ -12,7 +12,7 @@
 
             <ui:define name="content">
                 <h:form>
-                    <p:panel header="Pesquisar analise">
+                    <p:panel header="Find analyze">
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <h:outputText value="Selecione uma opção" />
                         </p:panelGrid>
@@ -26,7 +26,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Nome" />
+                                <h:outputText value="Name" />
                             </f:facet>
                             <h:outputText value="#{analise.nome}" />
                         </p:column>
@@ -34,8 +34,10 @@
                             <f:facet name="header">
                                 <h:outputText value="Opcoes" />
                             </f:facet>
-                            <p:commandButton value="Selecionar Variantes" action="#{analisePesquisarMB.selecionarVariante(analise)}"/>
-                            <p:commandButton value="Duplicate" action="#{analisePesquisarMB.duplicate(analise)}"/>
+                            <p:panelGrid columns="2" >
+                                <p:commandButton value="Selection Variants" action="#{analisePesquisarMB.selecionarVariante(analise)}"/>
+                                <p:commandButton value="Duplicate" action="#{analiseEditMB.duplicate(analise)}"/>
+                            </p:panelGrid>
                         </p:column>
                     </p:dataTable>
                 </h:form>
