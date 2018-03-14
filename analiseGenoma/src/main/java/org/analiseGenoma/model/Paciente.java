@@ -11,9 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import org.hibernate.validator.constraints.NotEmpty;
+//import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
@@ -23,9 +23,9 @@ public class Paciente implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_paciente")
     private Long id;
-    @NotEmpty
-    @NotNull
-    @Column(nullable = false)  
+    //@NotEmpty
+    //@NotNull
+    //@Column(nullable = false)  
     //@PatientUniqueName(message = "Name already exists")
     //@Obrigatorio(message = "You need informe the name")
     private String nome;
@@ -59,7 +59,7 @@ public class Paciente implements Serializable{
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.toUpperCase().trim();
     }
 
     public Date getDataNascimento() {

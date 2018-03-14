@@ -18,14 +18,14 @@
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:outputLabel value="Name*" for="name"/>
                             <p:inputText id="name" value="#{pacienteMB.paciente.nome}" validator="#{pacienteMB.validateName}">
-
+                                <f:validateBean disabled="#{pacienteMB.disabledValidation}"/> 
                                 <!-- <f:ajax event="blur" execute="@this" render="formulario" />  -->
                             </p:inputText>
                             <p:outputLabel value="Birthday" for="dtNascimento"/>
                             <p:calendar id="dtNascimento" value="#{pacienteMB.paciente.dataNascimento}"/>
                             <p:outputLabel value="Second Id" for="secondId" />
                             <p:inputText id="secondId" value="#{pacienteMB.paciente.secondId}"  >
-                                
+                                <f:validateBean disabled="#{pacienteMB.disabledValidation}"/> 
                             </p:inputText>
                             
                             <p:outputLabel value="Population" for="population"/>
@@ -41,7 +41,7 @@
                             </p:selectOneMenu>
                             <p:outputLabel value="Father" for="father" />
                             <p:autoComplete id="father" value="#{pacienteMB.father}" completeMethod="#{pacienteMB.fatherComplete}"   validator="#{pacienteMB.validateFather}"  >
-                                                               
+                                <f:validateBean disabled="#{pacienteMB.disabledValidation}"/>                                   
                             </p:autoComplete>
                             <p:outputLabel value="Mother" for="mother" />
                             <p:autoComplete id="mother" value="#{pacienteMB.mother}" completeMethod="#{pacienteMB.motherComplete}"  validator="#{pacienteMB.validateMother}"/>

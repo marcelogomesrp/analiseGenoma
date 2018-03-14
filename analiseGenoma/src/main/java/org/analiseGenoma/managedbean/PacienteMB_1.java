@@ -27,9 +27,9 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
-@Named(value = "pacienteMB")
+@Named(value = "paciente1MB")
 @ViewScoped
-public class PacienteMB implements Serializable {
+public class PacienteMB_1 implements Serializable {
 
     @Inject
     private FacesContext context;
@@ -92,7 +92,7 @@ public class PacienteMB implements Serializable {
         }
     }
 
-    public PacienteMB() {
+    public PacienteMB_1() {
     }
 
     public Paciente getPaciente() {
@@ -365,7 +365,7 @@ public class PacienteMB implements Serializable {
         try {
             List<String> pais = pacienteService.findMenByName(query + "%")
                     .stream()
-                    .map(p -> p.getNome() + " - " + p.getSecondId())
+                    .map(p -> p.getNome())
                     .collect(Collectors.toList());
             return pais;
         } catch (Exception ex) {
@@ -375,15 +375,10 @@ public class PacienteMB implements Serializable {
     }
 
     public List<String> motherComplete(String query) {
-        try{
         return pacienteService.findWomansByName(query + "%")
                 .stream()
-                .map(p -> p.getNome() + " - " + p.getSecondId())
+                .map(p -> p.getNome())
                 .collect(Collectors.toList());
-        }catch(Exception ex){
-            System.out.println("Erro: " + ex.getMessage());            
-        }
-        return new ArrayList<>();
     }
 
     private boolean isValid() {
@@ -421,7 +416,6 @@ public class PacienteMB implements Serializable {
             gender = "";
             father = "";
             mother = "";
-            population = new Population();
         } catch (Exception ex) {
             System.out.println("Erro no novo: " + ex.getMessage());
         }
