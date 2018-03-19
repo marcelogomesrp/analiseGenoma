@@ -117,4 +117,8 @@ public class PacienteService implements Serializable {
     public List<Paciente> findByExample(Paciente paciente) {
         return pacienteDao.findByExample(paciente);
     }
+
+    public Paciente findById(Long id) {
+        return pacienteDao.findById(id);
+    }
 }

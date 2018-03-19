@@ -45,6 +45,7 @@
                             </p:autoComplete>
                             <p:outputLabel value="Mother" for="mother" />
                             <p:autoComplete id="mother" value="#{pacienteMB.mother}" completeMethod="#{pacienteMB.motherComplete}"  validator="#{pacienteMB.validateMother}"/>
+                            
                             <p:outputLabel value="Note" for="observacao"/>
                             <p:inputTextarea id="observacao" value="#{pacienteMB.paciente.observacao}"/>
                         </p:panelGrid>
@@ -94,11 +95,11 @@
                             <h:outputText value="#{paciente.secondId}" />
                         </p:column>
 
-                        <p:column sortBy="#{paciente.etnia.nome}">
+                        <p:column sortBy="#{paciente.etnia.code}">
                             <f:facet name="header">
                                 <h:outputText value="Ethnicity" />
                             </f:facet>
-                            <h:outputText value="#{paciente.etnia.nome}" />
+                            <h:outputText value="#{paciente.etnia.code}" />
                         </p:column>
 
                         <p:column sortBy="#{paciente.gender}">

@@ -111,24 +111,29 @@ public class PacienteMB implements Serializable {
 //            try {
         if (father != null) {
             if (!father.isEmpty()) {
-                List<Paciente> list = pacienteService.findMenByName(father);
-                if (list.size() == 1) {
-                    paciente.setFather(list.get(0));
-                }else{
-                    //da erro pois o nome do pai informado nao e valido
-                }
+                Long idFather = Long.valueOf(father.split(":")[0].trim());
+                paciente.setFather(pacienteService.findById(idFather));
+//                List<Paciente> list = pacienteService.findMenByName(father);
+//                if (list.size() == 1) {
+//                    paciente.setFather(list.get(0));
+//                }else{
+//                    //da erro pois o nome do pai informado nao e valido
+//                }
             }
         }
         if (mother != null) {
             if (!mother.isEmpty()) {
-                List<Paciente> list = pacienteService.findWomansByName(mother);
-                if (list.size() == 1) {
-                    paciente.setMother(list.get(0));
-                    
-                }
+                Long idMother = Long.valueOf(mother.split(":")[0].trim());
+                paciente.setMother( pacienteService.findById(idMother));
+//                List<Paciente> list = pacienteService.findWomansByName(mother.split("-")[0].trim());
+//                if (list.size() == 1) {
+//                    paciente.setMother(list.get(0));
+//                    
+//                }
             }
         }
         //paciente.setEtnia(etniaService.findById(idEtnia));
+        paciente.setEtnia(population);
         if (gender != null)  {
             if(!("".equals(gender))){
                 paciente.setGender(gender.charAt(0));
@@ -365,7 +370,8 @@ public class PacienteMB implements Serializable {
         try {
             List<String> pais = pacienteService.findMenByName(query + "%")
                     .stream()
-                    .map(p -> p.getNome() + " - " + p.getSecondId())
+                    //.map(p -> p.getNome() + " - " + p.getSecondId())
+                    .map(p -> p.getId() + ":" + p.getNome() + " - " + p.getSecondId())
                     .collect(Collectors.toList());
             return pais;
         } catch (Exception ex) {
@@ -375,15 +381,17 @@ public class PacienteMB implements Serializable {
     }
 
     public List<String> motherComplete(String query) {
+        List<String> retorno = new ArrayList<>();
         try{
-        return pacienteService.findWomansByName(query + "%")
+        retorno = pacienteService.findWomansByName(query.trim().toUpperCase() + "%")
                 .stream()
-                .map(p -> p.getNome() + " - " + p.getSecondId())
+                .map(p -> p.getId() + ":" + p.getNome() + " - " + p.getSecondId())
                 .collect(Collectors.toList());
         }catch(Exception ex){
             System.out.println("Erro: " + ex.getMessage());            
         }
-        return new ArrayList<>();
+        //return new ArrayList<>();
+        return retorno;
     }
 
     private boolean isValid() {
@@ -443,6 +451,28 @@ public class PacienteMB implements Serializable {
 //                = new FacesMessage("Father not found");
 //        message.setSeverity(FacesMessage.SEVERITY_ERROR);
 //        throw new ValidatorException(message);
+
+
+        if(disabledValidation)
+            return;
+        String nome = (String) o;
+        if( (nome == null) || ("".equals(nome)) ){
+            return;            
+        }
+        Long id = Long.valueOf( nome.split(":")[0].trim() );
+        //List<Paciente> list = pacienteService.findWomansByName(nome);
+        Paciente p = pacienteService.findById(id);
+//        if(list.size() == 1){
+//            return;
+//        }
+        if(p!= null)
+            return ;
+        FacesMessage message
+                = new FacesMessage("Father not found");
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+        throw new ValidatorException(message);
+
+
     }    
 
     public void validateMother(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
@@ -452,10 +482,14 @@ public class PacienteMB implements Serializable {
         if( (nome == null) || ("".equals(nome)) ){
             return;            
         }
-        List<Paciente> list = pacienteService.findWomansByName(nome);
-        if(list.size() == 1){
-            return;
-        }
+        Long id = Long.valueOf( nome.split(":")[0].trim() );
+        //List<Paciente> list = pacienteService.findWomansByName(nome);
+        Paciente p = pacienteService.findById(id);
+//        if(list.size() == 1){
+//            return;
+//        }
+        if(p!= null)
+            return ;
         FacesMessage message
                 = new FacesMessage("Mother not found");
         message.setSeverity(FacesMessage.SEVERITY_ERROR);
