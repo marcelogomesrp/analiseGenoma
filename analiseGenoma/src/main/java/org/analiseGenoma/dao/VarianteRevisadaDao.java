@@ -11,7 +11,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.analiseGenoma.model.Population;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
 import org.analiseGenoma.model.Vcf;
@@ -35,7 +35,7 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
     }
     
     
-    public List<VarianteRevisada> findByAnaliseRevisor(Vcf vcf, Usuario revisor) {
+    public List<VarianteRevisada> findByAnaliseRevisor(Vcf vcf, User revisor) {
         List<VarianteRevisada> list = null;
         try {
             Query query = manager.createQuery("SELECT vr FROM VarianteRevisada vr WHERE vr.revisor = :revisor and vr.variant.vcf = :vcf");
@@ -48,7 +48,7 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
         return list;
     }
     
-    public List<VarianteRevisada> findByVarianteRevisor(Variante variante, Usuario revisor) {
+    public List<VarianteRevisada> findByVarianteRevisor(Variante variante, User revisor) {
         List<VarianteRevisada> list = null;
         try {
             Query query = manager.createQuery("SELECT vr FROM VarianteRevisada vr WHERE vr.revisor = :revisor and vr.variant = :variante");
@@ -75,7 +75,7 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
         }
         
         if (!(null == vr.getRevisor())) {
-            Path<Usuario> atributo = root.get("revisor");
+            Path<User> atributo = root.get("revisor");
             Predicate where = criteriaBuilder.equal(atributo, vr.getRevisor());
             condicoes.add(where);            
         }

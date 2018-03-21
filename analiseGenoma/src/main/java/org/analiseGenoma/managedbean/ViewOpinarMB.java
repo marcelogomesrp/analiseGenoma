@@ -13,7 +13,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
 import org.analiseGenoma.model.Vcf;
@@ -39,7 +39,7 @@ public class ViewOpinarMB {
     private Variante variante;
     private Vcf vcf;
     private Analise analise;
-    private Usuario revisor;
+    private User revisor;
     private VarianteRevisada varianteRevisada;
 
     public Long getIdVariante() {
@@ -74,11 +74,11 @@ public class ViewOpinarMB {
         this.analise = analise;
     }
 
-    public Usuario getRevisor() {
+    public User getRevisor() {
         return revisor;
     }
 
-    public void setRevisor(Usuario revisor) {
+    public void setRevisor(User revisor) {
         this.revisor = revisor;
     }
 

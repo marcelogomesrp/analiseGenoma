@@ -11,7 +11,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.service.UsuarioService;
 
 /**
@@ -27,11 +27,11 @@ public class ATesteMB implements Serializable{
     
     public void vai(){
         System.out.println("OK");
-        Usuario u = new Usuario();
+        User u = new User();
         //u.setId(1L);
         u.setEmail("admin%");
-        List<Usuario> list = us.findByExample(u);
-        for(Usuario user : list){
+        List<User> list = us.findByExample(u);
+        for(User user : list){
             System.out.println("--> " + user.toString());
         }
     }

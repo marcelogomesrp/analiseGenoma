@@ -4,6 +4,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://java.sun.com/jsf/core">
 
     <body>
@@ -12,7 +13,6 @@
 
             <ui:define name="content">
                 <h:form id="formulario" prependId="false">   
-                    <p:messages />
                     <p:growl />
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-1 ui-lg-1"></div>
@@ -21,17 +21,16 @@
                         <p:panel header="Log in">
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                    
                                 <p:outputLabel value="Email" for="email" />
-                                <p:inputText value="#{usuarioMB.usuario.email}" id="email"  >
+                                <p:inputText value="#{loginMB.userSB.user.email}" id="email" pt:placeholder="Enter your email" validator="#{loginMB.validateEmail}"/>
                                 
-                                </p:inputText>
-                                <p:outputLabel value="Password" />
-                                <p:password  value="#{usuarioMB.usuario.password}" />
+                                <p:outputLabel value="Password" for="password" />
+                                <p:password  id="password" value="#{loginMB.userSB.user.password}" pt:placeholder="Enter your password" validator="#{loginMB.validatePassword}"/>
                             </p:panelGrid>
                             <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-4,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank">
-                                <p:commandButton value="Manager"  action="#{gestorMB.login}" />
-                                <p:commandButton value="Reviser"  action="#{revisorMB.login}"  update="formulario" />
-                                <p:commandButton value="Administrator"  action="#{administradorMB.login}" />
-                                <p:commandButton value="Clear"  />
+                                <p:commandButton value="Manager"        action="#{loginMB.managerLogin()}" ajax="false"/>
+                                <p:commandButton value="Reviser"        action="#{loginMB.reviserLogin()}"/>
+                                <p:commandButton value="Administrator"  action="#{loginMB.administratorLogin()}" />
+                                <p:commandButton value="Clear" actionListener="#{loginMB.clean}" process="@this" update="formulario" />
                             </p:panelGrid>                    
                         </p:panel>
                             </div>

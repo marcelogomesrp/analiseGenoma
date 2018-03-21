@@ -20,7 +20,7 @@
         <param-value>#{themeSwitcherMB.theme}</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>entrar.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
     <context-param>
         <param-name>primefaces.UPLOADER</param-name>

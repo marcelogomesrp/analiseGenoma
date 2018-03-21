@@ -13,7 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.UsuarioService;
 import org.primefaces.model.DualListModel;
@@ -42,10 +42,10 @@ public class AnaliseSelectReviserMB implements Serializable {
 //            Usuario u = new Usuario();
 //            u.setNome("Teste");
 //            source.add(u);
-                List<String> target = analise.getRevisores().stream().map(r -> r.getNome()).collect(Collectors.toList());            
+                List<String> target = analise.getRevisores().stream().map(r -> r.getName()).collect(Collectors.toList());            
                 List<String> source = usuarioService.buscarRevisores()
                         .stream()
-                        .map(r -> r.getNome())
+                        .map(r -> r.getName())
                         .filter(g -> !target.contains(g))
                         .collect(Collectors.toList());           
                 
@@ -68,7 +68,7 @@ public class AnaliseSelectReviserMB implements Serializable {
     
     public String submit(){
        // List<Usuario> listUser = revisers.getTarget();
-        Set<Usuario> rev = new HashSet<>();
+        Set<User> rev = new HashSet<>();
         for(String name : revisers.getTarget()){
             rev.add(usuarioService.findRevisoresByName(name));
         }

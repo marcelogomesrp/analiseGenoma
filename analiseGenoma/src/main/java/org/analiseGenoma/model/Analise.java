@@ -45,7 +45,7 @@ public class Analise  implements Serializable{
     @OneToMany
     private List<Vcf> vcfsCorrelatos;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Usuario> revisores; 
+    private Set<User> revisores; 
     @ManyToOne
     private Vcf vcfFather;
     @ManyToOne
@@ -126,11 +126,11 @@ public class Analise  implements Serializable{
         this.controle = controle;
     }
 
-    public Set<Usuario> getRevisores() {
+    public Set<User> getRevisores() {
         return revisores;
     }
 
-    public void setRevisores(Set<Usuario> revisores) {
+    public void setRevisores(Set<User> revisores) {
         this.revisores = revisores;
     }
 

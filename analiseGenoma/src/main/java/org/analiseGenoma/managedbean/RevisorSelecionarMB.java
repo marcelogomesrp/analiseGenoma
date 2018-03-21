@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Analise;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.UsuarioService;
 
@@ -33,8 +33,8 @@ public class RevisorSelecionarMB implements Serializable {
     private AnaliseService analiseService;
     @Inject
     private UsuarioService usuarioService;
-    private List<Usuario> revisores;
-    private Set<Usuario> revisoresSelecionados = new LinkedHashSet<>();
+    private List<User> revisores;
+    private Set<User> revisoresSelecionados = new LinkedHashSet<>();
 
     @PostConstruct
     public void init() {
@@ -65,11 +65,11 @@ public class RevisorSelecionarMB implements Serializable {
         this.analise = analise;
     }
 
-    public List<Usuario> getRevisores() {
+    public List<User> getRevisores() {
         return revisores;
     }
 
-    public void setRevisores(List<Usuario> revisores) {
+    public void setRevisores(List<User> revisores) {
         this.revisores = revisores;
     }
 
@@ -77,16 +77,16 @@ public class RevisorSelecionarMB implements Serializable {
         System.out.println("opa-----------------> ");
     }
 
-    public void addRevisor(Usuario revisor) {
+    public void addRevisor(User revisor) {
         System.out.println("opa2-----------------> " + revisor.toString());
         this.revisoresSelecionados.add(revisor);
     }
 
-    public void removeRevisor(Usuario revisor) {
+    public void removeRevisor(User revisor) {
         revisoresSelecionados.remove(revisor);
     }
 
-    public boolean isSelecionado(Usuario revisor) {
+    public boolean isSelecionado(User revisor) {
         return revisoresSelecionados.contains(revisor);
     }
 
@@ -101,7 +101,7 @@ public class RevisorSelecionarMB implements Serializable {
     public String showPage() {
         System.out.println("\n\n\n\nopa!!!!\n\n\n\n");
         System.out.println("Selecionados: ");
-        for(Usuario rev : revisoresSelecionados){
+        for(User rev : revisoresSelecionados){
             System.out.println("Selecionado o tio: " + rev.toString());
         }
         analise.setRevisores(revisoresSelecionados);

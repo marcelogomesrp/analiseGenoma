@@ -9,14 +9,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.model.Analise;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.service.AnaliseService;
 
 @Named(value = "revAnaliseListarMB")
 @RequestScoped
 public class RevisorAnaliseListar implements Serializable {
 
-    private Usuario usuario;
+    private User usuario;
     private List<Analise> analises;
     @Inject
     private AnaliseService analiseService;

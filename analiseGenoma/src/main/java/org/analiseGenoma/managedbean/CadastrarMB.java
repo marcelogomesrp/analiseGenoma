@@ -7,9 +7,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.service.UsuarioService;
-import org.primefaces.model.UploadedFile;
 
 @Named(value = "cadastrarMB")
 @RequestScoped
@@ -19,13 +18,17 @@ public class CadastrarMB implements Serializable {
     private FacesContext context;
     @Inject
     private UsuarioService usuarioService;
-    private Usuario usuario;
+    @Inject
+    private User user;
+    
+    private User usuario;
     private String confirmaSenha;
 //    private UploadedFile uploadedFile;
 
     @PostConstruct
     public void init() {
-        usuario = new Usuario();
+        user = new User();
+        usuario = new User();
         confirmaSenha = "";
     }
 
@@ -43,11 +46,11 @@ public class CadastrarMB implements Serializable {
 //        this.uploadedFile = uploadedFile;
 //    }
 
-    public Usuario getUsuario() {
+    public User getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(User usuario) {
         this.usuario = usuario;
     }
 
@@ -60,7 +63,7 @@ public class CadastrarMB implements Serializable {
     }
 
     public void limpar() {
-        usuario = new Usuario();
+        usuario = new User();
         confirmaSenha = "";
     }
 

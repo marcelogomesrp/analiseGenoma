@@ -1,10 +1,6 @@
 package org.analiseGenoma.service;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,14 +9,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
-import org.analiseGenoma.dao.UsuarioDao;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.dao.UserDao;
+import org.analiseGenoma.model.User;
 
 @Named
 public class UsuarioService implements Serializable {
 
     @Inject
-    private UsuarioDao usuarioDao;
+    private UserDao usuarioDao;
     @Inject 
     private FacesContext context;
 
@@ -30,14 +26,14 @@ public class UsuarioService implements Serializable {
     }
 
     @Transactional
-    public void adicionar(Usuario usuario, String confirmaSenha) throws Exception {
-        if(senhaValida(usuario.getSenha(), confirmaSenha)){
+    public void adicionar(User usuario, String confirmaSenha) throws Exception {
+        if(senhaValida(usuario.getPassword(), confirmaSenha)){
             usuarioDao.persist(usuario);
         }
     }
 
     @Transactional
-    public void adicionar(Usuario usuario, String confirmaSenha, byte[] contents) throws Exception {
+    public void adicionar(User usuario, String confirmaSenha, byte[] contents) throws Exception {
 //        if(contents.length > 0)
 //            usuario.setImage(contents);
         adicionar(usuario, confirmaSenha);
@@ -69,22 +65,26 @@ public class UsuarioService implements Serializable {
         return true;
     }
     
-    public List<Usuario> buscarRevisores(){
-        return usuarioDao.buscarPorRevisor();
+    public List<User> buscarRevisores(){
+        //return usuarioDao.buscarPorRevisor();
+        return null;
+        
     }
 
-    public Usuario buscarPorId(Long id) {
+    public User buscarPorId(Long id) {
         return usuarioDao.findById(id);
     }
 
-    public Usuario findRevisoresByName(String name) {
-        List<Usuario> users = usuarioDao.findRevisorByName(name);
+    public User findRevisoresByName(String name) {
+        /*
+        List<User> users = usuarioDao.findRevisorByName(name);
         if(users.size() == 1)
             return users.get(0);
+*/
         return null;
     }
 
-    public List<Usuario> findByExample(Usuario u) {
+    public List<User> findByExample(User u) {
         try {
             return usuarioDao.findByExample(u);
         } catch (Exception ex) {

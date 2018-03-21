@@ -10,25 +10,25 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 
 @Named(value = "usuarioMB")
 //@RequestScoped
 @SessionScoped
 public class UsuarioMB implements Serializable {
 
-    private Usuario usuario;
+    private User usuario;
 
     @PostConstruct
     public void init() {
-        usuario = new Usuario();
+        usuario = new User();
     }
 
-    public Usuario getUsuario() {
+    public User getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(User usuario) {
         this.usuario = usuario;
     }
 

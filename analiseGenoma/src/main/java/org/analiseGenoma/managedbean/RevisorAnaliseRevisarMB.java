@@ -18,7 +18,7 @@ import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
 import org.analiseGenoma.service.AnaliseService;
@@ -32,7 +32,7 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class RevisorAnaliseRevisarMB implements Serializable {
 
-    private Usuario usuario;
+    private User usuario;
     private Analise analise;
     private List<Variante> variantes;
     @Inject
@@ -51,7 +51,7 @@ public class RevisorAnaliseRevisarMB implements Serializable {
     @Inject
     private VarianteRevisadaService varianteRevisadaService;
     @Inject private UsuarioMB usuarioMB;
-    private Usuario revisor;
+    private User revisor;
 
     @PostConstruct
     public void init() {

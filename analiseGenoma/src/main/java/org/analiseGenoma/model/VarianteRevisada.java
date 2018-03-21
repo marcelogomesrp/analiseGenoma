@@ -20,7 +20,7 @@ public class VarianteRevisada implements Serializable {
     @ManyToOne
     private Variante variant;
     @ManyToOne
-    private Usuario revisor;
+    private User revisor;
     private boolean patogenic;
     @Column(columnDefinition = "text")
     private String note;
@@ -41,11 +41,11 @@ public class VarianteRevisada implements Serializable {
         this.variant = variant;
     }
 
-    public Usuario getRevisor() {
+    public User getRevisor() {
         return revisor;
     }
 
-    public void setRevisor(Usuario revisor) {
+    public void setRevisor(User revisor) {
         this.revisor = revisor;
     }
 

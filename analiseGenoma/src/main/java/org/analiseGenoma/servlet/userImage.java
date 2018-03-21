@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.analiseGenoma.model.Usuario;
+import org.analiseGenoma.model.User;
 import org.analiseGenoma.service.UsuarioService;
 
 @WebServlet("/images/*")
@@ -27,7 +27,7 @@ public class userImage  extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String imageId = String.valueOf(request.getPathInfo().substring(1)); 
-        Usuario user = usuarioService.buscarPorId(Long.valueOf(imageId));
+        User user = usuarioService.buscarPorId(Long.valueOf(imageId));
         response.setContentType("image/gif");   
 //        if(this.temImagem(user))
 //            response.getOutputStream().write(user.getImage());
