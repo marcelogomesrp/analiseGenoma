@@ -33,13 +33,13 @@ public class Analise  implements Serializable{
     private String estado;
     @ManyToOne
     @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
+    private Patient paciente;
     @ManyToOne
     @JoinColumn(name = "vcf_id")
     private Vcf vcf;
     @ManyToOne
     @JoinColumn(name = "pacientecontrole_id")
-    private Paciente controle;
+    private Patient controle;
     //@ManyToOne
     //@JoinColumn(name = "vcfControle_id")
     @OneToMany
@@ -110,19 +110,19 @@ public class Analise  implements Serializable{
         this.vcfsCorrelatos = vcfsCorrelatos;
     }
 
-    public Paciente getPaciente() {
+    public Patient getPaciente() {
         return paciente;
     }
 
-    public void setPaciente(Paciente paciente) {
+    public void setPaciente(Patient paciente) {
         this.paciente = paciente;
     }
 
-    public Paciente getControle() {
+    public Patient getControle() {
         return controle;
     }
 
-    public void setControle(Paciente controle) {
+    public void setControle(Patient controle) {
         this.controle = controle;
     }
 

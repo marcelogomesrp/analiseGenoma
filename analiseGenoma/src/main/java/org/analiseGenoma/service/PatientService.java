@@ -7,17 +7,25 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
-import org.analiseGenoma.dao.PacienteDao;
-import org.analiseGenoma.model.Gene;
-import org.analiseGenoma.model.Paciente;
+import org.analiseGenoma.dao.PatientDao;
+import org.analiseGenoma.model.Patient;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.Vcf;
 
 @Named
-public class PacienteService implements Serializable {
+public class PatientService extends Service<Patient> implements Serializable {
 
+        
+    public PatientService() {
+        super(Patient.class);
+    }
+
+    private PatientDao getDao() {
+        return ((PatientDao) dao);
+    }
+    
     @Inject
-    private PacienteDao pacienteDao;
+    private PatientDao pacienteDao;
     @Inject
     private UmdPredictorService umdPredictorService;
     @Inject
@@ -39,25 +47,25 @@ public class PacienteService implements Serializable {
     }
 
     @Transactional
-    public void adicionar(Paciente paciente) {
+    public void adicionar(Patient paciente) {
         pacienteDao.persist(paciente);
     }
 
-    public List<Paciente> buscar() {
+    public List<Patient> buscar() {
         return pacienteDao.find();
     }
 
     
-    public List<Paciente> buscarNome(String nome) {
+    public List<Patient> buscarNome(String nome) {
         return pacienteDao.buscarNome(nome);
     }
 
-    public Paciente buscarId(Long id) {
+    public Patient buscarId(Long id) {
         return pacienteDao.findById(id);
     }
 
     @Transactional
-    public void atualizar(Paciente paciente) {
+    public void atualizar(Patient paciente) {
         pacienteDao.merge(paciente);
     }
 
@@ -65,7 +73,7 @@ public class PacienteService implements Serializable {
 
     }
 
-    public void uploadVcf(byte[] contents, Paciente paciente) {
+    public void uploadVcf(byte[] contents, Patient paciente) {
 
     }
 
@@ -99,26 +107,44 @@ public class PacienteService implements Serializable {
         }
     }
 
-    public List<Paciente> findMenByName(String query) {
-        Paciente p = new Paciente();
-        p.setNome(query);
+    public List<Patient> findMenByName(String query) {
+        Patient p = new Patient();
+        p.setName(query);
         p.setGender('m');
-        List<Paciente> pais = pacienteDao.findByExample(p);
+        List<Patient> pais = pacienteDao.findByExample(p);
         return pais;
     }
     
-    public List<Paciente> findWomansByName(String query) {
-        Paciente p = new Paciente();
-        p.setNome(query);
+    public List<Patient> findWomansByName(String query) {
+        Patient p = new Patient();
+        p.setName(query);
         p.setGender('f');
         return pacienteDao.findByExample(p);
     }
 
-    public List<Paciente> findByExample(Paciente paciente) {
+    public List<Patient> findByExample(Patient paciente) {
         return pacienteDao.findByExample(paciente);
     }
 
-    public Paciente findById(Long id) {
+    public Patient findById(Long id) {
         return pacienteDao.findById(id);
     }
+
+    @Override
+    public void persiste(Patient patient){
+        Patient p = this.FindByNameAndBirth(patient);
+        if(p == null){
+            super.persiste(patient); 
+        }
+    }
+
+    public Patient FindByNameAndBirth(Patient patient) {
+        Patient p = new Patient();
+        p.setName(patient.getName());
+        p.setBirth(p.getBirth());
+        return this.getFirstOrNull(this.findByExample(p));
+    }
+    
+    
+    
 }

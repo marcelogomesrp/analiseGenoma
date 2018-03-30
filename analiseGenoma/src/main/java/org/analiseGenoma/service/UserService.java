@@ -41,5 +41,13 @@ public class UserService  extends Service<User> implements Serializable {
         userFind.setManager(true);
         return this.getFirstOrNull(this.findByExample(userFind));
     }
+
+    public User findAdministratorByEmailPassword(User user) throws Exception {
+        User userFind = new User();
+        userFind.setEmail(user.getEmail());
+        userFind.setPassword(user.getPassword());
+        userFind.setAdministrator(true);
+        return this.getFirstOrNull(this.findByExample(userFind));
+    }
     
 }

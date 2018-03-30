@@ -30,7 +30,7 @@ public class Vcf implements Serializable {
     private Date dataImportacao;
     @OneToOne
     @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
+    private Patient paciente;
     @Enumerated(EnumType.STRING)
     private VcfStatus status;
     @OneToMany(mappedBy = "vcf")
@@ -68,11 +68,11 @@ public class Vcf implements Serializable {
         this.dataImportacao = dataImportacao;
     }
 
-    public Paciente getPaciente() {
+    public Patient getPaciente() {
         return paciente;
     }
 
-    public void setPaciente(Paciente paciente) {
+    public void setPaciente(Patient paciente) {
         this.paciente = paciente;
     }
 

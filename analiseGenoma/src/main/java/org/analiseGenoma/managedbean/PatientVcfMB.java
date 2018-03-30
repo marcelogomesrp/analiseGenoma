@@ -11,26 +11,28 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import org.analiseGenoma.managedbean.util.RequestParam;
-import org.analiseGenoma.model.Paciente;
+import org.analiseGenoma.model.Patient;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.model.VcfStatus;
-import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.service.PatientService;
 import org.analiseGenoma.service.VcfService;
+import org.analiseGenoma.sessionbean.PatientSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 
 @Named(value = "pacienteVcfMB")
 @RequestScoped
-public class PacienteVcfMB implements Serializable {
+public class PatientVcfMB implements Serializable {
 
     @Inject
     private FacesContext context;
     @Inject
-    private PacienteService pacienteService;
+    private PatientService pacienteService;
     @Inject
     private VcfService vcfService;
     private UploadedFile uploadedFile;
-    private Paciente paciente;
+    @Inject
+    private PatientSB patientSB;
     private Vcf vcf;
     @Inject
     @RequestParam
@@ -38,25 +40,25 @@ public class PacienteVcfMB implements Serializable {
 
     @PostConstruct
     public void init() {
-        paciente = new Paciente();
-        vcf = new Vcf();
-        if (id != null) {
-            if (!id.equals("")) {
-                paciente = pacienteService.buscarId(Long.valueOf(id));
-            }
-        }
+//        patient = new Patient();
+//        vcf = new Vcf();
+//        if (id != null) {
+//            if (!id.equals("")) {
+//                patient = pacienteService.buscarId(Long.valueOf(id));
+//            }
+//        }
     }
 
-    public Paciente getPaciente() {
-        if (paciente == null) {
-            paciente = new Paciente();
-        }
-        return paciente;
-    }
+//    public Patient getPaciente() {
+//        if (patient == null) {
+//            patient = new Patient();
+//        }
+//        return patient;
+//    }
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
+//    public void setPaciente(Patient paciente) {
+//        this.patient = paciente;
+//    }
 
     public Vcf getVcf() {
         if (vcf == null) {
@@ -69,12 +71,22 @@ public class PacienteVcfMB implements Serializable {
         this.vcf = vcf;
     }
 
+    public PatientSB getPatientSB() {
+        return patientSB;
+    }
+
+    public void setPatientSB(PatientSB patientSB) {
+        this.patientSB = patientSB;
+    }
+
+    
     
     @Transactional
     public void adicionar() {
         String msg = "arquivo adicionado com sucesso";
         System.out.println("Adicionando o vcf");
-        vcf.setPaciente(pacienteService.buscarId(paciente.getId()));       
+        //vcf.setPaciente(pacienteService.buscarId(patient.getId()));       
+        vcf.setPaciente(patientSB.getPatient());
         vcf.setStatus(VcfStatus.importando);
         vcfService.adicionar(vcf);
         if (uploadedFile != null) {
@@ -104,7 +116,7 @@ public class PacienteVcfMB implements Serializable {
     }
     
     public void viewAddVcf(Long id) {
-        paciente = pacienteService.buscarId(id);
+        //patient = pacienteService.buscarId(id);
         vcf = new Vcf();
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);

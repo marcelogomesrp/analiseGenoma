@@ -15,7 +15,7 @@ public class LogoffMB implements Serializable {
     public String sairDoSistema(){
         themeSwitcherMB.changeLogoff();
         System.out.println("Fazendo logoff");
-        return "/entrar.xhtml";
+        return "/login.xhtml";
     }
     
 }

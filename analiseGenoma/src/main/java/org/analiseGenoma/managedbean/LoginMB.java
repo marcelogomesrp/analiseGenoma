@@ -71,9 +71,28 @@ public class LoginMB implements Serializable {
     }
 
     public String administratorLogin() {
-        return ADMINISTRAOTR_URL;
-    }
-
+        try {
+            User userBd = userService.findAdministratorByEmailPassword(userSB.getUser());
+            if (userBd == null) {
+                context.getExternalContext()
+                        .getFlash().setKeepMessages(true);
+                context.addMessage(null, 
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR 
+                                ,"Email or password isn't valid" 
+                                ,"Email or password isn't valid")
+                );
+                return null;
+            } else {
+                this.userSB.setUser(userBd);
+                return ADMINISTRAOTR_URL;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(LoginMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }    
+    
+    
     public void clean() {
         userSB.reset();
     }

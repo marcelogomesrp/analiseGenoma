@@ -8,8 +8,8 @@ import javax.inject.Inject;
 
 //import javax.validation.ValidatorFactory;
 //import org.hibernate.validator.cdi.HibernateValidator
-import org.analiseGenoma.model.Paciente;
-import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.model.Patient;
+import org.analiseGenoma.service.PatientService;
 
 //http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-declaring-bean-constraints
 //http://www.springfuse.com/2012/09/27/jsf2-jpa2-unique-validator.html
@@ -20,7 +20,7 @@ public class PatientUniqueNameValidator implements ConstraintValidator<PatientUn
     //private ValidatorFactory validatorFactory;
         
     @Inject
-    private PacienteService pacienteService;
+    private PatientService pacienteService;
 
     @Override
     public void initialize(PatientUniqueName a) {
@@ -33,7 +33,7 @@ public class PatientUniqueNameValidator implements ConstraintValidator<PatientUn
         try {
             //return pacienteService.buscarNome(name).isEmpty();
             //return false;
-            List<Paciente> list = pacienteService.buscarNome(name);
+            List<Patient> list = pacienteService.buscarNome(name);
             if (list == null) {
                 return true;
             }

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -29,7 +29,7 @@
                             <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-4,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank">
                                 <p:commandButton value="Manager"        action="#{loginMB.managerLogin()}" ajax="false"/>
                                 <p:commandButton value="Reviser"        action="#{loginMB.reviserLogin()}"/>
-                                <p:commandButton value="Administrator"  action="#{loginMB.administratorLogin()}" />
+                                <p:commandButton value="Administrator"  action="#{loginMB.administratorLogin()}" ajax="false" />
                                 <p:commandButton value="Clear" actionListener="#{loginMB.clean}" process="@this" update="formulario" />
                             </p:panelGrid>                    
                         </p:panel>

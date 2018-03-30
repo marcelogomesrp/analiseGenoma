@@ -18,10 +18,10 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Population;
-import org.analiseGenoma.model.Paciente;
+import org.analiseGenoma.model.Patient;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.PopulationService;
-import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.service.PatientService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -34,15 +34,15 @@ public class PacienteMB_1 implements Serializable {
     @Inject
     private FacesContext context;
     @Inject
-    private PacienteService pacienteService;
+    private PatientService pacienteService;
     @Inject
     private VcfService vcfService;
-    private Paciente paciente;
+    private Patient paciente;
     private Population population;
     private String nome;
     @Inject
     private PopulationService etniaService;
-    private List<Paciente> pacientes;
+    private List<Patient> pacientes;
     @Inject
     @RequestParam
     private String id;
@@ -61,7 +61,7 @@ public class PacienteMB_1 implements Serializable {
         try{
         this.defCrudModeRead();
         System.out.println("Pagina pacienteMB instanciada novamente");
-        paciente = new Paciente();
+        paciente = new Patient();
         pacientes = pacienteService.buscar();
         
         vcfs = new ArrayList<>();
@@ -72,16 +72,16 @@ public class PacienteMB_1 implements Serializable {
                 System.out.println("Pesquisando paciente com o o id " + id);
                 paciente = pacienteService.buscarId(Long.valueOf(id));
                 if (paciente != null) {
-                    if (paciente.getEtnia() != null) {
-                        if (paciente.getEtnia().getId() != null) {
+                    if (paciente.getPopulation() != null) {
+                        if (paciente.getPopulation().getId() != null) {
                             //idEtnia = paciente.getEtnia().getId();
                         }
                     }
                     if(paciente.getFather() != null){
-                        father = paciente.getFather().getNome();
+                        father = paciente.getFather().getName();
                     }
                     if(paciente.getMother() != null){
-                        mother = paciente.getMother().getNome();
+                        mother = paciente.getMother().getName();
                     }
                     vcfs = vcfService.buscarPacienteId(paciente.getId());
                 }
@@ -95,11 +95,11 @@ public class PacienteMB_1 implements Serializable {
     public PacienteMB_1() {
     }
 
-    public Paciente getPaciente() {
+    public Patient getPaciente() {
         return paciente;
     }
 
-    public void setPaciente(Paciente paciente) {
+    public void setPaciente(Patient paciente) {
         this.paciente = paciente;
     }
 
@@ -111,7 +111,7 @@ public class PacienteMB_1 implements Serializable {
 //            try {
         if (father != null) {
             if (!father.isEmpty()) {
-                List<Paciente> list = pacienteService.findMenByName(father);
+                List<Patient> list = pacienteService.findMenByName(father);
                 if (list.size() == 1) {
                     paciente.setFather(list.get(0));
                 }else{
@@ -121,7 +121,7 @@ public class PacienteMB_1 implements Serializable {
         }
         if (mother != null) {
             if (!mother.isEmpty()) {
-                List<Paciente> list = pacienteService.findWomansByName(mother);
+                List<Patient> list = pacienteService.findWomansByName(mother);
                 if (list.size() == 1) {
                     paciente.setMother(list.get(0));
                     
@@ -164,7 +164,7 @@ public class PacienteMB_1 implements Serializable {
     }
 
     public void limpar() {
-        paciente = new Paciente();
+        paciente = new Patient();
         gender = "";
         //idEtnia = 0L;
         father = "";
@@ -226,7 +226,7 @@ public class PacienteMB_1 implements Serializable {
         this.nome = nome;
     }
 
-    public String detalhe(Paciente paciente) {
+    public String detalhe(Patient paciente) {
         this.paciente = paciente;
         return "paciente_detalhe.xhtml";
     }
@@ -250,11 +250,11 @@ public class PacienteMB_1 implements Serializable {
     }
 
     //stuf
-    public List<Paciente> getPacientes() {
+    public List<Patient> getPacientes() {
         return pacientes;
     }
 
-    public void setPacientes(List<Paciente> pacientes) {
+    public void setPacientes(List<Patient> pacientes) {
         this.pacientes = pacientes;
     }
 
@@ -292,7 +292,7 @@ public class PacienteMB_1 implements Serializable {
         values.add(id.toString());
         params.put("id", values);
         RequestContext.getCurrentInstance().openDialog("viewAddVcf", options, params);
-        paciente = new Paciente();
+        paciente = new Patient();
     }
 
     public void onViewAddVcf(SelectEvent event) {
@@ -333,11 +333,11 @@ public class PacienteMB_1 implements Serializable {
         this.vcf = vcf;
     }
 
-    public int qtdVcf(Paciente p) {
+    public int qtdVcf(Patient p) {
         return vcfService.buscarPacienteId(p.getId()).size();
     }
 
-    public List<Vcf> vcfs(Paciente p) {
+    public List<Vcf> vcfs(Patient p) {
         if(p == null){
             return new ArrayList<>();
         }
@@ -365,7 +365,7 @@ public class PacienteMB_1 implements Serializable {
         try {
             List<String> pais = pacienteService.findMenByName(query + "%")
                     .stream()
-                    .map(p -> p.getNome())
+                    .map(p -> p.getName())
                     .collect(Collectors.toList());
             return pais;
         } catch (Exception ex) {
@@ -377,17 +377,17 @@ public class PacienteMB_1 implements Serializable {
     public List<String> motherComplete(String query) {
         return pacienteService.findWomansByName(query + "%")
                 .stream()
-                .map(p -> p.getNome())
+                .map(p -> p.getName())
                 .collect(Collectors.toList());
     }
 
     private boolean isValid() {
-        return pacienteService.buscarNome(paciente.getNome()).isEmpty();
+        return pacienteService.buscarNome(paciente.getName()).isEmpty();
     }
 
     public void validateSecond(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
         String nome = (String) o;
-        List<Paciente> list = pacienteService.buscarNome(nome);
+        List<Patient> list = pacienteService.buscarNome(nome);
         if (list == null) {
             return;
         }
@@ -411,7 +411,7 @@ public class PacienteMB_1 implements Serializable {
     public void novo() {
         try {
             defCrudModeUpdate();
-            paciente = new Paciente();
+            paciente = new Patient();
             //idEtnia = 0;
             gender = "";
             father = "";
@@ -446,7 +446,7 @@ public class PacienteMB_1 implements Serializable {
         if( (nome == null) || ("".equals(nome)) ){
             return;            
         }
-        List<Paciente> list = pacienteService.findWomansByName(nome);
+        List<Patient> list = pacienteService.findWomansByName(nome);
         if(list.size() == 1){
             return;
         }
@@ -460,7 +460,7 @@ public class PacienteMB_1 implements Serializable {
         if(disabledValidation)
             return;
         String nome = (String) o;
-        List<Paciente> list = pacienteService.buscarNome(nome);
+        List<Patient> list = pacienteService.buscarNome(nome);
         if(list.isEmpty()){
             return;
         }

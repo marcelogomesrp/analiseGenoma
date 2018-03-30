@@ -17,13 +17,14 @@
         <!-- <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i> -->
         <h:form enctype="multipart/form-data" id="formularioUpload">
 
-            <p:panel header="Adicionar VCF">                
+            <p:panel header="Adicionar VCF">
+                <h:inputHidden value="#{pacienteVcfMB.paciente.id}" />
                 <p:panelGrid  columns="2" styleClass="ui-panelgrid-blank">          
                     <p:outputLabel value="Id" for="a"/>
-                    <h:outputText id="a" value="#{patientSB.patient.id}"/>
+                    <h:outputText id="a" value="#{pacienteMB.id}"/>
                     
-                    <p:outputLabel value="Patient's name" for="patientName"/>
-                    <h:outputText value="#{patientSB.patient.name}" id="patientName"/>                    
+                    <p:outputLabel value="Patient's name" for="nomePaciente"/>
+                    <h:outputText value="#{pacienteVcfMB.paciente.name}" id="nomePaciente"/>                    
                     <p:outputLabel value="age" for="idade"/>
                     <p:inputNumber id="idade" value="#{pacienteVcfMB.vcf.idadeDoPaciente}" decimalPlaces="0" minValue="0" maxValue="120" />
                     

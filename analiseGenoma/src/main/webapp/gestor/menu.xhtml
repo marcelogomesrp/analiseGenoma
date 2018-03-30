@@ -6,7 +6,7 @@
     <h:form>
         <p:menubar>
             <p:menuitem value="Show" onclick="PF('bar').show()" icon="ui-icon-arrow-1-s"/> 
-            <p:menuitem value="Patient" outcome="paciente.xhtml" />
+            <p:menuitem value="Patient" outcome="pacient.xhtml" />
             <p:submenu label="Analyze" >
                 <p:menuitem value="New" outcome="analise_nova.xhtml" />
                 <p:menuitem value="Search"  outcome="analise_pesquisar.xhtml"/>
@@ -14,7 +14,7 @@
                 <p:menuitem value="view analise revisada"  outcome="analise_revisada.xhtml"/>  
             </p:submenu>
             <p:submenu label="Options" >
-                <p:menuitem value="Change password" outcome="analise_nova.xhtml" />                
+                <p:menuitem value="Edit profile" outcome="edit_profile.xhtml" />                
                 <p:menuitem value="Logout" action="#{logoffMB.sairDoSistema}" ajax="false"/>                
             </p:submenu>                           
         </p:menubar>

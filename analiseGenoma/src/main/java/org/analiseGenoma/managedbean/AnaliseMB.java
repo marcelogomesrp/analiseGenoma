@@ -19,11 +19,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.model.Analise;
-import org.analiseGenoma.model.Paciente;
+import org.analiseGenoma.model.Patient;
 import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.AnaliseService;
-import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.service.PatientService;
 import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.event.SelectEvent;
@@ -44,7 +44,7 @@ public class AnaliseMB implements Serializable {
     @Inject
     private DiseaseService patologiaService;
     @Inject
-    private PacienteService pacienteService;
+    private PatientService pacienteService;
     @Inject
     private VcfService vcfService;
     @Inject
@@ -261,7 +261,7 @@ public class AnaliseMB implements Serializable {
     public List<String> pacienteComplete(String query) {
         System.out.println("Patciente auto complet");
         List<String> results = new ArrayList<String>();
-        pacienteService.buscarNome(query.toUpperCase() + "%").forEach(p -> results.add(p.getNome()));
+        pacienteService.buscarNome(query.toUpperCase() + "%").forEach(p -> results.add(p.getName()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
@@ -269,7 +269,7 @@ public class AnaliseMB implements Serializable {
     public List<String> controleComplete(String query) {
         System.out.println("Controle auto complet");
         List<String> results = new ArrayList<String>();
-        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getNome()));
+        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
@@ -296,7 +296,7 @@ public class AnaliseMB implements Serializable {
     }
 
     public void onPacienteSelect(SelectEvent event) {
-        List<Paciente> pacientes = pacienteService.buscarNome(paciente);
+        List<Patient> pacientes = pacienteService.buscarNome(paciente);
         if (pacientes != null) {
             if (pacientes.size() > 0) {
                 idPaciente = pacientes.get(0).getId();
@@ -305,7 +305,7 @@ public class AnaliseMB implements Serializable {
     }
 
     public void onCorrelatoSelect(SelectEvent event) {
-        List<Paciente> pacientes = pacienteService.buscarNome(paciente);
+        List<Patient> pacientes = pacienteService.buscarNome(paciente);
         if (pacientes != null) {
             if (pacientes.size() > 0) {
                 idCorrelato = pacientes.get(0).getId();
@@ -314,7 +314,7 @@ public class AnaliseMB implements Serializable {
     }
 
     public void onControleSelect(SelectEvent event) {
-        List<Paciente> pacientes = pacienteService.buscarNome(correlato);
+        List<Patient> pacientes = pacienteService.buscarNome(correlato);
         if (pacientes != null) {
             if (pacientes.size() > 0) {
                 idControle = pacientes.get(0).getId();
@@ -335,7 +335,7 @@ public class AnaliseMB implements Serializable {
     public List<SelectItem> getSelectVcfsFather() {
         List<SelectItem> vcfs = new ArrayList<SelectItem>();
         if (idPaciente != null) {
-            Paciente p = pacienteService.buscarId(idPaciente);
+            Patient p = pacienteService.buscarId(idPaciente);
             if (p.getFather() != null) {
                 if (p.getFather().getId() != null) {
                     for (Vcf v : vcfService.buscarPacienteId(p.getFather().getId())) {
@@ -350,7 +350,7 @@ public class AnaliseMB implements Serializable {
     public List<SelectItem> getSelectVcfsMother() {
         List<SelectItem> vcfs = new ArrayList<SelectItem>();
         if (idPaciente != null) {
-            Paciente p = pacienteService.buscarId(idPaciente);
+            Patient p = pacienteService.buscarId(idPaciente);
             if (p.getMother() != null) {
                 if (p.getMother().getId() != null) {
                     for (Vcf v : vcfService.buscarPacienteId(p.getMother().getId())) {
@@ -382,7 +382,7 @@ public class AnaliseMB implements Serializable {
 
     public boolean pacienteHasFather() {
         if (idPaciente != null) {
-            Paciente p = pacienteService.buscarId(idPaciente);
+            Patient p = pacienteService.buscarId(idPaciente);
             if (p.getFather() != null) {
                 return true;
             }
@@ -392,7 +392,7 @@ public class AnaliseMB implements Serializable {
 
     public boolean pacienteHasMother() {
         if (idPaciente != null) {
-            Paciente p = pacienteService.buscarId(idPaciente);
+            Patient p = pacienteService.buscarId(idPaciente);
             if (p.getMother() != null) {
                 return true;
             }

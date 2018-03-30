@@ -9,8 +9,8 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.analiseGenoma.model.Paciente;
-import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.model.Patient;
+import org.analiseGenoma.service.PatientService;
 
 //@FacesValidator("pacienteNomeValidator")
 @Named
@@ -18,7 +18,7 @@ import org.analiseGenoma.service.PacienteService;
 public class pacienteNomelValidator implements Validator {
 
     @Inject
-    PacienteService pacienteService;
+    PatientService pacienteService;
 
     public pacienteNomelValidator() {
         
@@ -31,7 +31,7 @@ public class pacienteNomelValidator implements Validator {
     @Override
     public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
         String nome = (String) o;
-        List<Paciente> list = pacienteService.buscarNome(nome);
+        List<Patient> list = pacienteService.buscarNome(nome);
         if(list == null){
             return;
         }

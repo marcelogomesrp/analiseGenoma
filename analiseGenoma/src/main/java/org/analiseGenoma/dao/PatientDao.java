@@ -11,19 +11,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.analiseGenoma.model.Paciente;
+import org.analiseGenoma.model.Patient;
 
-public class PacienteDao extends DAO<Paciente> {
+public class PatientDao extends DAO<Patient> {
 
-    public PacienteDao() {
-        super(Paciente.class);
+    public PatientDao() {
+        super(Patient.class);
     }
 
-    public List<Paciente> buscarNome(String nome) {
+    public List<Patient> buscarNome(String nome) {
         try {
-            Query query = manager.createQuery("SELECT p FROM Paciente p WHERE p.nome like :nome");
+            //Query query = manager.createQuery("SELECT p FROM Paciente p WHERE p.nome like :nome");
+            Query query = manager.createQuery("SELECT p FROM Patient p WHERE p.name like :nome");
             query.setParameter("nome", nome);
-            List<Paciente> pacientes = query.getResultList();
+            List<Patient> pacientes = query.getResultList();
             return pacientes;
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());
@@ -32,19 +33,19 @@ public class PacienteDao extends DAO<Paciente> {
     }
     
     
-    public List<Paciente> findByExample(Paciente p) {
+    public List<Patient> findByExample(Patient p) {
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
-        CriteriaQuery<Paciente> criteriaQuery = criteriaBuilder.createQuery(Paciente.class);
-        Root<Paciente> root = criteriaQuery.from(Paciente.class);
+        CriteriaQuery<Patient> criteriaQuery = criteriaBuilder.createQuery(Patient.class);
+        Root<Patient> root = criteriaQuery.from(Patient.class);
         List<Predicate> condicoes = new ArrayList<>();
         if(!(null == p.getId())){
             Path<Long> atributoId = root.get("id");
             Predicate whereId = criteriaBuilder.equal(atributoId, p.getId());
             condicoes.add(whereId);
         }        
-        if(!(null == p.getNome() || "".equals(p.getNome()))){
-            Path<String> atributoSigla = root.get("nome");
-            Predicate where = criteriaBuilder.like(atributoSigla, p.getNome());
+        if(!(null == p.getName() || "".equals(p.getName()))){
+            Path<String> atributoSigla = root.get("name");
+            Predicate where = criteriaBuilder.like(atributoSigla, p.getName());
             condicoes.add(where);
         }
         if(!(null == p.getGender() || "".equals(p.getGender()))){
@@ -52,15 +53,15 @@ public class PacienteDao extends DAO<Paciente> {
             Predicate where = criteriaBuilder.equal(atributoSigla, p.getGender());
             condicoes.add(where);
         }
-        if(! (null == p.getEtnia()) ){
+        if(! (null == p.getPopulation()) ){
             Path<String> atributo = root.get("etnia");
-            Predicate where = criteriaBuilder.equal(atributo, p.getEtnia());
+            Predicate where = criteriaBuilder.equal(atributo, p.getPopulation());
             condicoes.add(where);
         }
         
-        if(!(p.getDataNascimento() == null)){
-            Path<Date> atributo = root.get("dataNascimento");
-            Predicate where = criteriaBuilder.equal(atributo, p.getDataNascimento());
+        if(!(p.getBirth() == null)){
+            Path<Date> atributo = root.get("birth");
+            Predicate where = criteriaBuilder.equal(atributo, p.getBirth());
             condicoes.add(where);
         }
         if(!(null == p.getSecondId() || "".equals(p.getSecondId() ))){
@@ -72,7 +73,7 @@ public class PacienteDao extends DAO<Paciente> {
         Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
         Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
         criteriaQuery.where(todasCondicoes);
-        TypedQuery<Paciente> query = manager.createQuery(criteriaQuery);
+        TypedQuery<Patient> query = manager.createQuery(criteriaQuery);
         return query.getResultList();
     }
 

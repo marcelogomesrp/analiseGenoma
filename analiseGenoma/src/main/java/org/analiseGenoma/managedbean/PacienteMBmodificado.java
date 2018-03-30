@@ -14,8 +14,8 @@ import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import org.analiseGenoma.model.Paciente;
-import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.model.Patient;
+import org.analiseGenoma.service.PatientService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
@@ -26,13 +26,13 @@ public class PacienteMBmodificado implements Serializable {
     @Inject
     private FacesContext context;
     @Inject
-    private PacienteService pacienteService;
-    private Paciente paciente;
+    private PatientService pacienteService;
+    private Patient paciente;
     private Boolean disabledValidation;
     private Boolean crudModeUpdate;
     private int id;
 
-    private List<Paciente> pacientes;
+    private List<Patient> pacientes;
 
     @PostConstruct
     public void init() {
@@ -41,7 +41,7 @@ public class PacienteMBmodificado implements Serializable {
             crudModeUpdate = true;
             id =1;
             System.out.println("Pagina pacienteMB instanciada novamente");
-            paciente = new Paciente();
+            paciente = new Patient();
             pacientes = pacienteService.buscar();
 
         } catch (Exception ex) {
@@ -52,11 +52,11 @@ public class PacienteMBmodificado implements Serializable {
     public PacienteMBmodificado() {
     }
 
-    public Paciente getPaciente() {
+    public Patient getPaciente() {
         return paciente;
     }
 
-    public void setPaciente(Paciente paciente) {
+    public void setPaciente(Patient paciente) {
         this.paciente = paciente;
     }
 
@@ -97,12 +97,12 @@ public class PacienteMBmodificado implements Serializable {
     }
 
     public void limpar() {
-        paciente = new Paciente();
+        paciente = new Patient();
     }
 
 
 
-    public String detalhe(Paciente paciente) {
+    public String detalhe(Patient paciente) {
         this.paciente = paciente;
         return "paciente_detalhe.xhtml";
     }
@@ -135,7 +135,7 @@ public class PacienteMBmodificado implements Serializable {
         values.add(id.toString());
         params.put("id", values);
         RequestContext.getCurrentInstance().openDialog("viewAddVcf", options, params);
-        paciente = new Paciente();
+        paciente = new Patient();
     }
 
     public void onViewAddVcf(SelectEvent event) {
@@ -154,12 +154,12 @@ public class PacienteMBmodificado implements Serializable {
 
 
     private boolean isValid() {
-        return pacienteService.buscarNome(paciente.getNome()).isEmpty();
+        return pacienteService.buscarNome(paciente.getName()).isEmpty();
     }
 
     public void validateSecond(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
         String nome = (String) o;
-        List<Paciente> list = pacienteService.buscarNome(nome);
+        List<Patient> list = pacienteService.buscarNome(nome);
         if (list == null) {
             return;
         }
@@ -175,7 +175,7 @@ public class PacienteMBmodificado implements Serializable {
 
     public void novo() {
         try {
-            paciente = new Paciente();
+            paciente = new Patient();
             //idEtnia = 0;
         } catch (Exception ex) {
             System.out.println("Erro no novo: " + ex.getMessage());
@@ -190,7 +190,7 @@ public class PacienteMBmodificado implements Serializable {
         if( (nome == null) || ("".equals(nome)) ){
             return;            
         }
-        List<Paciente> list = pacienteService.findWomansByName(nome);
+        List<Patient> list = pacienteService.findWomansByName(nome);
         if(list.size() == 1){
             return;
         }
@@ -202,7 +202,7 @@ public class PacienteMBmodificado implements Serializable {
     
     public void validateName(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
         String nome = (String) o;
-        List<Paciente> list = pacienteService.buscarNome(nome);
+        List<Patient> list = pacienteService.buscarNome(nome);
         if(list.isEmpty()){
             return;
         }
@@ -251,11 +251,11 @@ public class PacienteMBmodificado implements Serializable {
         this.id = id;
     }
 
-    public List<Paciente> getPacientes() {
+    public List<Patient> getPacientes() {
         return pacientes;
     }
 
-    public void setPacientes(List<Paciente> pacientes) {
+    public void setPacientes(List<Patient> pacientes) {
         this.pacientes = pacientes;
     }
     

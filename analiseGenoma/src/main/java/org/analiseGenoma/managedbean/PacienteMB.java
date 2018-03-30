@@ -18,10 +18,10 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Population;
-import org.analiseGenoma.model.Paciente;
+import org.analiseGenoma.model.Patient;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.PopulationService;
-import org.analiseGenoma.service.PacienteService;
+import org.analiseGenoma.service.PatientService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -34,15 +34,15 @@ public class PacienteMB implements Serializable {
     @Inject
     private FacesContext context;
     @Inject
-    private PacienteService pacienteService;
+    private PatientService pacienteService;
     @Inject
     private VcfService vcfService;
-    private Paciente paciente;
+    private Patient paciente;
     private Population population;
     private String nome;
     @Inject
     private PopulationService etniaService;
-    private List<Paciente> pacientes;
+    private List<Patient> pacientes;
     @Inject
     @RequestParam
     private String id;
@@ -61,7 +61,7 @@ public class PacienteMB implements Serializable {
         try{
         this.defCrudModeRead();
         System.out.println("Pagina pacienteMB instanciada novamente");
-        paciente = new Paciente();
+        paciente = new Patient();
         pacientes = pacienteService.buscar();
         
         vcfs = new ArrayList<>();
@@ -72,16 +72,16 @@ public class PacienteMB implements Serializable {
                 System.out.println("Pesquisando paciente com o o id " + id);
                 paciente = pacienteService.buscarId(Long.valueOf(id));
                 if (paciente != null) {
-                    if (paciente.getEtnia() != null) {
-                        if (paciente.getEtnia().getId() != null) {
+                    if (paciente.getPopulation()!= null) {
+                        if (paciente.getPopulation().getId() != null) {
                             //idEtnia = paciente.getEtnia().getId();
                         }
                     }
                     if(paciente.getFather() != null){
-                        father = paciente.getFather().getNome();
+                        father = paciente.getFather().getName();
                     }
                     if(paciente.getMother() != null){
-                        mother = paciente.getMother().getNome();
+                        mother = paciente.getMother().getName();
                     }
                     vcfs = vcfService.buscarPacienteId(paciente.getId());
                 }
@@ -95,11 +95,11 @@ public class PacienteMB implements Serializable {
     public PacienteMB() {
     }
 
-    public Paciente getPaciente() {
+    public Patient getPaciente() {
         return paciente;
     }
 
-    public void setPaciente(Paciente paciente) {
+    public void setPaciente(Patient paciente) {
         this.paciente = paciente;
     }
 
@@ -133,7 +133,7 @@ public class PacienteMB implements Serializable {
             }
         }
         //paciente.setEtnia(etniaService.findById(idEtnia));
-        paciente.setEtnia(population);
+        paciente.setPopulation(population);
         if (gender != null)  {
             if(!("".equals(gender))){
                 paciente.setGender(gender.charAt(0));
@@ -169,7 +169,7 @@ public class PacienteMB implements Serializable {
     }
 
     public void limpar() {
-        paciente = new Paciente();
+        paciente = new Patient();
         gender = "";
         //idEtnia = 0L;
         father = "";
@@ -231,7 +231,7 @@ public class PacienteMB implements Serializable {
         this.nome = nome;
     }
 
-    public String detalhe(Paciente paciente) {
+    public String detalhe(Patient paciente) {
         this.paciente = paciente;
         return "paciente_detalhe.xhtml";
     }
@@ -255,11 +255,11 @@ public class PacienteMB implements Serializable {
     }
 
     //stuf
-    public List<Paciente> getPacientes() {
+    public List<Patient> getPacientes() {
         return pacientes;
     }
 
-    public void setPacientes(List<Paciente> pacientes) {
+    public void setPacientes(List<Patient> pacientes) {
         this.pacientes = pacientes;
     }
 
@@ -297,7 +297,7 @@ public class PacienteMB implements Serializable {
         values.add(id.toString());
         params.put("id", values);
         RequestContext.getCurrentInstance().openDialog("viewAddVcf", options, params);
-        paciente = new Paciente();
+        paciente = new Patient();
     }
 
     public void onViewAddVcf(SelectEvent event) {
@@ -338,11 +338,11 @@ public class PacienteMB implements Serializable {
         this.vcf = vcf;
     }
 
-    public int qtdVcf(Paciente p) {
+    public int qtdVcf(Patient p) {
         return vcfService.buscarPacienteId(p.getId()).size();
     }
 
-    public List<Vcf> vcfs(Paciente p) {
+    public List<Vcf> vcfs(Patient p) {
         if(p == null){
             return new ArrayList<>();
         }
@@ -371,7 +371,7 @@ public class PacienteMB implements Serializable {
             List<String> pais = pacienteService.findMenByName(query + "%")
                     .stream()
                     //.map(p -> p.getNome() + " - " + p.getSecondId())
-                    .map(p -> p.getId() + ":" + p.getNome() + " - " + p.getSecondId())
+                    .map(p -> p.getId() + ":" + p.getName() + " - " + p.getSecondId())
                     .collect(Collectors.toList());
             return pais;
         } catch (Exception ex) {
@@ -385,7 +385,7 @@ public class PacienteMB implements Serializable {
         try{
         retorno = pacienteService.findWomansByName(query.trim().toUpperCase() + "%")
                 .stream()
-                .map(p -> p.getId() + ":" + p.getNome() + " - " + p.getSecondId())
+                .map(p -> p.getId() + ":" + p.getName() + " - " + p.getSecondId())
                 .collect(Collectors.toList());
         }catch(Exception ex){
             System.out.println("Erro: " + ex.getMessage());            
@@ -395,12 +395,12 @@ public class PacienteMB implements Serializable {
     }
 
     private boolean isValid() {
-        return pacienteService.buscarNome(paciente.getNome()).isEmpty();
+        return pacienteService.buscarNome(paciente.getName()).isEmpty();
     }
 
     public void validateSecond(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
         String nome = (String) o;
-        List<Paciente> list = pacienteService.buscarNome(nome);
+        List<Patient> list = pacienteService.buscarNome(nome);
         if (list == null) {
             return;
         }
@@ -423,8 +423,9 @@ public class PacienteMB implements Serializable {
 
     public void novo() {
         try {
+            
             defCrudModeUpdate();
-            paciente = new Paciente();
+            //paciente = new Patient();
             //idEtnia = 0;
             gender = "";
             father = "";
@@ -461,7 +462,7 @@ public class PacienteMB implements Serializable {
         }
         Long id = Long.valueOf( nome.split(":")[0].trim() );
         //List<Paciente> list = pacienteService.findWomansByName(nome);
-        Paciente p = pacienteService.findById(id);
+        Patient p = pacienteService.findById(id);
 //        if(list.size() == 1){
 //            return;
 //        }
@@ -484,7 +485,7 @@ public class PacienteMB implements Serializable {
         }
         Long id = Long.valueOf( nome.split(":")[0].trim() );
         //List<Paciente> list = pacienteService.findWomansByName(nome);
-        Paciente p = pacienteService.findById(id);
+        Patient p = pacienteService.findById(id);
 //        if(list.size() == 1){
 //            return;
 //        }
@@ -500,7 +501,7 @@ public class PacienteMB implements Serializable {
         if(disabledValidation)
             return;
         String nome = (String) o;
-        List<Paciente> list = pacienteService.buscarNome(nome);
+        List<Patient> list = pacienteService.buscarNome(nome);
         if(list.isEmpty()){
             return;
         }
