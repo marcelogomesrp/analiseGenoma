@@ -40,6 +40,7 @@ public class PatientVcfMB implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("iniciado");
 //        patient = new Patient();
 //        vcf = new Vcf();
 //        if (id != null) {
@@ -83,7 +84,7 @@ public class PatientVcfMB implements Serializable {
     
     @Transactional
     public void adicionar() {
-        String msg = "arquivo adicionado com sucesso";
+        String msg = "it's done successfully";
         System.out.println("Adicionando o vcf");
         //vcf.setPaciente(pacienteService.buscarId(patient.getId()));       
         vcf.setPaciente(patientSB.getPatient());

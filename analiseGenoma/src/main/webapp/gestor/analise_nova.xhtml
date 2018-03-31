@@ -100,13 +100,16 @@
                         </p:selectOneMenu>
                         -->
                         
-                        <h:outputText value="Apply pre-filter" />
+                        <h:outputLabel value="Apply pre-filter" />
                         <p:selectBooleanButton value="#{analiseMB.applyFilter}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:120px"/>
 
+                        <h:outputLabel value="Filter" />
+                        <p:autoComplete id="dd" dropdown="true" completeMethod="#{analiseMB.completeFilter}" />
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        
                             <p:commandButton action="#{analiseMB.adicionar}" value="Add" update="formulario" ajax="true"/>
                         </p:panelGrid>
+                        
                     </p:panel>                
                 </h:form>
             </ui:define>

@@ -12,7 +12,7 @@ import org.analiseGenoma.model.Population;
 import org.analiseGenoma.service.PatientService;
 
 @Named
-public class PacientConverter implements Converter {
+public class PatientConverter implements Converter {
     
     @Inject
     private PatientService service;
@@ -22,8 +22,8 @@ public class PacientConverter implements Converter {
 
         //if (value != null && value.trim().length() > 0) {
         if (value != null && value.trim().length() > 0 && (!"select one".equals(value))) {
-            try {
-                Long id = Long.valueOf(value);
+            try {                
+                Long id = Long.valueOf(value.split(":")[0]);
                 Patient obj = service.findById(id);
                 return obj;
             } catch (NumberFormatException ex) {

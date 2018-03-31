@@ -130,13 +130,13 @@ public class PatientService extends Service<Patient> implements Serializable {
         return pacienteDao.findById(id);
     }
 
-    @Override
-    public void persiste(Patient patient){
-        Patient p = this.FindByNameAndBirth(patient);
-        if(p == null){
-            super.persiste(patient); 
-        }
-    }
+//    @Override
+//    public void persiste(Patient patient){
+//        Patient p = this.FindByNameAndBirth(patient);
+//        if(p == null){
+//            super.persiste(patient); 
+//        }
+//    }
 
     public Patient FindByNameAndBirth(Patient patient) {
         Patient p = new Patient();

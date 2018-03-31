@@ -38,6 +38,7 @@ public class Filtro  implements Serializable{
     
     private Long positionMin;
     private Long positionMax;
+    private String name;
     
     //@OneToMany
     @ManyToMany(fetch = FetchType.EAGER)

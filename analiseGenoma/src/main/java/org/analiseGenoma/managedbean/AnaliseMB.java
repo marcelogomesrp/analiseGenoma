@@ -8,6 +8,7 @@ package org.analiseGenoma.managedbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -449,6 +450,14 @@ public class AnaliseMB implements Serializable {
         this.applyFilter = applyFilter;
     }
     
+    public List<String> completeFilter(String query) {
+        //List<String> results = new ArrayList<String>();
+//        for(int i = 0; i < 10; i++) {
+//            results.add(query + i);
+//        }
+        return filtroService.find().stream().map(f -> f.getAnalise().getNome()).collect(Collectors.toList());
+        //return results;
+    }
     
 
 }

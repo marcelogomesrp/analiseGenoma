@@ -371,7 +371,7 @@ public class PacienteMB implements Serializable {
             List<String> pais = pacienteService.findMenByName(query + "%")
                     .stream()
                     //.map(p -> p.getNome() + " - " + p.getSecondId())
-                    .map(p -> p.getId() + ":" + p.getName() + " - " + p.getSecondId())
+                    .map(p ->p.getName() + "-" + p.getBirth())
                     .collect(Collectors.toList());
             return pais;
         } catch (Exception ex) {

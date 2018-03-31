@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +21,7 @@ import org.analiseGenoma.service.PatientService;
 import org.analiseGenoma.service.PopulationService;
 import org.analiseGenoma.sessionbean.PatientSB;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 @Named(value = "patientMB")
 @ViewScoped
@@ -31,18 +35,23 @@ public class PatientMB implements Serializable {
     private PopulationService populationService;
     @Inject
     private PatientService patientService;
-    
+
     private boolean disabledValidation;
     private CrudMode crudMode;
     private List<Patient> patients;
 
     @PostConstruct
     public void init() {
+//        if(patientSB.getPatient() != null){
+//            if(patientSB.getPatient().getId() == null){
+//                this.reset();    
+//            }
+//        }
         this.reset();
 
     }
-    
-    public void reset(){
+
+    public void reset() {
         defCrudModeRead();
         patients = new ArrayList<>();
         this.patientSB.reset();
@@ -63,8 +72,6 @@ public class PatientMB implements Serializable {
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
     }
-    
-    
 
     public List<SelectItem> getSelectPopulations() {
         List<SelectItem> populations = new ArrayList<>();
@@ -89,8 +96,8 @@ public class PatientMB implements Serializable {
                         .getFlash().setKeepMessages(true);
                 context.addMessage(null, new FacesMessage("it successfully saved"));
                 this.viewAddVcf();
-                this.reset();
-            }else{
+                //this.reset();
+            } else {
                 context.getExternalContext()
                         .getFlash().setKeepMessages(true);
                 context.addMessage(null, new FacesMessage("Patient already exists"));
@@ -103,7 +110,7 @@ public class PatientMB implements Serializable {
             context.addMessage(null, new FacesMessage(ex.getMessage()));
         }
     }
-    
+
     public void find() {
         //paciente.setEtnia(etniaService.findById(idEtnia));
 //        if (gender != null) {
@@ -111,9 +118,9 @@ public class PatientMB implements Serializable {
 //        }
 //        pacientes = pacienteService.findByExample(paciente);
         patients = patientService.findByExample(patientSB.getPatient());
-        
+
     }
-    
+
     public void viewAddVcf() {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
@@ -129,7 +136,6 @@ public class PatientMB implements Serializable {
         RequestContext.getCurrentInstance().openDialog("viewAddVcf", options, params);
     }
 
-    
     public void novo() {
         try {
             patientSB.reset();
@@ -144,46 +150,116 @@ public class PatientMB implements Serializable {
             System.out.println("Erro no novo: " + ex.getMessage());
         }
     }
-    
-    public void search(){
+
+    public void search() {
         defCrudModeFind();
     }
-    
-    public void defCrudModeFind(){
+
+    public void defCrudModeFind() {
         crudMode = CrudMode.Find;
     }
-            
+
     public void defCrudModeUpdate() {
         crudMode = CrudMode.Update;
         this.disabledValidation = false;
     }
-    
-    public void defCrudModeRead(){
+
+    public void defCrudModeRead() {
         crudMode = CrudMode.Read;
         this.disabledValidation = true;
     }
-    
-    public boolean getCrudModeRead(){
+
+    public boolean getCrudModeRead() {
         return crudMode == CrudMode.Read;
     }
-    
-    public boolean getCrudModeUpdate(){
+
+    public boolean getCrudModeUpdate() {
         return crudMode == CrudMode.Update;
     }
-    
-    public boolean getCrudModeFind(){
+
+    public boolean getCrudModeFind() {
         return crudMode == CrudMode.Find;
     }
-    
-    public boolean getHasPacitient(){
+
+    public boolean getHasPacitient() {
         return !patients.isEmpty();
     }
-    
-    public boolean getShowFields(){
+
+    public boolean getShowFields() {
         return (getCrudModeFind() || getCrudModeUpdate());
     }
-    
-    
-    
-    
+
+    public List<String> fatherComplete(String query) {
+        try {
+            List<String> pais = patientService.findMenByName(query + "%")
+                    .stream()
+                    .map(p -> p.getId() + ":" + p.getName() + ":" + p.getBirth())
+                    .collect(Collectors.toList());
+            return pais;
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    public List<String> motherComplete(String query) {
+        try {
+            List<String> pais = patientService.findWomansByName(query + "%")
+                    .stream()
+                    .map(p -> p.getId() + ":" + p.getName() + ":" + p.getBirth())
+                    .collect(Collectors.toList());
+            return pais;
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    public void validateFather(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        if (disabledValidation) {
+            return;
+        }
+        String nome = (String) o;
+        if ((nome == null) || ("".equals(nome))) {
+            return;
+        }
+        Long id = Long.valueOf(nome.split(":")[0].trim());
+        Patient p = patientService.findById(id);
+        if (p != null) {
+            return;
+        }
+        FacesMessage message
+                = new FacesMessage("Father not found");
+        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+        throw new ValidatorException(message);
+    }
+
+    public void validateMother(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+//        if (disabledValidation) {
+//            return;
+//        }
+//        String nome = (String) o;
+//        if ((nome == null) || ("".equals(nome))) {
+//            return;
+//        }
+//        Long id = Long.valueOf(nome.split(":")[0].trim());
+//        Patient p = patientService.findById(id);
+//        if (p != null) {
+//            return;
+//        }
+//        FacesMessage message
+//                = new FacesMessage("Mother not found");
+//        message.setSeverity(FacesMessage.SEVERITY_ERROR);
+//        throw new ValidatorException(message);
+    }
+
+    public void onViewAddVcf(SelectEvent event) {
+        String msg = (String) event.getObject();
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage(msg));
+        this.reset();
+
+    }
+
 }

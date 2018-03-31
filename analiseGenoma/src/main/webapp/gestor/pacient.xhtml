@@ -44,15 +44,16 @@
                             </p:selectOneMenu>
                             <p:outputLabel value="Father" for="father" />
                             <p:autoComplete id="father" value="#{patientSB.patient.father}" 
-                                            completeMethod="#{pacienteMB.fatherComplete}"   
+                                            completeMethod="#{patientMB.fatherComplete}"   
                                             validator="#{pacienteMB.validateFather}" 
-                                            converter="#{populationConverter}"
+                                            converter="#{patientConverter}"
                                             pt:placeholder="Enter the name of the patient's father">
                             </p:autoComplete>
                             <p:outputLabel value="Mother" for="mother" />
-                            <p:autoComplete id="mother" value="#{pacienteMB.mother}" 
-                                            completeMethod="#{pacienteMB.motherComplete}"  
-                                            validator="#{pacienteMB.validateMother}"
+                            <p:autoComplete id="mother" value="#{patientSB.patient.mother}" 
+                                            completeMethod="#{patientMB.motherComplete}"  
+                                            validator="#{patientMB.validateMother}"
+                                            converter="#{patientConverter}"
                                             pt:placeholder="Enter the name of the patient's mother"/>
 
                             <p:outputLabel value="Note" for="note"/>
@@ -61,7 +62,7 @@
                         <p:panelGrid columns="3" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="New" update="formulario" actionListener="#{patientMB.novo()}" rendered="#{patientMB.crudModeRead}" />
                             <p:commandButton value="Save" actionListener="#{patientMB.save}" update="formulario" rendered="#{patientMB.crudModeUpdate}">
-                                <p:ajax event="dialogReturn" listener="#{pacientMB.onViewAddVcf}" update="formulario" /> 
+                                <p:ajax event="dialogReturn" listener="#{patientMB.onViewAddVcf}" update="formulario" /> 
                             </p:commandButton>
                             <p:commandButton value="Search" update="formulario" actionListener="#{patientMB.search()}" rendered="#{patientMB.crudModeRead}" />
                             <p:commandButton value="Find" actionListener="#{patientMB.find}" update="formulario" rendered="#{patientMB.crudModeFind}" />
