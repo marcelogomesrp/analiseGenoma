@@ -198,6 +198,16 @@ public class Filtro  implements Serializable{
         this.prevalenceMax = prevalenceMax;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
+
 
 
     

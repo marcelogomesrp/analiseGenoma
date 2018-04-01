@@ -218,7 +218,8 @@ public class AnaliseMB implements Serializable {
 
         analiseService.adicionar(analise);
         
-        Filtro filtro;
+        Filtro filtro = null;
+        
         
         if(applyFilter){
             filtro = filtroService.makeFiltro(analise);
@@ -226,6 +227,7 @@ public class AnaliseMB implements Serializable {
         else{
             filtro = filtroService.makeFiltroDefault(analise);
         }
+        filtro.setName(analise.getNome());
         filtroService.persiste(filtro);
 
         context.getExternalContext()
