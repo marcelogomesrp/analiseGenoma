@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+import org.analiseGenoma.dao.DAO;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.dao.GeneDbBioDao;
 import org.analiseGenoma.dao.GeneListDao;
@@ -451,5 +452,9 @@ public class GeneService extends Service<Gene> implements Serializable {
 //            System.out.println("gs persistido " + gsn.toString());
 //        }
 //    }
+
+    public List<Gene> findLikeName(String symbol) {
+        return getDao().findByProperty("symbol", symbol, DAO.MatchMode.START);
+    }
 
 }

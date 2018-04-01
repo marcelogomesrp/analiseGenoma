@@ -16,7 +16,16 @@
                         <p:panelGrid columns="2" rendered="#{filterMB.showFilds}">
                             <h:outputLabel value="Name" for="name"/>
                             <p:inputText value="#{filterSB.filter.name}" id="name" />
-
+                            <h:outputLabel value="Filter by Gene" for="bygene"/>
+                            <p:selectBooleanCheckbox id="bygene" value="#{filterMB.byGene}" >
+                                <p:ajax update="formulario" listener="#{filterMB.loadGenes}" />
+                            </p:selectBooleanCheckbox> 
+                            
+                            <h:outputLabel value="Select the genes" rendered="#{filterMB.byGene}"/>
+                            <p:autoComplete value="#{filterMB.selectedGenes}" completeMethod="#{filterMB.completeGene}" 
+                                            var="gene"  itemLabel="#{gene.symbol}" itemValue="#{gene}"
+                                            rendered="#{filterMB.byGene}" forceSelection="true"
+                                            effect="fade" multiple="true" converter="#{geneConverter}"/>
                         </p:panelGrid>
                         <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="New" actionListener="#{filterMB.add}" update="formulario" rendered="#{filterMB.crudModeRead}"/>
