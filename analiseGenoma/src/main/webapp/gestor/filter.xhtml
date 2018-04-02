@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
     <body>
 
@@ -13,25 +15,70 @@
                 <h:form id="formulario" >
                     <p:growl />
                     <p:panel header="Filter" >
-                        <p:panelGrid columns="2" rendered="#{filterMB.showFilds}">
-                            <h:outputLabel value="Name" for="name"/>
-                            <p:inputText value="#{filterSB.filter.name}" id="name" />
-                            <h:outputLabel value="Filter by Gene" for="bygene"/>
-                            <p:selectBooleanCheckbox id="bygene" value="#{filterMB.byGene}" >
-                                <p:ajax update="formulario" listener="#{filterMB.loadGenes}" />
-                            </p:selectBooleanCheckbox> 
-                            
-                            <h:outputLabel value="Select the genes" rendered="#{filterMB.byGene}"/>
-                            <p:autoComplete value="#{filterMB.selectedGenes}" completeMethod="#{filterMB.completeGene}" 
-                                            var="gene"  itemLabel="#{gene.symbol}" itemValue="#{gene}"
-                                            rendered="#{filterMB.byGene}" forceSelection="true"
-                                            effect="fade" multiple="true" converter="#{geneConverter}"/>
-                        </p:panelGrid>
+                        <p:panel  rendered="#{filterMB.showFilds}">
+                            <p:panelGrid columns="2" styleClass="ui-noborder"   >
+                                <p:panel><h:outputLabel value="Name" for="name"/></p:panel>
+                                <p:panel><p:inputText value="#{filterSB.filter.name}" id="name"
+                                                      pt:placeholder="Enter an name for this filter"/>
+                                </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by Gene" for="bygene"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="bygene" value="#{filterMB.byGene}" >
+                                        <p:ajax update="geneLbl geneInput" listener="#{filterMB.loadGenes}" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>
+
+                                <p:panel id="geneLbl">
+                                    <h:outputLabel value="Select the genes" rendered="#{filterMB.byGene}" id="selectGeneLbl" for="selectGeneInput"/>
+                                </p:panel>
+                                <p:panel id="geneInput">
+                                    <p:autoComplete value="#{filterMB.selectedGenes}" completeMethod="#{filterMB.completeGene}" 
+                                                    var="gene"  itemLabel="#{gene.symbol}" itemValue="#{gene}"
+                                                    rendered="#{filterMB.byGene}" forceSelection="true"
+                                                    effect="fade" multiple="true" converter="#{geneConverter}" id="selectGeneInput"/>
+                                </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by Chromosome" for="byChromosome"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byChromosome" value="#{filterMB.byChromosome}" >
+                                        <p:ajax update="chromosomeLbl chromosomeInput" listener="#{filterMB.loadChromosome()}" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>
+
+                                <p:panel id="chromosomeLbl"><p:outputLabel value="Chromosome" for="selectChromosome" rendered="#{filterMB.byChromosome}"/></p:panel>
+                                <p:panel id="chromosomeInput">
+                                    <p:autoComplete value="#{filterMB.selectedChromosome}" completeMethod="#{filterMB.completeChromosome}" 
+                                                    var="chr"  itemLabel="#{chr.nome}" itemValue="#{chr}"
+                                                    forceSelection="true"
+                                                    effect="fade" multiple="true" converter="#{chromosomeConverter}" id="selectChromosome"
+                                                    rendered="#{filterMB.byChromosome}" />
+
+                                </p:panel>
+                                
+                                <p:panel><h:outputLabel value="Filter by Position" for="byPosition"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byPosition" value="#{filterMB.byPosition}" >
+                                        <p:ajax update="positionLbl positionInput" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>
+                                
+                                <p:panel id="positionLbl"><p:outputLabel value="Position" rendered="#{filterMB.byPosition}"/></p:panel>
+                                <p:panel id="positionInput"  >
+                                    <p:outputLabel value="Min" rendered="#{filterMB.byPosition}"/> 
+                                    <p:inputText value="#{filterMB.positionMin}" rendered="#{filterMB.byPosition}" pt:placeholder="Enter the minimum value"/>
+                                    
+                                    <p:outputLabel value="Max" rendered="#{filterMB.byPosition}"/> 
+                                    <p:inputText value="#{filterMB.positionMax}" rendered="#{filterMB.byPosition}" pt:placeholder="Enter the max value"/>
+                                </p:panel>
+                                
+                            </p:panelGrid>
+
+
+                        </p:panel>
+
                         <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="New" actionListener="#{filterMB.add}" update="formulario" rendered="#{filterMB.crudModeRead}"/>
                             <p:commandButton value="Save" actionListener="#{filterMB.save}" update="formulario" rendered="#{filterMB.crudModeUpdate}"/>
                             <p:commandButton value="Cancel" actionListener="#{filterMB.cancel}" update="formulario"/>
-                            
+
                         </p:panelGrid>
                     </p:panel>                
                 </h:form>

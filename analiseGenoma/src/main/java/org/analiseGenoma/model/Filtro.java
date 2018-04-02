@@ -100,14 +100,6 @@ public class Filtro  implements Serializable{
     public void setZygosities(Set<Zygosity> zygosities) {
         this.zygosities = zygosities;
     }
-    
-    
-
-
-
-
-
-
 
     public Set<Cromossomo> getCromossomos() {
         return cromossomos;

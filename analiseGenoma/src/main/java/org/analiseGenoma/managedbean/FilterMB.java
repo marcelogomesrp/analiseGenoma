@@ -2,23 +2,22 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.sessionbean.FilterSB;
-import org.primefaces.model.DualListModel;
 
 @Named(value = "filterMB")
 @ViewScoped
@@ -33,10 +32,20 @@ public class FilterMB implements Serializable {
     private FiltroService filterService;
     @Inject
     private GeneService geneService;
+    @Inject
+    private CromossomoService cromossomoService;
 
     
     private boolean byGene;
     private List<Gene> selectedGenes;
+    
+    private boolean byChromosome;
+    private List<Cromossomo> selectedChromosome;
+    
+    private boolean byPosition;
+    private Long positionMin;
+    private Long positionMax;
+            
     
     @PostConstruct
     public void init() {
@@ -58,10 +67,20 @@ public class FilterMB implements Serializable {
     }
 
     public void save() {
-        filterService.persiste(filterSB.getFilter());
+        
         if(byGene){
-            filterSB.getFilter().setGenes((Set<Gene>) selectedGenes);
+            filterSB.getFilter().setGenes(new HashSet<>( selectedGenes));
         }
+        if(byChromosome){
+            filterSB.getFilter().setCromossomos(new HashSet<>(selectedChromosome));
+        }
+        if(byPosition){
+            filterSB.getFilter().setPositionMin(positionMin);
+            filterSB.getFilter().setPositionMax(positionMax);
+        }
+            
+        filterService.persiste(filterSB.getFilter());
+        
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("it successfully saved"));
@@ -119,15 +138,63 @@ public class FilterMB implements Serializable {
     }
     
     public List<Gene> completeGene(String query) { 
-        return geneService.findLikeName(query).subList(0, 10);
-//        Gene g = new Gene();
-//        g.setSymbol(query + "%");
-//        try {
-//            List<Gene> gs = geneService.findByExample(g);
-//            return gs;
-//        } catch (Exception ex) {
-//            return new ArrayList<>();
-//        }
+        return geneService.findLikeName(query);
     }   
+
+    public boolean isByChromosome() {
+        return byChromosome;
+    }
+
+    public void setByChromosome(boolean byChromosome) {
+        this.byChromosome = byChromosome;
+    }
+
+    public List<Cromossomo> getSelectedChromosome() {
+        return selectedChromosome;
+    }
+
+    public void setSelectedChromosome(List<Cromossomo> selectedChromosome) {
+        this.selectedChromosome = selectedChromosome;
+    }
+    
+    public void loadChromosome(){
+        selectedChromosome = new ArrayList<>();
+    }
+    
+    public List<Cromossomo> completeChromosome(String query) { 
+        try {
+             List<Cromossomo> ret = cromossomoService.findByName(query);
+             return ret;
+        } catch (Exception ex) {
+            Logger.getLogger(FilterMB.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<>();
+        }
+    }   
+
+    public boolean isByPosition() {
+        return byPosition;
+    }
+
+    public void setByPosition(boolean byPosition) {
+        this.byPosition = byPosition;
+    }
+
+    public Long getPositionMin() {
+        return positionMin;
+    }
+
+    public void setPositionMin(Long positionMin) {
+        this.positionMin = positionMin;
+    }
+
+    public Long getPositionMax() {
+        return positionMax;
+    }
+
+    public void setPositionMax(Long positionMax) {
+        this.positionMax = positionMax;
+    }
+    
+    
 
 }
