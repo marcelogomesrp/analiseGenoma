@@ -21,7 +21,13 @@
                                 <p:panel><p:inputText value="#{filterSB.filter.name}" id="name"
                                                       pt:placeholder="Enter an name for this filter"/>
                                 </p:panel>
+                                
+                                <p:panel><h:outputLabel value="Select gene from analyze's disease" for="geneAnalyse"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="geneAnalyse" value="#{filterSB.filter.geneAnalyse}" />
+                                    
+                                </p:panel>
 
+                                
                                 <p:panel><h:outputLabel value="Filter by Gene" for="bygene"/></p:panel>
                                 <p:panel><p:selectBooleanCheckbox id="bygene" value="#{filterMB.byGene}" >
                                         <p:ajax update="geneLbl geneInput" listener="#{filterMB.loadGenes}" />
@@ -53,22 +59,22 @@
                                                     rendered="#{filterMB.byChromosome}" />
 
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by Position" for="byPosition"/></p:panel>
                                 <p:panel><p:selectBooleanCheckbox id="byPosition" value="#{filterMB.byPosition}" >
                                         <p:ajax update="positionLbl positionInput" />
                                     </p:selectBooleanCheckbox>
                                 </p:panel>
-                                
+
                                 <p:panel id="positionLbl"><p:outputLabel value="Position" rendered="#{filterMB.byPosition}"/></p:panel>
                                 <p:panel id="positionInput"  >
                                     <p:outputLabel value="Min" rendered="#{filterMB.byPosition}"/> 
                                     <p:inputText value="#{filterMB.positionMin}" rendered="#{filterMB.byPosition}" pt:placeholder="Enter the minimum value"/>
-                                    
+
                                     <p:outputLabel value="Max" rendered="#{filterMB.byPosition}"/> 
                                     <p:inputText value="#{filterMB.positionMax}" rendered="#{filterMB.byPosition}" pt:placeholder="Enter the max value"/>
                                 </p:panel>
-                                
+
                             </p:panelGrid>
 
 

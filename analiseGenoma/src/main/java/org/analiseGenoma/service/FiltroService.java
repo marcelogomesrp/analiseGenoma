@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.dao.CromossomoDao;
+import org.analiseGenoma.dao.DAO;
 import org.analiseGenoma.dao.EffectDao;
 import org.analiseGenoma.dao.FiltroDao;
 import org.analiseGenoma.dao.GeneDao;
@@ -158,6 +159,10 @@ public class FiltroService extends Service<Filtro> {
         filtro.setUmdPredictors(vcfMetada.getUmdPredictors());
         
         return filtro;        
+    }
+
+    public List<Filtro> findByName(String name) {
+        return getDao().findByProperty("name", name, DAO.MatchMode.START);
     }
 
 }

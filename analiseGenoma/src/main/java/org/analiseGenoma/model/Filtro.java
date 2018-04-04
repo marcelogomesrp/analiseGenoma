@@ -26,6 +26,10 @@ public class Filtro  implements Serializable{
     @OneToOne
     @JoinColumn(name = "analise_id")
     private Analise analise;
+    
+    @Column(name = "by_gene_analyse")
+    private boolean geneAnalyse;
+    
     //@OneToMany
     @ManyToMany  //(fetch = FetchType.EAGER)
     private Set<Gene> genes;
@@ -196,6 +200,14 @@ public class Filtro  implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isGeneAnalyse() {
+        return geneAnalyse;
+    }
+
+    public void setGeneAnalyse(boolean geneAnalyse) {
+        this.geneAnalyse = geneAnalyse;
     }
     
     

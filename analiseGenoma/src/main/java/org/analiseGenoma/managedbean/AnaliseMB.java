@@ -452,13 +452,8 @@ public class AnaliseMB implements Serializable {
         this.applyFilter = applyFilter;
     }
     
-    public List<String> completeFilter(String query) {
-        //List<String> results = new ArrayList<String>();
-//        for(int i = 0; i < 10; i++) {
-//            results.add(query + i);
-//        }
-        return filtroService.find().stream().map(f -> f.getAnalise().getNome()).collect(Collectors.toList());
-        //return results;
+    public List<Filtro> completeFilter(String query) {
+        return filtroService.findByName(query);
     }
     
 
