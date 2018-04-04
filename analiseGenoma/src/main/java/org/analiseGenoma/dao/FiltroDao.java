@@ -6,6 +6,10 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Effect;
 import org.analiseGenoma.model.Filtro;
@@ -18,6 +22,28 @@ public class FiltroDao extends DAO<Filtro> {
     public FiltroDao() {
         super(Filtro.class);
     }
+
+    @Override
+    public Filtro findById(Long id) {
+        //return super.findById(id); //To change body of generated methods, choose Tools | Templates.
+         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+        CriteriaQuery<Filtro> criteriaQuery = criteriaBuilder.createQuery(Filtro.class);
+        Root<Filtro> root = criteriaQuery.from(Filtro.class);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
+        
+        root.fetch("cromossomos", JoinType.LEFT);
+        root.fetch("genes", JoinType.LEFT);
+        root.fetch("umdPredictors", JoinType.LEFT);
+        root.fetch("effects", JoinType.LEFT);
+        root.fetch("zygosities", JoinType.LEFT);
+        
+        //return manager.createQuery(criteriaQuery).getResultList();
+        return manager.createQuery(criteriaQuery).getSingleResult();
+    }
+    
+    
+    
+    
     //JOIN FETCH o.items i WHERE o.id = :id");
 
     public Filtro buscarPorAnalise(Long idAnalise) {
@@ -27,6 +53,7 @@ public class FiltroDao extends DAO<Filtro> {
             //Query query = manager.createQuery("SELECT f FROM Filtro f JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
             Query query = manager.createQuery("SELECT f FROM Filtro f LEFT JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
             query.setParameter("idAnalise", idAnalise);
+            
             Filtro filtro =  (Filtro) query.getSingleResult();
             //filtro.getCromossomos().size();
             return filtro;

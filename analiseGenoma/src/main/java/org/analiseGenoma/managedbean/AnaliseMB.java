@@ -8,6 +8,8 @@ package org.analiseGenoma.managedbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -65,6 +67,7 @@ public class AnaliseMB implements Serializable {
     private Long idVcfFather;
     private Long idVcfMother;
     private boolean applyFilter;
+    private Filtro filtro;
     
     @Inject
     @RequestParam
@@ -73,8 +76,10 @@ public class AnaliseMB implements Serializable {
     @PostConstruct
     public void init() {
         System.out.println("Iniciando a pagina novamente...");
-        analise = new Analise();
+        analise = new Analise();        
         applyFilter = true;
+        filtro = filtroService.findById(1L);
+        
         Long value = (Long) FacesUtil.getSessionMapValue("idAnalise");
         if(value!=null){
             
@@ -218,17 +223,35 @@ public class AnaliseMB implements Serializable {
 
         analiseService.adicionar(analise);
         
-        Filtro filtro = null;
+        //Filtro filtro = null;
         
         
+//        if(applyFilter){
+//            filtro = filtroService.makeFiltro(analise);
+//        }
+//        else{
+//            filtro = filtroService.makeFiltroDefault(analise);
+//        }
+//        filtro.setName(analise.getNome());
         if(applyFilter){
-            filtro = filtroService.makeFiltro(analise);
+            try {
+                filtro = filtroService.loadFull(filtro);
+                Filtro filtroAnalise = filtro.clone();
+                filtroAnalise.setId(null);
+                filtroAnalise.setAnalise(analise);
+                filtroAnalise.setName(analise.getNome());
+                filtroService.persiste(filtroAnalise);
+                
+            //} catch (CloneNotSupportedException ex) {
+            }catch(Exception ex) {
+                Logger.getLogger(AnaliseMB.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("erro adicionar analise: " + ex.getMessage());
+            }
+            
         }
-        else{
-            filtro = filtroService.makeFiltroDefault(analise);
-        }
-        filtro.setName(analise.getNome());
-        filtroService.persiste(filtro);
+
+
+        
 
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
@@ -455,6 +478,16 @@ public class AnaliseMB implements Serializable {
     public List<Filtro> completeFilter(String query) {
         return filtroService.findByName(query);
     }
+
+    public Filtro getFiltro() {
+        return filtro;
+    }
+
+    public void setFiltro(Filtro filtro) {
+        this.filtro = filtro;
+    }
+    
+    
     
 
 }

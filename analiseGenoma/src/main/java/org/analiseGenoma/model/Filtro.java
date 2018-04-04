@@ -1,6 +1,7 @@
 package org.analiseGenoma.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "filtro")
-public class Filtro  implements Serializable{
+public class Filtro  implements Serializable, Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_filtro")
@@ -209,8 +210,26 @@ public class Filtro  implements Serializable{
     public void setGeneAnalyse(boolean geneAnalyse) {
         this.geneAnalyse = geneAnalyse;
     }
+
+    @Override
+    public Filtro clone() throws CloneNotSupportedException {
+        Filtro cloned = new Filtro();
+        cloned.setId(id);
+        cloned.setName(name);
+        cloned.setAnalise(analise);
+        cloned.setCromossomos(new HashSet<>(cromossomos));
+        cloned.setPositionMin(positionMin);
+        cloned.setPositionMax(positionMax);
+        cloned.setGeneAnalyse(geneAnalyse);
+        cloned.setGenes(new HashSet<>(genes));
+        cloned.setUmdPredictors(new HashSet<>(umdPredictors));
+        cloned.setEffects(new HashSet<>(effects));
+        
+        
+        return cloned;
+    }
     
-    
+     
 
 
 

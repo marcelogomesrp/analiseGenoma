@@ -41,6 +41,7 @@ import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.ImpactoService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
 import org.analiseGenoma.service.DiseaseService;
+import org.analiseGenoma.service.FilterService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
@@ -75,6 +76,9 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private DiseaseService patologiaService;
     @Inject
     private VcfMetadataService vcfMetadataService;
+    
+    @Inject
+    private FiltroService filterService;
 
     @Inject
     @RequestParam
@@ -656,6 +660,12 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         this.vcfMetadata = vcfMetadata;
     }
 
+    public void updateFilterName(){
+                context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage("Filter name updated"));
+        filterService.merge(filtro);
+    }
     private void updateFiltro() {
         Set<Gene> genes = new HashSet<>();
 //        for (String geneSymbol : duaListGene.getTarget()) {

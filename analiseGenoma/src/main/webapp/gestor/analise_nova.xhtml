@@ -104,12 +104,13 @@
                         <p:selectBooleanButton value="#{analiseMB.applyFilter}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:120px"/>
 
                         <h:outputLabel value="Filter" />
-                        <p:autoComplete id="dd" dropdown="true" completeMethod="#{analiseMB.completeFilter}"  
+                        <p:autoComplete id="dd" dropdown="true" value="#{analiseMB.filtro}"
+                                        completeMethod="#{analiseMB.completeFilter}"  
                                         var="filtro" itemLabel="#{filtro.name}" itemValue="#{filtro}"
                                         converter="#{filterConvert}" effect="fade" forceSelection="true" />
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        
-                            <p:commandButton action="#{analiseMB.adicionar}" value="Add." update="formulario" ajax="true"/>
+                            <p:commandButton action="#{analiseMB.adicionar}" value="Add" update="formulario" ajax="true"/>
                         </p:panelGrid>
                         
                     </p:panel>                

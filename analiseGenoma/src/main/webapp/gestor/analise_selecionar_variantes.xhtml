@@ -12,11 +12,13 @@
 
             <ui:define name="content" id="content">
                 <h:form id="formulario">
-                    <p:panel header="Selecionar variantes da análise">
+                    <p:panel header="Select analysis variants">
+                        <p:growl id="messages" showDetail="true"/>
+                        
 
                         <!-- <p:accordionPanel multiple="true"> -->
                         <p:tabView dynamic="true" cache="true" effect="fold">
-                            <p:tab title="Analise">
+                            <p:tab title="Analyze">
                                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                                     <h:outputLabel value="Id: " for="id" />
                                     <h:outputText id="id" value="#{analiseSelcMB.analise.id}" />
@@ -26,8 +28,17 @@
                                     <h:outputText id="obs" value="#{analiseSelcMB.analise.observacao}" />                            
                                 </p:panelGrid>
                             </p:tab>
-                            <p:tab title="Filtro" >
+                            <p:tab title="Filter" >
+
                                 <p:panelGrid >
+                                    <p:row>
+                                        <p:column><p:outputLabel value="Filter name" for="filterName"/></p:column>
+                                        <p:column><p:inputText id="filterName" value="#{analiseSelcMB.filtro.name}" /></p:column>
+                                        
+                                        <p:column>
+                                            <p:commandButton value="Update filter name" id="withIcon" actionListener="#{analiseSelcMB.updateFilterName}"  icon="ui-icon-disk"  update="formulario:messages" />
+                                        </p:column>
+                                    </p:row>
                                     <p:row>
                                         <p:column>
                                             <h:outputText value="Chr" />

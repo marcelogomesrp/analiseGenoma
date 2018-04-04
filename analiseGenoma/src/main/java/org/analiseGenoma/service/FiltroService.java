@@ -47,6 +47,14 @@ public class FiltroService extends Service<Filtro> {
         return ((FiltroDao) dao);
     }
 
+//    @Override
+//    public Filtro findById(Long id) {
+//        //return super.findById(id); 
+//        
+//    }
+//    
+    
+
     public Filtro buscarPorAnalise(Long idAnalise) {
         Filtro filtro =  getDao().buscarPorAnalise(idAnalise);
         //List<Gene> lgenes = getDao().buscarGene(filtro.getId());
@@ -164,5 +172,11 @@ public class FiltroService extends Service<Filtro> {
     public List<Filtro> findByName(String name) {
         return getDao().findByProperty("name", name, DAO.MatchMode.START);
     }
+
+    public Filtro loadFull(Filtro filtro) {
+        filtro = this.findById(filtro.getId());
+        return filtro;
+    }
+
 
 }
