@@ -39,7 +39,7 @@
                                             <p:commandButton value="Update filter name" id="withIcon" actionListener="#{analiseSelcMB.updateFilterName}"  icon="ui-icon-disk"  update="formulario:messages" />
                                         </p:column>
                                     </p:row>
-                                    <p:row>
+                                    <p:row rendered="#{analiseSelcMB.filtro.byChromosome}" >
                                         <p:column>
                                             <h:outputText value="Chr" />
                                         </p:column>

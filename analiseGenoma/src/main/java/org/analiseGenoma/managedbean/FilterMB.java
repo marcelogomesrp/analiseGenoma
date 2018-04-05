@@ -72,6 +72,7 @@ public class FilterMB implements Serializable {
             filterSB.getFilter().setGenes(new HashSet<>( selectedGenes));
         }
         if(byChromosome){
+            filterSB.getFilter().setByChromosome(true);
             filterSB.getFilter().setCromossomos(new HashSet<>(selectedChromosome));
         }
         if(byPosition){

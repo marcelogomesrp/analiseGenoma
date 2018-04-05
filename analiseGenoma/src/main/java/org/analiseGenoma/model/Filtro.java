@@ -35,6 +35,8 @@ public class Filtro  implements Serializable, Cloneable{
     @ManyToMany  //(fetch = FetchType.EAGER)
     private Set<Gene> genes;
     //@OneToMany
+    @Column(name = "by_chromosome")
+    private boolean byChromosome;
     @ManyToMany
     private Set<Cromossomo> cromossomos;
     
@@ -200,7 +202,7 @@ public class Filtro  implements Serializable, Cloneable{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toUpperCase();
     }
 
     public boolean isGeneAnalyse() {
@@ -210,6 +212,16 @@ public class Filtro  implements Serializable, Cloneable{
     public void setGeneAnalyse(boolean geneAnalyse) {
         this.geneAnalyse = geneAnalyse;
     }
+
+    public boolean isByChromosome() {
+        return byChromosome;
+    }
+
+    public void setByChromosome(boolean byChromosome) {
+        this.byChromosome = byChromosome;
+    }
+    
+    
 
     @Override
     public Filtro clone() throws CloneNotSupportedException {
@@ -224,6 +236,7 @@ public class Filtro  implements Serializable, Cloneable{
         cloned.setGenes(new HashSet<>(genes));
         cloned.setUmdPredictors(new HashSet<>(umdPredictors));
         cloned.setEffects(new HashSet<>(effects));
+        cloned.setByChromosome(byChromosome);
         
         
         return cloned;

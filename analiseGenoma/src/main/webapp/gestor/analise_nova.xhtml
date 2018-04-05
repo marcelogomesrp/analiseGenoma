@@ -16,10 +16,10 @@
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <p:outputLabel value="Name" for="name"/>
                             <p:inputText id="name" value="#{analiseMB.analise.nome}" validator="#{analiseMB.validateNome}"/>
-                            
+
                             <p:outputLabel value="ICD" for="cid"/>                            
                             <p:inputText id="cid" value="#{analiseMB.cid}" disabled="true"/>
-                            
+
                             <p:outputLabel value="Disease" for="patologia"/>
                             <p:autoComplete id="patologia" value="#{analiseMB.patologia}" completeMethod="#{analiseMB.patologiaComplete}" >
                                 <p:ajax event="itemSelect" listener="#{analiseMB.onPatologiaSelect}" update="cid" />
@@ -52,13 +52,13 @@
                             </h:panelGroup>
 
                             <h:panelGroup id="lblMothervcf" >
-                            <p:outputLabel for="mothervcf2" value="Vcf mother" rendered="#{analiseMB.pacienteHasMother()}" />
+                                <p:outputLabel for="mothervcf2" value="Vcf mother" rendered="#{analiseMB.pacienteHasMother()}" />
                             </h:panelGroup>
                             <h:panelGroup id="mothervcf" >
-                            <p:selectOneMenu  value="#{analiseMB.idVcfMother}" id="mothervcf2" rendered="#{analiseMB.pacienteHasMother()}">
-                                <f:selectItem itemLabel="selecione um" itemValue="" />          
-                                <f:selectItems value="#{analiseMB.selectVcfsMother}" />
-                            </p:selectOneMenu>                            
+                                <p:selectOneMenu  value="#{analiseMB.idVcfMother}" id="mothervcf2" rendered="#{analiseMB.pacienteHasMother()}">
+                                    <f:selectItem itemLabel="selecione um" itemValue="" />          
+                                    <f:selectItems value="#{analiseMB.selectVcfsMother}" />
+                                </p:selectOneMenu>                            
                             </h:panelGroup>
 
                             <p:outputLabel value="Correlate" for="correlato"/>
@@ -76,16 +76,37 @@
                                 </p:selectOneMenu>
                                 <p:commandButton value="Add correlate" actionListener="#{analiseMB.addCorrelato}"  update="listCorrelatos"/>
                             </p:panelGrid> 
-                        </p:panelGrid>
+                        
+                        <p:outputLabel value="Correlates" rendered="#{analiseMB.hasCorrelates}" for="listCorrelatos"/>
 
-
-                        <h:outputText value="Correlatos" />
-
-                        <p:dataTable value="#{analiseMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" >
+                        <p:dataTable value="#{analiseMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" rendered="#{analiseMB.hasCorrelates}">
                             <p:column headerText="VCF">
                                 <h:outputText value="#{correlato.nome}" />
                             </p:column>
                         </p:dataTable>
+                        
+                        
+                        
+                        <h:outputLabel value="Apply pre-filter" />
+                        <p:selectBooleanButton value="#{analiseMB.applyFilter}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:120px" >
+                            <p:ajax update="messages" listener="#{analiseMB.alertNoFilter()}" />                            
+                        </p:selectBooleanButton>
+
+
+
+                        <h:outputLabel value="Filter"  for="dd"/>
+                        <p:autoComplete id="dd" dropdown="true" value="#{analiseMB.filtro}"
+                                        completeMethod="#{analiseMB.completeFilter}"  
+                                        var="filtro" itemLabel="#{filtro.name}" itemValue="#{filtro}"
+                                        converter="#{filterConvert}" effect="fade" forceSelection="true" >                            
+                            <p:ajax event="itemSelect" listener="#{analiseMB.alertChangeFilter()}" update="messages" />
+                        </p:autoComplete>                        
+                        
+                        
+                        </p:panelGrid>
+
+
+                        
 
                         <!--
                         <p:outputLabel value="Familiar" for="controle"/>
@@ -99,20 +120,13 @@
                             <f:selectItems value="{analiseMB.selectControleVcfs}" />
                         </p:selectOneMenu>
                         -->
-                        
-                        <h:outputLabel value="Apply pre-filter" />
-                        <p:selectBooleanButton value="#{analiseMB.applyFilter}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:120px"/>
 
-                        <h:outputLabel value="Filter" />
-                        <p:autoComplete id="dd" dropdown="true" value="#{analiseMB.filtro}"
-                                        completeMethod="#{analiseMB.completeFilter}"  
-                                        var="filtro" itemLabel="#{filtro.name}" itemValue="#{filtro}"
-                                        converter="#{filterConvert}" effect="fade" forceSelection="true" />
+
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">                        
                             <p:commandButton action="#{analiseMB.adicionar}" value="Add" update="formulario" ajax="true"/>
                         </p:panelGrid>
-                        
+
                     </p:panel>                
                 </h:form>
             </ui:define>

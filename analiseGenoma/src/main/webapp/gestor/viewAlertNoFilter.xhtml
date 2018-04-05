@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Import Variante file</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
+        <!-- <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i> -->
+        <h:form enctype="multipart/form-data" id="formularioUpload">
+
+            <p:panel header="Alert no filter">                
+                <p:panelGrid  columns="2" styleClass="ui-panelgrid-blank">          
+                    
+                    <h:outputText  value="Pay attention"/>
+                    <h:outputText value="Disabling the filter isn't recommended." />
+                    
+                </p:panelGrid>
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-blank">                            
+                                       
+                    <p:commandButton value="Cancel" action="#{viewAlertNoFilterMB.close()}" ajax="false"/>
+                </p:panelGrid>
+
+
+            </p:panel>                
+        </h:form>
+
+    </h:body>
+
+</html>

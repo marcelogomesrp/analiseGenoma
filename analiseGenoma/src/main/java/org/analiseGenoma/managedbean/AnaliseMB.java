@@ -7,10 +7,11 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -34,6 +35,7 @@ import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.service.FiltroService;
+import org.primefaces.context.RequestContext;
 
 @Named(value = "analiseMB")
 //@RequestScoped
@@ -488,6 +490,31 @@ public class AnaliseMB implements Serializable {
     }
     
     
+    public void alertNoFilter(){
+//        Map<String,Object> options = new HashMap<String, Object>();
+//        options.put("resizable", false);        
+//        RequestContext.getCurrentInstance().openDialog("viewAlertNoFilter", options, null);
+//        System.out.println("rodando o alerta");
+        if(!applyFilter){
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        //context.addMessage(null, new FacesMessage("Disabling the filter isn't recommended."));
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Disabling the filter isn't recommended."));
+        }
+
+    }
     
+    public void alertChangeFilter(){
+        if(filtro.getId() != 1L){
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Change the filter isn't recommended. Use the default filter"));
+        }
+    }
+    
+    public boolean getHasCorrelates(){
+        //return analise.vcfsCorrelatos
+        return !analise.getVcfsCorrelatos().isEmpty();
+    }
 
 }
