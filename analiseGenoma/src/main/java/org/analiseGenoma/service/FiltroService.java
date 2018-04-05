@@ -39,6 +39,8 @@ public class FiltroService extends Service<Filtro> {
     @Inject
     private UmdPredictorDao umdPredictorDao;
     
+    
+    
     public FiltroService() {
         super(Filtro.class);
     }
@@ -53,6 +55,15 @@ public class FiltroService extends Service<Filtro> {
 //        
 //    }
 //    
+
+    @Override
+    public Filtro findById(Long id) {
+        Filtro ret =  super.findById(id); 
+        ret.setCromossomos(getDao().findCromossomoFromFiltro(ret));
+        return ret;
+    }
+    
+    
     
 
     public Filtro buscarPorAnalise(Long idAnalise) {
@@ -175,6 +186,9 @@ public class FiltroService extends Service<Filtro> {
 
     public Filtro loadFull(Filtro filtro) {
         filtro = this.findById(filtro.getId());
+        filtro.setGenes(getDao().buscarGene(filtro.getId()));
+        filtro.setUmdPredictors(getDao().findUmdPerdictors(filtro));
+        filtro.setEffects(getDao().buscarEffect(filtro.getId()));
         return filtro;
     }
 

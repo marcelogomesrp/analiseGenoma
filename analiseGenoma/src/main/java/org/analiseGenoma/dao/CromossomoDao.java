@@ -1,9 +1,11 @@
 package org.analiseGenoma.dao;
 
 import java.util.List;
+import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Cromossomo;
+import org.analiseGenoma.model.Filtro;
 
 public class CromossomoDao extends DAO<Cromossomo> {
 
@@ -57,5 +59,7 @@ public class CromossomoDao extends DAO<Cromossomo> {
         }
         return null;
     }
+
+
 
 }

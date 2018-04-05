@@ -14,6 +14,7 @@ import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Effect;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.UmdPredictor;
 
 public class FiltroDao extends DAO<Filtro> {
     
@@ -23,6 +24,24 @@ public class FiltroDao extends DAO<Filtro> {
         super(Filtro.class);
     }
 
+//    @Override
+//    public Filtro findById(Long id) {
+//        //return super.findById(id); //To change body of generated methods, choose Tools | Templates.
+//         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+//        CriteriaQuery<Filtro> criteriaQuery = criteriaBuilder.createQuery(Filtro.class);
+//        Root<Filtro> root = criteriaQuery.from(Filtro.class);
+//        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
+//        
+//        root.fetch("cromossomos", JoinType.LEFT);
+//        root.fetch("genes", JoinType.LEFT);
+//        root.fetch("umdPredictors", JoinType.LEFT);
+//        root.fetch("effects", JoinType.LEFT);
+//        root.fetch("zygosities", JoinType.LEFT);
+//        
+//        //return manager.createQuery(criteriaQuery).getResultList();
+//        return manager.createQuery(criteriaQuery).getSingleResult();
+//    }
+    
     @Override
     public Filtro findById(Long id) {
         //return super.findById(id); //To change body of generated methods, choose Tools | Templates.
@@ -31,16 +50,17 @@ public class FiltroDao extends DAO<Filtro> {
         Root<Filtro> root = criteriaQuery.from(Filtro.class);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
         
-        root.fetch("cromossomos", JoinType.LEFT);
-        root.fetch("genes", JoinType.LEFT);
-        root.fetch("umdPredictors", JoinType.LEFT);
-        root.fetch("effects", JoinType.LEFT);
-        root.fetch("zygosities", JoinType.LEFT);
+//        root.fetch("cromossomos", JoinType.LEFT);
+//        root.fetch("genes", JoinType.LEFT);
+//        root.fetch("umdPredictors", JoinType.LEFT);
+//        root.fetch("effects", JoinType.LEFT);
+//        root.fetch("zygosities", JoinType.LEFT);
         
         //return manager.createQuery(criteriaQuery).getResultList();
-        return manager.createQuery(criteriaQuery).getSingleResult();
+        Filtro retorno = manager.createQuery(criteriaQuery).getSingleResult();
+        
+        return retorno;
     }
-    
     
     
     
@@ -93,6 +113,20 @@ public class FiltroDao extends DAO<Filtro> {
 //        }
 //        super.adicionar(filtro);
 //    }
+
+    public Set<Cromossomo> findCromossomoFromFiltro(Filtro filtro) {
+        Query query = manager.createQuery("SELECT f.cromossomos FROM Filtro f WHERE f.id = :idFiltro");
+        query.setParameter("idFiltro", filtro.getId());
+        List<Cromossomo> list = query.getResultList();
+        return new HashSet(list);
+    }
+
+    public Set<UmdPredictor> findUmdPerdictors(Filtro filtro) {
+        Query query = manager.createQuery("SELECT f.umdPredictors FROM Filtro f WHERE f.id = :idFiltro");
+        query.setParameter("idFiltro", filtro.getId());
+        List<UmdPredictor> list = query.getResultList();
+        return new HashSet(list);
+    }
     
 
 

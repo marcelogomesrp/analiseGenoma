@@ -50,7 +50,7 @@ public abstract class Service<T> implements Serializable {
     }
 
     public T findById(Long id) {
-        return dao.findById(id);
+        return getDao().findById(id);
     }
 
     public List<T> findByExample(T obj) throws Exception {
