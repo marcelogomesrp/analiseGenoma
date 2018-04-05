@@ -74,39 +74,42 @@
                                     <f:selectItem itemLabel="selecione um" itemValue="" />
                                     <f:selectItems value="#{analiseMB.selectControleVcfs}" />
                                 </p:selectOneMenu>
-                                <p:commandButton value="Add correlate" actionListener="#{analiseMB.addCorrelato}"  update="listCorrelatos"/>
+                                <p:commandButton value="Add correlate" actionListener="#{analiseMB.addCorrelato}"  update="formulario"/>
                             </p:panelGrid> 
-                        
-                        <p:outputLabel value="Correlates" rendered="#{analiseMB.hasCorrelates}" for="listCorrelatos"/>
 
-                        <p:dataTable value="#{analiseMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" rendered="#{analiseMB.hasCorrelates}">
-                            <p:column headerText="VCF">
-                                <h:outputText value="#{correlato.nome}" />
-                            </p:column>
-                        </p:dataTable>
-                        
-                        
-                        
-                        <h:outputLabel value="Apply pre-filter" />
-                        <p:selectBooleanButton value="#{analiseMB.applyFilter}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:120px" >
-                            <p:ajax update="messages" listener="#{analiseMB.alertNoFilter()}" />                            
-                        </p:selectBooleanButton>
+                            <p:panel id="correlatoLbl">
+                                <p:outputLabel  value="Correlates" rendered="#{analiseMB.hasCorrelates}" for="listCorrelatos"/>
+                            </p:panel>
+                            <p:panel id="outroCorrelato" >
+                                <p:dataTable value="#{analiseMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" rendered="#{analiseMB.hasCorrelates}">
+                                    <p:column headerText="VCF">
+                                        <h:outputText value="#{correlato.nome}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
 
 
 
-                        <h:outputLabel value="Filter"  for="dd"/>
-                        <p:autoComplete id="dd" dropdown="true" value="#{analiseMB.filtro}"
-                                        completeMethod="#{analiseMB.completeFilter}"  
-                                        var="filtro" itemLabel="#{filtro.name}" itemValue="#{filtro}"
-                                        converter="#{filterConvert}" effect="fade" forceSelection="true" >                            
-                            <p:ajax event="itemSelect" listener="#{analiseMB.alertChangeFilter()}" update="messages" />
-                        </p:autoComplete>                        
-                        
-                        
+                            <h:outputLabel value="Apply pre-filter" />
+                            <p:selectBooleanButton value="#{analiseMB.applyFilter}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:120px" >
+                                <p:ajax update="messages" listener="#{analiseMB.alertNoFilter()}" />                            
+                            </p:selectBooleanButton>
+
+
+
+                            <h:outputLabel value="Filter"  for="dd"/>
+                            <p:autoComplete id="dd" dropdown="true" value="#{analiseMB.filtro}"
+                                            completeMethod="#{analiseMB.completeFilter}"  
+                                            var="filtro" itemLabel="#{filtro.name}" itemValue="#{filtro}"
+                                            converter="#{filterConvert}" effect="fade" forceSelection="true" >                            
+                                <p:ajax event="itemSelect" listener="#{analiseMB.alertChangeFilter()}" update="messages" />
+                            </p:autoComplete>                        
+
+
                         </p:panelGrid>
 
 
-                        
+
 
                         <!--
                         <p:outputLabel value="Familiar" for="controle"/>

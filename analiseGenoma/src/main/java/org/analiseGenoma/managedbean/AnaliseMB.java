@@ -295,11 +295,18 @@ public class AnaliseMB implements Serializable {
     }
 
     public List<String> controleComplete(String query) {
+//        System.out.println("Controle auto complet");
+//        List<String> results = new ArrayList<String>();
+//        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
+//        System.out.println("Lista com tamanho: " + results.size());
+//        return results;
+        
         System.out.println("Controle auto complet");
         List<String> results = new ArrayList<String>();
-        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
+        pacienteService.buscarNome(query.toUpperCase() + "%").forEach(p -> results.add(p.getName()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
+        
     }
 
     public void onCidSelect(SelectEvent event) {
