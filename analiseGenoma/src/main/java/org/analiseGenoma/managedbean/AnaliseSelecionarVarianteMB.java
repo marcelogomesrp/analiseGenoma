@@ -327,8 +327,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             filtroTemporario.getImpacto().add(impactoService.buscarPorNome(s));
         }
 
-        filtroTemporario.setQualidadeMin(filtro.getQualidadeMin());
-        filtroTemporario.setQualidadeMax(filtro.getQualidadeMax());
+//        filtroTemporario.setQualidadeMin(filtro.getQualidadeMin());
+//        filtroTemporario.setQualidadeMax(filtro.getQualidadeMax());
 
 //        for(String c : selectedCromossomo){
 //            System.out.println("\t\t\t---> no filtro" + c);

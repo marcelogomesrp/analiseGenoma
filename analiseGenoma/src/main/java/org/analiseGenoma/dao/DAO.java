@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -124,6 +125,7 @@ public class DAO<T> implements Serializable {
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(classe);
         Root<T> root = criteriaQuery.from(classe);
         criteriaQuery.where(criteriaBuilder.equal(root.get(propertyName), value));
+        //criteriaQuery.orderBy(criteriaBuilder.asc(root.get(propertyName)));
         return manager.createQuery(criteriaQuery).getResultList();
     }
 
@@ -152,6 +154,7 @@ public class DAO<T> implements Serializable {
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(classe);
         Root<T> root = criteriaQuery.from(classe);
         criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.upper(root.get(propertyName)), value));
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get(propertyName)));
         return manager.createQuery(criteriaQuery).getResultList();
     }
     

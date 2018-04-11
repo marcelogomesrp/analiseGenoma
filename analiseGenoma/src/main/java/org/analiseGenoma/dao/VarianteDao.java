@@ -134,15 +134,15 @@ public class VarianteDao extends DAO<Variante> {
         TypedQuery<Variante> query = manager.createQuery(criteriaQuery);
         retorno = query.getResultList();
 
-        while ((retorno.size() == 0) && (condicoes.size() > 0)) {
-            condicoes.remove(condicoes.size() - 1);
-            condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
-            todasCondicoes = criteriaBuilder.and(condicoesArray);
-            criteriaQuery.where(todasCondicoes);
-            query = manager.createQuery(criteriaQuery);
-            retorno = query.getResultList();
-
-        }
+//        while ((retorno.size() == 0) && (condicoes.size() > 0)) {
+//            condicoes.remove(condicoes.size() - 1);
+//            condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
+//            todasCondicoes = criteriaBuilder.and(condicoesArray);
+//            criteriaQuery.where(todasCondicoes);
+//            query = manager.createQuery(criteriaQuery);
+//            retorno = query.getResultList();
+//
+//        }
 
         return retorno;
 
@@ -167,8 +167,8 @@ public class VarianteDao extends DAO<Variante> {
             query.setParameter("vcfId", vcfId);
             query.setParameter("genes", filtro.getGenes());
             query.setParameter("cromossomos", filtro.getCromossomos());
-            query.setParameter("qualiMin", filtro.getQualidadeMin());
-            query.setParameter("qualiMax", filtro.getQualidadeMax());
+//            query.setParameter("qualiMin", filtro.getQualidadeMin());
+//            query.setParameter("qualiMax", filtro.getQualidadeMax());
             query.setParameter("impactos", filtro.getImpacto());
             variantes = query.getResultList();
         } catch (NoResultException ex) {

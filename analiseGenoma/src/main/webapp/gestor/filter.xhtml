@@ -19,7 +19,8 @@
                             <p:panelGrid columns="2" styleClass="ui-noborder"   >
                                 <p:panel><h:outputLabel value="Name" for="name"/></p:panel>
                                 <p:panel><p:inputText value="#{filterSB.filter.name}" id="name"
-                                                      pt:placeholder="Enter an name for this filter"/>
+                                                      pt:placeholder="Enter an name for this filter"
+                                                      validator="#{filterMB.validateName}"/>
                                 </p:panel>
                                 
                                 <p:panel><h:outputLabel value="Select gene from analyze's disease" for="geneAnalyse"/></p:panel>
@@ -29,19 +30,20 @@
 
                                 
                                 <p:panel><h:outputLabel value="Filter by Gene" for="bygene"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="bygene" value="#{filterMB.byGene}" >
+                                <p:panel><p:selectBooleanCheckbox id="bygene" value="#{filterSB.filter.byGene}" >
                                         <p:ajax update="geneLbl geneInput" listener="#{filterMB.loadGenes}" />
                                     </p:selectBooleanCheckbox>
                                 </p:panel>
 
                                 <p:panel id="geneLbl">
-                                    <h:outputLabel value="Select the genes" rendered="#{filterMB.byGene}" id="selectGeneLbl" for="selectGeneInput"/>
+                                    <h:outputLabel value="Select the genes" rendered="#{filterSB.filter.byGene}" id="selectGeneLbl" for="selectGeneInput"/>
                                 </p:panel>
                                 <p:panel id="geneInput">
                                     <p:autoComplete value="#{filterMB.selectedGenes}" completeMethod="#{filterMB.completeGene}" 
                                                     var="gene"  itemLabel="#{gene.symbol}" itemValue="#{gene}"
-                                                    rendered="#{filterMB.byGene}" forceSelection="true"
-                                                    effect="fade" multiple="true" converter="#{geneConverter}" id="selectGeneInput"/>
+                                                    rendered="#{filterSB.filter.byGene}" forceSelection="true"
+                                                    effect="fade" multiple="true" converter="#{geneConverter}" id="selectGeneInput"
+                                                    validator="#{filterMB.validateGenes}"/>
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Chromosome" for="byChromosome"/></p:panel>
@@ -61,19 +63,43 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Position" for="byPosition"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byPosition" value="#{filterMB.byPosition}" >
+                                <p:panel><p:selectBooleanCheckbox id="byPosition" value="#{filterSB.filter.byPosition}" >
                                         <p:ajax update="positionLbl positionInput" />
                                     </p:selectBooleanCheckbox>
                                 </p:panel>
 
-                                <p:panel id="positionLbl"><p:outputLabel value="Position" rendered="#{filterMB.byPosition}"/></p:panel>
+                                <p:panel id="positionLbl"><p:outputLabel value="Position" rendered="#{filterSB.filter.byPosition}"/></p:panel>
                                 <p:panel id="positionInput"  >
-                                    <p:outputLabel value="Min" rendered="#{filterMB.byPosition}"/> 
-                                    <p:inputText value="#{filterMB.positionMin}" rendered="#{filterMB.byPosition}" pt:placeholder="Enter the minimum value"/>
+                                    <p:outputLabel value="Min" rendered="#{filterSB.filter.byPosition}"/> 
+                                    <p:inputText value="#{filterSB.filter.positionMin}" rendered="#{filterSB.filter.byPosition}" pt:placeholder="Enter the minimum value"/>
 
-                                    <p:outputLabel value="Max" rendered="#{filterMB.byPosition}"/> 
-                                    <p:inputText value="#{filterMB.positionMax}" rendered="#{filterMB.byPosition}" pt:placeholder="Enter the max value"/>
+                                    <p:outputLabel value="Max" rendered="#{filterSB.filter.byPosition}"/> 
+                                    <p:inputText value="#{filterSB.filter.positionMax}" rendered="#{filterSB.filter.byPosition}" pt:placeholder="Enter the max value"/>
                                 </p:panel>
+                                
+                                
+                                <p:panel><h:outputLabel value="Filter by Reference" for="byReference"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byReference" value="#{filterSB.filter.byReference}" >
+                                        <p:ajax update="referenceLbl referenceInput" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="referenceLbl"><p:outputLabel value="Reference" for="selectReference" rendered="#{filterSB.filter.byReference}"/></p:panel>
+                                <p:panel id="referenceInput">
+                                    <p:autoComplete value="#{filterSB.filter.referencias}" completeMethod="#{filterMB.completeReference}" 
+                                                    var="ref"  itemLabel="#{ref}" itemValue="#{ref}"
+                                                    forceSelection="true"
+                                                    effect="fade" multiple="true"  id="selectReference"
+                                                    rendered="#{filterSB.filter.byReference}" />
+                                </p:panel>
+                                
+                                
+                                
+                                
+                                                                
+                                
+                                
+                                
+                                
 
                             </p:panelGrid>
 

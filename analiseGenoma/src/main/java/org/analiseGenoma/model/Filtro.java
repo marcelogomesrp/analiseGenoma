@@ -28,6 +28,8 @@ public class Filtro  implements Serializable, Cloneable{
     @JoinColumn(name = "analise_id")
     private Analise analise;
     
+    @Column(name = "by_gene")
+    private boolean byGene;    
     @Column(name = "by_gene_analyse")
     private boolean geneAnalyse;
     
@@ -40,9 +42,12 @@ public class Filtro  implements Serializable, Cloneable{
     @ManyToMany
     private Set<Cromossomo> cromossomos;
     
-    private Double qualidadeMin;
-    private Double qualidadeMax;
+
+//    private Double qualidadeMin;
+//    private Double qualidadeMax;
     
+    @Column(name = "by_position")
+    private boolean byPosition;
     private Long positionMin;
     private Long positionMax;
     private String name;
@@ -56,13 +61,20 @@ public class Filtro  implements Serializable, Cloneable{
     @ManyToMany
     private Set<UmdPredictor> umdPredictors;
     
+    @Column(name = "by_reference")
+    private boolean byReference;    
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> referencias;
+    
+       
+    
     @ManyToMany
     private Set<Effect> effects;
 
     @ManyToMany
     private Set<Zygosity> zygosities;
+    
+    
     
     
     private Double prevalenceMin;
@@ -117,21 +129,21 @@ public class Filtro  implements Serializable, Cloneable{
     }
 
 
-    public Double getQualidadeMin() {
-        return qualidadeMin;
-    }
-
-    public void setQualidadeMin(Double qualidadeMin) {
-        this.qualidadeMin = qualidadeMin;
-    }
-
-    public Double getQualidadeMax() {
-        return qualidadeMax;
-    }
-
-    public void setQualidadeMax(Double qualidadeMax) {
-        this.qualidadeMax = qualidadeMax;
-    }
+//    public Double getQualidadeMin() {
+//        return qualidadeMin;
+//    }
+//
+//    public void setQualidadeMin(Double qualidadeMin) {
+//        this.qualidadeMin = qualidadeMin;
+//    }
+//
+//    public Double getQualidadeMax() {
+//        return qualidadeMax;
+//    }
+//
+//    public void setQualidadeMax(Double qualidadeMax) {
+//        this.qualidadeMax = qualidadeMax;
+//    }
 
     public List<Impact> getImpacto() {
         return impacto;
@@ -220,6 +232,33 @@ public class Filtro  implements Serializable, Cloneable{
     public void setByChromosome(boolean byChromosome) {
         this.byChromosome = byChromosome;
     }
+
+    public boolean isByPosition() {
+        return byPosition;
+    }
+
+    public void setByPosition(boolean byPosition) {
+        this.byPosition = byPosition;
+    }
+
+    public boolean isByGene() {
+        return byGene;
+    }
+
+    public void setByGene(boolean byGene) {
+        this.byGene = byGene;
+    }
+
+    public boolean isByReference() {
+        return byReference;
+    }
+
+    public void setByReference(boolean byReference) {
+        this.byReference = byReference;
+    }
+    
+    
+    
     
     
 
@@ -237,7 +276,7 @@ public class Filtro  implements Serializable, Cloneable{
         cloned.setUmdPredictors(new HashSet<>(umdPredictors));
         cloned.setEffects(new HashSet<>(effects));
         cloned.setByChromosome(byChromosome);
-        
+        cloned.setByPosition(byPosition);
         
         return cloned;
     }
@@ -250,7 +289,7 @@ public class Filtro  implements Serializable, Cloneable{
     
     @Override
     public String toString() {
-        return "Filtro{" + "id=" + id + ", analise=" + analise + ", genes=" + genes + ", cromossomos=" + cromossomos + ", qualidadeMin=" + qualidadeMin + ", qualidadeMax=" + qualidadeMax + ", impacto=" + impacto + ", infBiologica=" + infBiologica + '}';
+        return "Filtro{" + "id=" + id + ", analise=" + analise + ", genes=" + genes + ", cromossomos=" + cromossomos + ", qualidadeMin=" + "qualidadeMin" + ", qualidadeMax=" + "qualidadeMax" + ", impacto=" + impacto + ", infBiologica=" + infBiologica + '}';
     }
     
     
