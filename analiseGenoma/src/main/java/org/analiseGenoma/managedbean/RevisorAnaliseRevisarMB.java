@@ -23,8 +23,10 @@ import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.FiltroService;
+import org.analiseGenoma.service.VariantSelectedService;
 import org.analiseGenoma.service.VarianteRevisadaService;
 import org.analiseGenoma.service.VcfService;
+import org.analiseGenoma.sessionbean.UserSB;
 import org.primefaces.context.RequestContext;
 
 @Named(value = "revAnaliseRevisarMB")
@@ -50,17 +52,25 @@ public class RevisorAnaliseRevisarMB implements Serializable {
     private List<VarianteRevisada> variantesRev;
     @Inject
     private VarianteRevisadaService varianteRevisadaService;
-    @Inject private UsuarioMB usuarioMB;
-    private User revisor;
+    //@Inject private UsuarioMB usuarioMB;
+    @Inject
+    private VariantSelectedService variantSelectedService;
+    
+    @Inject
+    private UserSB reviser;
+    
+    //private User revisor;
 
     @PostConstruct
     public void init() {
         if (id != null) {
-            revisor = usuarioMB.getUsuario();
+            //revisor = usuarioMB.getUsuario();
             analise = analiseService.buscarPorId(Long.valueOf(id));
             filtro = filtroService.buscarPorAnalise(analise.getId());
-            variantes = vcfService.findVariante(analise, filtro);
-            variantesRev = varianteRevisadaService.findByAnaliseRevisor(analise.getVcf(), revisor);
+            //variantes = vcfService.findVariante(analise, filtro);
+            variantes = variantSelectedService.findByAnalise(analise);
+            System.out.println("Qtd: " + reviser.getUser().getRowsInTable());
+            //variantesRev = varianteRevisadaService.findByAnaliseRevisor(analise.getVcf(), reviser.getUser());
             
         } else {
             analise = new Analise();

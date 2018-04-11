@@ -22,9 +22,9 @@
                                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                                     <h:outputLabel value="Id: " for="id" />
                                     <h:outputText id="id" value="#{analiseSelcMB.analise.id}" />
-                                    <h:outputLabel value="Nome: " for="nome" />
+                                    <h:outputLabel value="Name: " for="nome" />
                                     <h:outputText id="name" value="#{analiseSelcMB.analise.nome}" />
-                                    <h:outputLabel value="Observacao: " for="obs" />
+                                    <h:outputLabel value="Note: " for="obs" />
                                     <h:outputText id="obs" value="#{analiseSelcMB.analise.observacao}" />                            
                                 </p:panelGrid>
                             </p:tab>
@@ -79,6 +79,12 @@
                             </p:tab>
                         </p:tabView>
                         <!-- </p:accordionPanel> -->
+                        
+                        <p:panelGrid columns="2"  styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Finalize selection" action="#{analiseSelcMB.finalizarSelecao()}"/>
+                            <p:commandButton value="Finalize selection_old" action="#{aSelcReviserMB.openView(analiseSelcMB.analise)}"/>
+                        </p:panelGrid>
+                        
 
 
 
@@ -402,9 +408,7 @@
                         </p:dataTable>
 
 
-                        <p:panelGrid columns="2"  styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Finalizar seleção" action="#{aSelcReviserMB.openView(analiseSelcMB.analise)}"/>
-                        </p:panelGrid>
+
                     </p:panel>
                 </h:form>
             </ui:define>

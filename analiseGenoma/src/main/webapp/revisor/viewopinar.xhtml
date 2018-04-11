@@ -24,7 +24,17 @@
             <p:outputLabel value="Revisor"/>
             <h:outputText value="#{ViewOpinarMB.revisor.name}" />
             <p:outputLabel value="Patogenic" />
-            <p:selectBooleanButton value="#{ViewOpinarMB.varianteRevisada.patogenic}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px"/>
+            
+            <p:selectOneRadio id="console" value="#{ViewOpinarMB.varianteRevisada.patogenic}">
+                <f:selectItem itemLabel="benign" itemValue="1" />
+                <f:selectItem itemLabel="likely benign" itemValue="2" />
+                <f:selectItem itemLabel="Uncertain significance" itemValue="3" />
+                <f:selectItem itemLabel="Likely pathogenic" itemValue="4" />
+                <f:selectItem itemLabel="Pathogenic" itemValue="5" />
+            </p:selectOneRadio>
+            
+            
+            
             <p:outputLabel value="Note" />
             <p:textEditor  value="#{ViewOpinarMB.varianteRevisada.note}" height="300" style="margin-bottom:10px"/>
             </p:panelGrid>

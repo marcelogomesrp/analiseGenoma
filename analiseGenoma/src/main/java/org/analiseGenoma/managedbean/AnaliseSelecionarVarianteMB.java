@@ -31,6 +31,7 @@ import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.Impact;
 import org.analiseGenoma.model.InformacaoBiologica;
 import org.analiseGenoma.model.Disease;
+import org.analiseGenoma.model.VariantSelected;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
@@ -42,6 +43,8 @@ import org.analiseGenoma.service.ImpactoService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
 import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.FilterService;
+import org.analiseGenoma.service.VariantSelectedService;
+import org.analiseGenoma.service.VarianteService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
@@ -79,6 +82,9 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     
     @Inject
     private FiltroService filterService;
+    
+    @Inject
+    private VariantSelectedService variantSelectedService;
 
     @Inject
     @RequestParam
@@ -726,6 +732,20 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         variantes = vcfService.findVariante(analise, filtro);
     }
         
+    
+    
+    public String finalizarSelecao(){
+        variantes = vcfService.findVariante(analise, filtro);
+        VariantSelected variantSelected = new VariantSelected();
+        variantSelected.setAnalise(analise);
+        variantSelected.setVariantes(variantes);
+        variantSelectedService.persiste(variantSelected);
+        
+        analise.setEstado("varianteSelecionada");
+        analiseService.atualizar(analise);
+        FacesUtil.setSessionMapValue("id", analise.getId());
+        return "analise_select_reviser.xhtml?faces-redirect=true";
+    }
     
 
 }

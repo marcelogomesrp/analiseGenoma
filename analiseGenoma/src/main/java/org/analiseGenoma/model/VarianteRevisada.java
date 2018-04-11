@@ -21,9 +21,11 @@ public class VarianteRevisada implements Serializable {
     private Variante variant;
     @ManyToOne
     private User revisor;
-    private boolean patogenic;
+    private Integer patogenic;
     @Column(columnDefinition = "text")
     private String note;
+    @ManyToOne
+    private Analise analise;
 
     public Long getId() {
         return id;
@@ -49,11 +51,11 @@ public class VarianteRevisada implements Serializable {
         this.revisor = revisor;
     }
 
-    public boolean isPatogenic() {
+    public Integer getPatogenic() {
         return patogenic;
     }
 
-    public void setPatogenic(boolean patogenic) {
+    public void setPatogenic(Integer patogenic) {
         this.patogenic = patogenic;
     }
 
@@ -64,5 +66,15 @@ public class VarianteRevisada implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public Analise getAnalise() {
+        return analise;
+    }
+
+    public void setAnalise(Analise analise) {
+        this.analise = analise;
+    }
+    
+    
     
 }

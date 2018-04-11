@@ -1,6 +1,7 @@
 package org.analiseGenoma.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,16 +10,25 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+import org.analiseGenoma.dao.FindOptions;
 import org.analiseGenoma.dao.UserDao;
 import org.analiseGenoma.model.User;
 
 @Named
-public class UsuarioService implements Serializable {
+public class UsuarioService extends Service<User> implements Serializable {
 
     @Inject
     private UserDao usuarioDao;
-    @Inject 
+    @Inject
     private FacesContext context;
+
+    public UsuarioService() {
+        super(User.class);
+    }
+
+    private UserDao getDao() {
+        return ((UserDao) dao);
+    }
 
     
     @PostConstruct
@@ -66,8 +76,9 @@ public class UsuarioService implements Serializable {
     }
     
     public List<User> buscarRevisores(){
+        return getDao().findByProperty("reviser", true);
         //return usuarioDao.buscarPorRevisor();
-        return null;
+        //return null;
         
     }
 
@@ -76,12 +87,17 @@ public class UsuarioService implements Serializable {
     }
 
     public User findRevisoresByName(String name) {
+        List<FindOptions> listFO = new ArrayList<>();
+        listFO.add(new FindOptions("name", name));
+        listFO.add(new FindOptions("reviser", true));
+        return getDao().getFirstOrNull( getDao().findByProperty(listFO) );
+        //return getDao().findByProperty("name", name);
         /*
         List<User> users = usuarioDao.findRevisorByName(name);
         if(users.size() == 1)
             return users.get(0);
 */
-        return null;
+        //return null;
     }
 
     public List<User> findByExample(User u) {

@@ -20,6 +20,7 @@ import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.VarianteRevisadaService;
 import org.analiseGenoma.service.VarianteService;
+import org.analiseGenoma.sessionbean.UserSB;
 import org.primefaces.context.RequestContext;
 
 @Named(value = "ViewOpinarMB")
@@ -33,6 +34,9 @@ public class ViewOpinarMB {
     private UsuarioMB usuarioMB;
     @Inject
     private VarianteRevisadaService varianteRevisadaService;
+    
+    @Inject 
+    private UserSB userSB;
     
     private Long idVariante;
     private Long idAnalise;
@@ -106,7 +110,8 @@ public class ViewOpinarMB {
         if(idAnalise != null){
             analise = analiseService.buscarPorId(idAnalise);
         }
-        revisor = usuarioMB.getUsuario();
+        //revisor = usuarioMB.getUsuario();
+        revisor = userSB.getUser();
         
         //List<VarianteRevisada> list = varianteRevisadaService.findByAnaliseRevisor(vcf, revisor);
         List<VarianteRevisada> list = varianteRevisadaService.findByVarianteRevisor(variante, revisor);
@@ -116,6 +121,8 @@ public class ViewOpinarMB {
             varianteRevisada = new VarianteRevisada();
             varianteRevisada.setRevisor(revisor);
             varianteRevisada.setVariant(variante);
+            varianteRevisada.setAnalise(analise);
+            varianteRevisada.setPatogenic(0);
         }
 //        idAnalise = (Long) FacesUtil.getSessionMapValue("id");
 //        if (idAnalise != null) {

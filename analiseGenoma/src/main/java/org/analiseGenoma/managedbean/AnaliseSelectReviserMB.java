@@ -8,18 +8,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.User;
+import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.UsuarioService;
 import org.primefaces.model.DualListModel;
 
 @Named(value = "aSelcReviserMB")
-@RequestScoped
+@ViewScoped
+//@RequestScoped
 public class AnaliseSelectReviserMB implements Serializable {
 
     @Inject
@@ -42,8 +44,9 @@ public class AnaliseSelectReviserMB implements Serializable {
 //            Usuario u = new Usuario();
 //            u.setNome("Teste");
 //            source.add(u);
-                List<String> target = analise.getRevisores().stream().map(r -> r.getName()).collect(Collectors.toList());            
-                List<String> source = usuarioService.buscarRevisores()
+                List<String> target = analise.getRevisores().stream().map(r -> r.getName()).collect(Collectors.toList());    
+                List<User> userSorce = usuarioService.buscarRevisores();
+                List<String> source = userSorce
                         .stream()
                         .map(r -> r.getName())
                         .filter(g -> !target.contains(g))
@@ -60,6 +63,8 @@ public class AnaliseSelectReviserMB implements Serializable {
     }
     
     public String openView(Analise analise){
+        //aqui
+        //List<Variante> variantesSelecionadas = ana
         analise.setEstado("varianteSelecionada");
         analiseService.atualizar(analise);
         FacesUtil.setSessionMapValue("id", analise.getId());
@@ -74,7 +79,7 @@ public class AnaliseSelectReviserMB implements Serializable {
         }
         analise.setRevisores(rev);
         analiseService.atualizar(analise);
-        return "analise_select_reviser.xhtml?faces-redirect=true";
+        return "analyzeSent.xhtml?faces-redirect=true";
     }
 
     public Analise getAnalise() {

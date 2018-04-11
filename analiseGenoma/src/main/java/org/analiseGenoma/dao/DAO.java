@@ -129,6 +129,30 @@ public class DAO<T> implements Serializable {
         return manager.createQuery(criteriaQuery).getResultList();
     }
 
+    //aqui
+    
+        public List<T> findByProperty(List<FindOptions> options) {
+        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(classe);
+        Root<T> root = criteriaQuery.from(classe);
+        //criteriaQuery.where(criteriaBuilder.equal(root.get(propertyName), value));
+        List<Predicate> condicoes = new ArrayList<Predicate>();
+        for(FindOptions fo : options){
+            Path<Integer> field = root.get(fo.getPropertyName());
+                    Predicate where = criteriaBuilder.equal(field, fo.getValue());
+                    condicoes.add(where);
+        }
+        Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
+        Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
+        //criteriaQuery.where(criteriaBuilder.equal(todasCondicoes));
+        //return manager.createQuery(criteriaQuery).getResultList();
+        
+        criteriaQuery.where(todasCondicoes);
+        TypedQuery<T> query = manager.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
+    
+    
     /**
      * Finds entities by a String property specifying a MatchMode. This search
      * is case insensitive.

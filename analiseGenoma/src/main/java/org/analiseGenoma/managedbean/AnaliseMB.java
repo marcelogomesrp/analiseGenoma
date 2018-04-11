@@ -7,9 +7,7 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -35,7 +33,6 @@ import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.service.FiltroService;
-import org.primefaces.context.RequestContext;
 
 @Named(value = "analiseMB")
 //@RequestScoped

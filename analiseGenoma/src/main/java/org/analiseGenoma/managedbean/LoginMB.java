@@ -67,7 +67,28 @@ public class LoginMB implements Serializable {
     }
 
     public String reviserLogin() {
-        return REVISER_URL;
+//        return REVISER_URL;
+        try {
+            User userBd = userService.findManagerByEmailPassword(userSB.getUser());
+            if (userBd == null) {
+                context.getExternalContext()
+                        .getFlash().setKeepMessages(true);
+                context.addMessage(null, 
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR 
+                                ,"Email or password isn't valid" 
+                                ,"Email or password isn't valid")
+                );
+                return null;
+            } else {
+                this.userSB.setUser(userBd);
+                return REVISER_URL;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(LoginMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
+        
     }
 
     public String administratorLogin() {
