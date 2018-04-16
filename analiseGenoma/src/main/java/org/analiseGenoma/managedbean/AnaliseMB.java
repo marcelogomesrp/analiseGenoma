@@ -7,6 +7,7 @@ package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +33,9 @@ import org.primefaces.event.SelectEvent;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.service.DbBioInfoService;
 import org.analiseGenoma.service.FiltroService;
+import org.analiseGenoma.service.GeneService;
 
 @Named(value = "analiseMB")
 //@RequestScoped
@@ -44,7 +47,7 @@ public class AnaliseMB implements Serializable {
     @Inject
     private AnaliseService analiseService;
     @Inject
-    private DiseaseService patologiaService;
+    private DiseaseService diseaseService;
     @Inject
     private PatientService pacienteService;
     @Inject
@@ -53,6 +56,10 @@ public class AnaliseMB implements Serializable {
     private AnaliseSelecionarVarianteMB selecionarMB;
     @Inject
     private FiltroService filtroService;
+    
+    @Inject
+    private GeneService geneService;
+    
     private Analise analise;
     private String cid;
     private String patologia;
@@ -239,6 +246,25 @@ public class AnaliseMB implements Serializable {
                 filtroAnalise.setId(null);
                 filtroAnalise.setAnalise(analise);
                 filtroAnalise.setName(analise.getNome());
+                
+                
+                if(filtro.isGeneAnalyse()){
+                    if(!filtro.isByGene()){
+                        filtro.setByGene(true);
+                        filtro.setGenes(new HashSet<>());
+                    }
+                    //filtro.getGenes().addAll(dbBioInfoService.findGeneByDisease(analise.getPatologia()));
+                    filtro.getGenes().addAll(geneService.find(analise.getPatologia()) );
+                    System.out.println("ok");
+                }
+//                        if(filterSB.getFilter().isGeneAnalyse()){
+//            if(!filterSB.getFilter().isByGene()){
+//                filterSB.getFilter().setByGene(true);
+//                filterSB.getFilter().setGenes(new HashSet<>());
+//            }
+//            filterSB.getFilter().getGenes().addAll(geneService.findGeneByDisease(disease))
+                
+                
                 filtroService.persiste(filtroAnalise);
                 
             //} catch (CloneNotSupportedException ex) {
@@ -269,7 +295,7 @@ public class AnaliseMB implements Serializable {
     public List<String> cidComplete(String query) {
         System.out.println("Cid auto complet");
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarCid(query + "%").forEach(p -> results.add(p.getIcd()));
+        diseaseService.buscarCid(query + "%").forEach(p -> results.add(p.getIcd()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
@@ -278,7 +304,7 @@ public class AnaliseMB implements Serializable {
         query = query.toUpperCase();
         System.out.println("Patologia auto complet: " + query);
         List<String> results = new ArrayList<String>();
-        patologiaService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
+        diseaseService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
@@ -307,7 +333,7 @@ public class AnaliseMB implements Serializable {
     }
 
     public void onCidSelect(SelectEvent event) {
-        List<Disease> patologias = patologiaService.buscarCid(cid);
+        List<Disease> patologias = diseaseService.buscarCid(cid);
         if (patologias != null) {
             if (patologias.size() > 0) {
                 analise.setPatologia(patologias.get(0));
@@ -317,7 +343,7 @@ public class AnaliseMB implements Serializable {
     }
 
     public void onPatologiaSelect(SelectEvent event) {
-        List<Disease> patologias = patologiaService.buscarNome(patologia);
+        List<Disease> patologias = diseaseService.buscarNome(patologia);
         if (patologias != null) {
             if (patologias.size() > 0) {
                 analise.setPatologia(patologias.get(0));

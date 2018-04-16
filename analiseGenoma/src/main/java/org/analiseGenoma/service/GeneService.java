@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import org.analiseGenoma.dao.GeneDbBioDao;
 import org.analiseGenoma.dao.GeneListDao;
 import org.analiseGenoma.dao.GeneSymbolSynonymDao;
 import org.analiseGenoma.model.DbBio;
+import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.GeneDbBio;
 import org.analiseGenoma.model.GeneList;
@@ -455,6 +457,10 @@ public class GeneService extends Service<Gene> implements Serializable {
 
     public List<Gene> findLikeName(String symbol) {
         return getDao().findByProperty("symbol", symbol, DAO.MatchMode.START);
+    }
+
+    public List<Gene> find(Disease disease) {
+        return getDao().find(disease);
     }
 
 }

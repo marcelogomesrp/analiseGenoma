@@ -15,8 +15,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.model.Cromossomo;
+import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
-import org.analiseGenoma.model.Patient;
 import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.GeneService;
@@ -48,6 +48,8 @@ public class FilterMB implements Serializable {
     private Long positionMin;
     private Long positionMax;
     private boolean disabledValidation;
+    
+    
 
     @PostConstruct
     public void init() {
@@ -70,20 +72,31 @@ public class FilterMB implements Serializable {
     }
 
     public void save() {
+        Filtro filter = filterSB.getFilter();
+        
 
-        if (byGene) {
-            filterSB.getFilter().setGenes(new HashSet<>(selectedGenes));
+
+        if (filter.isByGene()) {
+            filter.setGenes(new HashSet<>(selectedGenes));
+            System.out.println("ok");
+            
         }
+        
+
+        
         if (byChromosome) {
-            filterSB.getFilter().setByChromosome(true);
-            filterSB.getFilter().setCromossomos(new HashSet<>(selectedChromosome));
+            filter.setByChromosome(true);
+            filter.setCromossomos(new HashSet<>(selectedChromosome));
         }
         if (byPosition) {
-            filterSB.getFilter().setPositionMin(positionMin);
-            filterSB.getFilter().setPositionMax(positionMax);
+            filter.setPositionMin(positionMin);
+            filter.setPositionMax(positionMax);
         }
 
-        filterService.persiste(filterSB.getFilter());
+//        Gene brca1 = geneService.findBySymbol("BRCA1");
+//        filter.setGenes(new HashSet<>());
+//        filter.getGenes().add(brca1);
+        filterService.persiste(filter);
 
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);

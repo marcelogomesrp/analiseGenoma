@@ -1,6 +1,7 @@
 package org.analiseGenoma.service;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import javax.inject.Inject;
@@ -109,6 +110,11 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
 //        
 //        //getDao().persist(info);
     }
+
+//    public Set<Gene> findGeneByDisease(Disease disease) {
+//        //throw new UnsupportedOperationException("Not supported yet."); //To change bodDoy of generated methods, choose Tools | Templates.
+//       return  getDao().findGeneByDisease(disease);
+//    }
 
 }
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,7 +36,9 @@ public class Filtro  implements Serializable, Cloneable{
     private boolean geneAnalyse;
     
     //@OneToMany
-    @ManyToMany  //(fetch = FetchType.EAGER)
+    @ManyToMany //(cascade = CascadeType.ALL)
+    //(fetch = FetchType.EAGER)
+    //@JoinTable(name="a_genes")
     private Set<Gene> genes;
     //@OneToMany
     @Column(name = "by_chromosome")

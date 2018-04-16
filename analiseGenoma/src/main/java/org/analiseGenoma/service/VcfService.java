@@ -41,30 +41,52 @@ public class VcfService implements Serializable {
     private VarianteService varianteService;
     @Inject
     private FiltroDao filtroDao;
-    
-    @Inject private UmdPredictorService umdPredictorService;
-    @Inject private ZygosityService zygosityService;
-    @Inject private FilterService filterService;
-    @Inject private TypeService typeService;
-    @Inject private EffectService effectService;
-    @Inject private ImpactService impactService;
-    @Inject private ClinvarSignificanceService clinvarSignificanceService;
-    @Inject private ClinvarDiseaseService clinvarDiseaseService;
-    @Inject private ClinvarAccessionService clinvarAccessionService;
-    @Inject private ClinvarAlleleTypeService clinvarAlleleTypeService;
-    @Inject private ClinvarAlleleOriginService clinvarAlleleOriginService;
-    @Inject private SiftService siftService;
-    @Inject private PolyphenHdivService polyphenHdivService;
-    @Inject private PolyphenHvarService polyphenHvarService;
-    @Inject private MutationTasterService mutationTasterService;
-    @Inject private LrtService lrtService;
-    @Inject private FeatureService featureService;
-    @Inject private EnsemblService ensemblService;
-    @Inject private InterproDomainService interproDomainService;
-    @Inject private VariantStatusService variantStatusService;
-    @Inject private GenoTypeService genoTypeService;
-    
-    @Inject private VcfMetadataService vcfMetadataService;
+
+    @Inject
+    private UmdPredictorService umdPredictorService;
+    @Inject
+    private ZygosityService zygosityService;
+    @Inject
+    private FilterService filterService;
+    @Inject
+    private TypeService typeService;
+    @Inject
+    private EffectService effectService;
+    @Inject
+    private ImpactService impactService;
+    @Inject
+    private ClinvarSignificanceService clinvarSignificanceService;
+    @Inject
+    private ClinvarDiseaseService clinvarDiseaseService;
+    @Inject
+    private ClinvarAccessionService clinvarAccessionService;
+    @Inject
+    private ClinvarAlleleTypeService clinvarAlleleTypeService;
+    @Inject
+    private ClinvarAlleleOriginService clinvarAlleleOriginService;
+    @Inject
+    private SiftService siftService;
+    @Inject
+    private PolyphenHdivService polyphenHdivService;
+    @Inject
+    private PolyphenHvarService polyphenHvarService;
+    @Inject
+    private MutationTasterService mutationTasterService;
+    @Inject
+    private LrtService lrtService;
+    @Inject
+    private FeatureService featureService;
+    @Inject
+    private EnsemblService ensemblService;
+    @Inject
+    private InterproDomainService interproDomainService;
+    @Inject
+    private VariantStatusService variantStatusService;
+    @Inject
+    private GenoTypeService genoTypeService;
+
+    @Inject
+    private VcfMetadataService vcfMetadataService;
 
     @PostConstruct
     public void init() {
@@ -94,15 +116,15 @@ public class VcfService implements Serializable {
         return vcfDao.buscarPacienteId(id);
     }
 
-    public List<Variante> buscarVariante(Long idAnalise) {        
+    public List<Variante> buscarVariante(Long idAnalise) {
         return varianteDao.buscarAnalise(idAnalise);
     }
-    
-    public List<Variante> buscarVariante(Long idAnalise, Long idFiltro){
-       // acertar a busca
-       Filtro filtro = filtroDao.findById(idFiltro);
-       
-       return varianteDao.buscarAnalise(idAnalise);
+
+    public List<Variante> buscarVariante(Long idAnalise, Long idFiltro) {
+        // acertar a busca
+        Filtro filtro = filtroDao.findById(idFiltro);
+
+        return varianteDao.buscarAnalise(idAnalise);
     }
 
     @Transactional
@@ -110,13 +132,13 @@ public class VcfService implements Serializable {
         //este esta sendo usado
         String[] arquivo = new String(contents, StandardCharsets.UTF_8).split("\n");
         Variante variante = null;
-        for(String ln:arquivo){
+        for (String ln : arquivo) {
             variante = new Variante();
             variante.setVcf(vcf);
             String[] linha = ln.split("\t");
             variante.setCromossomo(cromossomoService.buscarOuCriar(linha[0]));
             variante.setPosition(linha[1]);
-            String[] referenceAlternate = linha[2].split(">");            
+            String[] referenceAlternate = linha[2].split(">");
             variante.setReferencia(referenceAlternate[0]);
             variante.setAlterado(referenceAlternate[1]);
 //            //Gene gene = geneService.buscarNovoSimbolo(linha[3]);
@@ -130,14 +152,13 @@ public class VcfService implements Serializable {
 //            variante.setGene(gene);
 
             Gene gene = geneService.findBySymbol(linha[3]);
-            if(gene == null){
+            if (gene == null) {
                 gene = new Gene();
                 gene.setSymbol(linha[3]);
                 gene.setName(linha[4]);
                 geneService.persiste(gene);
             }
             variante.setGene(gene);
-            
 
             variante.setUmdPredictor(umdPredictorService.findOrCreate(linha[5]));
             variante.setZygosity(zygosityService.findOrCreate(linha[6]));
@@ -181,28 +202,25 @@ public class VcfService implements Serializable {
             variante.setAsianVarintFreq(new DoubleFactory().make(linha[44]));
             variante.setAmericanVarintFreq(new DoubleFactory().make(linha[45]));
             variante.setWholeVarintFreq(new DoubleFactory().make(linha[46]));
-            varianteService.persiste(variante);            
+            varianteService.persiste(variante);
         }
         VcfMetadata vcfM = vcfMetadataService.makeMetadata(vcf);
         vcfMetadataService.persiste(vcfM);
-        
-        vcf.setStatus(VcfStatus.importado);        
+
+        vcf.setStatus(VcfStatus.importado);
         this.atualizar(vcf);
-        
+
     }
-    
+
 //    public List<Variante> buscarVariante(Long idAnalise, Filtro filtro) {
 //        return varianteDao.buscarAnalise(idAnalise, filtro);
 //    }
-
     public List<Variante> findVariante(Analise analise, Filtro filtro) {
-        if(filtro == null){
+        if (filtro == null) {
             return varianteDao.find(analise);
-        }else{
+        } else {
             return varianteDao.findByAnaliseFiltro(analise, filtro);
         }
     }
-
-    
 
 }
