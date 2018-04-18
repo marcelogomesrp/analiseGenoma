@@ -95,7 +95,8 @@ public class AnaliseService implements Serializable {
     }
 
     public List<Analise> buscar() {
-        return analiseDao.find();
+        //return analiseDao.find();
+        return analiseDao.findDesc();
     }
 
     public Analise buscarPorId(Long id) {

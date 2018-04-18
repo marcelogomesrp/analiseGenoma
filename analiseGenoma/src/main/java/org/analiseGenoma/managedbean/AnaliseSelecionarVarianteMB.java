@@ -42,9 +42,7 @@ import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.ImpactoService;
 import org.analiseGenoma.service.InformacaoBiologicaService;
 import org.analiseGenoma.service.DiseaseService;
-import org.analiseGenoma.service.FilterService;
 import org.analiseGenoma.service.VariantSelectedService;
-import org.analiseGenoma.service.VarianteService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
 import org.primefaces.context.RequestContext;
@@ -674,9 +672,10 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     }
     private void updateFiltro() {
         Set<Gene> genes = new HashSet<>();
-//        for (String geneSymbol : duaListGene.getTarget()) {
-//            genes.add(geneService.buscarNovoSimbolo(geneSymbol));
-//        }
+        for (String geneSymbol : duaListGene.getTarget()) {
+            genes.add(geneService.findBySymbol(geneSymbol));
+            //genes.add(geneService.buscarNovoSimbolo(geneSymbol));
+        }
         filtro.setGenes(genes);
 
         //for(Gene g: geneService.buscarAnalise(analise.getId())){
@@ -691,9 +690,34 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         //genesTarget.add(g.getSimbolo());                    
         //}
     }
-
+    
+    public void viewFilterFilter(){
+        String view = "viewfilter_filter";
+        this.callView(view);
+    }
+    public void viewFilterZygocity(){
+        String view = "viewfilter_zygocity";
+        this.callView(view);
+    }
+    
+    public void viewFilterAllelic1(){
+        String view = "viewfilter_allelic1";
+        this.callView(view);
+    }
+    
+    public void viewFilterAllelic2(){
+        String view = "viewfilter_allelic2";
+        this.callView(view);
+    }
+    
+    
     public void viewFilterRef() {
         String view = "viewfilter_ref";
+        this.callView(view);
+    }
+    
+    public void viewFilterChanged(){
+        String view = "viewfilter_changed";
         this.callView(view);
     }
     

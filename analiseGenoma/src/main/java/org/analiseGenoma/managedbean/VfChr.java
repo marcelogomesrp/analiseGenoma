@@ -51,8 +51,8 @@ public class VfChr {
                 Analise analise = analiseService.buscarPorId(idAnalise);
                 filtro = filtroService.buscarPorAnalise(analise.getId());   
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
-                List<String> target = filtro.getCromossomos().stream().map(u -> u.getNome()).collect(Collectors.toList());
-                List<String> source = vcfMetadata.getCromossomos().stream().map(u -> u.getNome()).filter(u -> !target.contains(u)).collect(Collectors.toList());
+                List<String> target = filtro.getCromossomos().stream().map(u -> u.getNome()).sorted().collect(Collectors.toList());
+                List<String> source = vcfMetadata.getCromossomos().stream().map(u -> u.getNome()).filter(u -> !target.contains(u)).sorted().collect(Collectors.toList());
                 list = new DualListModel<>(source, target );  
         }
     }

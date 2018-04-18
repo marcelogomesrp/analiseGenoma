@@ -33,7 +33,6 @@ import org.primefaces.event.SelectEvent;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.service.DbBioInfoService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.GeneService;
 
@@ -202,6 +201,7 @@ public class AnaliseMB implements Serializable {
 
     public String adicionar() {
         analise.setEstado("criando");
+        
         if (idPaciente != null) {
             analise.setPaciente(pacienteService.buscarId(idPaciente));
         }
@@ -246,15 +246,44 @@ public class AnaliseMB implements Serializable {
                 filtroAnalise.setId(null);
                 filtroAnalise.setAnalise(analise);
                 filtroAnalise.setName(analise.getNome());
+                filtroAnalise.setGeneAnalyse(filtro.isGeneAnalyse());
+                filtroAnalise.setByGene(filtro.isByGene());
+                filtroAnalise.setByReference(filtro.isByReference());
+                filtroAnalise.setByChanged(filtro.isByChanged());
+                filtroAnalise.setByZygocity(filtro.isByZygocity());
+                filtroAnalise.setByAllelicDeph1(filtro.isByAllelicDeph1());
+                filtroAnalise.setByAllelicDeph2(filtro.isByAllelicDeph2());
+                filtroAnalise.setByHgvsc(filtro.isByHgvsc());
                 
+                if(filtro.isByHgvsc()){
+                    filtroAnalise.setHgvscs(new HashSet<>(filtro.getHgvscs()));
+                }
+
+                if(filtro.isByAllelicDeph1()){
+                    filtroAnalise.setAlleciDeph1s(new HashSet<>(filtro.getAlleciDeph1s()));
+                }
+                if(filtro.isByAllelicDeph2()){
+                    filtroAnalise.setAlleciDeph2s(new HashSet<>(filtro.getAlleciDeph2s()));
+                }
+                if(filtro.isByZygocity()){
+                    filtroAnalise.setZygosities(new HashSet<>(filtro.getZygosities()));
+                }
+                
+                if(filtro.isByChanged()){
+                    filtroAnalise.setChangeds(new HashSet<>(filtro.getChangeds()));
+                }
+                
+                if(filtro.isByReference()){
+                    filtroAnalise.setReferencias(new HashSet<>(filtro.getReferencias()));
+                }
                 
                 if(filtro.isGeneAnalyse()){
                     if(!filtro.isByGene()){
-                        filtro.setByGene(true);
-                        filtro.setGenes(new HashSet<>());
+                        filtroAnalise.setByGene(true);
+                        filtroAnalise.setGenes(new HashSet<>());
                     }
                     //filtro.getGenes().addAll(dbBioInfoService.findGeneByDisease(analise.getPatologia()));
-                    filtro.getGenes().addAll(geneService.find(analise.getPatologia()) );
+                    filtroAnalise.getGenes().addAll(geneService.find(analise.getPatologia()) );
                     System.out.println("ok");
                 }
 //                        if(filterSB.getFilter().isGeneAnalyse()){

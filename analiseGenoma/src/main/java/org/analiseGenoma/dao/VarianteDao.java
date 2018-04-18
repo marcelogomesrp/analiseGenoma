@@ -127,6 +127,42 @@ public class VarianteDao extends DAO<Variante> {
             Predicate where = parentExpression.in(filtro.getEffects());
             condicoes.add(where);
         }
+        
+        if(listaHasItens(filtro.getReferencias())){
+            Expression<String> expression = root.get("referencia");
+            Predicate where = expression.in(filtro.getReferencias());
+            condicoes.add(where);
+        }
+        
+        if(listaHasItens(filtro.getChangeds() )){
+            Expression<String> expression = root.get("alterado");
+            Predicate where = expression.in(filtro.getChangeds()) ;
+            condicoes.add(where);
+        }
+        
+        if(listaHasItens(filtro.getZygosities() )){
+            Expression<String> expression = root.get("zygosity");
+            Predicate where = expression.in(filtro.getZygosities()) ;
+            condicoes.add(where);
+        }
+        
+        if(listaHasItens(filtro.getAlleciDeph1s())){
+            Expression<Integer> expression = root.get("allelicDeph1");
+            Predicate where = expression.in(filtro.getAlleciDeph1s()) ;
+            condicoes.add(where);
+        }
+        
+        if(listaHasItens(filtro.getAlleciDeph2s())){
+            Expression<Integer> expression = root.get("allelicDeph2");
+            Predicate where = expression.in(filtro.getAlleciDeph2s()) ;
+            condicoes.add(where);
+        }
+        
+        if(listaHasItens(filtro.getHgvscs())){
+            Expression<Integer> expression = root.get("hgvsC");
+            Predicate where = expression.in(filtro.getHgvscs()) ;
+            condicoes.add(where);
+        }
 
         Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
         Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);

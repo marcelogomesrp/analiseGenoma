@@ -1,6 +1,7 @@
 package org.analiseGenoma.managedbean;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,19 +17,19 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
+import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.model.UmdPredictor;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
+import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
-import org.analiseGenoma.service.UmdPredictorService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
-@Named(value = "VfUmdPredictor")
+@Named(value = "VfChanged")
 @RequestScoped
-public class VfUmdPredictor {
+public class VfChanged {
     private DualListModel<String> list;
     private Long idAnalise;
     private VcfMetadata vcfMetadata;
@@ -40,19 +41,22 @@ public class VfUmdPredictor {
     @Inject
     private FiltroService filtroService;
     @Inject
-    private UmdPredictorService umdPredictorService;
+    private CromossomoService cromossomoService;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
         if (idAnalise != null) {
+            try{
                 Analise analise = analiseService.buscarPorId(idAnalise);
                 filtro = filtroService.buscarPorAnalise(analise.getId());   
-                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
-                List<String> target = filtro.getUmdPredictors().stream().map(u -> u.getName()).collect(Collectors.toList());
-                //List<String> target = new ArrayList<>();
-                List<String> source = vcfMetadata.getUmdPredictors().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());
+                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
+                List<String> target = new ArrayList<String>(filtro.getChangeds());
+                List<String> source = vcfMetadata.getAlterado().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
                 list = new DualListModel<>(source, target );  
+            }catch(Exception ex){
+                System.out.println("VfChanged Erro: " + ex);
+            }
         }
     }
     
@@ -85,12 +89,11 @@ public class VfUmdPredictor {
     }
 
     private void updateFiltro() {
-        Set<UmdPredictor> listFilter = new HashSet<>();
-        for(String name: list.getTarget()){
-            List<UmdPredictor> find = umdPredictorService.findByName(name);
-            if(find.size() == 1)
-            listFilter.add(find.get(0));
+        Set<String> listl = new HashSet<>();
+        for(String ref: list.getTarget()){
+            listl.add(ref);
         }
-        filtro.setUmdPredictors(listFilter);
+        filtro.setByChanged(!listl.isEmpty());
+        filtro.setChangeds(listl);      
     }
 }

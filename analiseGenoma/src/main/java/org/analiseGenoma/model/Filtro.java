@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,6 +32,25 @@ public class Filtro  implements Serializable, Cloneable{
     private boolean byGene;    
     @Column(name = "by_gene_analyse")
     private boolean geneAnalyse;
+    @Column(name = "by_umd_predictor")
+    private boolean byUmdPredictor;
+    @Column(name = "by_zygocity")
+    private boolean byZygocity;
+    @Column(name = "by_allelic_deph1")
+    private boolean byAllelicDeph1;
+    @Column(name = "by_allelic_deph2")
+    private boolean byAllelicDeph2;
+    @Column(name = "by_filter")
+    private boolean byFilter;
+    
+    @Column(name = "by_hgvsc")
+    private boolean byHgvsc;
+    @Column(name = "by_hgvsp")
+    private boolean byHgvsp;
+    @Column(name = "by_idsnp")
+    private boolean byIdSNP;
+    @Column(name = "by_type")
+    private boolean byType;
     
     //@OneToMany
     @ManyToMany //(cascade = CascadeType.ALL)
@@ -47,6 +64,12 @@ public class Filtro  implements Serializable, Cloneable{
     private Set<Cromossomo> cromossomos;
     
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> hgvscs;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> hgvsps;
+    
 //    private Double qualidadeMin;
 //    private Double qualidadeMax;
     
@@ -70,6 +93,10 @@ public class Filtro  implements Serializable, Cloneable{
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> referencias;
     
+    @Column(name = "by_changed")
+    private boolean byChanged;    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> changeds;
        
     
     @ManyToMany
@@ -78,7 +105,16 @@ public class Filtro  implements Serializable, Cloneable{
     @ManyToMany
     private Set<Zygosity> zygosities;
     
+    @ManyToMany
+    private Set<Filter> filters;
     
+    @ManyToMany
+    private Set<Type> typies;
+
+   @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Integer> alleciDeph1s;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Integer> alleciDeph2s;
     
     
     private Double prevalenceMin;
@@ -260,9 +296,143 @@ public class Filtro  implements Serializable, Cloneable{
     public void setByReference(boolean byReference) {
         this.byReference = byReference;
     }
-    
-    
-    
+
+    public boolean isByChanged() {
+        return byChanged;
+    }
+
+    public void setByChanged(boolean byChanged) {
+        this.byChanged = byChanged;
+    }
+
+    public Set<String> getChangeds() {
+        return changeds;
+    }
+
+    public void setChangeds(Set<String> changeds) {
+        this.changeds = changeds;
+    }
+
+    public boolean isByUmdPredictor() {
+        return byUmdPredictor;
+    }
+
+    public void setByUmdPredictor(boolean byUmdPredictor) {
+        this.byUmdPredictor = byUmdPredictor;
+    }
+
+    public boolean isByZygocity() {
+        return byZygocity;
+    }
+
+    public void setByZygocity(boolean byZygocity) {
+        this.byZygocity = byZygocity;
+    }
+
+    public boolean isByAllelicDeph1() {
+        return byAllelicDeph1;
+    }
+
+    public void setByAllelicDeph1(boolean byAllelicDeph1) {
+        this.byAllelicDeph1 = byAllelicDeph1;
+    }
+
+    public boolean isByAllelicDeph2() {
+        return byAllelicDeph2;
+    }
+
+    public void setByAllelicDeph2(boolean byAllelicDeph2) {
+        this.byAllelicDeph2 = byAllelicDeph2;
+    }
+
+    public Set<Integer> getAlleciDeph1s() {
+        return alleciDeph1s;
+    }
+
+    public void setAlleciDeph1s(Set<Integer> alleciDeph1s) {
+        this.alleciDeph1s = alleciDeph1s;
+    }
+
+    public Set<Integer> getAlleciDeph2s() {
+        return alleciDeph2s;
+    }
+
+    public void setAlleciDeph2s(Set<Integer> alleciDeph2s) {
+        this.alleciDeph2s = alleciDeph2s;
+    }
+
+    public boolean isByFilter() {
+        return byFilter;
+    }
+
+    public void setByFilter(boolean byFilter) {
+        this.byFilter = byFilter;
+    }
+
+    public Set<Filter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Set<Filter> filters) {
+        this.filters = filters;
+    }
+
+    public boolean isByHgvsc() {
+        return byHgvsc;
+    }
+
+    public void setByHgvsc(boolean byHgvsc) {
+        this.byHgvsc = byHgvsc;
+    }
+
+    public Set<String> getHgvscs() {
+        return hgvscs;
+    }
+
+    public void setHgvscs(Set<String> hgvscs) {
+        this.hgvscs = hgvscs;
+    }
+
+    public boolean isByHgvsp() {
+        return byHgvsp;
+    }
+
+    public void setByHgvsp(boolean byHgvsp) {
+        this.byHgvsp = byHgvsp;
+    }
+
+    public Set<String> getHgvsps() {
+        return hgvsps;
+    }
+
+    public void setHgvsps(Set<String> hgvsps) {
+        this.hgvsps = hgvsps;
+    }
+
+    public boolean isByIdSNP() {
+        return byIdSNP;
+    }
+
+    public void setByIdSNP(boolean byIdSNP) {
+        this.byIdSNP = byIdSNP;
+    }
+
+    public boolean isByType() {
+        return byType;
+    }
+
+    public void setByType(boolean byType) {
+        this.byType = byType;
+    }
+
+    public Set<Type> getTypies() {
+        return typies;
+    }
+
+    public void setTypies(Set<Type> typies) {
+        this.typies = typies;
+    }
+
     
     
 
@@ -281,6 +451,15 @@ public class Filtro  implements Serializable, Cloneable{
         cloned.setEffects(new HashSet<>(effects));
         cloned.setByChromosome(byChromosome);
         cloned.setByPosition(byPosition);
+        cloned.setByUmdPredictor(byUmdPredictor);
+        cloned.setByAllelicDeph1(byAllelicDeph1);
+        cloned.setByAllelicDeph2(byAllelicDeph2);
+        cloned.setByFilter(byFilter);
+        cloned.setByHgvsc(byHgvsc);
+        cloned.setByHgvsp(byHgvsp);
+        cloned.setByIdSNP(byIdSNP);
+        cloned.setByType(byType);
+        
         
         return cloned;
     }

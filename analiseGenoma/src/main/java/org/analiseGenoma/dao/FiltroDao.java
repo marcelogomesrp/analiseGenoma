@@ -1,5 +1,6 @@
 package org.analiseGenoma.dao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,9 +13,11 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Effect;
+import org.analiseGenoma.model.Filter;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.UmdPredictor;
+import org.analiseGenoma.model.Zygosity;
 
 public class FiltroDao extends DAO<Filtro> {
     
@@ -72,6 +75,7 @@ public class FiltroDao extends DAO<Filtro> {
             //Query query = manager.createQuery("SELECT f FROM Filtro f WHERE f.analise.id = :idAnalise ");
             //Query query = manager.createQuery("SELECT f FROM Filtro f JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
             Query query = manager.createQuery("SELECT f FROM Filtro f LEFT JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
+            //Query query = manager.createQuery("SELECT f FROM Filtro f WHERE f.analise.id = :idAnalise");
             query.setParameter("idAnalise", idAnalise);
             
             Filtro filtro =  (Filtro) query.getSingleResult();
@@ -125,6 +129,39 @@ public class FiltroDao extends DAO<Filtro> {
         Query query = manager.createQuery("SELECT f.umdPredictors FROM Filtro f WHERE f.id = :idFiltro");
         query.setParameter("idFiltro", filtro.getId());
         List<UmdPredictor> list = query.getResultList();
+        return new HashSet(list);
+    }
+
+    public Set<Zygosity> buscarZygocity(Filtro filtro) {
+        Query query = manager.createQuery("SELECT f.zygosities FROM Filtro f WHERE f.id = :idFiltro");
+        query.setParameter("idFiltro", filtro.getId());
+        List<Zygosity> list = query.getResultList();
+        return new HashSet(list);
+    }
+
+//    public Set<Integer> buscarAllelicDeph1(Filtro filtro) {
+//        List<Integer> list = new ArrayList<>();
+//        try {
+//            Query query = manager.createQuery("SELECT f.alleciDeph1s FROM Filtro f WHERE f.id = :idFiltro");
+//            query.setParameter("idFiltro", filtro.getId());
+//            list = query.getResultList();
+//        } catch (Exception ex) {
+//            System.out.println("Erro no filtroDao.buscarAllelicDeph1: " + ex.getMessage());
+//        }
+//        return new HashSet(list);
+//    }
+//    
+//    public Set<Integer> buscarAllelicDeph2(Filtro filtro) {
+//        Query query = manager.createQuery("SELECT f.alleciDeph2s FROM Filtro f WHERE f.id = :idFiltro");
+//        query.setParameter("idFiltro", filtro.getId());
+//        List<Integer> list = query.getResultList();
+//        return new HashSet(list);
+//    }
+
+    public Set<Filter> buscarFilter(Filtro filtro) {
+        Query query = manager.createQuery("SELECT f.filters FROM Filtro f WHERE f.id = :idFiltro");
+        query.setParameter("idFiltro", filtro.getId());
+        List<Filter> list = query.getResultList();
         return new HashSet(list);
     }
     

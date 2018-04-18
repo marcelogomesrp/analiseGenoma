@@ -6,6 +6,7 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.UmdPredictorDao;
 import org.analiseGenoma.dao.CromossomoDao;
+import org.analiseGenoma.dao.DAO;
 import org.analiseGenoma.dao.GeneDao;
 import org.analiseGenoma.model.UmdPredictor;
 
@@ -23,6 +24,7 @@ public class UmdPredictorService extends Service<UmdPredictor>{
     }
     
     public List<UmdPredictor> findByName(String name){
+        //return getDao().findByProperty("name", name, DAO.MatchMode.START);
         return this.getDao().findByName(name);
     }
 

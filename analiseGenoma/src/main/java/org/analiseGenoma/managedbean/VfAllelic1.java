@@ -1,6 +1,7 @@
 package org.analiseGenoma.managedbean;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,18 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.model.UmdPredictor;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
+import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
-import org.analiseGenoma.service.UmdPredictorService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
-@Named(value = "VfUmdPredictor")
+@Named(value = "VfAllelic1")
 @RequestScoped
-public class VfUmdPredictor {
+public class VfAllelic1 {
+    private List<String> allelics;
+    
     private DualListModel<String> list;
     private Long idAnalise;
     private VcfMetadata vcfMetadata;
@@ -40,21 +42,41 @@ public class VfUmdPredictor {
     @Inject
     private FiltroService filtroService;
     @Inject
-    private UmdPredictorService umdPredictorService;
+    private CromossomoService cromossomoService;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
+        allelics = new ArrayList<>();
         if (idAnalise != null) {
+            try{
                 Analise analise = analiseService.buscarPorId(idAnalise);
                 filtro = filtroService.buscarPorAnalise(analise.getId());   
-                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
-                List<String> target = filtro.getUmdPredictors().stream().map(u -> u.getName()).collect(Collectors.toList());
-                //List<String> target = new ArrayList<>();
-                List<String> source = vcfMetadata.getUmdPredictors().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());
-                list = new DualListModel<>(source, target );  
+                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
+                List<String> target = new ArrayList<String>(filtro.getChangeds());
+                List<String> source = vcfMetadata.getAlterado().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
+                list = new DualListModel<>(source, target ); 
+                
+                
+                allelics = new ArrayList<>();
+                for(Integer i : filtro.getAlleciDeph1s()){
+                    allelics.add(i.toString());
+                }
+            }catch(Exception ex){
+                System.out.println("VfChanged Erro: " + ex);
+            }
         }
     }
+
+    public List<String> getAllelics() {
+        return allelics;
+    }
+
+    public void setAllelics(List<String> allelics) {
+        this.allelics = allelics;
+    }
+    
+    
     
     public void closeView(){
         this.updateFiltro();
@@ -68,13 +90,7 @@ public class VfUmdPredictor {
         }
     }
 
-    public DualListModel<String> getList() {
-        return list;
-    }
 
-    public void setList(DualListModel<String> list) {
-        this.list = list;
-    }
 
     public Long getValue() {
         return idAnalise;
@@ -84,13 +100,26 @@ public class VfUmdPredictor {
         this.idAnalise = value;
     }
 
+//    private void updateFiltro() {
+//        Set<Integer> listl = new HashSet<>();
+//        for(String s:allelics){
+//            listl.add(Integer.valueOf(s));
+//        }
+//        filtro.setByAllelicDeph1(!listl.isEmpty());
+//        filtro.setAlleciDeph1s(listl);
+//            
+//    }
+    
     private void updateFiltro() {
-        Set<UmdPredictor> listFilter = new HashSet<>();
-        for(String name: list.getTarget()){
-            List<UmdPredictor> find = umdPredictorService.findByName(name);
-            if(find.size() == 1)
-            listFilter.add(find.get(0));
+        Set<Integer> listl = new HashSet<>();
+        if (allelics != null) {
+            for (String s : allelics) {
+                listl.add(Integer.valueOf(s));
+            }
+            filtro.setByAllelicDeph1(!listl.isEmpty());
+        } else {
+            filtro.setByAllelicDeph1(false);
         }
-        filtro.setUmdPredictors(listFilter);
+        filtro.setAlleciDeph1s(listl);        
     }
 }

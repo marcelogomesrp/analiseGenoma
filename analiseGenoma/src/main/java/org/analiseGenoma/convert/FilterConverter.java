@@ -17,7 +17,7 @@ import org.analiseGenoma.service.FilterService;
 
 
 @Named
-public class FilterConvert implements Converter {
+public class FilterConverter implements Converter {
 
     @Inject
     private FilterService filterService;

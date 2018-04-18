@@ -22,13 +22,13 @@
                                                       pt:placeholder="Enter an name for this filter"
                                                       validator="#{filterMB.validateName}"/>
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Select gene from analyze's disease" for="geneAnalyse"/></p:panel>
                                 <p:panel><p:selectBooleanCheckbox id="geneAnalyse" value="#{filterSB.filter.geneAnalyse}" />
-                                    
+
                                 </p:panel>
 
-                                
+
                                 <p:panel><h:outputLabel value="Filter by Gene" for="bygene"/></p:panel>
                                 <p:panel><p:selectBooleanCheckbox id="bygene" value="#{filterSB.filter.byGene}" >
                                         <p:ajax update="geneLbl geneInput" listener="#{filterMB.loadGenes}" />
@@ -76,8 +76,7 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.byPosition}"/> 
                                     <p:inputText value="#{filterSB.filter.positionMax}" rendered="#{filterSB.filter.byPosition}" pt:placeholder="Enter the max value"/>
                                 </p:panel>
-                                
-                                
+
                                 <p:panel><h:outputLabel value="Filter by Reference" for="byReference"/></p:panel>
                                 <p:panel><p:selectBooleanCheckbox id="byReference" value="#{filterSB.filter.byReference}" >
                                         <p:ajax update="referenceLbl referenceInput" />
@@ -85,21 +84,134 @@
                                 </p:panel>                                
                                 <p:panel id="referenceLbl"><p:outputLabel value="Reference" for="selectReference" rendered="#{filterSB.filter.byReference}"/></p:panel>
                                 <p:panel id="referenceInput">
-                                    <p:autoComplete value="#{filterSB.filter.referencias}" completeMethod="#{filterMB.completeReference}" 
-                                                    var="ref"  itemLabel="#{ref}" itemValue="#{ref}"
-                                                    forceSelection="true"
-                                                    effect="fade" multiple="true"  id="selectReference"
-                                                    rendered="#{filterSB.filter.byReference}" />
+                                    <p:chips value="#{filterMB.refs}"  id="selectReference" rendered="#{filterSB.filter.byReference}" />
                                 </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by Changed" for="byChanged"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byChanged" value="#{filterSB.filter.byChanged}" >
+                                        <p:ajax update="changedLbl changedInput" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="changedLbl"><p:outputLabel value="Changed" for="selectChanged" rendered="#{filterSB.filter.byChanged}"/></p:panel>
+                                <p:panel id="changedInput">
+                                    <p:chips value="#{filterMB.changeds}"  id="selectChanged" rendered="#{filterSB.filter.byChanged}" />
+                                </p:panel>                                
+
+                                <p:panel><h:outputLabel value="Filter by Umd predictor" for="byUmdPredictor"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byUmdPredictor" value="#{filterSB.filter.byUmdPredictor}" >
+                                        <p:ajax update="umdPredictorLbl umdPredictorInput"  />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>
+
+                                <p:panel id="umdPredictorLbl"><p:outputLabel value="Umd Predictor" for="selectUmdPredictor" rendered="#{filterSB.filter.byUmdPredictor}"/></p:panel>
+                                <p:panel id="umdPredictorInput">
+                                    <p:autoComplete value="#{filterMB.selectedUmdPredictors}" completeMethod="#{filterMB.completeUmdPedictor}" 
+                                                    var="umd"  itemLabel="#{umd.name}" itemValue="#{umd}"
+                                                    forceSelection="true"
+                                                    effect="fade" multiple="true" converter="#{umdPredictorConverter}" id="selectUmdPredictor"
+                                                    rendered="#{filterSB.filter.byUmdPredictor}" />
+
+                                </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by Zygocity" for="byZygocity"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byZygocity" value="#{filterSB.filter.byZygocity}" >
+                                        <p:ajax update="zygocityLbl zygocityInput"  />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>
+
+                                <p:panel id="zygocityLbl"><p:outputLabel value="Zygocity" for="selectZygocity" rendered="#{filterSB.filter.byZygocity}"/></p:panel>
+                                <p:panel id="zygocityInput">
+                                    <p:autoComplete value="#{filterMB.selectedZygosity}" completeMethod="#{filterMB.completeZygocityr}" 
+                                                    var="z"  itemLabel="#{z.name}" itemValue="#{z}"
+                                                    forceSelection="true"
+                                                    effect="fade" multiple="true" converter="#{zygocityConverter}" id="selectZygocity"
+                                                    rendered="#{filterSB.filter.byZygocity}" />
+                                </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by Allelic 1" for="byAllelic1"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byAllelic1" value="#{filterSB.filter.byAllelicDeph1}" >
+                                        <p:ajax update="allelic1Lbl allelic1Input" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="allelic1Lbl"><p:outputLabel value="Allelic deph1" for="selectAllelic1" rendered="#{filterSB.filter.byAllelicDeph1}"/></p:panel>
+                                <p:panel id="allelic1Input">
+                                    <p:chips value="#{filterMB.allelics1}"  id="selectAllelic1" rendered="#{filterSB.filter.byAllelicDeph1}" />
+                                </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by Allelic 2" for="byAllelic2"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byAllelic2" value="#{filterSB.filter.byAllelicDeph2}" >
+                                        <p:ajax update="allelic2Lbl allelic2Input" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="allelic2Lbl"><p:outputLabel value="Allelic deph2" for="selectAllelic2" rendered="#{filterSB.filter.byAllelicDeph2}"/></p:panel>
+                                <p:panel id="allelic2Input">
+                                    <p:chips value="#{filterMB.allelics2}"  id="selectAllelic2" rendered="#{filterSB.filter.byAllelicDeph2}" />
+                                </p:panel>
+
+
+                                <p:panel><h:outputLabel value="Filter by Filter" for="byFilter"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byFilter" value="#{filterSB.filter.byFilter}" >
+                                        <p:ajax update="filterLbl filterInput"  />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>
+
+                                <p:panel id="filterLbl"><p:outputLabel value="Filter" for="selectFilter" rendered="#{filterSB.filter.byFilter}"/></p:panel>
+                                <p:panel id="filterInput">
+                                    <p:autoComplete value="#{filterMB.selectedFilter}" completeMethod="#{filterMB.completeFilter}" 
+                                                    var="z"  itemLabel="#{z.name}" itemValue="#{z}"
+                                                    forceSelection="true"
+                                                    effect="fade" multiple="true" converter="#{filterConvert}" id="selectFilter"
+                                                    rendered="#{filterSB.filter.byFilter}" />
+                                </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by HGVS_C" for="byhgvsc"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byhgvsc" value="#{filterSB.filter.byHgvsc}" >
+                                        <p:ajax update="hgvscLbl hgvscInput" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="hgvscLbl"><p:outputLabel value="HGVS C" for="selectHgvsc" rendered="#{filterSB.filter.byHgvsc}"/></p:panel>
+                                <p:panel id="hgvscInput">
+                                    <p:chips value="#{filterMB.selectedHgvsc}"  id="selectHgvsc" rendered="#{filterSB.filter.byHgvsc}" />
+                                </p:panel>
+
+
+                                <p:panel><h:outputLabel value="Filter by HGVS_P" for="byhgvsp"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byhgvsp" value="#{filterSB.filter.byHgvsp}" >
+                                        <p:ajax update="hgvspLbl hgvspInput" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="hgvspLbl"><p:outputLabel value="HGVS P" for="selectHgvsp" rendered="#{filterSB.filter.byHgvsp}"/></p:panel>
+                                <p:panel id="hgvspInput">
+                                    <p:chips value="#{filterMB.selectedHgvsp}"  id="selectHgvsp" rendered="#{filterSB.filter.byHgvsp}" />
+                                </p:panel>
+
+                                <p:panel><h:outputLabel value="Filter by DbSNP" for="byDbsnp"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byDbsnp" value="#{filterSB.filter.byIdSNP}" >
+                                        <p:ajax update="DbsnpLbl DbsnpInput" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="DbsnpLbl"><p:outputLabel value="DB SNP" for="selectDbsnp" rendered="#{filterSB.filter.byIdSNP}"/></p:panel>
+                                <p:panel id="DbsnpInput">
+                                    <p:chips value="#{filterMB.selectedIdSNP}"  id="selectDbsnp" rendered="#{filterSB.filter.byIdSNP}" />
+                                </p:panel>
+
                                 
                                 
-                                
-                                
-                                                                
-                                
-                                
-                                
-                                
+                                <p:panel><h:outputLabel value="Filter by Type" for="byType"/></p:panel>
+                                <p:panel><p:selectBooleanCheckbox id="byType" value="#{filterSB.filter.byType}" >
+                                        <p:ajax update="TypeLbl TypeInput" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panel>                                
+                                <p:panel id="TypeLbl"><p:outputLabel value="Type" for="selectType" rendered="#{filterSB.filter.byType}"/></p:panel>
+                                <p:panel id="TypeInput">
+                                    <p:autoComplete value="#{filterMB.selectedTypies}" completeMethod="#{filterMB.completeType}" 
+                                                    var="z"  itemLabel="#{z.name}" itemValue="#{z}"
+                                                    forceSelection="true"
+                                                    effect="fade" multiple="true" converter="#{typeConverter}" id="selectType"
+                                                    rendered="#{filterSB.filter.byType}" />
+                                </p:panel>
+
+
 
                             </p:panelGrid>
 

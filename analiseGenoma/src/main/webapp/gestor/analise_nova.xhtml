@@ -101,7 +101,7 @@
                             <p:autoComplete id="dd" dropdown="true" value="#{analiseMB.filtro}"
                                             completeMethod="#{analiseMB.completeFilter}"  
                                             var="filtro" itemLabel="#{filtro.name}" itemValue="#{filtro}"
-                                            converter="#{filterConvert}" effect="fade" forceSelection="true" >                            
+                                            converter="#{filtroConverter}" effect="fade" forceSelection="true" >                            
                                 <p:ajax event="itemSelect" listener="#{analiseMB.alertChangeFilter()}" update="messages" />
                             </p:autoComplete>                        
 

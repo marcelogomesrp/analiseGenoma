@@ -16,19 +16,20 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
+import org.analiseGenoma.model.Filter;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.model.UmdPredictor;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
+import org.analiseGenoma.service.FilterService;
 import org.analiseGenoma.service.FiltroService;
-import org.analiseGenoma.service.UmdPredictorService;
 import org.analiseGenoma.service.VcfMetadataService;
+import org.analiseGenoma.service.ZygosityService;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
-@Named(value = "VfUmdPredictor")
+@Named(value = "VfFilter")
 @RequestScoped
-public class VfUmdPredictor {
+public class VfFilter {
     private DualListModel<String> list;
     private Long idAnalise;
     private VcfMetadata vcfMetadata;
@@ -40,7 +41,7 @@ public class VfUmdPredictor {
     @Inject
     private FiltroService filtroService;
     @Inject
-    private UmdPredictorService umdPredictorService;
+    private FilterService filterService;
     
     @PostConstruct
     public void init() {
@@ -49,9 +50,9 @@ public class VfUmdPredictor {
                 Analise analise = analiseService.buscarPorId(idAnalise);
                 filtro = filtroService.buscarPorAnalise(analise.getId());   
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
-                List<String> target = filtro.getUmdPredictors().stream().map(u -> u.getName()).collect(Collectors.toList());
-                //List<String> target = new ArrayList<>();
-                List<String> source = vcfMetadata.getUmdPredictors().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());
+                //List<String> target = filtro.getZygosities().stream().map(u -> u.getName()).collect(Collectors.toList());
+                List<String> target = filtro.getFilters().stream().map(u -> u.getName()).collect(Collectors.toList());
+                List<String> source = vcfMetadata.getFilters().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());
                 list = new DualListModel<>(source, target );  
         }
     }
@@ -85,12 +86,12 @@ public class VfUmdPredictor {
     }
 
     private void updateFiltro() {
-        Set<UmdPredictor> listFilter = new HashSet<>();
+        Set<Filter> listFilter = new HashSet<>();
         for(String name: list.getTarget()){
-            List<UmdPredictor> find = umdPredictorService.findByName(name);
+            List<Filter> find =  filterService.findByName(name); //umdPredictorService.findByName(name);
             if(find.size() == 1)
             listFilter.add(find.get(0));
         }
-        filtro.setUmdPredictors(listFilter);
+        filtro.setFilters(listFilter);
     }
 }

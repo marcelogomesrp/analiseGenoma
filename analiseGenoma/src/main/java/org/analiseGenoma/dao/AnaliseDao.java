@@ -96,4 +96,8 @@ public class AnaliseDao extends DAO<Analise> {
         return query.getResultList();
     }
 
+    public List<Analise> findDesc() {
+        return manager.createQuery("Select t from Analise t ORDER BY t.id DESC").getResultList();
+    }
+
 }

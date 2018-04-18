@@ -35,7 +35,7 @@ public class VcfMetadata implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     //@CollectionTable(name="vcfmetadata_referencias")
     private Set<String> referencias;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> alterado;
     private Long positonMax;
     private Long positonMin;

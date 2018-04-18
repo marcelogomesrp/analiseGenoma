@@ -91,18 +91,11 @@ public class VfRef {
     }
 
     private void updateFiltro() {
-//        Set<String> listFilter = new HashSet<>();
-//        for(String name: list.getTarget()){
-//            List<String> find;
-//            try {
-//                find = refService.findByName(name);
-//                if(find.size() == 1)
-//                listFilter.add(find.get(0));
-//                
-//            } catch (Exception ex) {
-//                Logger.getLogger(VfRef.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        filtro.setRefs(listFilter);        
+        Set<String> listRef = new HashSet<>();
+        for(String ref: list.getTarget()){
+            listRef.add(ref);
+        }
+        filtro.setByReference(!listRef.isEmpty());
+        filtro.setReferencias(listRef);      
     }
 }

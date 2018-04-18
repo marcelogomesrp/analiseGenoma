@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -15,11 +16,19 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.model.Cromossomo;
+import org.analiseGenoma.model.Filter;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.Type;
+import org.analiseGenoma.model.UmdPredictor;
+import org.analiseGenoma.model.Zygosity;
 import org.analiseGenoma.service.CromossomoService;
+import org.analiseGenoma.service.FilterService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.GeneService;
+import org.analiseGenoma.service.TypeService;
+import org.analiseGenoma.service.UmdPredictorService;
+import org.analiseGenoma.service.ZygosityService;
 import org.analiseGenoma.sessionbean.FilterSB;
 
 @Named(value = "filterMB")
@@ -37,17 +46,37 @@ public class FilterMB implements Serializable {
     private GeneService geneService;
     @Inject
     private CromossomoService cromossomoService;
+    @Inject
+    private UmdPredictorService umdPredictorService;
+    @Inject
+    private ZygosityService zygosityService;
+    @Inject
+    private FilterService filterfService;
+    @Inject
+    private TypeService typeService;
 
     private boolean byGene;
     private List<Gene> selectedGenes;
+    private List<Type> selectedTypies;
 
     private boolean byChromosome;
     private List<Cromossomo> selectedChromosome;
+    private List<UmdPredictor> selectedUmdPredictors;
+    private List<Zygosity> selectedZygosity;
+    private List<Filter> selectedFilter;
+    
 
     private boolean byPosition;
     private Long positionMin;
     private Long positionMax;
     private boolean disabledValidation;
+    private List<String> refs;
+    private List<String> changeds;
+    private List<String> allelics1;
+    private List<String> allelics2;
+    private List<String> selectedHgvsc;
+    private List<String> selectedHgvsp;
+    private List<String> selectedIdSNP;
     
     
 
@@ -61,6 +90,17 @@ public class FilterMB implements Serializable {
         filterSB.reset();
         this.crudMode = CrudMode.Read;
         disabledValidation = true;
+        refs = new ArrayList<>();
+        changeds = new ArrayList<>();
+        selectedUmdPredictors = new ArrayList<>();
+        selectedZygosity = new ArrayList<>();
+        allelics1 = new ArrayList<>();
+        allelics2 = new ArrayList<>();
+        selectedFilter = new ArrayList<>();
+        selectedHgvsc = new ArrayList<>();
+        selectedHgvsp = new ArrayList<>();
+        selectedIdSNP = new ArrayList<>();
+        selectedTypies = new ArrayList<>();
     }
 
     public void add() {
@@ -74,12 +114,49 @@ public class FilterMB implements Serializable {
     public void save() {
         Filtro filter = filterSB.getFilter();
         
-
+        if(filter.isByType()){
+            filter.setTypies(new HashSet<>(selectedTypies));
+        }
+        
+        if(filter.isByHgvsp()){
+            filter.setHgvsps(new HashSet<>(selectedHgvsp));
+        }
+        
+        if(filter.isByHgvsc()){
+            filter.setHgvscs(new HashSet<>(selectedHgvsc));
+        }
+        
+        if(filter.isByFilter()){
+            filter.setFilters(new HashSet<>(selectedFilter));
+        }
+        
+        if(filter.isByZygocity()){
+            filter.setZygosities( new HashSet<>(selectedZygosity));
+        }
+        
+        if(filter.isByReference()){
+            filter.setReferencias( refs.stream().map(String::toUpperCase).collect(Collectors.toSet()) );
+        }
+        if(filter.isByChanged()){
+            filter.setChangeds( changeds.stream().map(String::toUpperCase).collect(Collectors.toSet()));
+        }
 
         if (filter.isByGene()) {
             filter.setGenes(new HashSet<>(selectedGenes));
-            System.out.println("ok");
-            
+            System.out.println("ok");            
+        }
+        
+        if(filter.isByAllelicDeph1()){
+            filter.setAlleciDeph1s(new HashSet<>());
+            for(String n: allelics1){
+                filter.getAlleciDeph1s().add(Integer.valueOf(n));
+            }
+        }
+        if(filter.isByAllelicDeph2()){
+            filter.setAlleciDeph2s(new HashSet<>());
+            for(String n: allelics1){
+                filter.getAlleciDeph2s().add(Integer.valueOf(n));
+            }
         }
         
 
@@ -92,6 +169,15 @@ public class FilterMB implements Serializable {
             filter.setPositionMin(positionMin);
             filter.setPositionMax(positionMax);
         }
+        
+        if(filter.isByUmdPredictor()){
+            filter.setUmdPredictors(new HashSet<>(selectedUmdPredictors));
+        }
+        
+        if(filter.isByFilter()){
+            filter.setFilters(new HashSet<>(selectedFilter));
+        }
+        
 
 //        Gene brca1 = geneService.findBySymbol("BRCA1");
 //        filter.setGenes(new HashSet<>());
@@ -177,6 +263,25 @@ public class FilterMB implements Serializable {
         selectedChromosome = new ArrayList<>();
     }
 
+    public List<Type> getSelectedTypies() {
+        return selectedTypies;
+    }
+
+    public void setSelectedTypies(List<Type> selectedTypies) {
+        this.selectedTypies = selectedTypies;
+    }
+
+    
+    public List<Type> completeType(String query) {
+        try {
+            List<Type> ret = typeService.findByName(query.toUpperCase() + "%");
+            return ret;
+        } catch (Exception ex) {
+            Logger.getLogger(FilterMB.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<>();
+        }
+    }
+    
     public List<Cromossomo> completeChromosome(String query) {
         try {
             List<Cromossomo> ret = cromossomoService.findByName(query);
@@ -187,7 +292,41 @@ public class FilterMB implements Serializable {
         }
     }
     
+    public List<UmdPredictor> completeUmdPedictor(String query) {
+        try {
+            List<UmdPredictor> ret = umdPredictorService.findByName(query.toUpperCase() + "%");// cromossomoService.findByName(query);
+            return ret;
+        } catch (Exception ex) {
+            Logger.getLogger(FilterMB.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Zygosity> completeZygocityr(String query) {
+        try {
+            List<Zygosity> ret = zygosityService.findByName(query.toUpperCase() + "%");// cromossomoService.findByName(query);
+            return ret;
+        } catch (Exception ex) {
+            Logger.getLogger(FilterMB.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Filter> completeFilter(String query) {
+        try {
+            List<Filter> ret = filterfService.findByName(query.toUpperCase() + "%");// cromossomoService.findByName(query);
+            return ret;
+        } catch (Exception ex) {
+            Logger.getLogger(FilterMB.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<>();
+        }
+    }
+    
+    
+    
+    
     public List<String> completeReference(String query) {
+        
         try {
             List<String> ret = new ArrayList<>(); //cromossomoService.findByName(query);
             ret.add("A");ret.add("C");ret.add("T");ret.add("G");
@@ -258,4 +397,90 @@ public class FilterMB implements Serializable {
 //        }
     }
 
+    public List<String> getRefs() {
+        return refs;
+    }
+
+    public void setRefs(List<String> refs) {
+        this.refs = refs;
+    }
+
+    public List<String> getChangeds() {
+        return changeds;
+    }
+
+    public void setChangeds(List<String> changeds) {
+        this.changeds = changeds;
+    }
+
+    public List<UmdPredictor> getSelectedUmdPredictors() {
+        return selectedUmdPredictors;
+    }
+
+    public void setSelectedUmdPredictors(List<UmdPredictor> selectedUmdPredictors) {
+        this.selectedUmdPredictors = selectedUmdPredictors;
+    }
+
+    public List<Zygosity> getSelectedZygosity() {
+        return selectedZygosity;
+    }
+
+    public void setSelectedZygosity(List<Zygosity> selectedZygosity) {
+        this.selectedZygosity = selectedZygosity;
+    }
+
+    public List<String> getAllelics1() {
+        return allelics1;
+    }
+
+    public void setAllelics1(List<String> allelics1) {
+        this.allelics1 = allelics1;
+    }
+
+    public List<String> getAllelics2() {
+        return allelics2;
+    }
+
+    public void setAllelics2(List<String> allelics2) {
+        this.allelics2 = allelics2;
+    }
+
+    public List<Filter> getSelectedFilter() {
+        return selectedFilter;
+    }
+
+    public void setSelectedFilter(List<Filter> selectedFilter) {
+        this.selectedFilter = selectedFilter;
+    }
+
+    public List<String> getSelectedHgvsc() {
+        return selectedHgvsc;
+    }
+
+    public void setSelectedHgvsc(List<String> selectedHgvsc) {
+        this.selectedHgvsc = selectedHgvsc;
+    }
+
+    public List<String> getSelectedHgvsp() {
+        return selectedHgvsp;
+    }
+
+    public void setSelectedHgvsp(List<String> selectedHgvsp) {
+        this.selectedHgvsp = selectedHgvsp;
+    }
+
+    public List<String> getSelectedIdSNP() {
+        return selectedIdSNP;
+    }
+
+    public void setSelectedIdSNP(List<String> selectedIdSNP) {
+        this.selectedIdSNP = selectedIdSNP;
+    }
+
+    
+
+
+    
+    
+    
 }

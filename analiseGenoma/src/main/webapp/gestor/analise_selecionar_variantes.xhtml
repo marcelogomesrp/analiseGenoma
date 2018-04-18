@@ -14,7 +14,7 @@
                 <h:form id="formulario">
                     <p:panel header="Select analysis variants">
                         <p:growl id="messages" showDetail="true"/>
-                        
+
 
                         <!-- <p:accordionPanel multiple="true"> -->
                         <p:tabView dynamic="true" cache="true" effect="fold">
@@ -22,7 +22,7 @@
                                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                                     <h:outputLabel value="Id: " for="id" />
                                     <h:outputText id="id" value="#{analiseSelcMB.analise.id}" />
-                                    <h:outputLabel value="Name: " for="nome" />
+                                    <h:outputLabel value="Name: " for="name" />
                                     <h:outputText id="name" value="#{analiseSelcMB.analise.nome}" />
                                     <h:outputLabel value="Note: " for="obs" />
                                     <h:outputText id="obs" value="#{analiseSelcMB.analise.observacao}" />                            
@@ -34,7 +34,7 @@
                                     <p:row>
                                         <p:column><p:outputLabel value="Filter name" for="filterName"/></p:column>
                                         <p:column><p:inputText id="filterName" value="#{analiseSelcMB.filtro.name}" /></p:column>
-                                        
+
                                         <p:column>
                                             <p:commandButton value="Update filter name" id="withIcon" actionListener="#{analiseSelcMB.updateFilterName}"  icon="ui-icon-disk"  update="formulario:messages" />
                                         </p:column>
@@ -50,19 +50,19 @@
                                             </p:repeat>
                                         </p:column>
                                     </p:row>
-                                    
+
                                     <p:row>
                                         <p:column>
                                             <h:outputText value="Position" />
                                         </p:column>
-                                            <p:column>
-                                                <h:outputText value="Min: " />
-                                                <h:outputText value="#{analiseSelcMB.filtro.positionMin}" />
-                                            </p:column>
-                                            <p:column>
-                                                <h:outputText value="Max: " />
-                                                <h:outputText value="#{analiseSelcMB.filtro.positionMax}" />
-                                            </p:column>
+                                        <p:column>
+                                            <h:outputText value="Min: " />
+                                            <h:outputText value="#{analiseSelcMB.filtro.positionMin}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="Max: " />
+                                            <h:outputText value="#{analiseSelcMB.filtro.positionMax}" />
+                                        </p:column>
                                     </p:row>
                                     <p:row>
                                         <p:column>
@@ -79,12 +79,12 @@
                             </p:tab>
                         </p:tabView>
                         <!-- </p:accordionPanel> -->
-                        
+
                         <p:panelGrid columns="2"  styleClass="ui-panelgrid-blank">
                             <p:commandButton value="Finalize selection" action="#{analiseSelcMB.finalizarSelecao()}"/>
                             <p:commandButton value="Finalize selection_old" action="#{aSelcReviserMB.openView(analiseSelcMB.analise)}"/>
                         </p:panelGrid>
-                        
+
 
 
 
@@ -124,7 +124,9 @@
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="changed" />
+                                    <p:commandLink value="changed" actionListener="#{analiseSelcMB.viewFilterChanged()}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.alterado}" />
                             </p:column>
@@ -146,25 +148,33 @@
                             </p:column>
                             <p:column style="width:120px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Zygocity" />
+                                    <p:commandLink value="Zygocity" actionListener="#{analiseSelcMB.viewFilterZygocity() }" >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.zygosity.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Allelic deph1" />
+                                    <p:commandLink value="Allelic deph1" actionListener="#{analiseSelcMB.viewFilterAllelic1() }" >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.allelicDeph1}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Allelic deph2" />
+                                    <p:commandLink value="Allelic deph2" actionListener="#{analiseSelcMB.viewFilterAllelic2() }" >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink> 
                                 </f:facet>    
-                                <h:outputText value="#{variant.allelicDeph2}" />
+                                <h:outputText value="#{variant.allelicDeph2}" />                                
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Filter" />
+                                    <p:commandLink value="Filter" actionListener="#{analiseSelcMB.viewFilterFilter() }" >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.filter.name}" />
                             </p:column>
@@ -208,8 +218,6 @@
                                 </f:facet>    
                                 <h:outputText value="#{variant.effect.name}" />
                             </p:column>
-
-
 
                             <p:column style="width:180px">
                                 <f:facet name="header" >
