@@ -92,6 +92,8 @@ public class PatientVcfMB implements Serializable {
         vcfService.adicionar(vcf);
         if (uploadedFile != null) {
             System.out.println("Fancendo o upload :D");
+            //aqui marcelo
+//            vcfService.importar(uploadedFile.getContents(), vcf);
             Runnable r = () -> {
                 vcfService.importar(uploadedFile.getContents(), vcf);
             };

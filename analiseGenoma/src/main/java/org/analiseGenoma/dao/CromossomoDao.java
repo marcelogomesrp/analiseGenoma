@@ -14,22 +14,45 @@ public class CromossomoDao extends DAO<Cromossomo> {
     }
 
     public Cromossomo buscarOuCriar(String nome) {
-        try {
+        try{
+            //List<Cromossomo> list = this.findByProperty("nome", nome);
+            //manager.clear();
             Query query = manager.createQuery("SELECT c FROM Cromossomo c WHERE c.nome = :nome");
             query.setParameter("nome", nome);
             List<Cromossomo> list = query.getResultList();
-            if (list.size() == 1) {
+            if(list.size() == 1l){
                 return list.get(0);
-            } else {
-                Cromossomo cromossomo = new Cromossomo();
-                cromossomo.setNome(nome);
-                this.persist(cromossomo);
-                return cromossomo;
+                //System.out.println("Lista vazia");
+            }else{
+                Cromossomo c = new Cromossomo();
+                c.setNome(nome);
+                this.persist(c);
+                return c;
             }
-        } catch (NoResultException ex) {
-            System.out.println("Erro:: " + ex.getMessage());
-            return null;
+        }catch(Exception ex){
+            System.out.println("ops cromossomodao: " + ex.getMessage());
         }
+        return null;
+//        try {
+//            Query query = manager.createQuery("SELECT c FROM Cromossomo c WHERE c.nome = :nome");
+//            query.setParameter("nome", nome);
+//            List<Cromossomo> list = query.getResultList();
+//            System.out.println("Aqui");
+//            if (list.size() == 1) {
+//                return list.get(0);
+//            } else {
+//                Cromossomo cromossomo = new Cromossomo();
+//                cromossomo.setNome(nome);
+//                this.persist(cromossomo);
+//                return cromossomo;
+//            }
+//        } catch (NoResultException ex) {
+//            System.out.println("Erro:: " + ex.getMessage());
+//            return null;
+//        }catch(Exception ex){
+//            System.out.println("Erro exception cromossomoDao:: " + ex.getMessage());
+//            return null;
+//        }
     }
 
     public List<Cromossomo> buscarPorAnalise(Long analiseId) {

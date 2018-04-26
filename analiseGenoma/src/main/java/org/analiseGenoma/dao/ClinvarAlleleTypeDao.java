@@ -11,7 +11,7 @@ public class ClinvarAlleleTypeDao extends DAO<ClinvarAlleleType> {
         List<ClinvarAlleleType> list = null;
         try {
             Query query = manager.createQuery("SELECT i FROM ClinvarAlleleType i WHERE i.name like :name");
-            query.setParameter("name", name);
+            query.setParameter("name", name.toUpperCase());
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

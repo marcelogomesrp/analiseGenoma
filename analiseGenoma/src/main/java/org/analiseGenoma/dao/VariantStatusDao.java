@@ -15,7 +15,7 @@ public class VariantStatusDao extends DAO<VariantStatus> {
         List<VariantStatus> list = null;
         try {
             Query query = manager.createQuery("SELECT i FROM VariantStatus i WHERE i.name like :name");
-            query.setParameter("name", name);
+            query.setParameter("name", name.toUpperCase());
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

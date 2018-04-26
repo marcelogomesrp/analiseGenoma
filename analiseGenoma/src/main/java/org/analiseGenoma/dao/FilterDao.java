@@ -15,7 +15,7 @@ public class FilterDao extends DAO<Filter> {
         List<Filter> list = null;
         try {
             Query query = manager.createQuery("SELECT i FROM Filter i WHERE i.name like :name");
-            query.setParameter("name", name);
+            query.setParameter("name", name.toUpperCase());
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

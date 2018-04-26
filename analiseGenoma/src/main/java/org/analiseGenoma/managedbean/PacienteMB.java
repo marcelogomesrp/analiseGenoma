@@ -23,6 +23,7 @@ import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.PopulationService;
 import org.analiseGenoma.service.PatientService;
 import org.analiseGenoma.service.VcfService;
+import org.analiseGenoma.sessionbean.PatientSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
@@ -53,6 +54,8 @@ public class PacienteMB implements Serializable {
     private String mother;
     private boolean disabledValidation;
     private CrudMode crudMode;
+    @Inject
+    private PatientSB patientSB; 
 
     private List<Vcf> vcfs;
 
@@ -282,6 +285,7 @@ public class PacienteMB implements Serializable {
     public void viewAddVcf(Long id) {
         System.out.println("----> Abrindo o view");
         paciente = pacienteService.buscarId(id);
+        patientSB.setPatient(paciente);
         vcf = new Vcf();
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);

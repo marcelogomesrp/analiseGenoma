@@ -11,7 +11,7 @@ public class PolyphenHdivDao extends DAO<PolyphenHdiv> {
         List<PolyphenHdiv> list = null;
         try {
             Query query = manager.createQuery("SELECT i FROM PolyphenHdiv i WHERE i.name like :name");
-            query.setParameter("name", name);
+            query.setParameter("name", name.toUpperCase());
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

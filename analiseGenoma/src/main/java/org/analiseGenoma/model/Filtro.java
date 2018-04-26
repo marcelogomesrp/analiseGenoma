@@ -52,6 +52,185 @@ public class Filtro  implements Serializable, Cloneable{
     @Column(name = "by_type")
     private boolean byType;
     
+    
+    
+    //novo inicio
+    @Column(name = "by_cromossomo")
+    private boolean byCromossomo;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> qualidades;
+    @Column(name = "by_qualidade")
+    private boolean byQualidade;
+    
+    @ManyToMany
+    private Set<Impact> impacts;
+    @Column(name = "by_impact")
+    private boolean byImpact;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Integer> exonintrons;
+    @Column(name = "by_exonintron")
+    private boolean byExonIntron;
+    
+    @ManyToMany
+    private Set<Effect> effects;
+    @Column(name = "by_effect")
+    private boolean byEffect;
+    
+    @ManyToMany
+    private Set<ClinvarSignificance> clinvarsignificances;
+    @Column(name = "by_clinvarsignificance")
+    private boolean byCinvarSignificance;
+    
+    @ManyToMany
+    private Set<ClinvarDisease> clinvardiseases;
+    @Column(name = "by_clinvardisease")
+    private boolean byClinvarDisease;
+    
+    @ManyToMany
+    private Set<ClinvarAccession> clinvarAccessions;
+    @Column(name = "by_clinvaraccession")
+    private boolean byClinvarAccession;
+    
+    @ManyToMany
+    private Set<ClinvarAlleleType> clinvarAlleleTypes;
+    @Column(name = "by_clinvaralleletype")
+    private boolean byClinvarAlleleType;
+    
+    @ManyToMany
+    private Set<ClinvarAlleleOrigin> clinvarAlleleOrigins;
+    @Column(name = "by_clinvaralleleorigin")
+    private boolean byClinvarAlleleOrigin;
+    
+    @ManyToMany
+    private Set<Sift> sifts;
+    @Column(name = "by_sift")
+    private boolean bySift;
+    
+    @ManyToMany
+    private Set<PolyphenHdiv> polyphenHdivs;
+    @Column(name = "by_polyphenhdiv")
+    private boolean byPolyphenhdiv;
+    
+    @ManyToMany
+    private Set<PolyphenHvar> polyphenHvars;
+    @Column(name = "by_polyphenhvar")
+    private boolean byPolypheHvar;
+    
+    @ManyToMany
+    private Set<MutationTaster> mutationTasters;
+    @Column(name = "by_mutationtaster")
+    private boolean byMutationTaster;
+    
+    @ManyToMany
+    private Set<Lrt> lrts;
+    @Column(name = "by_lrt")
+    private boolean byLrt;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> gerpScores ;
+    @Column(name = "by_gerprsscore")
+    private boolean bygerpRsScore;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> gerpNeutralRates;
+    @Column(name = "by_gerpneutralrate")
+    private boolean byGerpNeutralRate;
+    
+    @ManyToMany
+    private Set<Feature> features;
+    @Column(name = "by_feature")
+    private boolean byFeature;
+    
+    @ManyToMany
+    private Set<Ensembl> ensembls;
+    @Column(name = "by_ensembl")
+    private boolean byEnsembl;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> vertebrateGenomesConservationScore;
+    @Column(name = "by_vertebrategenomesconservationscore")
+    private boolean byVertebrateGenomeConservationScore;
+    
+    @ManyToMany
+    private Set<InterproDomain> interproDomains;
+    @Column(name = "by_interprodomain")
+    private boolean byInterproDomain;
+    
+    @ManyToMany
+    private Set<VariantStatus> variantStatuses;
+    @Column(name = "by_variantstatus")
+    private boolean byVariantStatus;
+    
+    @ManyToMany
+    private Set<GenoType> genoTypes;
+    @Column(name = "by_genoType")
+    private boolean byGenoType;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> readDepths;
+    @Column(name = "by_readdepth")
+    private boolean byReadDepth;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> alleleMutFractions;
+    @Column(name = "by_allelemutfraction")
+    private boolean byAlleleMutFraction;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> meansbasequalities;
+    @Column(name = "by_meansbasequality")
+    private boolean byMeansBaseQyality;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> varntTypies;
+    @Column(name = "by_varntType")
+    private boolean byVarintType;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Boolean> validates;
+    @Column(name = "by_validate")
+    private boolean byValidate;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Boolean> donorSpliceSites;
+    @Column(name = "by_donorsplicesite")
+    private boolean byDonorSpliceSite;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Boolean> mutations;
+    @Column(name = "by_mutation")
+    private boolean byMutation;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> europeanVariantFreqs;
+    @Column(name = "by_europeanvariantfreq")
+    private boolean byEuropeanVariantFreq;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> AfricanVariantFreqs;
+    @Column(name = "by_africanvariantfreq")
+    private boolean byAfricanvariantfreq;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> asianVariantFreqs;
+    @Column(name = "by_asianvariantfreq")
+    private boolean byAsianVariantFreq;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> americanVariantFreqs;
+    @Column(name = "by_americanvariantfreq")
+    private boolean byAmericanVariantFreq;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Double> WholeVariantFreqs;
+    @Column(name = "by_wholevariantfreq")
+    private boolean byWholeVariantFreq;
+    //novo fim
+    
+    
+    
     //@OneToMany
     @ManyToMany //(cascade = CascadeType.ALL)
     //(fetch = FetchType.EAGER)
@@ -79,6 +258,37 @@ public class Filtro  implements Serializable, Cloneable{
     private Long positionMax;
     private String name;
     
+    //novo2
+    private Double gerpRsScoreMin;
+    private Double gerpRsScoreMax;
+    private Double gerpNeutralRateMin;
+    private Double gerpNeutralRateMax;
+    private Double vertebrateGenomesConservationScoreMin;
+    private Double vertebrateGenomesConservationScoreMax;
+    private Double alleleMutFractionMin;
+    private Double alleleMutFractionMax;
+    private Double meanBaseQualityMin;
+    private Double meanBaseQualityMax;
+    private Double europeanVariantFreqMin;
+    private Double europeanVariantFreqMax;
+    private Double africanVariantFreqMin;
+    private Double africanVariantFreqMax;
+    private Double asianVariantFreqMin;
+    private Double asianVariantFreqMax;
+    private Double americanVariantFreqMin;
+    private Double americanVariantFreqMax;
+    private Double wholeVariantFreqMin;
+    private Double wholeVariantFreqMax;
+    
+    private Boolean validate;
+    private Boolean donorSpliceSite;      
+    private Boolean acceptorSpliceSite;
+    @Column(name = "by_byacceptorsplicesite")
+    private Boolean byAcceptorSpliceSite;
+    private Boolean mutation;
+    
+    
+    
     //@OneToMany
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Impact> impacto;
@@ -98,9 +308,7 @@ public class Filtro  implements Serializable, Cloneable{
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> changeds;
        
-    
-    @ManyToMany
-    private Set<Effect> effects;
+
 
     @ManyToMany
     private Set<Zygosity> zygosities;
@@ -459,14 +667,763 @@ public class Filtro  implements Serializable, Cloneable{
         cloned.setByHgvsp(byHgvsp);
         cloned.setByIdSNP(byIdSNP);
         cloned.setByType(byType);
+        cloned.setByClinvarAlleleType(byClinvarAlleleType);
         
         
         return cloned;
     }
     
      
+//get and set novo 
+    
+//get and set novo fim
 
+    public boolean isByCromossomo() {
+        return byCromossomo;
+    }
 
+    public void setByCromossomo(boolean byCromossomo) {
+        this.byCromossomo = byCromossomo;
+    }
+
+    public boolean isByQualidade() {
+        return byQualidade;
+    }
+
+    public void setByQualidade(boolean byQualidade) {
+        this.byQualidade = byQualidade;
+    }
+
+    public boolean isByImpact() {
+        return byImpact;
+    }
+
+    public void setByImpact(boolean byImpact) {
+        this.byImpact = byImpact;
+    }
+
+    public boolean isByExonIntron() {
+        return byExonIntron;
+    }
+
+    public void setByExonIntron(boolean byExonIntron) {
+        this.byExonIntron = byExonIntron;
+    }
+
+    public boolean isByEffect() {
+        return byEffect;
+    }
+
+    public void setByEffect(boolean byEffect) {
+        this.byEffect = byEffect;
+    }
+
+    public boolean isByCinvarSignificance() {
+        return byCinvarSignificance;
+    }
+
+    public void setByCinvarSignificance(boolean byCinvarSignificance) {
+        this.byCinvarSignificance = byCinvarSignificance;
+    }
+
+    public boolean isByClinvarDisease() {
+        return byClinvarDisease;
+    }
+
+    public void setByClinvarDisease(boolean byClinvarDisease) {
+        this.byClinvarDisease = byClinvarDisease;
+    }
+
+    public boolean isByClinvarAccession() {
+        return byClinvarAccession;
+    }
+
+    public void setByClinvarAccession(boolean byClinvarAccession) {
+        this.byClinvarAccession = byClinvarAccession;
+    }
+
+    public boolean isByClinvarAlleleOrigin() {
+        return byClinvarAlleleOrigin;
+    }
+
+    public void setByClinvarAlleleOrigin(boolean byClinvarAlleleOrigin) {
+        this.byClinvarAlleleOrigin = byClinvarAlleleOrigin;
+    }
+
+    public boolean isBySift() {
+        return bySift;
+    }
+
+    public void setBySift(boolean bySift) {
+        this.bySift = bySift;
+    }
+
+    public boolean isByPolyphenhdiv() {
+        return byPolyphenhdiv;
+    }
+
+    public void setByPolyphenhdiv(boolean byPolyphenhdiv) {
+        this.byPolyphenhdiv = byPolyphenhdiv;
+    }
+
+    public boolean isByPolypheHvar() {
+        return byPolypheHvar;
+    }
+
+    public void setByPolypheHvar(boolean byPolypheHvar) {
+        this.byPolypheHvar = byPolypheHvar;
+    }
+
+    public boolean isByMutationTaster() {
+        return byMutationTaster;
+    }
+
+    public void setByMutationTaster(boolean byMutationTaster) {
+        this.byMutationTaster = byMutationTaster;
+    }
+
+    public boolean isByLrt() {
+        return byLrt;
+    }
+
+    public void setByLrt(boolean byLrt) {
+        this.byLrt = byLrt;
+    }
+
+    public boolean isBygerpRsScore() {
+        return bygerpRsScore;
+    }
+
+    public void setBygerpRsScore(boolean bygerpRsScore) {
+        this.bygerpRsScore = bygerpRsScore;
+    }
+
+    public boolean isByGerpNeutralRate() {
+        return byGerpNeutralRate;
+    }
+
+    public void setByGerpNeutralRate(boolean byGerpNeutralRate) {
+        this.byGerpNeutralRate = byGerpNeutralRate;
+    }
+
+    public boolean isByFeature() {
+        return byFeature;
+    }
+
+    public void setByFeature(boolean byFeature) {
+        this.byFeature = byFeature;
+    }
+
+    public boolean isByEnsembl() {
+        return byEnsembl;
+    }
+
+    public void setByEnsembl(boolean byEnsembl) {
+        this.byEnsembl = byEnsembl;
+    }
+
+    public boolean isByVertebrateGenomeConservationScore() {
+        return byVertebrateGenomeConservationScore;
+    }
+
+    public void setByVertebrateGenomeConservationScore(boolean byVertebrateGenomeConservationScore) {
+        this.byVertebrateGenomeConservationScore = byVertebrateGenomeConservationScore;
+    }
+
+    public boolean isByInterproDomain() {
+        return byInterproDomain;
+    }
+
+    public void setByInterproDomain(boolean byInterproDomain) {
+        this.byInterproDomain = byInterproDomain;
+    }
+
+    public boolean isByVariantStatus() {
+        return byVariantStatus;
+    }
+
+    public void setByVariantStatus(boolean byVariantStatus) {
+        this.byVariantStatus = byVariantStatus;
+    }
+
+    public boolean isByGenoType() {
+        return byGenoType;
+    }
+
+    public void setByGenoType(boolean byGenoType) {
+        this.byGenoType = byGenoType;
+    }
+
+    public boolean isByReadDepth() {
+        return byReadDepth;
+    }
+
+    public void setByReadDepth(boolean byReadDepth) {
+        this.byReadDepth = byReadDepth;
+    }
+
+    public boolean isByAlleleMutFraction() {
+        return byAlleleMutFraction;
+    }
+
+    public void setByAlleleMutFraction(boolean byAlleleMutFraction) {
+        this.byAlleleMutFraction = byAlleleMutFraction;
+    }
+
+    public boolean isByMeansBaseQyality() {
+        return byMeansBaseQyality;
+    }
+
+    public void setByMeansBaseQyality(boolean byMeansBaseQyality) {
+        this.byMeansBaseQyality = byMeansBaseQyality;
+    }
+
+    public boolean isByVarintType() {
+        return byVarintType;
+    }
+
+    public void setByVarintType(boolean byVarintType) {
+        this.byVarintType = byVarintType;
+    }
+
+    public boolean isByValidate() {
+        return byValidate;
+    }
+
+    public void setByValidate(boolean byValidate) {
+        this.byValidate = byValidate;
+    }
+
+    public boolean isByDonorSpliceSite() {
+        return byDonorSpliceSite;
+    }
+
+    public void setByDonorSpliceSite(boolean byDonorSpliceSite) {
+        this.byDonorSpliceSite = byDonorSpliceSite;
+    }
+
+    public boolean isByMutation() {
+        return byMutation;
+    }
+
+    public void setByMutation(boolean byMutation) {
+        this.byMutation = byMutation;
+    }
+
+    public boolean isByEuropeanVariantFreq() {
+        return byEuropeanVariantFreq;
+    }
+
+    public void setByEuropeanVariantFreq(boolean byEuropeanVariantFreq) {
+        this.byEuropeanVariantFreq = byEuropeanVariantFreq;
+    }
+
+    public boolean isByAfricanvariantfreq() {
+        return byAfricanvariantfreq;
+    }
+
+    public void setByAfricanvariantfreq(boolean byAfricanvariantfreq) {
+        this.byAfricanvariantfreq = byAfricanvariantfreq;
+    }
+
+    public boolean isByAsianVariantFreq() {
+        return byAsianVariantFreq;
+    }
+
+    public void setByAsianVariantFreq(boolean byAsianVariantFreq) {
+        this.byAsianVariantFreq = byAsianVariantFreq;
+    }
+
+    public boolean isByAmericanVariantFreq() {
+        return byAmericanVariantFreq;
+    }
+
+    public void setByAmericanVariantFreq(boolean byAmericanVariantFreq) {
+        this.byAmericanVariantFreq = byAmericanVariantFreq;
+    }
+
+    public boolean isByWholeVariantFreq() {
+        return byWholeVariantFreq;
+    }
+
+    public void setByWholeVariantFreq(boolean byWholeVariantFreq) {
+        this.byWholeVariantFreq = byWholeVariantFreq;
+    }
+
+    public Set<Double> getQualidades() {
+        return qualidades;
+    }
+
+    public void setQualidades(Set<Double> qualidades) {
+        this.qualidades = qualidades;
+    }
+
+    public Set<Impact> getImpacts() {
+        return impacts;
+    }
+
+    public void setImpacts(Set<Impact> impacts) {
+        this.impacts = impacts;
+    }
+
+    public Set<Integer> getExonintrons() {
+        return exonintrons;
+    }
+
+    public void setExonintrons(Set<Integer> exonintrons) {
+        this.exonintrons = exonintrons;
+    }
+
+    public Set<ClinvarSignificance> getClinvarsignificances() {
+        return clinvarsignificances;
+    }
+
+    public void setClinvarsignificances(Set<ClinvarSignificance> clinvarsignificances) {
+        this.clinvarsignificances = clinvarsignificances;
+    }
+
+    public Set<ClinvarDisease> getClinvardiseases() {
+        return clinvardiseases;
+    }
+
+    public void setClinvardiseases(Set<ClinvarDisease> clinvardiseases) {
+        this.clinvardiseases = clinvardiseases;
+    }
+
+    public Set<ClinvarAccession> getClinvarAccessions() {
+        return clinvarAccessions;
+    }
+
+    public void setClinvarAccessions(Set<ClinvarAccession> clinvarAccessions) {
+        this.clinvarAccessions = clinvarAccessions;
+    }
+
+    public Set<ClinvarAlleleOrigin> getClinvarAlleleOrigins() {
+        return clinvarAlleleOrigins;
+    }
+
+    public void setClinvarAlleleOrigins(Set<ClinvarAlleleOrigin> clinvarAlleleOrigins) {
+        this.clinvarAlleleOrigins = clinvarAlleleOrigins;
+    }
+
+    public Set<Sift> getSifts() {
+        return sifts;
+    }
+
+    public void setSifts(Set<Sift> sifts) {
+        this.sifts = sifts;
+    }
+
+    public Set<PolyphenHdiv> getPolyphenHdivs() {
+        return polyphenHdivs;
+    }
+
+    public void setPolyphenHdivs(Set<PolyphenHdiv> polyphenHdivs) {
+        this.polyphenHdivs = polyphenHdivs;
+    }
+
+    public Set<PolyphenHvar> getPolyphenHvars() {
+        return polyphenHvars;
+    }
+
+    public void setPolyphenHvars(Set<PolyphenHvar> polyphenHvars) {
+        this.polyphenHvars = polyphenHvars;
+    }
+
+    public Set<MutationTaster> getMutationTasters() {
+        return mutationTasters;
+    }
+
+    public void setMutationTasters(Set<MutationTaster> mutationTasters) {
+        this.mutationTasters = mutationTasters;
+    }
+
+    public Set<Lrt> getLrts() {
+        return lrts;
+    }
+
+    public void setLrts(Set<Lrt> lrts) {
+        this.lrts = lrts;
+    }
+
+    public Set<Double> getGerpScores() {
+        return gerpScores;
+    }
+
+    public void setGerpScores(Set<Double> gerpScores) {
+        this.gerpScores = gerpScores;
+    }
+
+    public Set<Double> getGerpNeutralRates() {
+        return gerpNeutralRates;
+    }
+
+    public void setGerpNeutralRates(Set<Double> gerpNeutralRates) {
+        this.gerpNeutralRates = gerpNeutralRates;
+    }
+
+    public Set<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Set<Feature> features) {
+        this.features = features;
+    }
+
+    public Set<Ensembl> getEnsembls() {
+        return ensembls;
+    }
+
+    public void setEnsembls(Set<Ensembl> ensembls) {
+        this.ensembls = ensembls;
+    }
+
+    public Set<Double> getVertebrateGenomesConservationScore() {
+        return vertebrateGenomesConservationScore;
+    }
+
+    public void setVertebrateGenomesConservationScore(Set<Double> vertebrateGenomesConservationScore) {
+        this.vertebrateGenomesConservationScore = vertebrateGenomesConservationScore;
+    }
+
+    public Set<InterproDomain> getInterproDomains() {
+        return interproDomains;
+    }
+
+    public void setInterproDomains(Set<InterproDomain> interproDomains) {
+        this.interproDomains = interproDomains;
+    }
+
+    public Set<VariantStatus> getVariantStatuses() {
+        return variantStatuses;
+    }
+
+    public void setVariantStatuses(Set<VariantStatus> variantStatuses) {
+        this.variantStatuses = variantStatuses;
+    }
+
+    public Set<GenoType> getGenoTypes() {
+        return genoTypes;
+    }
+
+    public void setGenoTypes(Set<GenoType> genoTypes) {
+        this.genoTypes = genoTypes;
+    }
+
+    public Set<String> getReadDepths() {
+        return readDepths;
+    }
+
+    public void setReadDepths(Set<String> readDepths) {
+        this.readDepths = readDepths;
+    }
+
+    public Set<Double> getAlleleMutFractions() {
+        return alleleMutFractions;
+    }
+
+    public void setAlleleMutFractions(Set<Double> alleleMutFractions) {
+        this.alleleMutFractions = alleleMutFractions;
+    }
+
+    public Set<Double> getMeansbasequalities() {
+        return meansbasequalities;
+    }
+
+    public void setMeansbasequalities(Set<Double> meansbasequalities) {
+        this.meansbasequalities = meansbasequalities;
+    }
+
+    public Set<String> getVarntTypies() {
+        return varntTypies;
+    }
+
+    public void setVarntTypies(Set<String> varntTypies) {
+        this.varntTypies = varntTypies;
+    }
+
+    public Set<Boolean> getValidates() {
+        return validates;
+    }
+
+    public void setValidates(Set<Boolean> validates) {
+        this.validates = validates;
+    }
+
+    public Set<Boolean> getDonorSpliceSites() {
+        return donorSpliceSites;
+    }
+
+    public void setDonorSpliceSites(Set<Boolean> donorSpliceSites) {
+        this.donorSpliceSites = donorSpliceSites;
+    }
+
+    public Set<Boolean> getMutations() {
+        return mutations;
+    }
+
+    public void setMutations(Set<Boolean> mutations) {
+        this.mutations = mutations;
+    }
+
+    public Set<Double> getEuropeanVariantFreqs() {
+        return europeanVariantFreqs;
+    }
+
+    public void setEuropeanVariantFreqs(Set<Double> europeanVariantFreqs) {
+        this.europeanVariantFreqs = europeanVariantFreqs;
+    }
+
+    public Set<Double> getAfricanVariantFreqs() {
+        return AfricanVariantFreqs;
+    }
+
+    public void setAfricanVariantFreqs(Set<Double> AfricanVariantFreqs) {
+        this.AfricanVariantFreqs = AfricanVariantFreqs;
+    }
+
+    public Set<Double> getAsianVariantFreqs() {
+        return asianVariantFreqs;
+    }
+
+    public void setAsianVariantFreqs(Set<Double> asianVariantFreqs) {
+        this.asianVariantFreqs = asianVariantFreqs;
+    }
+
+    public Set<Double> getAmericanVariantFreqs() {
+        return americanVariantFreqs;
+    }
+
+    public void setAmericanVariantFreqs(Set<Double> americanVariantFreqs) {
+        this.americanVariantFreqs = americanVariantFreqs;
+    }
+
+    public Set<Double> getWholeVariantFreqs() {
+        return WholeVariantFreqs;
+    }
+
+    public void setWholeVariantFreqs(Set<Double> WholeVariantFreqs) {
+        this.WholeVariantFreqs = WholeVariantFreqs;
+    }
+
+    public Set<ClinvarAlleleType> getClinvarAlleleTypes() {
+        return clinvarAlleleTypes;
+    }
+
+    public void setClinvarAlleleTypes(Set<ClinvarAlleleType> clinvarAlleleTypes) {
+        this.clinvarAlleleTypes = clinvarAlleleTypes;
+    }
+
+    public boolean isByClinvarAlleleType() {
+        return byClinvarAlleleType;
+    }
+
+    public void setByClinvarAlleleType(boolean byClinvarAlleleType) {
+        this.byClinvarAlleleType = byClinvarAlleleType;
+    }
+
+    public Double getGerpRsScoreMin() {
+        return gerpRsScoreMin;
+    }
+
+    public void setGerpRsScoreMin(Double gerpRsScoreMin) {
+        this.gerpRsScoreMin = gerpRsScoreMin;
+    }
+
+    public Double getGerpRsScoreMax() {
+        return gerpRsScoreMax;
+    }
+
+    public void setGerpRsScoreMax(Double gerpRsScoreMax) {
+        this.gerpRsScoreMax = gerpRsScoreMax;
+    }
+
+    public Double getGerpNeutralRateMin() {
+        return gerpNeutralRateMin;
+    }
+
+    public void setGerpNeutralRateMin(Double gerpNeutralRateMin) {
+        this.gerpNeutralRateMin = gerpNeutralRateMin;
+    }
+
+    public Double getGerpNeutralRateMax() {
+        return gerpNeutralRateMax;
+    }
+
+    public void setGerpNeutralRateMax(Double gerpNeutralRateMax) {
+        this.gerpNeutralRateMax = gerpNeutralRateMax;
+    }
+
+    public Double getVertebrateGenomesConservationScoreMin() {
+        return vertebrateGenomesConservationScoreMin;
+    }
+
+    public void setVertebrateGenomesConservationScoreMin(Double vertebrateGenomesConservationScoreMin) {
+        this.vertebrateGenomesConservationScoreMin = vertebrateGenomesConservationScoreMin;
+    }
+
+    public Double getVertebrateGenomesConservationScoreMax() {
+        return vertebrateGenomesConservationScoreMax;
+    }
+
+    public void setVertebrateGenomesConservationScoreMax(Double vertebrateGenomesConservationScoreMax) {
+        this.vertebrateGenomesConservationScoreMax = vertebrateGenomesConservationScoreMax;
+    }
+
+    public Double getAlleleMutFractionMin() {
+        return alleleMutFractionMin;
+    }
+
+    public void setAlleleMutFractionMin(Double alleleMutFractionMin) {
+        this.alleleMutFractionMin = alleleMutFractionMin;
+    }
+
+    public Double getAlleleMutFractionMax() {
+        return alleleMutFractionMax;
+    }
+
+    public void setAlleleMutFractionMax(Double alleleMutFractionMax) {
+        this.alleleMutFractionMax = alleleMutFractionMax;
+    }
+
+    public Double getMeanBaseQualityMin() {
+        return meanBaseQualityMin;
+    }
+
+    public void setMeanBaseQualityMin(Double meanBaseQualityMin) {
+        this.meanBaseQualityMin = meanBaseQualityMin;
+    }
+
+    public Double getMeanBaseQualityMax() {
+        return meanBaseQualityMax;
+    }
+
+    public void setMeanBaseQualityMax(Double meanBaseQualityMax) {
+        this.meanBaseQualityMax = meanBaseQualityMax;
+    }
+
+    public Double getEuropeanVariantFreqMin() {
+        return europeanVariantFreqMin;
+    }
+
+    public void setEuropeanVariantFreqMin(Double europeanVariantFreqMin) {
+        this.europeanVariantFreqMin = europeanVariantFreqMin;
+    }
+
+    public Double getEuropeanVariantFreqMax() {
+        return europeanVariantFreqMax;
+    }
+
+    public void setEuropeanVariantFreqMax(Double europeanVariantFreqMax) {
+        this.europeanVariantFreqMax = europeanVariantFreqMax;
+    }
+
+    public Double getAfricanVariantFreqMin() {
+        return africanVariantFreqMin;
+    }
+
+    public void setAfricanVariantFreqMin(Double africanVariantFreqMin) {
+        this.africanVariantFreqMin = africanVariantFreqMin;
+    }
+
+    public Double getAfricanVariantFreqMax() {
+        return africanVariantFreqMax;
+    }
+
+    public void setAfricanVariantFreqMax(Double africanVariantFreqMax) {
+        this.africanVariantFreqMax = africanVariantFreqMax;
+    }
+
+    public Double getAsianVariantFreqMin() {
+        return asianVariantFreqMin;
+    }
+
+    public void setAsianVariantFreqMin(Double asianVariantFreqMin) {
+        this.asianVariantFreqMin = asianVariantFreqMin;
+    }
+
+    public Double getAsianVariantFreqMax() {
+        return asianVariantFreqMax;
+    }
+
+    public void setAsianVariantFreqMax(Double asianVariantFreqMax) {
+        this.asianVariantFreqMax = asianVariantFreqMax;
+    }
+
+    public Double getAmericanVariantFreqMin() {
+        return americanVariantFreqMin;
+    }
+
+    public void setAmericanVariantFreqMin(Double americanVariantFreqMin) {
+        this.americanVariantFreqMin = americanVariantFreqMin;
+    }
+
+    public Double getAmericanVariantFreqMax() {
+        return americanVariantFreqMax;
+    }
+
+    public void setAmericanVariantFreqMax(Double americanVariantFreqMax) {
+        this.americanVariantFreqMax = americanVariantFreqMax;
+    }
+
+    public Double getWholeVariantFreqMin() {
+        return wholeVariantFreqMin;
+    }
+
+    public void setWholeVariantFreqMin(Double wholeVariantFreqMin) {
+        this.wholeVariantFreqMin = wholeVariantFreqMin;
+    }
+
+    public Double getWholeVariantFreqMax() {
+        return wholeVariantFreqMax;
+    }
+
+    public void setWholeVariantFreqMax(Double wholeVariantFreqMax) {
+        this.wholeVariantFreqMax = wholeVariantFreqMax;
+    }
+
+    public Boolean getValidate() {
+        return validate;
+    }
+
+    public void setValidate(Boolean validate) {
+        this.validate = validate;
+    }
+
+    public Boolean getDonorSpliceSite() {
+        return donorSpliceSite;
+    }
+
+    public void setDonorSpliceSite(Boolean donorSpliceSite) {
+        this.donorSpliceSite = donorSpliceSite;
+    }
+
+    public Boolean getAcceptorSpliceSite() {
+        return acceptorSpliceSite;
+    }
+
+    public void setAcceptorSpliceSite(Boolean acceptorSpliceSite) {
+        this.acceptorSpliceSite = acceptorSpliceSite;
+    }
+
+    public Boolean getMutation() {
+        return mutation;
+    }
+
+    public void setMutation(Boolean mutation) {
+        this.mutation = mutation;
+    }
+
+    public Boolean getByAcceptorSpliceSite() {
+        return byAcceptorSpliceSite;
+    }
+
+    public void setByAcceptorSpliceSite(Boolean byAcceptorSpliceSite) {
+        this.byAcceptorSpliceSite = byAcceptorSpliceSite;
+    }
+
+    
+    
 
     
     

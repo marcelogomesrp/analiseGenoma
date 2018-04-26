@@ -15,7 +15,7 @@ public class PolyphenHvarDao extends DAO<PolyphenHvar> {
         List<PolyphenHvar> list = null;
         try {
             Query query = manager.createQuery("SELECT i FROM PolyphenHvar i WHERE i.name like :name");
-            query.setParameter("name", name);
+            query.setParameter("name", name.toUpperCase());
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

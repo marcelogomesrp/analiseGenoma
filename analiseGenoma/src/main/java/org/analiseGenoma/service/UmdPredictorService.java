@@ -33,7 +33,7 @@ public class UmdPredictorService extends Service<UmdPredictor>{
         if(("-").equals(name))
             name = "none";
 //                return null;
-        List<UmdPredictor> list = this.findByName(name);
+        List<UmdPredictor> list = this.findByName(name.toUpperCase());
         if(list.size() == 1)
             return list.get(0);
         UmdPredictor uPredictor = new UmdPredictor();

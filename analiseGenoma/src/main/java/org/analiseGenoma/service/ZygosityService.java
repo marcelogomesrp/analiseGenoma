@@ -29,7 +29,7 @@ public class ZygosityService extends Service<Zygosity>{
 
     @Transactional
     public Zygosity findOrCreate(String name) {
-        List<Zygosity> list = this.findByName(name);
+        List<Zygosity> list = this.findByName(name.toUpperCase());
         if(list.size() == 1)
             return list.get(0);
         Zygosity obj = new Zygosity();

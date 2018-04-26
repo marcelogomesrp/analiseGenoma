@@ -22,8 +22,16 @@ import org.analiseGenoma.model.VcfStatus;
 import org.analiseGenoma.service.util.DoubleFactory;
 
 @Named
-public class VcfService implements Serializable {
+public class VcfService extends Service<Vcf> implements Serializable {
 
+        public VcfService() {
+        super(Vcf.class);
+    }
+
+    private VcfDao getDao() {
+        return  ((VcfDao) dao);
+    }
+    
     @Inject
     private VcfDao vcfDao;
     @Inject
@@ -141,16 +149,6 @@ public class VcfService implements Serializable {
             String[] referenceAlternate = linha[2].split(">");
             variante.setReferencia(referenceAlternate[0]);
             variante.setAlterado(referenceAlternate[1]);
-//            //Gene gene = geneService.buscarNovoSimbolo(linha[3]);
-//            if(gene == null){
-//                gene = new Gene();
-//                gene.setSymbol(linha[3]);
-//                gene.setName(linha[4]);
-////                gene.setSynonymou(null);
-//                geneService.adicionar(gene);
-//            }
-//            variante.setGene(gene);
-
             Gene gene = geneService.findBySymbol(linha[3]);
             if (gene == null) {
                 gene = new Gene();
@@ -160,9 +158,9 @@ public class VcfService implements Serializable {
             }
             variante.setGene(gene);
 
-            variante.setUmdPredictor(umdPredictorService.findOrCreate(linha[5]));
+            variante.setUmdPredictor(umdPredictorService.findOrCreate(linha[5]));            
             variante.setZygosity(zygosityService.findOrCreate(linha[6]));
-            variante.setAllelicDeph(linha[7]);
+            variante.setAllelicDeph(linha[7]);            
             variante.setFilter(filterService.findOrCreate(linha[8]));
             variante.setHgvsC(linha[9]);
             variante.setHgvsP(linha[10]);
@@ -172,11 +170,13 @@ public class VcfService implements Serializable {
             variante.setEffect(effectService.findOrCreate(linha[14]));
             variante.setImpact(impactService.findOrCreate(linha[15]));
             variante.setClinvarSignificance(clinvarSignificanceService.findOrCreate(linha[16]));
+            
             variante.setClinvarDisease(clinvarDiseaseService.findOrCreate(linha[17]));
             variante.setClinvarAccession(clinvarAccessionService.findOrCreate(linha[18]));
             variante.setClinvarAlleleType(clinvarAlleleTypeService.findOrCreate(linha[19]));
             variante.setClinvarAlleleOrigin(clinvarAlleleOriginService.findOrCreate(linha[20]));
             variante.setSift(siftService.findOrCreate(linha[21]));
+            
             variante.setPolyphenHdiv(polyphenHdivService.findOrCreate(linha[22]));
             variante.setPolyphenHvar(polyphenHvarService.findOrCreate(linha[23]));
             variante.setMutationTaster(mutationTasterService.findOrCreate(linha[24]));
@@ -204,8 +204,9 @@ public class VcfService implements Serializable {
             variante.setWholeVarintFreq(new DoubleFactory().make(linha[46]));
             varianteService.persiste(variante);
         }
+        //aqui marcelo
         VcfMetadata vcfM = vcfMetadataService.makeMetadata(vcf);
-        vcfMetadataService.persiste(vcfM);
+//        vcfMetadataService.persiste(vcfM);
 
         vcf.setStatus(VcfStatus.importado);
         this.atualizar(vcf);
@@ -221,6 +222,11 @@ public class VcfService implements Serializable {
         } else {
             return varianteDao.findByAnaliseFiltro(analise, filtro);
         }
+    }
+    
+    
+    public List<Vcf> findByName(String name) {
+        return getDao().findByName(name);
     }
 
 }

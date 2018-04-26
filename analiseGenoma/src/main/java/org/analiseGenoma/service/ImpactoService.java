@@ -10,8 +10,16 @@ import org.analiseGenoma.dao.ImpactDao;
 import org.analiseGenoma.model.Impact;
 
 @Named
-public class ImpactoService implements Serializable {
+public class ImpactoService extends Service<Impact> implements Serializable {
 
+        public ImpactoService() {
+        super(Impact.class);
+    }
+
+    private ImpactDao getDao() {
+        return ((ImpactDao) dao);
+    }
+    
     @Inject
     private ImpactDao impactDao;
 

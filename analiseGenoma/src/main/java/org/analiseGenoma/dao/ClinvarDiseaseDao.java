@@ -11,8 +11,8 @@ public class ClinvarDiseaseDao extends DAO<ClinvarDisease> {
     public List<ClinvarDisease> findByName(String name) {
         List<ClinvarDisease> list = null;
         try {
-            Query query = manager.createQuery("SELECT i FROM ClinvarDisease i WHERE i.name = :name");
-            query.setParameter("name", name);
+            Query query = manager.createQuery("SELECT i FROM ClinvarDisease i WHERE i.name like :name");
+            query.setParameter("name", name.toUpperCase());
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());

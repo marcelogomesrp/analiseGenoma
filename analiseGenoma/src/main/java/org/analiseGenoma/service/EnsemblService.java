@@ -43,4 +43,8 @@ public class EnsemblService extends Service<Ensembl> {
         return obj;
     }
 
+    public List<Ensembl> findByName(String name) {
+        return getDao().findByName(name);
+    }
+
 }

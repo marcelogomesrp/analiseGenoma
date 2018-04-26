@@ -17,7 +17,7 @@ public class EffectDao extends DAO<Effect> {
         List<Effect> list = null;
         try {
             Query query = manager.createQuery("SELECT i FROM Effect i WHERE i.name like :name");
-            query.setParameter("name", name);
+            query.setParameter("name", name.toUpperCase());
             list = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());
