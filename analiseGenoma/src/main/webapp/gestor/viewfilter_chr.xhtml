@@ -16,18 +16,24 @@
     <h:body>
 
         <h:form id="formView">
-            
-            <p:pickList value="#{VfChr.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
+            <h:outputLabel value="Filter by Chromosome" for="byChromosome"/>
+            <p:selectBooleanCheckbox id="byChromosome" value="#{filterSB.filter.byChromosome}" >
+                <p:ajax update="chromosomeInput" />
+            </p:selectBooleanCheckbox>
+            <p:panel id="chromosomeInput" >
+                <p:pickList value="#{VfChr.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
                             showSourceFilter="true"
                             showTargetFilter="true" 
                             filterMatchMode="contains"
                             id="filtro"
+                            rendered="#{filterSB.filter.byChromosome}"
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
-            
+            </p:panel>
+
             <p:commandButton value="Aplicar" actionListener="#{VfChr.closeView()}"/>
 
         </h:form>

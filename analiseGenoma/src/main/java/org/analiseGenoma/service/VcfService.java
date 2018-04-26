@@ -206,7 +206,7 @@ public class VcfService extends Service<Vcf> implements Serializable {
         }
         //aqui marcelo
         VcfMetadata vcfM = vcfMetadataService.makeMetadata(vcf);
-//        vcfMetadataService.persiste(vcfM);
+        vcfMetadataService.persiste(vcfM);
 
         vcf.setStatus(VcfStatus.importado);
         this.atualizar(vcf);

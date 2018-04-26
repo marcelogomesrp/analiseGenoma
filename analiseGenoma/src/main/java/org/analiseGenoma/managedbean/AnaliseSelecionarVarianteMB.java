@@ -45,6 +45,7 @@ import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.VariantSelectedService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
+import org.analiseGenoma.sessionbean.AnaliseSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
@@ -113,6 +114,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private VcfMetadata vcfMetadata;
 
     private Analise analise;
+    @Inject
+    private AnaliseSB analiseSB;
 
     @PostConstruct
     public void init() {
@@ -127,6 +130,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             System.out.println("--> " + value);
             if (value != null) {
                 analise = analiseService.buscarPorId(value);
+                analiseSB.setAnalise(analise);
 //                //analiseSelcMB.analise.vcf.id
 //                //filtro = new Filtro();
 //                

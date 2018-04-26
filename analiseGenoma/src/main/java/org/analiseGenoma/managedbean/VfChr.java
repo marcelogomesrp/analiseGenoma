@@ -18,13 +18,12 @@ import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.model.UmdPredictor;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
-import org.analiseGenoma.service.UmdPredictorService;
 import org.analiseGenoma.service.VcfMetadataService;
+import org.analiseGenoma.sessionbean.AnaliseSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -43,6 +42,8 @@ public class VfChr {
     private FiltroService filtroService;
     @Inject
     private CromossomoService cromossomoService;
+    @Inject
+    private AnaliseSB analiseSB;
     
     @PostConstruct
     public void init() {
