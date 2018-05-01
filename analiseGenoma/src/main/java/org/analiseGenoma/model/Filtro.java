@@ -290,8 +290,8 @@ public class Filtro  implements Serializable, Cloneable{
     
     
     //@OneToMany
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Impact> impacto;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private List<Impact> impacto;
     //@OneToMany
     @ManyToMany
     private List<InformacaoBiologica> infBiologica;
@@ -393,13 +393,13 @@ public class Filtro  implements Serializable, Cloneable{
 //        this.qualidadeMax = qualidadeMax;
 //    }
 
-    public List<Impact> getImpacto() {
-        return impacto;
-    }
-
-    public void setImpacto(List<Impact> impacto) {
-        this.impacto = impacto;
-    }
+//    public List<Impact> getImpacto() {
+//        return impacto;
+//    }
+//
+//    public void setImpacto(List<Impact> impacto) {
+//        this.impacto = impacto;
+//    }
 
     public List<InformacaoBiologica> getInfBiologica() {
         return infBiologica;
@@ -1435,7 +1435,7 @@ public class Filtro  implements Serializable, Cloneable{
     
     @Override
     public String toString() {
-        return "Filtro{" + "id=" + id + ", analise=" + analise + ", genes=" + genes + ", cromossomos=" + cromossomos + ", qualidadeMin=" + "qualidadeMin" + ", qualidadeMax=" + "qualidadeMax" + ", impacto=" + impacto + ", infBiologica=" + infBiologica + '}';
+        return "Filtro{" + "id=" + id + ", analise=" + analise + ", genes=" + genes + ", cromossomos=" + cromossomos + ", qualidadeMin=" + "qualidadeMin" + ", qualidadeMax=" + "qualidadeMax" +  ", infBiologica=" + infBiologica + '}';
     }
     
     

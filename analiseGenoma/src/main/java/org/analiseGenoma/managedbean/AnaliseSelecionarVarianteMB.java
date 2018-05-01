@@ -334,9 +334,9 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
             filtroTemporario.getCromossomos().add(cromossomoService.buscarPorNome(s));
         }
 
-        filtroTemporario.setImpacto(new ArrayList<Impact>());
+        filtroTemporario.setImpacts(new HashSet<Impact>());
         for (String s : getSelectedImpacto()) {
-            filtroTemporario.getImpacto().add(impactoService.buscarPorNome(s));
+            filtroTemporario.getImpacts().add(impactoService.buscarPorNome(s));
         }
 
 //        filtroTemporario.setQualidadeMin(filtro.getQualidadeMin());
@@ -409,7 +409,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 //        selectedImpacto[0] = "LOW";
 //        selectedImpacto[1] = "MODERATE";
 //        selectedImpacto[2] = "MODIFIER";
-        List<Impact> limpacto = filtro.getImpacto();
+        List<Impact> limpacto = new ArrayList( filtro.getImpacts()) ;
         selectedImpacto = new String[limpacto.size()];
 
         for (int x = 0; x < limpacto.size(); x++) {
@@ -718,7 +718,10 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         this.callView(view);
     }
     
-    
+    public void viewFilterType() {
+        String view = "viewfilter_type";
+        this.callView(view);
+    }
     public void viewFilterRef() {
         String view = "viewfilter_ref";
         this.callView(view);
@@ -736,6 +739,11 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     
     public void viewFilterImpact(){
         String view = "viewfilter_impact";
+        this.callView(view);
+    }
+    
+    public void viewFilterClinvarSignificance(){
+        String view = "viewfilter_clinvarsignificance";
         this.callView(view);
     }
     

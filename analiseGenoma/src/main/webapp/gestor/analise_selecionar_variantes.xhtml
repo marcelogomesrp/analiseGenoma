@@ -206,7 +206,9 @@
                             </p:column>
                             <p:column style="width:180px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Type" />
+                                    <p:commandLink value="Typef" actionListener="#{analiseSelcMB.viewFilterType()}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.type.name}" />
                             </p:column>
@@ -231,7 +233,9 @@
                             </p:column>
                             <p:column style="width:100px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Clinvar significance" />
+                                    <p:commandLink value="Clinvar significance" actionListener="#{analiseSelcMB.viewFilterClinvarSignificance}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.clinvarSignificance.name}" />
                             </p:column>

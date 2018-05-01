@@ -208,7 +208,8 @@ public class VarianteDao extends DAO<Variante> {
             query.setParameter("cromossomos", filtro.getCromossomos());
 //            query.setParameter("qualiMin", filtro.getQualidadeMin());
 //            query.setParameter("qualiMax", filtro.getQualidadeMax());
-            query.setParameter("impactos", filtro.getImpacto());
+            //query.setParameter("impactos", filtro.getImpacto());
+            query.setParameter("impacts", filtro.getImpacts());
             variantes = query.getResultList();
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());
