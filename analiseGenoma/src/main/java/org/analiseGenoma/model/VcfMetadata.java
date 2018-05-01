@@ -63,17 +63,17 @@ public class VcfMetadata implements Serializable {
     
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Zygosity> zygosities;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> allelicDeph;
     @ManyToMany(fetch=FetchType.EAGER)
-    private Set<Filter> filters;
-    @ElementCollection
+    private Set<Filter> filters;    
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> hgvsCs;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> hgvsPs;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> idSNPs;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Integer> exonIntrons;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Type> typies;
@@ -97,15 +97,15 @@ public class VcfMetadata implements Serializable {
     private Set<MutationTaster> mutationTasters;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Lrt> lrts;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> gerpRsScores;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> gerpNeutralRates;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Feature> features;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Ensembl> ensembls;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> vertebrateGenomesConservationScores;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<InterproDomain> interproDomains;
@@ -113,31 +113,31 @@ public class VcfMetadata implements Serializable {
     private Set<VariantStatus> variantStatus;
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<GenoType> genoTypies;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> readDepths;    
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> alleleMutFraction;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> meanBaseQuality;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> varintType;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Boolean> validate;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Boolean> donorSpliceSite;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Boolean> acceptorSpliceSite;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Boolean> mutation;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> europeanVarintFreq;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> africanVarintFreq;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> asianVarintFreq;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> americanVarintFreq;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> wholeVarintFreq;
     
     private Double prevalenceMin;

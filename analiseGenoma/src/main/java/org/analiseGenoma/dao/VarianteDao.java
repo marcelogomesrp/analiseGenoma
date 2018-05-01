@@ -79,6 +79,7 @@ public class VarianteDao extends DAO<Variante> {
 
     public List<Variante> findByAnaliseFiltro(Analise analise, Filtro filtro) {
         List<Variante> retorno  = new ArrayList<>();
+        try{
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         CriteriaQuery<Variante> criteriaQuery = criteriaBuilder.createQuery(Variante.class);
         Root<Variante> root = criteriaQuery.from(Variante.class);
@@ -159,7 +160,7 @@ public class VarianteDao extends DAO<Variante> {
         }
         
         if(listaHasItens(filtro.getHgvscs())){
-            Expression<Integer> expression = root.get("hgvsC");
+            Expression<String> expression = root.get("hgvsC");
             Predicate where = expression.in(filtro.getHgvscs()) ;
             condicoes.add(where);
         }
@@ -179,7 +180,9 @@ public class VarianteDao extends DAO<Variante> {
 //            retorno = query.getResultList();
 //
 //        }
-
+        }catch(Exception ex){
+            System.out.println("Erro:VarianteDao.findByAnaliseFiltro: " + ex.getMessage());
+        }
         return retorno;
 
     }

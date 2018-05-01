@@ -180,7 +180,9 @@
                             </p:column>
                             <p:column style="width:310px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Hgvs_c" />
+                                    <p:commandLink value="Hgvs_c" actionListener="#{analiseSelcMB.viewFilterHgvsC()}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.hgvsC}" />
                             </p:column>
@@ -220,9 +222,11 @@
                             </p:column>
 
                             <p:column style="width:180px">
-                                <f:facet name="header" >
-                                    <h:outputText value="Impact" />
-                                </f:facet>    
+                                    <f:facet name="header" >
+                                        <p:commandLink value="Impact" actionListener="#{analiseSelcMB.viewFilterImpact()}"   >
+                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                        </p:commandLink>
+                                    </f:facet>    
                                 <h:outputText value="#{variant.impact.name}" />
                             </p:column>
                             <p:column style="width:100px">

@@ -75,6 +75,7 @@ public class FiltroService extends Service<Filtro> {
         //filtro.setGenes(geneDao.buscarAnalise(idAnalise));
         //filtro.setCromossomos(cromossomoDao.buscarPorAnalise(idAnalise));
         filtro.setEffects(getDao().buscarEffect(filtro.getId()));
+        
         filtro = this.loadFull(filtro);
         return filtro;
     }
@@ -192,6 +193,8 @@ public class FiltroService extends Service<Filtro> {
         filtro.setEffects(getDao().buscarEffect(filtro.getId()));
         filtro.setZygosities(getDao().buscarZygocity(filtro));
         filtro.setFilters(getDao().buscarFilter(filtro));
+        filtro.setImpacts(getDao().buscarImpact(filtro));
+        //filtro.setHgvscs(getDao().buscarHgvsC(filtro.getId()));
 //        filtro.setAlleciDeph1s(getDao().buscarAllelicDeph1(filtro));
 //        filtro.setAlleciDeph2s(getDao().buscarAllelicDeph2(filtro));
         return filtro;

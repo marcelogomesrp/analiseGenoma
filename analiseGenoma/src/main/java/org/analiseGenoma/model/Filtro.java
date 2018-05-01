@@ -598,7 +598,13 @@ public class Filtro  implements Serializable, Cloneable{
     }
 
     public void setHgvscs(Set<String> hgvscs) {
-        this.hgvscs = hgvscs;
+        Set<String> nova = new HashSet<>();
+        
+        hgvscs.forEach((s) -> {
+            nova.add( s.replaceAll("&gt;", ">") );
+        });
+        this.hgvscs = nova;
+        
     }
 
     public boolean isByHgvsp() {

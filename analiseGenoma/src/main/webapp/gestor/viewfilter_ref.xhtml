@@ -16,18 +16,24 @@
     <h:body>
 
         <h:form id="formView">
-            
-            <p:pickList value="#{VfRef.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
+            <p:panel  id="panel">
+                <h:outputLabel value="Filter by Reference" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byReference}" >
+                    <p:ajax update="panel" />
+                </p:selectBooleanCheckbox>
+                <p:pickList value="#{VfRef.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
                             showSourceFilter="true"
                             showTargetFilter="true" 
                             filterMatchMode="contains"
                             id="filtro"
+                            rendered="#{filterSB.filter.byReference}"
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
-            
+            </p:panel>
+
             <p:commandButton value="Aplicar" actionListener="#{VfRef.closeView()}"/>
 
         </h:form>

@@ -46,6 +46,7 @@ import org.analiseGenoma.service.VariantSelectedService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
+import org.analiseGenoma.sessionbean.FilterSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
@@ -116,6 +117,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private Analise analise;
     @Inject
     private AnaliseSB analiseSB;
+    @Inject
+    private FilterSB filterSB;
 
     @PostConstruct
     public void init() {
@@ -135,6 +138,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 //                //filtro = new Filtro();
 //                
                 filtro = filtroService.buscarPorAnalise(analise.getId());
+                filterSB.setFilter(filtro);
                 variantes = vcfService.findVariante(analise, filtro);
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
                 //  List<String> genesSource = new ArrayList<>();
@@ -725,6 +729,15 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         this.callView(view);
     }
     
+    public void viewFilterHgvsC(){
+        String view = "viewfilter_hgvsc";
+        this.callView(view);
+    }
+    
+    public void viewFilterImpact(){
+        String view = "viewfilter_impact";
+        this.callView(view);
+    }
     
         public void viewFilterEffect() {
         Map<String, Object> options = new HashMap<>();

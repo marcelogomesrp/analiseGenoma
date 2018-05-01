@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Filter changed</title>
+        <title>Filter hgvs_c</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -17,24 +17,25 @@
 
         <h:form id="formView">
             <p:panel  id="panel">
-                <h:outputLabel value="Filter by Changed" for="by"/>
-                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byChanged}" >
+                <h:outputLabel value="Filter by Hgvsc" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byHgvsc}" >
                     <p:ajax update="panel" />
                 </p:selectBooleanCheckbox>
-
-                <p:pickList value="#{VfChanged.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
+                <p:pickList value="#{VfHgvsC.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
                             showSourceFilter="true"
                             showTargetFilter="true" 
                             filterMatchMode="contains"
                             id="filtro"
-                            rendered="#{filterSB.filter.byChanged}"
+                            rendered="#{filterSB.filter.byHgvsc}"
+                            
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
             </p:panel>
-            <p:commandButton value="Aplicar" actionListener="#{VfChanged.closeView()}"/>
+
+            <p:commandButton value="Aplicar" actionListener="#{VfHgvsC.closeView()}"/>
 
         </h:form>
 

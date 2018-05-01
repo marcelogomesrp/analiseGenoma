@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Prevalence filter</title>
+        <title>Position filter</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -16,22 +17,35 @@
         <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
         <h:form id="formView">
             <p:growl id="messages" showDetail="true"/>
-            <p:panel header="Postiton">
-                <h:panelGrid columns="2">
+            <p:panel  id="panel">
+                <h:outputLabel value="Filter by Position" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byPosition}" >
+                    <p:ajax update="panel" />
+                </p:selectBooleanCheckbox>
+
+                <h:panelGrid columns="4" rendered="#{filterSB.filter.byPosition}">
                     <p:outputLabel value="min" />                          
                     <h:panelGrid columns="1" style="margin-bottom: 10px">
                         <p:spinner id="min" value="#{analiseSelcMB.filtro.positionMin}" stepFactor="1" min="#{analiseSelcMB.vcfMetadata.positonMin}" max="#{analiseSelcMB.filtro.positionMax}"/>   
                         <p:slider for="min"  minValue="#{analiseSelcMB.vcfMetadata.positonMin}" maxValue="#{analiseSelcMB.vcfMetadata.positonMax}"/>
                     </h:panelGrid>
+                    
+                    <h:outputText value="Min value: " />
+                    <h:outputText value="#{analiseSelcMB.vcfMetadata.positonMin}" />
+                    
+                    
 
                     <p:outputLabel value="max" />                        
                     <h:panelGrid columns="1" style="margin-bottom: 10px">
                         <p:spinner id="max" value="#{analiseSelcMB.filtro.positionMax}" stepFactor="1" min="#{analiseSelcMB.filtro.positionMin}" max="#{analiseSelcMB.vcfMetadata.positonMax}"/>   
                         <p:slider for="max"  minValue="#{analiseSelcMB.vcfMetadata.positonMin}" maxValue="#{analiseSelcMB.vcfMetadata.positonMax}"/>
                     </h:panelGrid>
+                    
+                    <h:outputText value="Max value: " />
+                    <h:outputText value="#{analiseSelcMB.vcfMetadata.positonMax}" />
                 </h:panelGrid>
-
-                <p:commandButton value="Aplicar" actionListener="#{analiseSelcMB.closeView()}"/>
+                <br />
+                    <p:commandButton value="Aplicar" actionListener="#{analiseSelcMB.closeView()}"/>
             </p:panel>
         </h:form>
 
