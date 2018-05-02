@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Filter Type</title>
+        <title>Filter Feature</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -17,26 +17,27 @@
 
         <h:form id="formView">
             <p:panel  id="panel">
-                <h:outputLabel value="Filter by Type" for="by"/>
-                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byType}" >
+                <h:outputLabel value="Feature" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byFeature}" >
                     <p:ajax update="panel" />
                 </p:selectBooleanCheckbox>
-                <p:pickList value="#{VfTypef.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
+                <p:pickList value="#{VfFeature.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
                             showSourceFilter="true"
                             showTargetFilter="true" 
                             filterMatchMode="contains"
                             id="filtro"
-                            rendered="#{filterSB.filter.byType}"
+                            rendered="#{filterSB.filter.byFeature}"
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
             </p:panel>
 
-            <p:commandButton value="Aplicar" actionListener="#{VfTypef.closeView()}"/>
+            <p:commandButton value="Aplicar" actionListener="#{VfFeature.closeView()}"/>
 
         </h:form>
 
     </h:body>
 </html>
+

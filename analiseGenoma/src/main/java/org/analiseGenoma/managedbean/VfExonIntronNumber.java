@@ -24,14 +24,12 @@ import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfMetadataService;
-import org.analiseGenoma.sessionbean.AnaliseSB;
-import org.analiseGenoma.sessionbean.FilterSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
-@Named(value = "VfRef")
+@Named(value = "VfExonintronnumber")
 @RequestScoped
-public class VfRef {
+public class VfExonIntronNumber {
     private DualListModel<String> list;
     private Long idAnalise;
     private VcfMetadata vcfMetadata;
@@ -44,23 +42,26 @@ public class VfRef {
     private FiltroService filtroService;
     @Inject
     private CromossomoService cromossomoService;
-    @Inject
-    private AnaliseSB analiseSB;
-    @Inject
-    private FilterSB filterSB;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
         if (idAnalise != null) {
             try{
-                Analise analise = analiseSB.getAnalise();
-                filtro = filterSB.getFilter();
+                Analise analise = analiseService.buscarPorId(idAnalise);
+                filtro = filtroService.buscarPorAnalise(analise.getId());   
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
-                //List<String> target = filtro.getCromossomos().stream().map(u -> u.getNome()).collect(Collectors.toList());
-                List<String> target = new ArrayList<String>(filtro.getReferencias());
-                //List<String> source = vcfMetadata.getCromossomos().stream().map(u -> u.getNome()).filter(u -> !target.contains(u)).collect(Collectors.toList());
-                List<String> source = vcfMetadata.getReferencias().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
+//                List<String> target = new ArrayList<String>(filtro.getExonintrons().stream().map(Integer::toString).collect(Collectors.toList());
+                
+                List<String> target = new ArrayList<>(filtro.getExonintrons().stream().map(Object::toString).collect(Collectors.toList()));
+
+//                List<String> target = new ArrayList<>();
+//                for(int i: filtro.getExonintrons()){
+//                    target.add(String.valueOf(i));
+//                }
+                List<String> source = vcfMetadata.getExonIntrons().stream().map(Object::toString).filter(u -> !target.contains(u)).collect(Collectors.toList());
+                        
+                //List<String> source = vcfMetadata.getExonIntrons().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
                 list = new DualListModel<>(source, target );  
             }catch(Exception ex){
                 System.out.println("VfRef Erro: " + ex);
@@ -101,7 +102,7 @@ public class VfRef {
         for(String ref: list.getTarget()){
             listRef.add(ref);
         }
-        //filtro.setByReference(!listRef.isEmpty());
+        filtro.setByReference(!listRef.isEmpty());
         filtro.setReferencias(listRef);      
     }
 }

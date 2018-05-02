@@ -194,6 +194,25 @@ public class FiltroService extends Service<Filtro> {
         filtro.setZygosities(getDao().buscarZygocity(filtro));
         filtro.setFilters(getDao().buscarFilter(filtro));
         filtro.setImpacts(getDao().buscarImpact(filtro));
+        filtro.setTypies(getDao().buscarType(filtro));
+        filtro.setClinvarAccessions(getDao().buscarClinvarAccession(filtro));
+        filtro.setClinvarsignificances(getDao().buscarClinvarSignificance(filtro));
+        filtro.setClinvardiseases(getDao().buscarClinvarDisease(filtro));
+        filtro.setClinvarAlleleTypes(getDao().buscarClinvarAlleleTypes(filtro));
+        filtro.setClinvarAlleleOrigins(getDao().buscarClinvarAlleleOrigins(filtro));
+        filtro.setSifts(getDao().buscarSift(filtro));
+        filtro.setPolyphenHdivs(getDao().buscarPolyphenHdiv(filtro));
+        filtro.setPolyphenHvars(getDao().buscarPolyphenHvar(filtro));
+        filtro.setMutationTasters(getDao().buscarMutationTaster(filtro));
+        filtro.setLrts(getDao().buscarLrt(filtro));
+        filtro.setFeatures(getDao().buscarFeature(filtro));
+        filtro.setEnsembls(getDao().buscarEnsembl(filtro));
+        filtro.setInterproDomains(getDao().buscarInterproDomain(filtro));
+        filtro.setVariantStatuses(getDao().buscarVariantStatus(filtro));
+        filtro.setGenoTypes(getDao().buscarGenoType(filtro));
+        
+        
+        
         //filtro.setHgvscs(getDao().buscarHgvsC(filtro.getId()));
 //        filtro.setAlleciDeph1s(getDao().buscarAllelicDeph1(filtro));
 //        filtro.setAlleciDeph2s(getDao().buscarAllelicDeph2(filtro));

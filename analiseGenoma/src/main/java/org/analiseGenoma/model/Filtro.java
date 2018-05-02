@@ -47,6 +47,9 @@ public class Filtro  implements Serializable, Cloneable{
     private boolean byHgvsc;
     @Column(name = "by_hgvsp")
     private boolean byHgvsp;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> idSnps;    
     @Column(name = "by_idsnp")
     private boolean byIdSNP;
     @Column(name = "by_type")
@@ -241,6 +244,7 @@ public class Filtro  implements Serializable, Cloneable{
     private boolean byChromosome;
     @ManyToMany
     private Set<Cromossomo> cromossomos;
+   
     
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -1426,6 +1430,14 @@ public class Filtro  implements Serializable, Cloneable{
 
     public void setByAcceptorSpliceSite(Boolean byAcceptorSpliceSite) {
         this.byAcceptorSpliceSite = byAcceptorSpliceSite;
+    }
+
+    public Set<String> getIdSnps() {
+        return idSnps;
+    }
+
+    public void setIdSnps(Set<String> idSnps) {
+        this.idSnps = idSnps;
     }
 
     

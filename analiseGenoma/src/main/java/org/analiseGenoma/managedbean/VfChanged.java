@@ -24,6 +24,8 @@ import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfMetadataService;
+import org.analiseGenoma.sessionbean.AnaliseSB;
+import org.analiseGenoma.sessionbean.FilterSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -42,14 +44,19 @@ public class VfChanged {
     private FiltroService filtroService;
     @Inject
     private CromossomoService cromossomoService;
+    @Inject
+    private FilterSB filterSB;
+    @Inject
+    private AnaliseSB analiseSB;
+    
     
     @PostConstruct
     public void init() {
-        idAnalise = (Long) FacesUtil.getSessionMapValue("id");
-        if (idAnalise != null) {
+//        idAnalise = (Long) FacesUtil.getSessionMapValue("id");
+//        if (idAnalise != null) {
             try{
-                Analise analise = analiseService.buscarPorId(idAnalise);
-                filtro = filtroService.buscarPorAnalise(analise.getId());   
+                Analise analise = analiseSB.getAnalise();
+                filtro = filterSB.getFilter();
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
                 List<String> target = new ArrayList<String>(filtro.getChangeds());
                 List<String> source = vcfMetadata.getAlterado().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
@@ -58,7 +65,7 @@ public class VfChanged {
                 System.out.println("VfChanged Erro: " + ex);
             }
         }
-    }
+//    }
     
     public void closeView(){
         this.updateFiltro();
@@ -93,7 +100,7 @@ public class VfChanged {
         for(String ref: list.getTarget()){
             listl.add(ref);
         }
-        filtro.setByChanged(!listl.isEmpty());
+        //filtro.setByChanged(!listl.isEmpty());
         filtro.setChangeds(listl);      
     }
 }

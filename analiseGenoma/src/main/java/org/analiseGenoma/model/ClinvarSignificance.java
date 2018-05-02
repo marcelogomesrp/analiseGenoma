@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "linvar_significance")
+@Table(name = "clinvar_significance")
 public class ClinvarSignificance implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

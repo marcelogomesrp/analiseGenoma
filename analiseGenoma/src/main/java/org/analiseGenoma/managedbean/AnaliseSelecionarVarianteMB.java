@@ -47,6 +47,7 @@ import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.VcfService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
 import org.analiseGenoma.sessionbean.FilterSB;
+import org.analiseGenoma.sessionbean.VcfMetadataSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
@@ -119,6 +120,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private AnaliseSB analiseSB;
     @Inject
     private FilterSB filterSB;
+    @Inject
+    private VcfMetadataSB metadataSB;
 
     @PostConstruct
     public void init() {
@@ -141,6 +144,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 filterSB.setFilter(filtro);
                 variantes = vcfService.findVariante(analise, filtro);
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
+                metadataSB.setVcfMetadata(vcfMetadata);
                 //  List<String> genesSource = new ArrayList<>();
                 //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
                 //List<String> genesTarget = new ArrayList<>(vcfMetadata.getGenes()); 
@@ -737,6 +741,11 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         this.callView(view);
     }
     
+    public void viewFilterHgvsP(){
+        String view = "viewfilter_hgvsp";
+        this.callView(view);
+    }
+    
     public void viewFilterImpact(){
         String view = "viewfilter_impact";
         this.callView(view);
@@ -746,6 +755,129 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         String view = "viewfilter_clinvarsignificance";
         this.callView(view);
     }
+    
+    //aqui inicio
+    public void viewFilterAmericanvariantfreq(){
+        String view = "viewfilter_americanvariantfreq";
+        this.callView(view);
+    }
+    public void viewFilterAcceptorslicesite(){
+        String view = "viewfilter_acceptorslicesite";
+        this.callView(view);
+    }
+    public void viewFilterAfrincavariantfreq(){
+        String view = "viewfilter_afrincavariantfreq";
+        this.callView(view);
+    }
+    public void viewFilterAlllelemutfraction(){
+        String view = "viewfilter_alllelemutfraction";
+        this.callView(view);
+    }
+    public void viewFilterAssianvariantfreq(){
+        String view = "viewfilter_assianvariantfreq";
+        this.callView(view);
+    }
+    public void viewFilterClinvarAccession(){
+        String view = "viewfilter_clinvaraccession";
+        this.callView(view);
+    }
+    public void viewFilterClinvaralleleorign(){
+        String view = "viewfilter_clinvaralleleorign";
+        this.callView(view);
+    }
+    public void viewFilterClinvaralleletype(){
+        String view = "viewfilter_clinvaralleletype";
+        this.callView(view);
+    }
+    public void viewFilterClinvarDisease(){
+        String view = "viewfilter_clinvarDisease";
+        this.callView(view);
+    }
+    public void viewFilterDbsnp(){
+        String view = "viewfilter_dbsnp";
+        this.callView(view);
+    }
+    public void viewFilterDonorsplicesite(){
+        String view = "viewfilter_donorsplicesite";
+        this.callView(view);
+    }
+    public void viewFilterEnsembl(){
+        String view = "viewfilter_ensembl";
+        this.callView(view);
+    }  
+    public void viewFilterEuropenavariantfreq(){
+        String view = "viewfilter_europenavariantfreq";
+        this.callView(view);
+    } 
+    public void viewFilterFeature(){
+        String view = "viewfilter_feature";
+        this.callView(view);
+    } 
+    public void viewFilterGenotype(){
+        String view = "viewfilter_genotype";
+        this.callView(view);
+    }     
+    public void viewFilterGerpneutralrate(){
+        String view = "viewfilter_gerpneutralrate";
+        this.callView(view);
+    } 
+    public void viewFilterGerprsscore(){
+        String view = "viewfilter_gerprsscore";
+        this.callView(view);
+    } 
+    public void viewFilterInterprodomain(){
+        String view = "viewfilter_interprodomain";
+        this.callView(view);
+    } 
+    public void viewFilterLrt(){
+        String view = "viewfilter_lrt";
+        this.callView(view);
+    } 
+    public void viewFilterMeanbasequality(){
+        String view = "viewfilter_meanbasequality";
+        this.callView(view);
+    } 
+    public void viewFilterMutationtaster(){
+        String view = "viewfilter_mutationtaster";
+        this.callView(view);
+    } 
+    public void viewFilterPolyphenhdiv(){
+        String view = "viewfilter_polyphenhdiv";
+        this.callView(view);
+    } 
+    public void viewFilterPolyphenhvar(){
+        String view = "viewfilter_polyphenhvar";
+        this.callView(view);
+    } 
+    public void viewFilterReaddepth(){
+        String view = "viewfilter_readdepth";
+        this.callView(view);
+    }     
+    public void viewFilterSift(){
+        String view = "viewfilter_sift";
+        this.callView(view);
+    } 
+    public void viewFilterStatus(){
+        String view = "viewfilter_status";
+        this.callView(view);
+    }  
+    public void viewFilterVarianttype(){
+        String view = "viewfilter_varianttype";
+        this.callView(view);
+    } 
+      
+     public void viewFilterVertebrategenomesconservationscore(){
+        String view = "viewfilter_vertebrategenomesconservationscore";
+        this.callView(view);
+    } 
+     
+    public void viewFilterExonintronnumber(){
+        String view = "viewfilter_exonintronnumber";
+        this.callView(view);
+    } 
+
+    
+    
     
         public void viewFilterEffect() {
         Map<String, Object> options = new HashMap<>();

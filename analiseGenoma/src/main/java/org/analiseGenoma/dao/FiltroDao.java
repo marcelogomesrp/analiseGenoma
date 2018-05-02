@@ -313,6 +313,12 @@ public class FiltroDao extends DAO<Filtro> {
         return new HashSet(list);
     }
     
+    public Set<Type> buscarType(Filtro filtro) {
+        Query query = manager.createQuery("SELECT f.typies FROM Filtro f WHERE f.id = :idFiltro");
+        query.setParameter("idFiltro", filtro.getId());
+        List<GenoType> list = query.getResultList();
+        return new HashSet(list);
+    }
 
 
 }

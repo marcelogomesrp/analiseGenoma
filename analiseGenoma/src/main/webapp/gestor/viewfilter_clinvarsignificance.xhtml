@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Filter reference</title>
+        <title>Filter Clinvar significance</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -17,24 +17,24 @@
 
         <h:form id="formView">
             <p:panel  id="panel">
-                <h:outputLabel value="Filter by Reference" for="by"/>
-                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byReference}" >
+                <h:outputLabel value="Filter by Clinvar significance" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byCinvarSignificance}" >
                     <p:ajax update="panel" />
                 </p:selectBooleanCheckbox>
-                <p:pickList value="#{VfRef.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
+                <p:pickList value="#{VfClinvarSignificance.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
                             showSourceFilter="true"
                             showTargetFilter="true" 
                             filterMatchMode="contains"
                             id="filtro"
-                            rendered="#{filterSB.filter.byReference}"
+                            rendered="#{filterSB.filter.byCinvarSignificance}"
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
             </p:panel>
 
-            <p:commandButton value="Aplicar" actionListener="#{VfRef.closeView()}"/>
+            <p:commandButton value="Aplicar" actionListener="#{VfClinvarSignificance.closeView()}"/>
 
         </h:form>
 

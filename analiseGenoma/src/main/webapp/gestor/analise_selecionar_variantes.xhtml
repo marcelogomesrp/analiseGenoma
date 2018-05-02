@@ -87,9 +87,9 @@
 
 
 
-
-                        <p:dataTable value="#{analiseSelcMB.variantes}" var="variant" scrollable="true" scrollWidth="100%" id="tabela"
-                                     rows="10"
+                        <!-- rows="{userSB.user.rowsInTable}" -->
+                        <p:dataTable value="#{analiseSelcMB.variantes}" var="variant" scrollable="true" scrollWidth="98%" id="tabela"
+                                     rows="5"
                                      paginator="true">
                             <p:column style="width:32px">
                                 <f:facet name="header" >
@@ -188,19 +188,25 @@
                             </p:column>
                             <p:column style="width:300px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Hgvs_p" />
+                                    <p:commandLink value="Hgvs_p" actionListener="#{analiseSelcMB.viewFilterHgvsP()}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.hgvsP}" />
                             </p:column>
                             <p:column style="width:150px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Dbsnp" />
-                                </f:facet>    width
+                                    <p:commandLink value="Dbsnp" actionListener="#{analiseSelcMB.viewFilterDbsnp()}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
+                                </f:facet>    
                                 <h:outputText value="#{variant.idSNP}" />
                             </p:column>
-                            <p:column style="width:60px">
+                            <p:column style="width:100px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Exon/Intron number" />
+                                    <p:commandLink value="Exon/Intron number" actionListener="#{analiseSelcMB.viewFilterExonintronnumber()}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.exonIntron}" />
                             </p:column>
@@ -241,177 +247,235 @@
                             </p:column>
                             <p:column style="width:300px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Clinvar disease" />
+                                    <p:commandLink value="Clinvar disease" actionListener="#{analiseSelcMB.viewFilterClinvarDisease}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.clinvarDisease.name}" />
                             </p:column>
                             <p:column style="width:300px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Clinvar accession" />
+                                    <p:commandLink value="Clinvar accession" actionListener="#{analiseSelcMB.viewFilterClinvarAccession}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.clinvarAccession.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Clinvar allele type" />
+                                    <p:commandLink value="Clinvar allele type" actionListener="#{analiseSelcMB.viewFilterClinvaralleletype}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.clinvarAlleleType.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Clinvar allele orign" />
+                                    <p:commandLink value="Clinvar allele orign" actionListener="#{analiseSelcMB.viewFilterClinvaralleleorign}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.clinvarAlleleOrigin.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Sift" />
+                                    <p:commandLink value="Sift" actionListener="#{analiseSelcMB.viewFilterSift}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.sift.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Polyphen hdiv" />
+                                    <p:commandLink value="Polyphen hdiv" actionListener="#{analiseSelcMB.viewFilterPolyphenhdiv}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.polyphenHdiv.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Polyphen hvar" />
+                                    <p:commandLink value="Polyphen hvar" actionListener="#{analiseSelcMB.viewFilterPolyphenhvar}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.polyphenHvar.name}" />
                             </p:column>
                             <p:column style="width:180px">
                                 <f:facet name="header" >
-                                    <h:outputText value="mutation taster" />
+                                    <p:commandLink value="Mutation taster" actionListener="#{analiseSelcMB.viewFilterMutationtaster}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.mutationTaster.name}" />
                             </p:column>
                             <p:column style="width:180px">
                                 <f:facet name="header" >
-                                    <h:outputText value="LRT" />
+                                    <p:commandLink value="LRT" actionListener="#{analiseSelcMB.viewFilterLrt}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.lrt.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Gerp rs score" />
+                                    <p:commandLink value="Gerp rs score" actionListener="#{analiseSelcMB.viewFilterGerprsscore}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.gerpRsScore}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Gerp neutral rate" />
+                                    <p:commandLink value="Gerp neutral rate" actionListener="#{analiseSelcMB.viewFilterGerpneutralrate}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.gerpNeutralRate}" />
                             </p:column>
                             <p:column style="width:180px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Feature" />
+                                    <p:commandLink value="Feature" actionListener="#{analiseSelcMB.viewFilterFeature}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.feature.name}" />
                             </p:column>
                             <p:column style="width:200px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Ensembl" />
+                                    <p:commandLink value="Ensembl" actionListener="#{analiseSelcMB.viewFilterEnsembl}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.ensembl.idEnsembl}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Vertebrate genomes conservation score" />
+                                    <p:commandLink value="Vertebrate genomes conservation score" actionListener="#{analiseSelcMB.viewFilterVertebrategenomesconservationscore}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.vertebrateGenomesConservationScore}" />
                             </p:column>
                             <p:column style="width:200px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Interpro domain" />
+                                    <p:commandLink value="Interpro domain" actionListener="#{analiseSelcMB.viewFilterInterprodomain}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.interproDomain.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Status" />
+                                    <p:commandLink value="Status" actionListener="#{analiseSelcMB.viewFilterStatus}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.variantStatus.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Genotype" />
+                                    <p:commandLink value="Genotype" actionListener="#{analiseSelcMB.viewFilterGenotype}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.genoType.name}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Read depth" />
+                                    <p:commandLink value="Read depth" actionListener="#{analiseSelcMB.viewFilterReaddepth}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.readDepth}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Alllele mut fraction" />
+                                    <p:commandLink value="Alllele mut fraction" actionListener="#{analiseSelcMB.viewFilterAlllelemutfraction}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.alleleMutFraction}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="mean base quality" />
+                                    <p:commandLink value="Mean base quality" actionListener="#{analiseSelcMB.viewFilterMeanbasequality}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.meanBaseQuality}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Variant type" />
+                                    <p:commandLink value="Variant type" actionListener="#{analiseSelcMB.viewFilterVarianttype}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.varintType}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Validate" />
+                                    <p:commandLink value="Validate" actionListener="#{analiseSelcMB.viewFilterValidate}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.validate}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Donor splice site" />
+                                    <p:commandLink value="Donor splice site" actionListener="#{analiseSelcMB.viewFilterDonorsplicesite}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.donorSpliceSite}" />
                             </p:column>
                             <p:column style="width:80px">
-                                <f:facet name="header" >
-                                    <h:outputText value="acceptor slice site" />
+                                <f:facet name="header" >                                    
+                                    <p:commandLink value="Acceptor slice site" actionListener="#{analiseSelcMB.viewFilterAcceptorslicesite}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.acceptorSpliceSite}" />
                             </p:column>
                             <p:column style="width:80px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Is mutation" />
+                                    <p:commandLink value="Is mutation" actionListener="#{analiseSelcMB.viewFilterIsmutation}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.mutation}" />
                             </p:column>
                             <p:column style="width:250px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Europena variant freq" />
+                                    <p:commandLink value="Europena variant freq" actionListener="#{analiseSelcMB.viewFilterEuropenavariantfreq}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.europeanVarintFreq}" />
                             </p:column>
                             <p:column style="width:250px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Afrinca variant freq" />
+                                    <p:commandLink value="Afrinca variant freq" actionListener="#{analiseSelcMB.viewFilterAfrincavariantfreq}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.africanVarintFreq}" />
                             </p:column>
                             <p:column style="width:250px">
                                 <f:facet name="header" >
-                                    <h:outputText value="Assian variant freq" />
+                                     <p:commandLink value="Assian variant freq" actionListener="#{analiseSelcMB.viewFilterAssianvariantfreq}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
                                 <h:outputText value="#{variant.asianVarintFreq}" />
                             </p:column>
                             <p:column style="width:250px">
                                 <f:facet name="header" >
-                                    <h:outputText value="American variant freq" />
+                                    <p:commandLink value="American variant freq" actionListener="#{analiseSelcMB.viewFilterAmericanvariantfreq}"   >
+                                        <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                    </p:commandLink>
                                 </f:facet>    
-                                <h:outputText value="#{variant.americanVarintFreq}" />
+                                <h:outputText value="#{variant.americanVarintFreq}" />                                
                             </p:column>
                             <p:column style="width:250px">
                                 <f:facet name="header" >

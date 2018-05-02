@@ -19,19 +19,22 @@ import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.model.Type;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
+import org.analiseGenoma.service.TypeService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
 import org.analiseGenoma.sessionbean.FilterSB;
+import org.analiseGenoma.sessionbean.VcfMetadataSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
-@Named(value = "VfRef")
+@Named(value = "VfTypef")
 @RequestScoped
-public class VfRef {
+public class VfTypef {
     private DualListModel<String> list;
     private Long idAnalise;
     private VcfMetadata vcfMetadata;
@@ -48,6 +51,10 @@ public class VfRef {
     private AnaliseSB analiseSB;
     @Inject
     private FilterSB filterSB;
+    @Inject
+    private VcfMetadataSB metadataSB;
+    @Inject
+    private TypeService typeService;
     
     @PostConstruct
     public void init() {
@@ -56,11 +63,9 @@ public class VfRef {
             try{
                 Analise analise = analiseSB.getAnalise();
                 filtro = filterSB.getFilter();
-                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
-                //List<String> target = filtro.getCromossomos().stream().map(u -> u.getNome()).collect(Collectors.toList());
-                List<String> target = new ArrayList<String>(filtro.getReferencias());
-                //List<String> source = vcfMetadata.getCromossomos().stream().map(u -> u.getNome()).filter(u -> !target.contains(u)).collect(Collectors.toList());
-                List<String> source = vcfMetadata.getReferencias().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
+                vcfMetadata = metadataSB.getVcfMetadata();
+                List<String> target = filtro.getTypies().stream().map(u -> u.getName()).sorted().collect(Collectors.toList());
+                List<String> source = vcfMetadata.getTypies().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).sorted().collect(Collectors.toList());                
                 list = new DualListModel<>(source, target );  
             }catch(Exception ex){
                 System.out.println("VfRef Erro: " + ex);
@@ -97,11 +102,14 @@ public class VfRef {
     }
 
     private void updateFiltro() {
-        Set<String> listRef = new HashSet<>();
+        Set<Type> listRef = new HashSet<>();
         for(String ref: list.getTarget()){
-            listRef.add(ref);
+            List<Type> tmp = typeService.findByName(ref);
+            if(!tmp.isEmpty()){
+                listRef.add(tmp.get(0));
+            }
         }
-        //filtro.setByReference(!listRef.isEmpty());
-        filtro.setReferencias(listRef);      
+        filtro.setByType(!listRef.isEmpty());
+        filtro.setTypies(listRef);      
     }
 }

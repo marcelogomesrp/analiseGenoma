@@ -24,6 +24,7 @@ import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
+import org.analiseGenoma.sessionbean.FilterSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -44,13 +45,17 @@ public class VfChr {
     private CromossomoService cromossomoService;
     @Inject
     private AnaliseSB analiseSB;
+    @Inject
+    private FilterSB filterSB;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
         if (idAnalise != null) {
-                Analise analise = analiseService.buscarPorId(idAnalise);
-                filtro = filtroService.buscarPorAnalise(analise.getId());   
+                //Analise analise = analiseService.buscarPorId(idAnalise);
+                //filtro = filtroService.buscarPorAnalise(analise.getId());   
+                Analise analise = analiseSB.getAnalise();
+                filtro = filterSB.getFilter();
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
                 List<String> target = filtro.getCromossomos().stream().map(u -> u.getNome()).sorted().collect(Collectors.toList());
                 List<String> source = vcfMetadata.getCromossomos().stream().map(u -> u.getNome()).filter(u -> !target.contains(u)).sorted().collect(Collectors.toList());
@@ -99,6 +104,8 @@ public class VfChr {
                 Logger.getLogger(VfChr.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        filtro.setCromossomos(listFilter);        
+        filtro.setCromossomos(listFilter);  
+//        filtro.setByCromossomo(!listFilter.isEmpty());
+        System.out.println("ok");
     }
 }

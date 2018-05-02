@@ -19,12 +19,10 @@ import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Filtro;
 import org.analiseGenoma.model.VcfMetadata;
-import org.analiseGenoma.service.AnaliseService;
-import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
-import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
 import org.analiseGenoma.sessionbean.FilterSB;
+import org.analiseGenoma.sessionbean.VcfMetadataSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -35,18 +33,15 @@ public class VfDbsnp {
     private Long idAnalise;
     private VcfMetadata vcfMetadata;
     private Filtro filtro;
-    @Inject
-    private AnaliseService analiseService;
-    @Inject 
-    private VcfMetadataService vcfMetadataService;
+
     @Inject
     private FiltroService filtroService;
-    @Inject
-    private CromossomoService cromossomoService;
     @Inject
     private AnaliseSB analiseSB;
     @Inject
     private FilterSB filterSB;
+    @Inject
+    private VcfMetadataSB metadataSB;
     
     @PostConstruct
     public void init() {
@@ -55,12 +50,12 @@ public class VfDbsnp {
             try{
                 Analise analise = analiseSB.getAnalise();
                 filtro = filterSB.getFilter();
-                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
-                List<String> target = new ArrayList<String>(filtro.getHgvscs());
-                List<String> source = vcfMetadata.getHgvsCs().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
+                vcfMetadata = metadataSB.getVcfMetadata();
+                List<String> target = new ArrayList<String>(filtro.getIdSnps());
+                List<String> source = vcfMetadata.getIdSNPs().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
                 list = new DualListModel<>(source, target );  
             }catch(Exception ex){
-                System.out.println("VfRef Erro: " + ex);
+                System.out.println("VfDbsnp.init Erro: " + ex);
             }
         }
     }
@@ -98,7 +93,7 @@ public class VfDbsnp {
         for(String valor: list.getTarget()){
             newList.add(valor);
         }
-        filtro.setByHgvsc(!newList.isEmpty());
-        filtro.setHgvscs(newList);  
+        filtro.setByIdSNP(!newList.isEmpty());
+        filtro.setIdSnps(newList);  
     }
 }
