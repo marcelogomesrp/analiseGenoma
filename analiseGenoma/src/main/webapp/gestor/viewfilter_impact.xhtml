@@ -14,10 +14,13 @@
     </h:head>
 
     <h:body>
-        <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
         <h:form id="formView">
             <p:growl id="messages" showDetail="true"/>
-            <p:panel >
+            <p:panel id="panel">
+                <h:outputLabel value="Filter by Impact" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byImpact}" >
+                    <p:ajax update="panel" />
+                </p:selectBooleanCheckbox>
 
                 <p:pickList value="#{VfImpact.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
@@ -25,14 +28,16 @@
                             showTargetFilter="true" 
                             filterMatchMode="contains"
                             id="effectFiltro"
+                            rendered="#{filterSB.filter.byImpact}"
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
 
 
-                <p:commandButton value="Aplicar" actionListener="#{VfImpact.closeView()}"/>
+
             </p:panel>
+            <p:commandButton value="Aplicar" actionListener="#{VfImpact.closeView()}"/>
         </h:form>
 
     </h:body>

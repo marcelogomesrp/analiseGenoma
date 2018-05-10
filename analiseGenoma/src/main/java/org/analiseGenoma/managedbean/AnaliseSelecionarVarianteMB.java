@@ -145,6 +145,15 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 variantes = vcfService.findVariante(analise, filtro);
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
                 metadataSB.setVcfMetadata(vcfMetadata);
+                
+                if(filtro.getPositionMin() == null){
+                    filtro.setPositionMin(vcfMetadata.getPositonMin());
+                }
+                if(filtro.getPositionMax() == null){
+                    filtro.setPositionMax(vcfMetadata.getPositonMax());
+                }
+                
+                
                 //  List<String> genesSource = new ArrayList<>();
                 //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
                 //List<String> genesTarget = new ArrayList<>(vcfMetadata.getGenes()); 
@@ -573,8 +582,10 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private void callView(String view) {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
-        options.put("width", 800);
-        options.put("height", 380);
+        options.put("width", 1024);
+        options.put("height",768);
+//        options.put("width", 800);
+//        options.put("height", 380);
         options.put("contentWidth", "100%");
         options.put("contentHeight", "100%");
         options.put("headerElement", "customheader");

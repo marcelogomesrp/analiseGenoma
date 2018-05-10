@@ -23,6 +23,7 @@ import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.CromossomoService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfMetadataService;
+import org.analiseGenoma.sessionbean.FilterSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -44,6 +45,7 @@ public class VfAllelic2 {
     private FiltroService filtroService;
     @Inject
     private CromossomoService cromossomoService;
+    @Inject private FilterSB filterSB;
     
     @PostConstruct
     public void init() {
@@ -52,7 +54,8 @@ public class VfAllelic2 {
         if (idAnalise != null) {
             try {
                 Analise analise = analiseService.buscarPorId(idAnalise);
-                filtro = filtroService.buscarPorAnalise(analise.getId());
+                //filtro = filtroService.buscarPorAnalise(analise.getId());
+                filtro = filterSB.getFilter();
 //                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
 //                List<String> target = new ArrayList<String>(filtro.getChangeds());
 //                List<String> source = vcfMetadata.getAlterado().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
@@ -103,9 +106,6 @@ public class VfAllelic2 {
             for (String s : allelics) {
                 listl.add(Integer.valueOf(s));
             }
-            filtro.setByAllelicDeph2(!listl.isEmpty());
-        } else {
-            filtro.setByAllelicDeph2(false);
         }
         filtro.setAlleciDeph2s(listl);        
     }

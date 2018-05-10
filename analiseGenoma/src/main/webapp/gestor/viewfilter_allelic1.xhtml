@@ -16,9 +16,15 @@
     <h:body>
 
         <h:form id="formView">
-            
-            <p:chips value="#{VfAllelic1.allelics}"  id="selectAllelic1"  />
-            
+            <p:panel id="panel">
+                <h:outputLabel value="Allelic deph1" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byAllelicDeph1}" >
+                    <p:ajax update="panel" />
+                </p:selectBooleanCheckbox>   
+                <br />
+                <h:outputLabel value="Allelic" for="selectAllelic1" rendered="#{filterSB.filter.byAllelicDeph1}"/>
+                <p:chips value="#{VfAllelic1.allelics}"  id="selectAllelic1" rendered="#{filterSB.filter.byAllelicDeph1}" />
+            </p:panel>
             <p:commandButton value="Aplicar" actionListener="#{VfAllelic1.closeView()}"/>
 
         </h:form>

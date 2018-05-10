@@ -56,8 +56,8 @@ public class VfClinvarAlleleOrign {
             Analise analise = analiseSB.getAnalise();
             filtro = filterSB.getFilter();
             vcfMetadata = metadataSB.getVcfMetadata();
-            List<String> target = filtro.getClinvarAlleleTypes().stream().map(u -> u.getName()).sorted().collect(Collectors.toList());
-            List<String> source = vcfMetadata.getClinvarAlleleTypies().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).sorted().collect(Collectors.toList());
+            List<String> target = filtro.getClinvarAlleleOrigins().stream().map(u -> u.getName()).sorted().collect(Collectors.toList());
+            List<String> source = vcfMetadata.getClinvarAlleleOrigins().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).sorted().collect(Collectors.toList());
             list = new DualListModel<>(source, target);
         } catch (Exception ex) {
             System.out.println("VfClinvarAlleleOrign.init Erro: " + ex);
@@ -101,7 +101,7 @@ public class VfClinvarAlleleOrign {
                 listRef.add(tmp.get(0));
             }
         }
-        filtro.setByType(!listRef.isEmpty());
+//        filtro.setByType(!listRef.isEmpty());
         filtro.setClinvarAlleleOrigins(listRef);
     }
 }

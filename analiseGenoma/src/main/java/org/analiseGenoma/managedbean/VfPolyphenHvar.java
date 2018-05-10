@@ -97,7 +97,7 @@ public class VfPolyphenHvar {
                 listRef.add(tmp.get(0));
             }
         }
-        filtro.setByType(!listRef.isEmpty());
+//        filtro.setByType(!listRef.isEmpty());
         filtro.setPolyphenHvars(listRef);
     }
 }

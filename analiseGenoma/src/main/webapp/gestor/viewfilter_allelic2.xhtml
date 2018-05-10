@@ -16,12 +16,20 @@
     <h:body>
 
         <h:form id="formView">
-            
-            <p:chips value="#{VfAllelic2.allelics}"  id="selectAllelic2"  />
-            
+
+
+
+
+            <p:panel id="panel">
+                <h:outputLabel value="Allelic deph2" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byAllelicDeph2}" >
+                    <p:ajax update="panel" />
+                </p:selectBooleanCheckbox>   
+                <br />
+                <h:outputLabel value="Allelic" for="selectAllelic2" rendered="#{filterSB.filter.byAllelicDeph2}"/>
+                <p:chips value="#{VfAllelic2.allelics}"  id="selectAllelic2" rendered="#{filterSB.filter.byAllelicDeph2}" />
+            </p:panel>
             <p:commandButton value="Aplicar" actionListener="#{VfAllelic2.closeView()}"/>
-
         </h:form>
-
     </h:body>
 </html>

@@ -109,7 +109,7 @@ public class VfTypef {
                 listRef.add(tmp.get(0));
             }
         }
-        filtro.setByType(!listRef.isEmpty());
+//        filtro.setByType(!listRef.isEmpty());
         filtro.setTypies(listRef);      
     }
 }

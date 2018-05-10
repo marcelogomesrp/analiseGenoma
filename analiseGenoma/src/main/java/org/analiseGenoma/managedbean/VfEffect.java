@@ -23,6 +23,7 @@ import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.EffectService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfMetadataService;
+import org.analiseGenoma.sessionbean.FilterSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -43,13 +44,16 @@ public class VfEffect {
     //private UmdPredictorService umdPredictorService;
     @Inject
     private EffectService effectService;
+    @Inject
+    private FilterSB filterSB;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
         if (idAnalise != null) {
                 Analise analise = analiseService.buscarPorId(idAnalise);
-                filtro = filtroService.buscarPorAnalise(analise.getId());   
+//                filtro = filtroService.buscarPorAnalise(analise.getId());   
+                filtro = filterSB.getFilter();
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
                 //List<String> target = filtro.getUmdPredictors().stream().map(u -> u.getName()).collect(Collectors.toList());
                 //List<String> source = vcfMetadata.getUmdPredictors().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());

@@ -211,6 +211,8 @@ public class FiltroService extends Service<Filtro> {
         filtro.setVariantStatuses(getDao().buscarVariantStatus(filtro));
         filtro.setGenoTypes(getDao().buscarGenoType(filtro));
         
+
+        
         
         
         //filtro.setHgvscs(getDao().buscarHgvsC(filtro.getId()));

@@ -51,7 +51,7 @@
                                         </p:column>
                                     </p:row>
 
-                                    <p:row>
+                                    <p:row rendered="#{filterSB.filter.byPosition}">
                                         <p:column>
                                             <h:outputText value="Position" />
                                         </p:column>
@@ -64,13 +64,213 @@
                                             <h:outputText value="#{analiseSelcMB.filtro.positionMax}" />
                                         </p:column>
                                     </p:row>
-                                    <p:row>
+                                    <p:row rendered="#{filterSB.filter.byGene}">
                                         <p:column>
                                             <h:outputText value="Gene" />
                                         </p:column>
                                         <p:column colspan="2">
                                             <p:repeat value="#{analiseSelcMB.filtro.genes.toArray()}" var="gene">
-                                                <h:outputText value="#{gene.symbol}" />
+                                                <h:outputText value="#{gene.symbol}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byReference}">
+                                        <p:column>
+                                            <h:outputText value="Reference" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.referencias.toArray()}" var="item">
+                                                <h:outputText value="#{item}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>     
+                                    <p:row rendered="#{filterSB.filter.byChanged}">
+                                        <p:column>
+                                            <h:outputText value="Changed" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.changeds.toArray()}" var="item">
+                                                <h:outputText value="#{item}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byUmdPredictor}">
+                                        <p:column>
+                                            <h:outputText value="UMD Predictor" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.umdPredictors.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byZygocity}">
+                                        <p:column>
+                                            <h:outputText value="Zygocity" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.zygosities.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byAllelicDeph1}">
+                                        <p:column>
+                                            <h:outputText value="Allelic deph1" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.alleciDeph1s.toArray()}" var="item">
+                                                <h:outputText value="#{item}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byAllelicDeph2}">
+                                        <p:column>
+                                            <h:outputText value="Allelic deph2" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.alleciDeph2s.toArray()}" var="item">
+                                                <h:outputText value="#{item}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byFilter}">
+                                        <p:column>
+                                            <h:outputText value="Filter" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.filters.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byHgvsc}">
+                                        <p:column>
+                                            <h:outputText value="Hgvsc" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.hgvscs.toArray()}" var="item">
+                                                <h:outputText value="#{item}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byHgvsp}">
+                                        <p:column>
+                                            <h:outputText value="Hgvsp" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.hgvsps.toArray()}" var="item">
+                                                <h:outputText value="#{item}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byIdSNP}">
+                                        <p:column>
+                                            <h:outputText value="DbSNP" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.idSnps.toArray()}" var="item">
+                                                <h:outputText value="#{item}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byType}">
+                                        <p:column>
+                                            <h:outputText value="Type" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.typies.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byEffect}">
+                                        <p:column>
+                                            <h:outputText value="Effect" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.effects.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byImpact}">
+                                        <p:column>
+                                            <h:outputText value="Impact" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.impacts.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byClinvarDisease}">
+                                        <p:column>
+                                            <h:outputText value="Clinvar Disease" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.clinvardiseases.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byClinvarAccession}">
+                                        <p:column>
+                                            <h:outputText value="Clinvar Accession" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.clinvarAccessions.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byClinvarAlleleType}">
+                                        <p:column>
+                                            <h:outputText value="Clinvar Allele Type" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.clinvarAlleleTypes.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byClinvarAlleleOrigin}">
+                                        <p:column>
+                                            <h:outputText value="Clinvar Allele Origin" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.clinvarAlleleOrigins.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.bySift}">
+                                        <p:column>
+                                            <h:outputText value="Sift" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.sifts.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byPolyphenhdiv}">
+                                        <p:column>
+                                            <h:outputText value="Polyphenhdiv" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.polyphenHdivs.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byPolypheHvar}">
+                                        <p:column>
+                                            <h:outputText value="Polyphenhdiv" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.polyphenHvars.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
                                             </p:repeat>
                                         </p:column>
                                     </p:row>

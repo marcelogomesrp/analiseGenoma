@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Import Variante file</title>
+        <title>Umd predictor</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -14,10 +14,9 @@
     </h:head>
 
     <h:body>
-        <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
         <h:form id="formView">
             <p:growl id="messages" showDetail="true"/>
-            <p:panel header="Umd Predictor" id="panel">
+            <p:panel  id="panel">
                 <h:outputLabel value="Filter by Umd Predictor" for="by"/>
                 <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byUmdPredictor}" >
                     <p:ajax update="panel" />

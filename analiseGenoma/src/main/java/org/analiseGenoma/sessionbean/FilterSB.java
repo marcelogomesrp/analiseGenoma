@@ -11,10 +11,18 @@ import org.analiseGenoma.model.Filtro;
 @SessionScoped
 public class FilterSB implements Serializable {
     private Filtro filter;
+//    @Inject
+//    private FilterSB filterSB;
+//    @Inject
+//    private VcfMetadataSB vcfMetadataSB;
 
     @PostConstruct
     public void init() {
         filter = new Filtro();
+//        filter = filterSB.getFilter();
+//        if(filter.getPositionMin() == null){
+//            //filter.setPositionMin(vcfMetadataSB.getVcfMetadata().getPositonMin());
+//        }
     }
 
     public Filtro getFilter() {

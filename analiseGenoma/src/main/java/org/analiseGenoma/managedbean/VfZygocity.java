@@ -17,14 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.model.UmdPredictor;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.model.Zygosity;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.FiltroService;
-import org.analiseGenoma.service.UmdPredictorService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.ZygosityService;
+import org.analiseGenoma.sessionbean.FilterSB;
+import org.analiseGenoma.sessionbean.VcfMetadataSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -43,14 +43,20 @@ public class VfZygocity {
     private FiltroService filtroService;
     @Inject
     private ZygosityService zygosityService;
+    @Inject
+    private FilterSB filterSB;
+    @Inject
+    private VcfMetadataSB vcfMetadataSB;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
         if (idAnalise != null) {
                 Analise analise = analiseService.buscarPorId(idAnalise);
-                filtro = filtroService.buscarPorAnalise(analise.getId());   
-                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
+                //filtro = filtroService.buscarPorAnalise(analise.getId());   
+                filtro = filterSB.getFilter();
+                //vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
+                vcfMetadata = vcfMetadataSB.getVcfMetadata();
                 List<String> target = filtro.getZygosities().stream().map(u -> u.getName()).collect(Collectors.toList());
                 //List<String> target = new ArrayList<>();
                 List<String> source = vcfMetadata.getZygosities().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());

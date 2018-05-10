@@ -101,7 +101,7 @@ public class VfClinvarDisease {
                 listRef.add(tmp.get(0));
             }
         }
-        filtro.setByType(!listRef.isEmpty());
+//        filtro.setByType(!listRef.isEmpty());
         filtro.setClinvardiseases(listRef);
     }
 }

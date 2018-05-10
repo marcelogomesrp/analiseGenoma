@@ -14,16 +14,21 @@
     </h:head>
 
     <h:body>
-        <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
         <h:form id="formView">
             <p:growl id="messages" showDetail="true"/>
-            <p:panel header="Filter">
+            <p:panel id="panel">
+                <h:outputLabel value="Filter" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byFilter}" >
+                    <p:ajax update="panel" />
+                </p:selectBooleanCheckbox>   
+                <br />
                 <p:pickList value="#{VfFilter.list}" var="item" itemLabel="#{item}" itemValue="#{item}" 
                             responsive="true"
                             showSourceFilter="true"
                             showTargetFilter="true" 
                             filterMatchMode="contains"
                             id="filtro"
+                            rendered="#{filterSB.filter.byFilter}"
                             >
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>

@@ -93,7 +93,7 @@ public class VfDbsnp {
         for(String valor: list.getTarget()){
             newList.add(valor);
         }
-        filtro.setByIdSNP(!newList.isEmpty());
+//        filtro.setByIdSNP(!newList.isEmpty());
         filtro.setIdSnps(newList);  
     }
 }

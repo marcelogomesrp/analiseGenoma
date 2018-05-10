@@ -23,6 +23,8 @@ import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.UmdPredictorService;
 import org.analiseGenoma.service.VcfMetadataService;
+import org.analiseGenoma.sessionbean.FilterSB;
+import org.analiseGenoma.sessionbean.VcfMetadataSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -41,14 +43,18 @@ public class VfUmdPredictor {
     private FiltroService filtroService;
     @Inject
     private UmdPredictorService umdPredictorService;
+    @Inject private VcfMetadataSB vcfMetadataSB;
+    @Inject private FilterSB filterSB;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
         if (idAnalise != null) {
-                Analise analise = analiseService.buscarPorId(idAnalise);
-                filtro = filtroService.buscarPorAnalise(analise.getId());   
-                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
+                //Analise analise = analiseService.buscarPorId(idAnalise);
+                //filtro = filtroService.buscarPorAnalise(analise.getId());   
+                //vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
+                filtro = filterSB.getFilter();
+                vcfMetadata = vcfMetadataSB.getVcfMetadata();
                 List<String> target = filtro.getUmdPredictors().stream().map(u -> u.getName()).collect(Collectors.toList());
                 //List<String> target = new ArrayList<>();
                 List<String> source = vcfMetadata.getUmdPredictors().stream().map(u -> u.getName()).filter(u -> !target.contains(u)).collect(Collectors.toList());

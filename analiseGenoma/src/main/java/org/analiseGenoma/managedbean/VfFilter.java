@@ -24,6 +24,7 @@ import org.analiseGenoma.service.FilterService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.service.ZygosityService;
+import org.analiseGenoma.sessionbean.FilterSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -42,13 +43,15 @@ public class VfFilter {
     private FiltroService filtroService;
     @Inject
     private FilterService filterService;
+    @Inject private FilterSB filterSB;
     
     @PostConstruct
     public void init() {
         idAnalise = (Long) FacesUtil.getSessionMapValue("id");
         if (idAnalise != null) {
                 Analise analise = analiseService.buscarPorId(idAnalise);
-                filtro = filtroService.buscarPorAnalise(analise.getId());   
+                //filtro = filtroService.buscarPorAnalise(analise.getId());   
+                filtro = filterSB.getFilter();
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());              
                 //List<String> target = filtro.getZygosities().stream().map(u -> u.getName()).collect(Collectors.toList());
                 List<String> target = filtro.getFilters().stream().map(u -> u.getName()).collect(Collectors.toList());

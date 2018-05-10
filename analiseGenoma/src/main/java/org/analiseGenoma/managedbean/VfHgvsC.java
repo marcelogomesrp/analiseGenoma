@@ -101,7 +101,6 @@ public class VfHgvsC {
         for(String valor: list.getTarget()){
             newList.add(valor);
         }
-        filtro.setByHgvsc(!newList.isEmpty());
         filtro.setHgvscs(newList);  
     }
 }
