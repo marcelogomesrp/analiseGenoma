@@ -98,7 +98,7 @@ public class VfGenotype {
                 listRef.add(tmp.get(0));
             }
         }
-        filtro.setByType(!listRef.isEmpty());
+//        filtro.setByType(!listRef.isEmpty());
         filtro.setGenoTypes(listRef);
     }
 }

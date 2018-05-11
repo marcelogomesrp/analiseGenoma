@@ -1,9 +1,8 @@
 package org.analiseGenoma.service;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.DbBioInfoDao;
@@ -30,6 +29,11 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
     private DbBioInfoDao getDao() {
         return ((DbBioInfoDao) dao);
     }
+    
+    public DbBioInfo findByIDbIdDisease(Long idDb, Long IdDisease){
+        return getDao().findByIDbIdDisease(idDb,IdDisease);
+    }
+    
 
     @Transactional
     public void uploadInfo(byte[] contents, DbBio bd) {
@@ -115,6 +119,10 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
 //        //throw new UnsupportedOperationException("Not supported yet."); //To change bodDoy of generated methods, choose Tools | Templates.
 //       return  getDao().findGeneByDisease(disease);
 //    }
+
+    public DbBioInfo findByIDbIdDiseaseIdGene(Long idDb, Long idDisease, Long geneId) {
+        return getDao().findByIDbIdDiseaseIdGene(idDb, idDisease, geneId);
+    }
 
 }
 

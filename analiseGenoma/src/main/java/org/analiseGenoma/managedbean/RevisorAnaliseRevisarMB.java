@@ -14,15 +14,22 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.analiseGenoma.managedbean.util.ColumnModel;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Analise;
+import org.analiseGenoma.model.DbBio;
+import org.analiseGenoma.model.DbBioInfo;
 import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.model.InformacaoBiologica;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
 import org.analiseGenoma.service.AnaliseService;
+import org.analiseGenoma.service.DbBioInfoService;
+import org.analiseGenoma.service.DbBioService;
 import org.analiseGenoma.service.FiltroService;
+import org.analiseGenoma.service.InformacaoBiologicaService;
 import org.analiseGenoma.service.VariantSelectedService;
 import org.analiseGenoma.service.VarianteRevisadaService;
 import org.analiseGenoma.service.VcfService;
@@ -58,17 +65,36 @@ public class RevisorAnaliseRevisarMB implements Serializable {
     
     @Inject
     private UserSB reviser;
+    private boolean hideVariantChecked;
+    private List<DbBio> bancos;
+    @Inject private DbBioService dbBioService;
     
+    private List<ColumnModel> columns;
+    @Inject
+    private InformacaoBiologicaService infoBioService;
+    @Inject
+    private DbBioInfoService dbBioInfoService;
     //private User revisor;
 
     @PostConstruct
     public void init() {
+        bancos = new ArrayList<>();
         if (id != null) {
+             bancos = dbBioService.find();
+             this.addDBColumn();
+            
+            
             //revisor = usuarioMB.getUsuario();
             analise = analiseService.buscarPorId(Long.valueOf(id));
             filtro = filtroService.buscarPorAnalise(analise.getId());
             //variantes = vcfService.findVariante(analise, filtro);
-            variantes = variantSelectedService.findByAnalise(analise);
+            //variantes = variantSelectedService.findByAnalise(analise);
+            variantes = vcfService.findVariante(analise, filtro);
+//            if(hideVariantChecked){
+//                for(Variante v: variantes){
+//                    if(v.)
+//                }
+//            }
             System.out.println("Qtd: " + reviser.getUser().getRowsInTable());
             //variantesRev = varianteRevisadaService.findByAnaliseRevisor(analise.getVcf(), reviser.getUser());
             
@@ -144,5 +170,68 @@ public class RevisorAnaliseRevisarMB implements Serializable {
         RequestContext.getCurrentInstance().openDialog("viewopinar", options, params);
         variantes = vcfService.findVariante(analise, filtro);
     }
+
+    public boolean isHideVariantChecked() {
+        return hideVariantChecked;
+    }
+
+    public void setHideVariantChecked(boolean hideVariantChecked) {
+        this.hideVariantChecked = hideVariantChecked;
+    }
+
+    public List<DbBio> getBancos() {
+        return bancos;
+    }
+
+    public void setBancos(List<DbBio> bancos) {
+        this.bancos = bancos;
+    }
+    
+    private void addDBColumn() {
+    
+        columns = new ArrayList<ColumnModel>();
+        //columns.add(new ColumnModel(columnKey.toUpperCase(), columnKey));
+//        columns.add(new ColumnModel("Omin", "Omin"));
+//        columns.add(new ColumnModel("NCBI", "ncbi"));
+//        columns.add(new ColumnModel("Oubrobd", "OutroBd"));
+        Integer x = 0;
+        for (DbBio bd : bancos) {
+            columns.add(new ColumnModel(bd.getName(), (x++).toString()));
+        }
+    }
+
+    public List<ColumnModel> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnModel> columns) {
+        this.columns = columns;
+    }
+    
+    public String bdInfo(String bdName, Long geneId) {
+        //return "aqui: " + bd + "id " + id;     
+        DbBio bd = bancos.get(Integer.valueOf(bdName));
+        InformacaoBiologica info = null;        
+        try {
+            // SELECT * FROM dbbioinfo_gene WHERE dbbioinfo_disease_id_disease = 93612 AND genes_id_gene = 10877;
+             //SELECT * FROM dbbioinfo_gene WHERE dbbioinfo_dbbio_id_dbbio = 2 AND dbbioinfo_disease_id_disease = 93612 AND genes_id_gene = 10877;
+
+            //info = infoBioService.buscaBdGene(bd.getId(), geneId);            
+            DbBioInfo info2 = dbBioInfoService.findByIDbIdDiseaseIdGene(bd.getId(), analise.getPatologia().getId(), geneId);
+            
+            if(info2 == null){
+                //return "http://" + bd.getUrl() +  "/"+  bd.getId() +"/"+ analise.getPatologia().getId();
+                return "";
+            }else{
+                return info2.getUrl();
+            }
+        } catch (Exception ex) {
+            System.out.println("AnaliseSelecionarVarianteMB: Nao foi possivel recuerar a info: " + ex.getMessage());
+            return "e: " + ex.getMessage();
+        }
+        //return "none";
+        //return "";
+    }
+
     
 }

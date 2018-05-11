@@ -939,7 +939,12 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         return "analise_select_reviser.xhtml?faces-redirect=true";
     }
     
-
+    public int getQtdVariantes(){
+        if(variantes!=null){
+            return variantes.size();
+        }
+        return 0;
+    }
 }
 
 //        for(String g: duaListGene.getTarget()){

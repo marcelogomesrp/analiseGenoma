@@ -26,6 +26,23 @@
                                     <h:outputText id="name" value="#{analiseSelcMB.analise.nome}" />
                                     <h:outputLabel value="Note: " for="obs" />
                                     <h:outputText id="obs" value="#{analiseSelcMB.analise.observacao}" />                            
+                                    
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Disease">
+                                <p:panelGrid columns="2">
+                                    <h:outputLabel value="Disease id: " for="idD" />
+                                    <h:outputText id="idD" value="#{analiseSelcMB.analise.patologia.id}" />
+                                    <h:outputLabel value="Disease name: " for="disease" />
+                                    <h:outputText id="disease" value="#{analiseSelcMB.analise.patologia.name}" />
+                                    <h:outputLabel value="Age: " for="age" />
+                                    <h:outputText id="age" value="#{analiseSelcMB.analise.patologia.age}" />
+                                    <h:outputLabel value="ICD: " for="icd" />
+                                    <h:outputText id="icd" value="#{analiseSelcMB.analise.patologia.icd}" />
+                                    <h:outputLabel value="Inheritance Type: " for="inheritanceType" />
+                                    <h:outputText id="inheritanceType" value="#{analiseSelcMB.analise.patologia.inheritanceType}" />
+                                    <h:outputLabel value="Prevalence: " for="prevalence" />
+                                    <h:outputText id="prevalence" value="#{analiseSelcMB.analise.patologia.prevalence}" />
                                 </p:panelGrid>
                             </p:tab>
                             <p:tab title="Filter" >
@@ -37,6 +54,22 @@
 
                                         <p:column>
                                             <p:commandButton value="Update filter name" id="withIcon" actionListener="#{analiseSelcMB.updateFilterName}"  icon="ui-icon-disk"  update="formulario:messages" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column >
+                                            <h:outputLabel value="full variant" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <h:outputLabel value="#{analiseSelcMB.vcfMetadata.qtdVariante}" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column >
+                                            <h:outputLabel value="selected variant" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <h:outputLabel value="#{analiseSelcMB.qtdVariantes}" />
                                         </p:column>
                                     </p:row>
                                     <p:row rendered="#{analiseSelcMB.filtro.byChromosome}" >
@@ -274,6 +307,66 @@
                                             </p:repeat>
                                         </p:column>
                                     </p:row>
+                                    <p:row rendered="#{filterSB.filter.byMutationTaster}">
+                                        <p:column>
+                                            <h:outputText value="Mutation taster" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.mutationTasters.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byLrt}">
+                                        <p:column>
+                                            <h:outputText value="Lrt" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.lrts.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byFeature}">
+                                        <p:column>
+                                            <h:outputText value="Feature" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.features.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byEnsembl}">
+                                        <p:column>
+                                            <h:outputText value="Ensembl" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.ensembls.toArray()}" var="item">
+                                                <h:outputText value="#{item.idEnsembl}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byInterproDomain}">
+                                        <p:column>
+                                            <h:outputText value="Interpro domain" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.interproDomains.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{filterSB.filter.byGenoType}">
+                                        <p:column>
+                                            <h:outputText value="Geno Type" />
+                                        </p:column>
+                                        <p:column colspan="2">
+                                            <p:repeat value="#{analiseSelcMB.filtro.genoTypes.toArray()}" var="item">
+                                                <h:outputText value="#{item.name}, " />
+                                            </p:repeat>
+                                        </p:column>
+                                    </p:row>
                                 </p:panelGrid>
 
                             </p:tab>
@@ -282,7 +375,7 @@
 
                         <p:panelGrid columns="2"  styleClass="ui-panelgrid-blank">
                             <p:commandButton value="Finalize selection" action="#{analiseSelcMB.finalizarSelecao()}"/>
-                            <p:commandButton value="Finalize selection_old" action="#{aSelcReviserMB.openView(analiseSelcMB.analise)}"/>
+                            <!-- <p:commandButton value="Finalize selection_old" action="{aSelcReviserMB.openView(analiseSelcMB.analise)}"/> -->
                         </p:panelGrid>
 
 

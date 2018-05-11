@@ -12,23 +12,29 @@
                     <p:outputLabel value="Id" />
                     <h:outputText value="#{revAnaliseRevisarMB.id}" />
                     <br />
-                    <p:panel header="Analise Revisar">
+                    <p:panel header="Analise Revisar1">
+                        <p:panelGrid columns="2" rendered="false">
+                            <h:outputLabel value="Hide variant checked" />
+                            <p:selectBooleanCheckbox value="#{revAnaliseRevisarMB.hideVariantChecked}"/>
+                        </p:panelGrid>
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <p:dataTable value="#{revAnaliseRevisarMB.variantes}" var="variant"  scrollable="true" scrollWidth="100%" 
                                          rows="#{userSB.user.rowsInTable}" 
-                                     paginator="true">
+                                         paginator="true">
 
 
                                 <p:column style="width:150px">
                                     <f:facet name="header" >
-                                        <h:outputText value="relacionado" />
+                                        <h:outputText value="answer" />
                                     </f:facet>        
-                                    <p:commandButton value="Opinar" actionListener="#{revAnaliseRevisarMB.viewOpinar(variant.id)}" />
+                                    <p:commandButton value="Opine" actionListener="#{revAnaliseRevisarMB.viewOpinar(variant.id)}" />
                                 </p:column>
+
                                 
-                                
-                                
-                                
+
+
+
+
                                 <p:column style="width:32px">
                                     <f:facet name="header" >
                                         <h:outputText value="Id" />
@@ -328,20 +334,38 @@
                                     </f:facet>    
                                     <h:outputText value="#{variant.wholeVarintFreq}" />
                                 </p:column>
-                                
+
                                 <p:column style="width:250px">
                                     <f:facet name="header" >
                                         <h:outputText value="observação" />
                                     </f:facet>                                
                                     <h:outputText value="#{revAnaliseRevisarMB.observacao(variant.id)}" />
                                 </p:column>
-                                
+
+                                <p:columns value="#{revAnaliseRevisarMB.columns}" var="column" columnIndexVar="colIndex" style="width:400px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{column.header}" />
+                                </f:facet>               
+                                <h:outputLink value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" target="_blank">
+                                    <h:outputText value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" />
+                                </h:outputLink>
+                                <!--
+                                <h:outputLink value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" target="_blank">
+                                    <h:outputText value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" />
+                                </h:outputLink>
+                                -->
+                            </p:columns>
 
 
 
                             </p:dataTable>
                         </p:panelGrid>
                         <p:commandButton value="Finalizar" action="#{revAnaliseRevisarMB.finalizar}" ajax="false"/>
+                        
+                        <h:outputText value="bancos" />
+                        <p:repeat value="#{revAnaliseRevisarMB.bancos}" var="bd">
+                            <h:outputText value="#{bd.name}" />
+                        </p:repeat>
                     </p:panel>                
                 </h:form>
             </ui:define>

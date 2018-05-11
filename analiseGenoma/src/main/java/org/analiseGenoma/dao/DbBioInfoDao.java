@@ -36,5 +36,31 @@ public class DbBioInfoDao extends DAO<DbBioInfo> {
 //            return null;
 //        }        
 //    }
+
+    public DbBioInfo findByIDbIdDisease(Long idDb, Long idDisease) {
+        Query q = manager.createQuery("SELECT i FROM DbBioInfo i WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease");
+        q.setParameter("idBd", idDb);
+        q.setParameter("idDisease", idDisease);
+        List<DbBioInfo> l = q.getResultList();
+        return this.getFirstOrNull(l);
+    }
+
+    public DbBioInfo findByIDbIdDiseaseIdGene(Long idDb, Long idDisease, Long geneId) {
+//        Query q = manager.createQuery("SELECT i FROM DbBioInfo i WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease");
+        //Query q = manager.createQuery("SELECT i FROM DbBioInfo i WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease and i.genes.id in (:geneId)");
+        Query q = manager.createQuery("SELECT i FROM DbBioInfo i INNER JOIN i.genes g WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease and g.id = :geneId");
+         
+        q.setParameter("idBd", idDb);
+        q.setParameter("idDisease", idDisease);
+        q.setParameter("geneId", geneId);
+        List<DbBioInfo> l =    q.setMaxResults(2).getResultList();
+//        List<DbBioInfo> l = q.getResultList();
+        if(l.isEmpty()){
+            return null;
+        }else{
+            return l.get(0);
+        }
+        //return this.getFirstOrNull(l);
+    }
     
 }

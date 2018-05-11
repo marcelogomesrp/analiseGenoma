@@ -91,6 +91,9 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         vmd.setClinvarAlleleTypies(this.getClinvarAlleleTypies());
         vmd.setClinvarAlleleOrigins(this.getClinvarAlleleOrigins());
         vmd.setPolyphenHdivs(this.getPolyphenHdivs());
+        //aqui3
+        vmd.setPolyphenHvars(this.getPolyphenHvars());
+        
         vmd.setMutationTasters(this.getMutationTasters());
         vmd.setLrts(this.getLrts());
         vmd.setGerpRsScores(this.getGerpRsScores());

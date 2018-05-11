@@ -98,7 +98,7 @@ public class VfFeature {
                 listRef.add(tmp.get(0));
             }
         }
-        filtro.setByType(!listRef.isEmpty());
+//        filtro.setByType(!listRef.isEmpty());
         filtro.setFeatures(listRef);
     }
 }
