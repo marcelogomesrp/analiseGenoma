@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <p:panel header="Laudar">
+                    <h:form>
+                        <p:accordionPanel>
+                            <p:tab title="Report">
+
+                                <h:panelGrid columns="2" >
+                                    <p:outputLabel value="Analise" />
+                                    <h:outputText value="#{analiseLaudarMB.analiseLaudo.analise.nome}"/>
+                                    <!--
+                                    <p:outputLabel value="cid" for="cid"/>
+                                    <p:autoComplete id="cid" value="{analiseLaudarMB.cid}" completeMethod="{analiseLaudarMB.cidComplete}"  >
+                                        <p:ajax event="itemSelect" listener="{analiseLaudarMB.onCidSelect}" update="patologia" />
+                                    </p:autoComplete>
+                                    
+                                    <p:outputLabel value="Patologia" for="patologia"/>
+                                    <p:autoComplete id="patologia" value="{analiseLaudarMB.patologia}" completeMethod="{analiseLaudarMB.patologiaComplete}" >
+                                        <p:ajax event="itemSelect" listener="{analiseLaudarMB.onPatologiaSelect}" update="cid" />
+                                    </p:autoComplete>
+                                    -->
+                                    <p:outputLabel value="Patologia" for="patologia"/>
+                                    <p:inputText value="#{analiseLaudarMB.analiseLaudo.patologia.name}" id="patologia"/>
+                                    <p:outputLabel value="Patogenic" />
+                                    <p:selectBooleanButton value="#{analiseLaudarMB.analiseLaudo.correlato}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:80px"/>
+                                    <p:outputLabel value="Note" />
+                                    <p:textEditor  value="#{analiseLaudarMB.analiseLaudo.note}" height="300" style="margin-bottom:10px"/>
+                                </h:panelGrid>
+                                <p:commandButton value="Save" action="#{analiseLaudarMB.salvar}"/>
+                            </p:tab>
+                            <p:tab title="Revisers">
+                                <p:dataTable value="#{revAnaliseRevisarMB.variantes}" var="variant"  scrollable="true" scrollWidth="98%" 
+                                         rows="#{userSB.user.rowsInTable}" 
+                                         paginator="true">
+
+
+                                <p:column style="width:150px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="answer" />
+                                    </f:facet>        
+                                    <p:commandButton value="Opine" actionListener="#{revAnaliseRevisarMB.viewOpinar(variant.id)}" />
+                                </p:column>
+
+                                
+
+
+
+
+                                <p:column style="width:32px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Id" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.id}" />
+                                </p:column>
+                                <p:column style="width:40px">
+                                    <f:facet name="header" >
+                                        <p:commandLink value="Chr" actionListener="#{analiseSelcMB.viewFilterChr()}"   >
+                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                        </p:commandLink>
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.cromossomo.nome}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >                                    
+                                        <p:commandLink value="Position" actionListener="#{analiseSelcMB.viewFilterPositon()}"   >
+                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                        </p:commandLink>
+
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.position}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >                                
+                                        <p:commandLink value="ref" actionListener="#{analiseSelcMB.viewFilterRef()}"   >
+                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                        </p:commandLink>
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.referencia}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="changed" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.alterado}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <p:commandLink value="Gene" actionListener="#{analiseSelcMB.viewFilterGene()}"   >
+                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                        </p:commandLink>
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.gene.symbol}" />
+                                </p:column>
+                                <p:column style="width:160px">
+                                    <f:facet name="header" >                                
+                                        <p:commandLink value="Umd predictor" actionListener="#{analiseSelcMB.viewFilterUmdPredictor() }" >
+                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
+                                        </p:commandLink>
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.umdPredictor.name}" />
+                                </p:column>
+                                <p:column style="width:120px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Zygocity" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.zygosity.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Allelic deph" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.allelicDeph}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Filter" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.filter.name}" />
+                                </p:column>
+                                <p:column style="width:310px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Hgvs_c" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.hgvsC}" />
+                                </p:column>
+                                <p:column style="width:300px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Hgvs_p" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.hgvsP}" />
+                                </p:column>
+                                <p:column style="width:150px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Dbsnp" />
+                                    </f:facet>    width
+                                    <h:outputText value="#{variant.idSNP}" />
+                                </p:column>
+                                <p:column style="width:60px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Exon/Intron number" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.exonIntron}" />
+                                </p:column>
+                                <p:column style="width:180px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Type" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.type.name}" />
+                                </p:column>
+                                <p:column style="width:250px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Effect" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.effect.name}" />
+                                </p:column>
+                                <p:column style="width:180px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Impact" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.impact.name}" />
+                                </p:column>
+                                <p:column style="width:100px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Clinvar significance" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.clinvarSignificance.name}" />
+                                </p:column>
+                                <p:column style="width:300px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Clinvar disease" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.clinvarDisease.name}" />
+                                </p:column>
+                                <p:column style="width:300px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Clinvar accession" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.clinvarAccession.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Clinvar allele type" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.clinvarAlleleType.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Clinvar allele orign" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.clinvarAlleleOrigin.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Sift" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.sift.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Polyphen hdiv" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.polyphenHdiv.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Polyphen hvar" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.polyphenHvar.name}" />
+                                </p:column>
+                                <p:column style="width:180px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="mutation taster" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.mutationTaster.name}" />
+                                </p:column>
+                                <p:column style="width:180px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="LRT" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.lrt.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Gerp rs score" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.gerpRsScore}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Gerp neutral rate" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.gerpNeutralRate}" />
+                                </p:column>
+                                <p:column style="width:180px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Feature" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.feature.name}" />
+                                </p:column>
+                                <p:column style="width:200px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Ensembl" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.ensembl.idEnsembl}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Vertebrate genomes conservation score" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.vertebrateGenomesConservationScore}" />
+                                </p:column>
+                                <p:column style="width:200px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Interpro domain" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.interproDomain.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Status" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.variantStatus.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Genotype" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.genoType.name}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Read depth" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.readDepth}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Alllele mut fraction" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.alleleMutFraction}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="mean base quality" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.meanBaseQuality}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Variant type" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.varintType}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Validate" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.validate}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Donor splice site" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.donorSpliceSite}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="acceptor slice site" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.acceptorSpliceSite}" />
+                                </p:column>
+                                <p:column style="width:80px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Is mutation" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.mutation}" />
+                                </p:column>
+                                <p:column style="width:250px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Europena variant freq" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.europeanVarintFreq}" />
+                                </p:column>
+                                <p:column style="width:250px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Afrinca variant freq" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.africanVarintFreq}" />
+                                </p:column>
+                                <p:column style="width:250px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Assian variant freq" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.asianVarintFreq}" />
+                                </p:column>
+                                <p:column style="width:250px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="American variant freq" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.americanVarintFreq}" />
+                                </p:column>
+                                <p:column style="width:250px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Whole variant freq" />
+                                    </f:facet>    
+                                    <h:outputText value="#{variant.wholeVarintFreq}" />
+                                </p:column>
+
+                                <p:column style="width:250px">
+                                    <f:facet name="header" >
+                                        <h:outputText value="observação" />
+                                    </f:facet>                                
+                                    <h:outputText value="#{revAnaliseRevisarMB.observacao(variant.id)}" />
+                                </p:column>
+
+                                <p:columns value="#{revAnaliseRevisarMB.columns}" var="column" columnIndexVar="colIndex" style="width:400px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{column.header}" />
+                                </f:facet>               
+                                <h:outputLink value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" target="_blank">
+                                    <h:outputText value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" />
+                                </h:outputLink>
+                                <!--
+                                <h:outputLink value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" target="_blank">
+                                    <h:outputText value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" />
+                                </h:outputLink>
+                                -->
+                            </p:columns>
+
+
+
+                            </p:dataTable>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </h:form>
+                </p:panel>
+                <h:outputText value="Incluir os genes e as respostas dos revisores" />
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

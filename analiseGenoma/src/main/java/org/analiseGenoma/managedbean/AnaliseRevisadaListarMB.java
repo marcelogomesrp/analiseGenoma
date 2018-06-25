@@ -15,9 +15,9 @@ import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
 
-@Named(value = "analiseLaudarMB")
+@Named(value = "analiseRevisadaListarMB")
 @ViewScoped
-public class AnaliseLaudarMB implements Serializable {
+public class AnaliseRevisadaListarMB implements Serializable {
 
     @Inject
     private FacesContext context;
@@ -63,13 +63,12 @@ public class AnaliseLaudarMB implements Serializable {
             analiseLaudo = analiseLaudoService.find(analise);
             if(analiseLaudo == null){
                 analiseLaudo = new AnaliseLaudo();
-                analiseLaudo.setAnalise(analise);
             }else{
-                //cid = analiseLaudo.getPatologia().getIcd();
+                cid = analiseLaudo.getPatologia().getIcd();
                 //patologia = analiseLaudo.getPatologia().getName();
-                //analiseLaudo.setPatologia(analiseLaudo.getPatologia());
+                analiseLaudo.setPatologia(analiseLaudo.getPatologia());
             }
-            
+            analiseLaudo.setAnalise(analise);
         } catch (Exception ex) {
             System.out.println("Erro init analise laudar: " + ex.getMessage());
         }
