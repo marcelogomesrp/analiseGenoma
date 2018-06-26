@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:head>
-        <title>Import Variante file</title>
+        <title>Import variant file</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -13,24 +14,29 @@
     </h:head>
 
     <h:body>
-        <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
+        <!-- <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i> -->
         <!-- <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i> -->
         <h:form enctype="multipart/form-data" id="formularioUpload">
 
-            <p:panel header="Adicionar VCF">                
-                <p:panelGrid  columns="2" styleClass="ui-panelgrid-blank">          
+            
+                
+<p:panelGrid columns="2" 
+             layout="grid" styleClass="ui-panelgrid-blank" >
+                
                     <p:outputLabel value="Id" for="a"/>
                     <h:outputText id="a" value="#{patientSB.patient.id}"/>
                     
                     <p:outputLabel value="Patient's name" for="patientName"/>
                     <h:outputText value="#{patientSB.patient.name}" id="patientName"/>                    
                     <p:outputLabel value="age" for="idade"/>
-                    <p:inputNumber id="idade" value="#{pacienteVcfMB.vcf.idadeDoPaciente}" decimalPlaces="0" minValue="0" maxValue="120" />
+                    <p:inputNumber id="idade" value="#{pacienteVcfMB.vcf.idadeDoPaciente}" decimalPlaces="0" minValue="0" maxValue="120" 
+                                   pt:placeholder="Enter the age" />
                     
-                    <p:outputLabel value="Variante file id" for="nomeVcf" />
-                    <p:inputText id="nomeVcf" value="#{pacienteVcfMB.vcf.nome}"/>
-                    <p:outputLabel value="VCF" for="vcf"/>                            
-                    <p:fileUpload  id="vcf" mode="simple" skinSimple="true" value="#{pacienteVcfMB.uploadedFile}" />
+                    <p:outputLabel value="Variante file name" for="nomeVcf" />
+                    <p:inputText id="nomeVcf" value="#{pacienteVcfMB.vcf.nome}" 
+                                 pt:placeholder="Variant file name" />
+                    <p:outputLabel value="Data file" for="choose"/>                            
+                    <p:fileUpload  id="choose" mode="simple" skinSimple="true" value="#{pacienteVcfMB.uploadedFile}"  />
                 </p:panelGrid>
                 <p:panelGrid columns="3" styleClass="ui-panelgrid-blank">                            
                     <div />
@@ -39,7 +45,6 @@
                 </p:panelGrid>
 
 
-            </p:panel>                
         </h:form>
 
     </h:body>

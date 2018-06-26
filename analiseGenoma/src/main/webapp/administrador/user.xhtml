@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formulario">
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:panel header="Users" id="user" rendered="#{userMB.editmode}">
+                        <!-- <h:inputHidden id="idr" value="{populationMB.population.id}" /> -->
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Id" for="id"/>
+                            <p:inputText id="id" value="#{userMB.user.id}" readonly="true" />
+                            <p:outputLabel value="Name" for="name"/>
+                            <p:inputText id="name" value="#{userMB.user.name}" />
+                            <p:outputLabel value="Email" for="email"/>
+                            <p:inputText id="email" value="#{userMB.user.email}" />
+                            <p:outputLabel value="Phone" for="phone"/>
+                            <p:inputText id="phone" value="#{userMB.user.phone}" />
+                            <p:outputLabel value="Administrator" for="administrator"/>
+                            <p:selectBooleanCheckbox id="administrator" value="#{userMB.user.administrator}" />
+                            <p:outputLabel value="Manager" for="manager"/>
+                            <p:selectBooleanCheckbox id="manager" value="#{userMB.user.manager}" />
+                            <p:outputLabel value="Reviser" for="reviser"/>
+                            <p:selectBooleanCheckbox id="reviser" value="#{userMB.user.reviser}" />
+                        </p:panelGrid> 
+                        <p:commandButton value="Update" style="width: auto; " actionListener="#{userMB.update()}" update="formulario" />
+                        <p:commandButton value="Cancel" style="width: auto; " actionListener="#{userMB.cancel()}" update="formulario" />
+
+                    </p:panel>
+
+                    <p:dataTable value="#{userMB.users}" var="u" reflow="true" >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Options" />
+                            </f:facet>
+                            
+                            <p:commandButton value="Edit" actionListener="#{userMB.edit(u)}" update="formulario"  />
+                            
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Id" />
+                            </f:facet>
+                            <h:outputText value="#{u.id}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Name" />
+                            </f:facet>
+                            <h:outputText value="#{u.name}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email" />
+                            </f:facet>
+                            <h:outputText value="#{u.email}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Phone" />
+                            </f:facet>
+                            <h:outputText value="#{u.phone}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Administrator" />
+                            </f:facet>
+                            <h:outputText value="#{u.administrator}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Manager" />
+                            </f:facet>
+                            <h:outputText value="#{u.manager}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Reviser" />
+                            </f:facet>
+                            <h:outputText value="#{u.reviser}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+            </ui:define>
+
+
+
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -26,6 +26,9 @@ public class User implements Serializable{
     private int rowsInTable;
 
     public User() {
+        this.administrator = false;
+        this.manager = false;
+        this.reviser = false;
     }
 
     public Long getId() {
@@ -69,7 +72,8 @@ public class User implements Serializable{
     }
 
     public boolean isManager() {
-        return manager;
+        return this.manager == null ? false : this.manager;
+       // return manager;
     }
 
     public void setManager(boolean manager) {
@@ -77,7 +81,8 @@ public class User implements Serializable{
     }
 
     public boolean isReviser() {
-        return reviser;
+        return this.reviser == null ? false : this.reviser;
+        //return reviser;
     }
 
     public void setReviser(boolean reviser) {
@@ -85,7 +90,7 @@ public class User implements Serializable{
     }
 
     public boolean isAdministrator() {
-        return administrator;
+        return this.getAdministrator();
     }
 
     public void setAdministrator(boolean administrator) {
@@ -101,7 +106,7 @@ public class User implements Serializable{
     }
 
     public Boolean getAdministrator() {
-        return administrator;
+        return this.administrator == null ? false : this.administrator;
     }
 
 
