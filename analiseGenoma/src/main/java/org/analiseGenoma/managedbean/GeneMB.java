@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.analiseGenoma.managedbean.util.ColumnModel;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
@@ -53,6 +54,24 @@ public class GeneMB implements Serializable {
     private List<String> symbolSynonyms;
     private List<String> nameSynonyms;
     private GeneDbBio geneDbBio;
+    private List<ColumnModel> columns;
+    
+    
+    
+        private void addDBColumn() {
+    
+        columns = new ArrayList<ColumnModel>();
+        //columns.add(new ColumnModel(columnKey.toUpperCase(), columnKey));
+        columns.add(new ColumnModel("Omin", "Omin"));
+//        columns.add(new ColumnModel("NCBI", "ncbi"));
+//        columns.add(new ColumnModel("Oubrobd", "OutroBd"));
+//        Integer x = 0;
+//        for (DbBio bd : bancos) {
+//            columns.add(new ColumnModel(bd.getName(), (x++).toString()));
+//        }
+    }
+    
+    
 
 //    public List<SelectItem> getSelectGenes() {
 //        List<SelectItem> genesSelect = new ArrayList<SelectItem>();
@@ -89,6 +108,7 @@ public class GeneMB implements Serializable {
         genes = geneService.find();
         symbolSynonyms = new ArrayList<>();
         nameSynonyms = new ArrayList<>();
+        this.addDBColumn();
 
     }
 
@@ -193,6 +213,16 @@ public class GeneMB implements Serializable {
         this.geneDbBio = geneDbBio;
     }
 
+    public List<ColumnModel> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnModel> columns) {
+        this.columns = columns;
+    }
+
+    
+    
    private Gene makeGene(Line ln) {
         Gene g = new Gene();
         g.setSymbol(ln.getField(1));
@@ -271,4 +301,12 @@ public class GeneMB implements Serializable {
         gene = geneService.findBySymbol(gene.getSymbol());
     }
 
+    public void edit(Gene gene){
+        this.gene = gene;
+    }
+    
+    public String bdInfo(String bdName, Long geneId) {
+        return bdName +  ": " + geneId;
+    }
+    
 }

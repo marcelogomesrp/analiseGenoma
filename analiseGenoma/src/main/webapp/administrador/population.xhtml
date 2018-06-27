@@ -4,7 +4,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      >
 
     <body>
 
@@ -18,30 +20,34 @@
                         <h:inputHidden id="id" value="#{populationMB.population.id}" /> 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                        
                             <p:outputLabel value="Code*" for="code"/>
-                            <p:autoComplete id="code" value="#{populationMB.population.code}" completeMethod="#{populationMB.completeCode}" effect="fade" >
+                            <p:autoComplete id="code" value="#{populationMB.population.code}" completeMethod="#{populationMB.completeCode}" effect="fade"  pt:placeholder="Enter the population code">
                                 <f:validateBean disabled="#{populationMB.disabledValidation}"/> 
                             </p:autoComplete>
 
                             <p:outputLabel value="Description" for="description"/>
-                            <p:inputText id="description" value="#{populationMB.population.description}" />
+                            <p:inputText id="description" value="#{populationMB.population.description}" pt:placeholder="Enter the population description"/>
 
                             <p:outputLabel value="Super Population" for="superPopulation"/>                            
-                            <p:autoComplete id="superPopulation" value="#{populationMB.superPopulationCode}" completeMethod="#{populationMB.codeComplete}" />
+                            <p:autoComplete id="superPopulation" value="#{populationMB.superPopulationCode}" completeMethod="#{populationMB.codeComplete}" pt:placeholder="Enter super population code"/>
 
 
                         </p:panelGrid>
                         <p:panelGrid columns="6" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank" >    
                             <div />
                             <p:commandButton value="New" actionListener="#{populationMB.defCreateMode}"  update="formulario" rendered="#{populationMB.crudModeRead}"/>
-                            <p:commandButton value="Salvar" action="#{populationMB.persiste}" rendered="#{populationMB.crudModeUpdate}" ajax="false" />
-                            <p:commandButton value="Pesquisar" actionListener="#{populationMB.findByExample}" update="formulario" rendered="#{populationMB.crudModeRead}" />
-                            <p:commandButton value="Cancelar" action="#{populationMB.limpar}"  immediate="true" process="@this"/>
+                            <p:commandButton value="Save" action="#{populationMB.persiste}" rendered="#{populationMB.crudModeUpdate}" ajax="false" />
+                            <p:commandButton value="Find" actionListener="#{populationMB.findByExample}" update="formulario" rendered="#{populationMB.crudModeRead}" />
+                            <p:commandButton value="Cancel" action="#{populationMB.limpar}"  immediate="true" process="@this"/>
                             <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{populationMB.viewPopulationUpload}" immediate="true" rendered="#{populationMB.crudModeRead}" >
                                 <p:ajax event="dialogReturn" listener="#{populationMB.onViewPopulationUpload}" update="formulario" />
                             </p:commandButton>
                         </p:panelGrid>
 
-                        <p:dataTable value="#{populationMB.populations}" var="p">
+                        <p:dataTable value="#{populationMB.populations}" var="p"
+                                     rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     >
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Id" />

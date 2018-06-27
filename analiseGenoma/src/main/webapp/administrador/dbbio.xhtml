@@ -4,7 +4,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      >
 
     <body>
 
@@ -16,38 +18,46 @@
                     <p:panel header="Biological Databases">
                         <h:inputHidden value="#{dbBioMB.dbBio.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
-                            <p:outputLabel value="Name" for="name" />
-                            <p:inputText id="name" value="#{dbBioMB.dbBio.name}" />
+                            <p:outputLabel value="Name*" for="name" />
+                            <p:inputText id="name" value="#{dbBioMB.dbBio.name}" pt:placeholder="The database name"/>
                             <p:outputLabel value="URL" for="url" />
-                            <p:inputText id="url" value="#{dbBioMB.dbBio.url}" />
+                            <p:inputText id="url" value="#{dbBioMB.dbBio.url}" pt:placeholder="The database URL"/>
                             <p:outputLabel value="Description" for="description" />
-                            <p:inputText id="description" value="#{dbBioMB.dbBio.description}" />
+                            <p:inputText id="description" value="#{dbBioMB.dbBio.description}" pt:placeholder="The database description"/>
 
                         </p:panelGrid>                        
 
-                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Add" actionListener="#{dbBioMB.add}" update="formulario"/>
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Add" actionListener="#{dbBioMB.add}" update="formulario" rendered="#{dbBioMB.insertMode}"/>
+                            <p:commandButton value="Update" actionListener="#{dbBioMB.update}" update="formulario" rendered="#{dbBioMB.editMode}"/>
+                            <p:commandButton value="Cancel" actionListener="#{dbBioMB.cancel}" update="formulario" rendered="#{dbBioMB.editMode}"/>
                         </p:panelGrid>
                         <p:dataTable value="#{dbBioMB.dbbios}" var="db" >
-                            <p:column>
+                            <p:column style="width: 80px;">
+                                <f:facet name="header">
+                                    <h:outputText value="Edit"  />
+                                </f:facet>
+                                <p:commandButton value="Edit" actionListener="#{dbBioMB.edit(db)}" update="formulario"/>
+                            </p:column>
+                            <p:column style="width: 100px;">
                                 <f:facet name="header">
                                     <h:outputText value="Id" />
                                 </f:facet>
                                 <h:outputText value="#{db.id}" />
                             </p:column>
-                            <p:column>
+                            <p:column style="width: 200px;">
                                 <f:facet name="header">
                                     <h:outputText value="Name" />
                                 </f:facet>
                                 <h:outputText value="#{db.name}" />
                             </p:column>
-                            <p:column>
+                            <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="URL" />
                                 </f:facet>
                                 <h:outputText value="#{db.url}" />
                             </p:column>
-                            <p:column>
+                            <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Description" />
                                 </f:facet>

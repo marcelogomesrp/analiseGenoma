@@ -6,13 +6,15 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.service.DbBioService;
 
 @Named(value = "dbBioMB")
-@RequestScoped
+@ViewScoped
+//@RequestScoped
 public class DbBioMB implements Serializable {
 
     @Inject
@@ -50,6 +52,29 @@ public class DbBioMB implements Serializable {
         dbBio = new DbBio();
         dbBios = dbBioService.find();
         
+    }
+    
+    public void update(){
+        dbBioService.merge(dbBio);
+        context.addMessage(null, new FacesMessage("It's done") );
+        dbBio = new DbBio();
+        dbBios = dbBioService.find();        
+    }
+    
+    public void edit(DbBio dbBio){
+        this.dbBio = dbBio;
+    }
+    
+    public void cancel(){
+        this.dbBio = new DbBio();
+    }
+    
+    public boolean isEditMode(){
+        return dbBio.getId() != null;
+    }
+    
+    public boolean isInsertMode(){
+        return !isEditMode();
     }
     
     

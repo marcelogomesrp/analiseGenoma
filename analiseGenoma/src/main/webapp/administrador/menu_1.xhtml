@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="User" outcome="user.xhtml"/>
+            <p:menuitem value="Population" outcome="population.xhtml"/>
+            <p:menuitem value="XML" outcome="xml.xhtml"/>
+            <p:menuitem value="DB Bio" outcome="dbbio.xhtml"/>
+            <p:menuitem value="DB Bio info" outcome="dbbioinfo.xhtml"/>
+            <p:menuitem value="Age" outcome="age.xhtml"/>            
+            <p:menuitem value="Inheritance" outcome="Inheritance.xhtml"/>
+            <p:menuitem value="Gene" outcome="gene.xhtml"/>
+            <p:menuitem value="Disease" outcome="disease.xhtml"/>
+            
+            <p:submenu label="Gene" >
+                <p:menuitem value="Adicionar" outcome="gene_adicionar.xhtml"/>
+                <p:menuitem value="Pesquisar" outcome="gene_pesquisar.xhtml"/>
+                <p:menuitem value="Importar" outcome="gene_importar.xhtml"/>
+            </p:submenu>
+            
+            <p:submenu label="Impacto" >
+                <p:menuitem value="Adicionar" outcome="impacto_adicionar.xhtml"/>
+            </p:submenu>
+            
+            <p:menuitem value="ICD10" outcome="icd10.xhtml"/>
+            <p:submenu label="Patologia" >
+                <p:menuitem value="Adicionar" outcome="disease.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Banco Biologico" >
+                <p:menuitem value="Adicionar banco" outcome="bdbio_adicionar.xhtml"/>
+                <p:menuitem value="Adicionar Informacao" outcome="info_adicionar.xhtml"/>
+                <p:menuitem value="Importar Informacao" outcome="info_importar.xhtml"/>
+            </p:submenu>
+            <p:submenu label="Opçoes" >
+                <p:menuitem value="Trocar senha" />
+                <p:menuitem value="Editar perfil" />
+                <p:menuitem value="Sair" action="#{logoffMB.sairDoSistema}" ajax="false"/>                
+            </p:submenu>                           
+        </p:menubar>
+            
+    </h:form>
+
+
+</ui:composition>

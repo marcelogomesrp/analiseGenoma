@@ -90,6 +90,10 @@ public class DbBioService extends Service<DbBio> implements Serializable {
             }
         }
     }
+
+//    public void update(DbBio dbBio) {
+//        
+//    }
     
 }
 //    

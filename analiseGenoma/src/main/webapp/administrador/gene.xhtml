@@ -4,7 +4,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      >
 
     <body>
 
@@ -16,45 +18,45 @@
                     <p:panel header="Gene">
                         <h:inputHidden value="#{geneMB.gene.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:outputLabel value="Name" for="name" />
-                            <p:inputText id="name" value="#{geneMB.gene.name}" />
-                            
-                            
-                            
-                            <p:outputLabel value="Symbol" for="symbol" />
-                            <p:inputText id="symbol" value="#{geneMB.gene.symbol}" />
+                            <p:outputLabel value="Name*" for="name" />
+                            <p:inputText id="name" value="#{geneMB.gene.name}" pt:placeholder="Gene name"/>
+
+                            <p:outputLabel value="Symbol*" for="symbol" />
+                            <p:inputText id="symbol" value="#{geneMB.gene.symbol}" pt:placeholder="Gene symbol"/>
+
                             <p:outputLabel value="Symbol Synonyms" for="symbolSynonyms" />
-                            <p:chips value="#{geneMB.symbolSynonyms}" id="symbolSynonyms" />
-                            <p:outputLabel value="Db bio" for="dbbio" />
+                            <p:chips value="#{geneMB.symbolSynonyms}" id="symbolSynonyms" pt:placeholder="Gene symbol synonym"/>
+                            <p:outputLabel value="Db bio*" for="dbbio" />
                             <p:selectOneMenu id="dbbio" value="#{geneMB.geneDbBio.dbBio}" converter="#{dbBioConverter}">
                                 <f:selectItem itemLabel="select one" noSelectionOption="true" />
                                 <f:selectItems value="#{geneMB.selectDbbios}" />
                             </p:selectOneMenu>
-                            
-                            <p:outputLabel value="Db Identifier" for="dbIdentifier" />
-                            <p:inputText id="dbIdentifier"  value="#{geneMB.geneDbBio.dbIdentifier}"/>
+
+                            <p:outputLabel value="Db Identifier" for="dbIdentifier"/>
+                            <p:inputText id="dbIdentifier"  value="#{geneMB.geneDbBio.dbIdentifier}" pt:placeholder="Gene id in the biological database" />
                             <p:outputLabel value="URL" for="url" />
-                            <p:inputText id="url"  value="#{geneMB.geneDbBio.url}"/>
+                            <p:inputText id="url"  value="#{geneMB.geneDbBio.url}" pt:placeholder="URL containing gene information"/>
 
 
                         </p:panelGrid>                    
-                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                        <p:panelGrid columns="3" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="Add" actionListener="#{geneMB.add}" update="formulario"/>
                             <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{geneMB.viewGeneUpload}" immediate="true"  >
                                 <p:ajax event="dialogReturn" listener="#{geneMB.onViewEtniaUpload}" update="formulario" />
-                            </p:commandButton>
-                            <p:commandButton value="Add" actionListener="#{geneMB.add}" update="formulario"/>
-                            <p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s">
-                                <p:fileDownload value="#{geneMB.fileXMLExample}"  />
-                            </p:commandButton>
-                            <p:commandButton value="Find by Symbol" actionListener="#{geneMB.findBySymbol}" update="formulario"/>
+                            </p:commandButton>                           
+                            <p:commandButton value="Find" actionListener="#{geneMB.findBySymbol}" update="formulario"/>
                         </p:panelGrid>
 
 
 
                         <p:dataTable value="#{geneMB.genes}" var="gene" rows="10" paginator="true">
 
-
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Edit" />
+                                </f:facet>
+                                <p:commandButton value="Edit" actionListener="#{geneMB.edit(gene)}" update="formulario" />
+                            </p:column>
 
                             <p:column>
                                 <f:facet name="header">
@@ -74,7 +76,45 @@
                                     <h:outputText value="Name" />
                                 </f:facet>
                                 <h:outputText value="#{gene.name}" />
-                            </p:column>     
+                            </p:column>  
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Synonyms" />
+                                </f:facet>
+                                <h:outputText value="#{gene.name}" />
+                            </p:column> 
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="DB" />
+                                </f:facet>
+                                <h:outputText value="#{gene.name}" />
+                            </p:column> 
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="DB id" />
+                                </f:facet>
+                                <h:outputText value="#{gene.name}" />
+                            </p:column> 
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="URL" />
+                                </f:facet>
+                                <h:outputText value="#{gene.name}" />
+                            </p:column> 
+
+
+                            <p:columns value="#{geneMB.columns}" var="column" columnIndexVar="colIndex" style="width:400px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{column.header}" />
+                                </f:facet> 
+                                <h:outputText value="#{geneMB.bdInfo(column.property, gene.id)}" />
+                            </p:columns>
+
+
                             <!--
                             <p:column>
                                 <f:facet name="header">
