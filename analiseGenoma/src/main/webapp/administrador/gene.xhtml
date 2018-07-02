@@ -49,29 +49,33 @@
 
 
 
-                        <p:dataTable value="#{geneMB.genes}" var="gene" rows="10" paginator="true">
+                        <p:dataTable value="#{geneMB.genes}" var="gene" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         lazy="true"
+                         >
 
-                            <p:column>
+                            <p:column style="width: 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Edit" />
                                 </f:facet>
                                 <p:commandButton value="Edit" actionListener="#{geneMB.edit(gene)}" update="formulario" />
                             </p:column>
 
-                            <p:column>
+                            <p:column style="width: 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Id" />
                                 </f:facet>
                                 <h:outputText value="#{gene.id}" />
                             </p:column>
 
-                            <p:column>
+                            <p:column style="width: 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Symbol" />
                                 </f:facet>
                                 <h:outputText value="#{gene.symbol}" />
                             </p:column>
-                            <p:column>
+                            <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Name" />
                                 </f:facet>
@@ -82,36 +86,20 @@
                                 <f:facet name="header">
                                     <h:outputText value="Synonyms" />
                                 </f:facet>
-                                <h:outputText value="#{gene.name}" />
+                                <h:outputText value="#{geneMB.synonyms(gene)}" />
                             </p:column> 
 
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="DB" />
-                                </f:facet>
-                                <h:outputText value="#{gene.name}" />
-                            </p:column> 
-
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="DB id" />
-                                </f:facet>
-                                <h:outputText value="#{gene.name}" />
-                            </p:column> 
-
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="URL" />
-                                </f:facet>
-                                <h:outputText value="#{gene.name}" />
-                            </p:column> 
-
-
-                            <p:columns value="#{geneMB.columns}" var="column" columnIndexVar="colIndex" style="width:400px">
+                            
+                            <p:columns value="#{geneMB.columns}" var="column" columnIndexVar="colIndex" >
                                 <f:facet name="header">
                                     <h:outputText value="#{column.header}" />
                                 </f:facet> 
-                                <h:outputText value="#{geneMB.bdInfo(column.property, gene.id)}" />
+
+                                
+                                <h:outputLink value="#{geneMB.bdInfo(column.property, gene.id)}" target="_blank">
+                                    <h:outputText value="#{geneMB.idDB(column.property, gene.id)} " />
+                                </h:outputLink>
+                                
                             </p:columns>
 
 

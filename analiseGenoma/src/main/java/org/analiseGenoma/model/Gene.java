@@ -2,11 +2,11 @@ package org.analiseGenoma.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,9 +34,10 @@ public class Gene implements Serializable{
     @Column(unique = true)
     private String symbol; 
     
-    @OneToMany(mappedBy = "gene")
-    private Set<GeneNameSynonym> geneNameSynonym;
+//    @OneToMany(mappedBy = "gene")
+//    private Set<GeneNameSynonym> geneNameSynonym;
 
+    //@OneToMany(mappedBy = "gene", fetch = FetchType.EAGER)
     @OneToMany(mappedBy = "gene")
     private Set<GeneSymbolSynonym> geneSymbolSynonym;
     
@@ -75,13 +76,7 @@ public class Gene implements Serializable{
     }
 
 
-    public Set<GeneNameSynonym> getGeneNameSynonym() {
-        return geneNameSynonym;
-    }
 
-    public void setGeneNameSynonym(Set<GeneNameSynonym> geneNameSynonym) {
-        this.geneNameSynonym = geneNameSynonym;
-    }
 
     public Set<GeneSymbolSynonym> getGeneSymbolSynonym() {
         return geneSymbolSynonym;

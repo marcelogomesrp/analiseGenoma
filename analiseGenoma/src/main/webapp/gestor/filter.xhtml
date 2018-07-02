@@ -16,14 +16,14 @@
                     <p:growl />
                     <p:panel header="Filter" >
                         <p:panel  rendered="#{filterMB.showFilds}">
-                            <p:panelGrid columns="2" styleClass="ui-noborder"   >
-                                <p:panel><h:outputLabel value="Name" for="name"/></p:panel>
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"  styleClass="ui-noborder"   >
+                                <p:panel><h:outputLabel value="Name*" for="name"/></p:panel>
                                 <p:panel><p:inputText value="#{filterSB.filter.name}" id="name"
                                                       pt:placeholder="Enter an name for this filter"
                                                       validator="#{filterMB.validateName}"/>
                                 </p:panel>
 
-                                <p:panel><h:outputLabel value="Select gene from analyze's disease" for="geneAnalyse"/></p:panel>
+                                <p:panel><h:outputLabel value="Select gene from analysis's disease" for="geneAnalyse"/></p:panel>
                                 <p:panel><p:selectBooleanCheckbox id="geneAnalyse" value="#{filterSB.filter.geneAnalyse}" />
 
                                 </p:panel>

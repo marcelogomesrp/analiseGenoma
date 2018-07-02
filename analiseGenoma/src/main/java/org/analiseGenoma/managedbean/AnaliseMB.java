@@ -575,5 +575,9 @@ public class AnaliseMB implements Serializable {
         //return analise.vcfsCorrelatos
         return !analise.getVcfsCorrelatos().isEmpty();
     }
+    
+    public void cancel(){
+        analise = new Analise();
+    }
 
 }

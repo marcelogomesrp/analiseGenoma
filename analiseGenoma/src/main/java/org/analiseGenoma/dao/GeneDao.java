@@ -1,16 +1,32 @@
 package org.analiseGenoma.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.GeneDbBio;
 
 public class GeneDao extends DAO<Gene> {
 
     public GeneDao() {
         super(Gene.class);
     }
+
+    @Override
+    public List<Gene> find() {
+        try{
+        List<Gene> genes =  manager.createQuery("SELECT distinct g FROM Gene g LEFT JOIN FETCH g.geneSymbolSynonym ORDER BY g.symbol").getResultList();   
+        return genes;
+        }catch(Exception ex){
+            System.out.println("Erro: GeneDao.find: " + ex.getMessage());
+        }
+        return null;
+    }
+    
+    
+    
     
 //    @Override
 //    public List<Gene> find(){
@@ -140,9 +156,27 @@ public class GeneDao extends DAO<Gene> {
         return null;
     }
 
+    public GeneDbBio findByDbIdGeneId(String bdId, Long geneId) {
+        List<GeneDbBio> genes = null;
+        try {
+//            Query query = manager.createQuery("SELECT g FROM GeneDbBio g WHERE g.dbBio.id = :dbId AND g.gene.id = :geneId");
+//            query.setParameter("dbId", bdId);
+//            query.setParameter("geneId", geneId);
+                Query query = manager.createQuery("SELECT g FROM GeneDbBio g WHERE g.dbBio.id = :dbId  AND g.gene.id = :geneId");
+            query.setParameter("dbId", Long.valueOf(bdId));
+            query.setParameter("geneId", geneId);
+            genes = query.getResultList();
+            if(genes.size() > 0){
+                return genes.get(0);
+            }
+        } catch (NoResultException ex) {
+            System.out.println("Opa deu erro na busca de genes::" + ex.getMessage());
+        }
+        return null;
+    }
 
-
-
+    
+    
 
     
 }

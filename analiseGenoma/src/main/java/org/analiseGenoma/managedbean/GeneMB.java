@@ -3,7 +3,6 @@ package org.analiseGenoma.managedbean;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import static java.util.Arrays.stream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,9 @@ import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.GeneDbBio;
+import org.analiseGenoma.model.GeneSymbolSynonym;
 import org.analiseGenoma.service.BancoBiologicoService;
 import org.analiseGenoma.service.GeneService;
-import org.analiseGenoma.service.util.CSVReader;
 import org.analiseGenoma.service.util.Line;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -62,13 +61,14 @@ public class GeneMB implements Serializable {
     
         columns = new ArrayList<ColumnModel>();
         //columns.add(new ColumnModel(columnKey.toUpperCase(), columnKey));
-        columns.add(new ColumnModel("Omin", "Omin"));
+//        columns.add(new ColumnModel("Omin", "Omin"));
 //        columns.add(new ColumnModel("NCBI", "ncbi"));
 //        columns.add(new ColumnModel("Oubrobd", "OutroBd"));
-//        Integer x = 0;
-//        for (DbBio bd : bancos) {
-//            columns.add(new ColumnModel(bd.getName(), (x++).toString()));
-//        }
+        //Integer x = 0;
+        for (DbBio bd : bdService.buscar()) {
+            //columns.add(new ColumnModel(bd.getName(), (x++).toString()));
+            columns.add(new ColumnModel(bd.getName(), bd.getId().toString() ));
+        }
     }
     
     
@@ -305,8 +305,46 @@ public class GeneMB implements Serializable {
         this.gene = gene;
     }
     
-    public String bdInfo(String bdName, Long geneId) {
-        return bdName +  ": " + geneId;
+    public String bdInfo(String bdId, Long geneId) {
+        GeneDbBio g = null;
+        try{
+        g = geneService.findByDbIdGeneId(bdId,geneId);
+        }catch(Exception ex){
+            System.out.println("Erro: " + ex.getMessage());
+            return "Erro no mb: " + ex.getMessage();
+        }
+        if(g == null){
+            //return "nao tem: " +bdId +  ": " + geneId;
+            return "";
+            
+        }else{
+            return g.getUrl();
+        }
     }
     
+    public String idDB(String bdId, Long geneId) {
+        GeneDbBio g = null;
+        try{
+        g = geneService.findByDbIdGeneId(bdId,geneId);
+        }catch(Exception ex){
+            System.out.println("Erro: " + ex.getMessage());
+            return "Erro no mb: " + ex.getMessage();
+        }
+        if(g == null){
+            //return bdId +  ": " + geneId;
+            //return "nao tem: " +bdId +  ": " + geneId;
+            return "";
+        }else{
+            return g.getDbIdentifier();
+        }
+    }
+    
+    
+    public String synonyms(Gene gene){
+        String r = "";        
+        for(GeneSymbolSynonym s: gene.getGeneSymbolSynonym()){
+            r = r + s.getSymbol() + " ";
+        }
+        return r;
+    }
 }

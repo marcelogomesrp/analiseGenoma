@@ -4,7 +4,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      >
 
     <body>
 
@@ -17,11 +19,11 @@
                         <h:inputHidden value="#{diseaseMB.disease.id}" />
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
                             <p:outputLabel value="Name" for="name" />
-                            <p:inputText id="name" value="#{diseaseMB.disease.name}" />
+                            <p:inputText id="name" value="#{diseaseMB.disease.name}" pt:placeholder="Disease name"/>
                             <p:outputLabel value="Icd" for="icd" />
-                            <p:inputText id="icd" value="#{diseaseMB.disease.icd}" />
+                            <p:inputText id="icd" value="#{diseaseMB.disease.icd}" pt:placeholder="ICD" />
                             <p:outputLabel value="Description" for="description" />
-                            <p:inputText id="description" value="#{diseaseMB.disease.description}" />
+                            <p:inputText id="description" value="#{diseaseMB.disease.description}" pt:placeholder="Disease description"/>
                             <p:outputLabel value="DB Bio" for="dbbio" />
                             <p:selectOneMenu id="dbbio" value="#{diseaseMB.idDbbio}" >
                                 <f:selectItem itemLabel="select one" itemValue="" />
@@ -39,14 +41,15 @@
 
                             </p:autoComplete>
                             <p:outputLabel value="Prevalence" for="prevalence" />
-                            <p:inputText id="prevalence" value="#{diseaseMB.disease.prevalence}" />
+                            <p:inputText id="prevalence" value="#{diseaseMB.disease.prevalence}" pt:placeholder="Disease prevalence"/>
                             
                             <p:outputLabel value="Db Identifier" for="infoIdentifier" />
-                            <p:inputText id="infoIdentifier" value="#{diseaseMB.dbBioInfo.infoIdentifier}" />
+                            <p:inputText id="infoIdentifier" value="#{diseaseMB.dbBioInfo.infoIdentifier}" pt:placeholder="Db id"/>
                             
+                            <!--
                             <p:outputLabel value="Genes" for="genes" />
-                            <p:chips value="#{diseaseMB.genes}" id="genes" />
-                            
+                            <p:chips value="{diseaseMB.genes}" id="genes" />
+                            -->
 
                         </p:panelGrid>                        
 
@@ -61,7 +64,7 @@
                                 rows="10"
                                 paginator="true"
                                 >
-                            <p:column>
+                            <p:column style="width: 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Disease" />
                                 </f:facet>
@@ -73,7 +76,7 @@
                                 </f:facet>
                                 <h:outputText value="#{disease.name}" />
                             </p:column>
-                            <p:column>
+                            <p:column style="width: 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Icd" />
                                 </f:facet>
@@ -87,19 +90,19 @@
                                 </f:facet>
                                 <h:outputText value="#{disease.description}" />
                             </p:column>
-                            <p:column>
+                            <p:column style="width: 200px">
                                 <f:facet name="header">
                                     <h:outputText value="Age" />
                                 </f:facet>
                                 <h:outputText value="#{disease.age.description}" />
                             </p:column>
-                            <p:column>
+                            <p:column style="width: 200px">
                                 <f:facet name="header">
                                     <h:outputText value="Inheritance" />
                                 </f:facet>
                                 <h:outputText value="#{disease.inheritanceType.type}" />
                             </p:column>
-                            <p:column>
+                            <p:column style="width: 100px">
                                 <f:facet name="header">
                                     <h:outputText value="Prevalence" />
                                 </f:facet>

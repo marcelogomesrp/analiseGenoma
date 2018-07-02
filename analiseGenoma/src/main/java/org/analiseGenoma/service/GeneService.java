@@ -463,4 +463,8 @@ public class GeneService extends Service<Gene> implements Serializable {
         return getDao().find(disease);
     }
 
+    public GeneDbBio findByDbIdGeneId(String bdId, Long geneId) {
+        return getDao().findByDbIdGeneId(bdId, geneId);
+    }
+
 }
