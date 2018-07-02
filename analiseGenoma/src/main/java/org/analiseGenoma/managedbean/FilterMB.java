@@ -184,6 +184,9 @@ public class FilterMB implements Serializable {
     private List<String> validates;
     private List<String> donorSpliceSites;
     private List<String> mutations;
+    
+    private List<Filtro> filters;
+    private boolean showFilters;
 
     //novos fim
     @PostConstruct
@@ -226,6 +229,8 @@ public class FilterMB implements Serializable {
         selectedInterproDomains = new ArrayList<>();
         selectedVariantStatuses = new ArrayList<>();
         selectedGenoTypes = new ArrayList<>();
+        filters = new ArrayList<>();
+        showFilters = false;
     }
 
     public void add() {
@@ -360,6 +365,13 @@ public class FilterMB implements Serializable {
         this.reset();
     }
 
+    public void list() {
+        filterSB.setFilter(new Filtro());
+        filters = filterService.find();        
+        showFilters = true;
+        System.out.println("List: total " + filters.size());
+    }
+    
     public boolean getCrudModeRead() {
         return crudMode == CrudMode.Read;
     }
@@ -381,6 +393,7 @@ public class FilterMB implements Serializable {
     }
 
     public void defCrudModeUpdate() {
+        filterSB.setFilter(new Filtro());
         crudMode = CrudMode.Update;
         disabledValidation = false;
     }
@@ -949,6 +962,35 @@ public class FilterMB implements Serializable {
 
     public void setVariantTypies(List<String> variantTypies) {
         this.variantTypies = variantTypies;
+    }
+
+    public List<Filtro> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<Filtro> filters) {
+        this.filters = filters;
+    }
+    
+    public void detail(Filtro f){
+        Filtro fall = filterService.loadFull(f);
+        filterSB.setFilter(fall);
+        System.out.println("Detail runed");
+        showFilters = false;
+    }
+
+    public boolean isShowFilters() {
+        return showFilters;
+    }
+
+    public void setShowFilters(boolean showFilters) {
+        this.showFilters = showFilters;
+    }
+    
+    public void showHelperName(){
+        context.getExternalContext()
+                .getFlash().setKeepMessages(true);
+        context.addMessage(null, new FacesMessage("This name will..."));
     }
 
     

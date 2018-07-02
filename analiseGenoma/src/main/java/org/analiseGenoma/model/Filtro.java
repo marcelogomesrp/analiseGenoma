@@ -349,6 +349,7 @@ public class Filtro  implements Serializable, Cloneable{
     }
 
     public Set<Gene> getGenes() {
+        
         return genes;
     }
 
@@ -433,7 +434,8 @@ public class Filtro  implements Serializable, Cloneable{
         return referencias;
     }
 
-    public void setReferencias(Set<String> referencias) {
+    public void setReferencias(Set<String> referencias) {        
+        referencias.stream().map(r -> r.toUpperCase());
         this.referencias = referencias;
     }
 

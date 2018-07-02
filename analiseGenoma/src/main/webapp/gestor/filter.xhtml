@@ -16,24 +16,45 @@
                     <p:growl />
                     <p:panel header="Filter" >
                         <p:panel  rendered="#{filterMB.showFilds}">
-                            <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-8" layout="grid"  styleClass="ui-noborder"   >
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-7,ui-grid-col-1 " layout="grid"  styleClass="ui-noborder"   >
+
                                 <p:panel><h:outputLabel value="Name*" for="name"/></p:panel>
-                                <p:panel><p:inputText value="#{filterSB.filter.name}" id="name"
-                                                      pt:placeholder="Enter an name for this filter"
-                                                      validator="#{filterMB.validateName}"/>
-                                </p:panel>
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:inputText value="#{filterSB.filter.name}" id="name"
+                                                 pt:placeholder="Enter an name for this filter"
+                                                 validator="#{filterMB.validateName}"/>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg0').show();" />
+
+                                    <p:dialog header="Filter name" widgetVar="dlg0" minHeight="40" modal="true"
+                                              showEffect="side" hideEffect="explode"
+                                              >
+                                        <h:outputText value="This name will be used to identify the filter, it can be any text" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
+
 
                                 <p:panel><h:outputLabel value="Select gene from analysis's disease" for="geneAnalyse"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="geneAnalyse" value="#{filterSB.filter.geneAnalyse}" />
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="geneAnalyse" value="#{filterSB.filter.geneAnalyse}" />
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg1').show();"/>
 
-                                </p:panel>
+                                    <p:dialog header="Gene from analysis's disease" widgetVar="dlg1" minHeight="40" modal="true">
+                                        <h:outputText value="Select this option to include the genes associated with the disease reported in the analysis" />
+                                    </p:dialog>
+                                </p:panelGrid>
 
 
                                 <p:panel><h:outputLabel value="Filter by Gene" for="bygene"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="bygene" value="#{filterSB.filter.byGene}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="bygene" value="#{filterSB.filter.byGene}" >
                                         <p:ajax update="geneLbl geneInput" listener="#{filterMB.loadGenes}" />
-                                    </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    </p:selectBooleanCheckbox>  
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg2').show();"/>
+                                    <p:dialog header="Genes" widgetVar="dlg2" minHeight="40" modal="true">
+                                        <h:outputText value="Input the genes's  symbols you want to include in the analysis like BRCA1 and/or BRCA2" />
+                                    </p:dialog>
+                                </p:panelGrid>
 
                                 <p:panel id="geneLbl">
                                     <h:outputLabel value="Select the genes" rendered="#{filterSB.filter.byGene}" id="selectGeneLbl" for="selectGeneInput"/>
@@ -47,10 +68,18 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Chromosome" for="byChromosome"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byChromosome" value="#{filterMB.byChromosome}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byChromosome" value="#{filterMB.byChromosome}" >
                                         <p:ajax update="chromosomeLbl chromosomeInput" listener="#{filterMB.loadChromosome()}" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg3').show();"/>
+                                    <p:dialog header="Chromosome" widgetVar="dlg3" minHeight="40" modal="true">
+                                        <h:outputText value="Input the chromosomes that do you want to include in the analysis like 1,2..22,X,Y" />
+                                    </p:dialog>
+
+                                </p:panelGrid>
 
                                 <p:panel id="chromosomeLbl"><p:outputLabel value="Chromosome" for="selectChromosome" rendered="#{filterMB.byChromosome}"/></p:panel>
                                 <p:panel id="chromosomeInput">
@@ -63,11 +92,18 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Position" for="byPosition"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byPosition" value="#{filterSB.filter.byPosition}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byPosition" value="#{filterSB.filter.byPosition}" >
                                         <p:ajax update="positionLbl positionInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg4').show();"/>
+                                    <p:dialog header="Position" widgetVar="dlg4" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the minimum and maximum values for the chromosomal position" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="positionLbl"><p:outputLabel value="Position" rendered="#{filterSB.filter.byPosition}"/></p:panel>
+
                                 <p:panel id="positionInput"  >
                                     <p:outputLabel value="Min" rendered="#{filterSB.filter.byPosition}"/> 
                                     <p:inputText value="#{filterSB.filter.positionMin}" rendered="#{filterSB.filter.byPosition}" pt:placeholder="Enter the minimum value"/>
@@ -77,30 +113,52 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Reference" for="byReference"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byReference" value="#{filterSB.filter.byReference}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byReference" value="#{filterSB.filter.byReference}" >
                                         <p:ajax update="referenceLbl referenceInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
-                                <p:panel id="referenceLbl"><p:outputLabel value="Reference" for="selectReference" rendered="#{filterSB.filter.byReference}"/></p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg5').show();"/>
+                                    <p:dialog header="Reference" widgetVar="dlg5" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the reference nucleotide, such as A, C, T, G or a combination of them as CCT" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
+                                <p:panel id="referenceLbl">
+                                    <p:outputLabel value="Reference" for="selectReference" rendered="#{filterSB.filter.byReference}"/></p:panel>
                                 <p:panel id="referenceInput">
                                     <p:chips value="#{filterMB.refs}"  id="selectReference" rendered="#{filterSB.filter.byReference}" />
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Changed" for="byChanged"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byChanged" value="#{filterSB.filter.byChanged}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byChanged" value="#{filterSB.filter.byChanged}" >
                                         <p:ajax update="changedLbl changedInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg6').show();"/>
+                                    <p:dialog header="Changed" widgetVar="dlg6" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the patient nucleotide, such as A, C, T, G or a combination of them as CCT" />
+                                    </p:dialog>
+                                </p:panelGrid>                                
                                 <p:panel id="changedLbl"><p:outputLabel value="Changed" for="selectChanged" rendered="#{filterSB.filter.byChanged}"/></p:panel>
                                 <p:panel id="changedInput">
                                     <p:chips value="#{filterMB.changeds}"  id="selectChanged" rendered="#{filterSB.filter.byChanged}" />
                                 </p:panel>                                
 
                                 <p:panel><h:outputLabel value="Filter by Umd predictor" for="byUmdPredictor"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byUmdPredictor" value="#{filterSB.filter.byUmdPredictor}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byUmdPredictor" value="#{filterSB.filter.byUmdPredictor}" >
                                         <p:ajax update="umdPredictorLbl umdPredictorInput"  />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg7').show();"/>
+                                    <p:dialog header="UMD Predictor" widgetVar="dlg7" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the UMD Predictor, this values can be NONE, POLYMORPHISM, PROBABLY PATHOGENIC, PROBABLE POLYMORSM, PATHOGENIC" />
+                                        <br></br>
+                                        <h:outputLink value="http://umd-predictor.eu/" target="_blank">
+                                            <h:outputText  value="Clique here to see more information"  />
+                                        </h:outputLink>                                        
+                                    </p:dialog>
+                                </p:panelGrid>
+
 
                                 <p:panel id="umdPredictorLbl"><p:outputLabel value="Umd Predictor" for="selectUmdPredictor" rendered="#{filterSB.filter.byUmdPredictor}"/></p:panel>
                                 <p:panel id="umdPredictorInput">
@@ -112,11 +170,16 @@
 
                                 </p:panel>
 
-                                <p:panel><h:outputLabel value="Filter by Zygocity" for="byZygocity"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byZygocity" value="#{filterSB.filter.byZygocity}" >
+                                <p:panel><h:outputLabel value="Filter by Zygosity" for="byZygocity"/></p:panel>
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byZygocity" value="#{filterSB.filter.byZygocity}" >
                                         <p:ajax update="zygocityLbl zygocityInput"  />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg8').show();"/>
+                                    <p:dialog header="Zygosity" widgetVar="dlg8" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the zygosity, this values can be HETEROZYGOUS AND/OR HOMOZYGOUS" />
+                                    </p:dialog>
+                                </p:panelGrid>
 
                                 <p:panel id="zygocityLbl"><p:outputLabel value="Zygocity" for="selectZygocity" rendered="#{filterSB.filter.byZygocity}"/></p:panel>
                                 <p:panel id="zygocityInput">
@@ -128,20 +191,31 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Allelic 1" for="byAllelic1"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byAllelic1" value="#{filterSB.filter.byAllelicDeph1}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byAllelic1" value="#{filterSB.filter.byAllelicDeph1}" >
                                         <p:ajax update="allelic1Lbl allelic1Input" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg9').show();"/>
+                                    <p:dialog header="Allelics" widgetVar="dlg9" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the allelics values, this is an number values" />
+                                    </p:dialog>
+                                </p:panelGrid>                                
                                 <p:panel id="allelic1Lbl"><p:outputLabel value="Allelic deph1" for="selectAllelic1" rendered="#{filterSB.filter.byAllelicDeph1}"/></p:panel>
                                 <p:panel id="allelic1Input">
                                     <p:chips value="#{filterMB.allelics1}"  id="selectAllelic1" rendered="#{filterSB.filter.byAllelicDeph1}" />
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Allelic 2" for="byAllelic2"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byAllelic2" value="#{filterSB.filter.byAllelicDeph2}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byAllelic2" value="#{filterSB.filter.byAllelicDeph2}" >
                                         <p:ajax update="allelic2Lbl allelic2Input" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg10').show();"/>
+                                    <p:dialog header="Allelic2" widgetVar="dlg10" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the allelics values, this is an number values" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="allelic2Lbl"><p:outputLabel value="Allelic deph2" for="selectAllelic2" rendered="#{filterSB.filter.byAllelicDeph2}"/></p:panel>
                                 <p:panel id="allelic2Input">
                                     <p:chips value="#{filterMB.allelics2}"  id="selectAllelic2" rendered="#{filterSB.filter.byAllelicDeph2}" />
@@ -149,10 +223,15 @@
 
 
                                 <p:panel><h:outputLabel value="Filter by Filter" for="byFilter"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byFilter" value="#{filterSB.filter.byFilter}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byFilter" value="#{filterSB.filter.byFilter}" >
                                         <p:ajax update="filterLbl filterInput"  />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg11').show();"/>
+                                    <p:dialog header="Filter" widgetVar="dlg11" minHeight="40" modal="true">
+                                        <h:outputText value="Filter by PASS" />
+                                    </p:dialog>
+                                </p:panelGrid>
 
                                 <p:panel id="filterLbl"><p:outputLabel value="Filter" for="selectFilter" rendered="#{filterSB.filter.byFilter}"/></p:panel>
                                 <p:panel id="filterInput">
@@ -164,10 +243,15 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by HGVS_C" for="byhgvsc"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byhgvsc" value="#{filterSB.filter.byHgvsc}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byhgvsc" value="#{filterSB.filter.byHgvsc}" >
                                         <p:ajax update="hgvscLbl hgvscInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg12').show();"/>
+                                    <p:dialog header="HGVS_C" widgetVar="dlg12" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the HGVS_C values, like c.2791G>A" />
+                                    </p:dialog>
+                                </p:panelGrid>                            
                                 <p:panel id="hgvscLbl"><p:outputLabel value="HGVS C" for="selectHgvsc" rendered="#{filterSB.filter.byHgvsc}"/></p:panel>
                                 <p:panel id="hgvscInput">
                                     <p:chips value="#{filterMB.selectedHgvsc}"  id="selectHgvsc" rendered="#{filterSB.filter.byHgvsc}" />
@@ -175,20 +259,36 @@
 
 
                                 <p:panel><h:outputLabel value="Filter by HGVS_P" for="byhgvsp"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byhgvsp" value="#{filterSB.filter.byHgvsp}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byhgvsp" value="#{filterSB.filter.byHgvsp}" >
                                         <p:ajax update="hgvspLbl hgvspInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg13').show();"/>
+                                    <p:dialog header="HGVS_P" widgetVar="dlg13" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the HGVS_P value like p.Gly931Ser" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="hgvspLbl"><p:outputLabel value="HGVS P" for="selectHgvsp" rendered="#{filterSB.filter.byHgvsp}"/></p:panel>
                                 <p:panel id="hgvspInput">
                                     <p:chips value="#{filterMB.selectedHgvsp}"  id="selectHgvsp" rendered="#{filterSB.filter.byHgvsp}" />
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by DbSNP" for="byDbsnp"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byDbsnp" value="#{filterSB.filter.byIdSNP}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byDbsnp" value="#{filterSB.filter.byIdSNP}" >
                                         <p:ajax update="DbsnpLbl DbsnpInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg14').show();"/>
+                                    <p:dialog header="DbSNP" widgetVar="dlg14" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the DbSNP id like rs4081753" />
+                                        <br></br>
+                                        <h:outputLink value="https://www.ncbi.nlm.nih.gov/projects/SNP/" target="_blank">
+                                            <h:outputText  value="Clique here to see more information"  />
+                                        </h:outputLink>
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="DbsnpLbl"><p:outputLabel value="DB SNP" for="selectDbsnp" rendered="#{filterSB.filter.byIdSNP}"/></p:panel>
                                 <p:panel id="DbsnpInput">
                                     <p:chips value="#{filterMB.selectedIdSNP}"  id="selectDbsnp" rendered="#{filterSB.filter.byIdSNP}" />
@@ -196,11 +296,18 @@
 
 
 
-                                <p:panel><h:outputLabel value="Filter by Type" for="byType"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byType" value="#{filterSB.filter.byType}" >
+                                <p:panel><h:outputLabel value="Filter by Type F" for="byType"/></p:panel>
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byType" value="#{filterSB.filter.byType}" >
                                         <p:ajax update="TypeLbl TypeInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg15').show();"/>
+                                    <p:dialog header="Type F" widgetVar="dlg15" minHeight="40" modal="true">
+                                        <h:outputText value="Type F values like PROTEIN_CODING" />
+                                    </p:dialog>
+                                </p:panelGrid>                                    
+
                                 <p:panel id="TypeLbl"><p:outputLabel value="Type" for="selectType" rendered="#{filterSB.filter.byType}"/></p:panel>
                                 <p:panel id="TypeInput">
                                     <p:autoComplete value="#{filterMB.selectedTypies}" completeMethod="#{filterMB.completeType}" 
@@ -211,10 +318,17 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by Effects" for="byEffect"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byEffect" value="#{filterSB.filter.byEffect}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byEffect" value="#{filterSB.filter.byEffect}" >
                                         <p:ajax update="effectLbl effectInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg16').show();"/>
+                                    <p:dialog header="Effect" widgetVar="dlg16" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the effect like MISSENSE_VARIANT or SYNONYMOUS_VARIANT" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="effectLbl">
                                     <h:outputLabel value="Select the effects" rendered="#{filterSB.filter.byEffect}" id="selectEffectLbl" for="selectEffectInput"/>
                                 </p:panel>
@@ -226,15 +340,24 @@
                                                     />
                                 </p:panel>
 
-                                
-                                
-                                
+
+
+
 
                                 <p:panel><h:outputLabel value="Filter by Clinvar Significance" for="byclinvarSignificance"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byclinvarSignificance" value="#{filterSB.filter.byCinvarSignificance}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byclinvarSignificance" value="#{filterSB.filter.byCinvarSignificance}" >
                                         <p:ajax update="clinvarSignificanceLbl clinvarSignificanceInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg17').show();"/>
+                                    <p:dialog header="Clinvar significance" widgetVar="dlg17" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the Clinvar significance value, like " />
+                                        <br></br>
+                                        <h:outputLink value="https://www.ncbi.nlm.nih.gov/clinvar/intro/" target="_blank">
+                                            <h:outputText  value="Clique here to see more information"  />
+                                        </h:outputLink>
+                                    </p:dialog>
+                                </p:panelGrid>   
                                 <p:panel id="clinvarSignificanceLbl">
                                     <h:outputLabel value="Select the clinvar significance" rendered="#{filterSB.filter.byCinvarSignificance}" id="selectclinvarSignificanceLbl" for="selectEffectInput"/>
                                 </p:panel>
@@ -249,10 +372,18 @@
 
 
                                 <p:panel><h:outputLabel value="Filter by clinvar disease" for="byclinvarDisease"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byclinvarDisease" value="#{filterSB.filter.byClinvarDisease}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byclinvarDisease" value="#{filterSB.filter.byClinvarDisease}" >
                                         <p:ajax update="clinvarDiseaseLbl clinvarDiseaseInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg18').show();"/>
+                                    <p:dialog header="Clinvar disease" widgetVar="dlg18" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the clinvar disease like NOT_PROVIDED|CHARCOT-MARIE-TOOTH_DISEASE\X2C_TYPE_2" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
+
                                 <p:panel id="clinvarDiseaseLbl">
                                     <h:outputLabel value="Select the clinvar disease" rendered="#{filterSB.filter.byClinvarDisease}" id="selectclinvarDiseaseLbl" for="selectClinvarDiseaseInput"/>
                                 </p:panel>
@@ -265,10 +396,16 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by clinvar acession" for="byclinvarAcession"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byclinvarAcession" value="#{filterSB.filter.byClinvarAccession}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byclinvarAcession" value="#{filterSB.filter.byClinvarAccession}" >
                                         <p:ajax update="clinvarAccessionLbl clinvarAccessionInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg19').show();"/>
+                                    <p:dialog header="Clinvar acession" widgetVar="dlg19" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the clinvar acession like RCV000143805.1" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="clinvarAccessionLbl">
                                     <h:outputLabel value="Select the clinvar acession" rendered="#{filterSB.filter.byClinvarAccession}" id="selectclinvarAccessionLbl" for="selectClinvarAccessionInput"/>
                                 </p:panel>
@@ -279,12 +416,17 @@
                                                     effect="fade" multiple="true" converter="#{clinvarAccessionConverter}" id="selectclinvarAccessionInput"
                                                     />
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by clinvar allele type" for="byclinvarAlleleType"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byclinvarAlleleType" value="#{filterSB.filter.byClinvarAlleleType}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byclinvarAlleleType" value="#{filterSB.filter.byClinvarAlleleType}" >
                                         <p:ajax update="clinvarAlleleTypeLbl clinvarAlleleTypeInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg20').show();"/>
+                                    <p:dialog header="Clinvar Allele Type" widgetVar="dlg20" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the clinvar allele type like ALT" />
+                                    </p:dialog>
+                                </p:panelGrid>   
                                 <p:panel id="clinvarAlleleTypeLbl">
                                     <h:outputLabel value="Select the clinvar allele type" rendered="#{filterSB.filter.byClinvarAlleleType}" 
                                                    id="selectclinvarAlleleTypeLbl" for="selectClinvarAlleleTypeInput"/>
@@ -296,12 +438,17 @@
                                                     effect="fade" multiple="true" converter="#{clinvarAlleleTypeConverter}" id="selectclinvarAlleleTypeInput"
                                                     />
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by clinvar allele origin" for="byclinvarAlleleOrigin"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byclinvarAlleleOrigin" value="#{filterSB.filter.byClinvarAlleleOrigin}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byclinvarAlleleOrigin" value="#{filterSB.filter.byClinvarAlleleOrigin}" >
                                         <p:ajax update="clinvarAlleleOriginLbl clinvarAlleleOriginInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg21').show();"/>
+                                    <p:dialog header="Clinvar allele origin" widgetVar="dlg21" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the clinvar allele origin like GERMLINE" />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="clinvarAlleleOriginLbl">
                                     <h:outputLabel value="Select the clinvar allele origin" rendered="#{filterSB.filter.byClinvarAlleleOrigin}" 
                                                    id="selectclinvarAlleleOriginLbl" for="selectClinvarAlleleOriginInput"/>
@@ -313,12 +460,17 @@
                                                     effect="fade" multiple="true" converter="#{clinvarAlleleOriginConverter}" id="selectclinvarAlleleOriginInput"
                                                     />
                                 </p:panel>
-                                                                
+
                                 <p:panel><h:outputLabel value="Filter by sift" for="bySift"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="bySift" value="#{filterSB.filter.bySift}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="bySift" value="#{filterSB.filter.bySift}" >
                                         <p:ajax update="clinvarSiftLbl clinvarSiftInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg22').show();"/>
+                                    <p:dialog header="Sift" widgetVar="dlg22" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the sift value like TOLERATED" />
+                                    </p:dialog>
+                                </p:panelGrid>  
                                 <p:panel id="clinvarSiftLbl">
                                     <h:outputLabel value="Select the sift" rendered="#{filterSB.filter.bySift}" 
                                                    id="selectSiftLbl" for="selectSiftInput"/>
@@ -330,12 +482,17 @@
                                                     effect="fade" multiple="true" converter="#{siftConverter}" id="selectSiftInput"
                                                     />
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by polyphen HDIV" for="byPhdiv"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byPhdiv" value="#{filterSB.filter.byPolyphenhdiv}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byPhdiv" value="#{filterSB.filter.byPolyphenhdiv}" >
                                         <p:ajax update="clinvarPhdivLbl clinvarPhdivInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg23').show();"/>
+                                    <p:dialog header="Polyphen HDIV" widgetVar="dlg23" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the polyphen hdiv values like PROBABLY DAMAGING" />
+                                    </p:dialog>
+                                </p:panelGrid>   
                                 <p:panel id="clinvarPhdivLbl">
                                     <h:outputLabel value="Select the sift" rendered="#{filterSB.filter.byPolyphenhdiv}" 
                                                    id="selectPhdivLbl" for="selectPhdivInput"/>
@@ -347,12 +504,18 @@
                                                     effect="fade" multiple="true" converter="#{polyphenHdivConverter}" id="selectPhdivInput"
                                                     />
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by polyphen HDVAR" for="byPhdvar"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byPhdvar" value="#{filterSB.filter.byPolypheHvar}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byPhdvar" value="#{filterSB.filter.byPolypheHvar}" >
                                         <p:ajax update="clinvarPhdvarLbl clinvarPhdvarInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg24').show();"/>
+                                    <p:dialog header="Phdvar" widgetVar="dlg24" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the phdvar values like PROBABLY DAMAGING" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="clinvarPhdvarLbl">
                                     <h:outputLabel value="Select the sift" rendered="#{filterSB.filter.byPolypheHvar}" 
                                                    id="selectPhdvarLbl" for="selectPhdvarInput"/>
@@ -364,12 +527,17 @@
                                                     effect="fade" multiple="true" converter="#{polyphenHvarConverter}" id="selectPhdvarInput"
                                                     />
                                 </p:panel>
-                             
+
                                 <p:panel><h:outputLabel value="Filter by mutation taster" for="byMutationTaster"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byMutationTaster" value="#{filterSB.filter.byMutationTaster}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byMutationTaster" value="#{filterSB.filter.byMutationTaster}" >
                                         <p:ajax update="MutationTasterLbl MutationTasterInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg25').show();"/>
+                                    <p:dialog header="Mutation taster" widgetVar="dlg25" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the mutation taster like DISEASE CAUSING" />
+                                    </p:dialog>
+                                </p:panelGrid>   
                                 <p:panel id="MutationTasterLbl">
                                     <h:outputLabel value="Select the MutationTaster" rendered="#{filterSB.filter.byMutationTaster}" 
                                                    id="selectMutationTasterLbl" for="selectMutationTasterInput"/>
@@ -381,12 +549,17 @@
                                                     effect="fade" multiple="true" converter="#{mutationTasterConverter}" id="selectMutationTasterInput"
                                                     />
                                 </p:panel>                                
-                                
+
                                 <p:panel><h:outputLabel value="Filter by lrt" for="byLrt"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byLrt" value="#{filterSB.filter.byLrt}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byLrt" value="#{filterSB.filter.byLrt}" >
                                         <p:ajax update="LrtLbl LrtInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg26').show();"/>
+                                    <p:dialog header="LRT" widgetVar="dlg26" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the RLT values like DELETERIOUS" />
+                                    </p:dialog>
+                                </p:panelGrid>   
                                 <p:panel id="LrtLbl">
                                     <h:outputLabel value="Select the Lrt" rendered="#{filterSB.filter.byLrt}" 
                                                    id="selectLrtLbl" for="selectLrtInput"/>
@@ -398,12 +571,17 @@
                                                     effect="fade" multiple="true" converter="#{lrtConverter}" id="selectLrtInput"
                                                     />
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by feature" for="byFeature"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byFeature" value="#{filterSB.filter.byFeature}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byFeature" value="#{filterSB.filter.byFeature}" >
                                         <p:ajax update="FeatureLbl FeatureInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg27').show();"/>
+                                    <p:dialog header="Feature" widgetVar="dlg27" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the feature values like TRANSCRIPT" />
+                                    </p:dialog>
+                                </p:panelGrid>   
                                 <p:panel id="FeatureLbl">
                                     <h:outputLabel value="Select the feature" rendered="#{filterSB.filter.byFeature}" 
                                                    id="selectFeatureLbl" for="selectFeatureInput"/>
@@ -415,12 +593,19 @@
                                                     effect="fade" multiple="true" converter="#{featureConverter}" id="selectFeatureInput"
                                                     />
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by ensembl" for="byEnsembl"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byEnsembl" value="#{filterSB.filter.byEnsembl}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byEnsembl" value="#{filterSB.filter.byEnsembl}" >
                                         <p:ajax update="EnsemblLbl EnsemblInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg28').show();"/>
+                                    <p:dialog header="Ensembl" widgetVar="dlg28" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the ensembl values like ENST00000261772" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="EnsemblLbl">
                                     <h:outputLabel value="Select the ensembl" rendered="#{filterSB.filter.byEnsembl}" 
                                                    id="selectEnsemblLbl" for="selectEnsemblInput"/>
@@ -432,12 +617,17 @@
                                                     effect="fade" multiple="true" converter="#{ensemblConverter}" id="selectEnsemblInput"
                                                     />
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by interpro domain" for="byInterproDomain"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byInterproDomain" value="#{filterSB.filter.byInterproDomain}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byInterproDomain" value="#{filterSB.filter.byInterproDomain}" >
                                         <p:ajax update="InterproDomainLbl InterproDomainInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg29').show();"/>
+                                    <p:dialog header="Interpro" widgetVar="dlg29" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the interpro values like PHOSPHOESTERASE__DHHA1__1_" />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="InterproDomainLbl">
                                     <h:outputLabel value="Select the interpro domain" rendered="#{filterSB.filter.byInterproDomain}" 
                                                    id="selectInterproDomainLbl" for="selectInterproDomainInput"/>
@@ -449,13 +639,19 @@
                                                     effect="fade" multiple="true" converter="#{interproDomainConverter}" id="selectInterproDomainInput"
                                                     />
                                 </p:panel>
-                                
-                                
+
+
                                 <p:panel><h:outputLabel value="Filter by variant status" for="byVariantStatus"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byVariantStatus" value="#{filterSB.filter.byVariantStatus}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byVariantStatus" value="#{filterSB.filter.byVariantStatus}" >
                                         <p:ajax update="VariantStatusLbl VariantStatusInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg30').show();"/>
+                                    <p:dialog header="Variant status" widgetVar="dlg30" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the variant status like " />
+                                    </p:dialog>
+                                </p:panelGrid>   
                                 <p:panel id="VariantStatusLbl">
                                     <h:outputLabel value="Select the variant status" rendered="#{filterSB.filter.byVariantStatus}" 
                                                    id="selectVariantStatusLbl" for="selectVariantStatusInput"/>
@@ -467,16 +663,21 @@
                                                     effect="fade" multiple="true" converter="#{variantStatusConverter}" id="selectVariantStatusInput"
                                                     />
                                 </p:panel>
-                                                                
 
-                                
-                                
-                                
+
+
+
+
                                 <p:panel><h:outputLabel value="Filter by geno type" for="byGenoType"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byGenoType" value="#{filterSB.filter.byGenoType}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byGenoType" value="#{filterSB.filter.byGenoType}" >
                                         <p:ajax update="GenoTypeLbl GenoTypeInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>   
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg31').show();"/>
+                                    <p:dialog header="Geno type" widgetVar="dlg31" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the geno type like 0/1" />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="GenoTypeLbl">
                                     <h:outputLabel value="Select the geno typies" rendered="#{filterSB.filter.byGenoType}" 
                                                    id="selectGenoTypeLbl" for="selectGenoTypeInput"/>
@@ -490,12 +691,18 @@
                                 </p:panel>
 
                                 <p:panel><h:outputLabel value="Filter by gerp rs score" for="byGerpRsScore"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byGerpRsScore" value="#{filterSB.filter.bygerpRsScore}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byGerpRsScore" value="#{filterSB.filter.bygerpRsScore}" >
                                         <p:ajax update="GerpRsScoreLbl GerpRsScoreInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg32').show();"/>
+                                    <p:dialog header="Rs Score" widgetVar="dlg32" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the rs score" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="GerpRsScoreLbl"><p:outputLabel value="Gerp Rs Score" rendered="#{filterSB.filter.bygerpRsScore}"/></p:panel>
-                                
+
                                 <p:panel id="GerpRsScoreInput"  >
                                     <p:outputLabel value="Min" rendered="#{filterSB.filter.bygerpRsScore}"/> 
                                     <p:inputText value="#{filterSB.filter.gerpRsScoreMin}" rendered="#{filterSB.filter.bygerpRsScore}" pt:placeholder="Enter the minimum value"/>
@@ -503,14 +710,19 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.bygerpRsScore}"/> 
                                     <p:inputText value="#{filterSB.filter.gerpRsScoreMax}" rendered="#{filterSB.filter.bygerpRsScore}" pt:placeholder="Enter the max value"/>
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Filter by gerp Neutral Rate" for="bygerpNeutralRate"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="bygerpNeutralRate" value="#{filterSB.filter.byGerpNeutralRate}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="bygerpNeutralRate" value="#{filterSB.filter.byGerpNeutralRate}" >
                                         <p:ajax update="gerpNeutralRateLbl gerpNeutralRateInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg41').show();"/>
+                                    <p:dialog header="Neutral rate" widgetVar="dlg41" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the neutral rate like " />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="gerpNeutralRateLbl"><p:outputLabel value="gerp Neutral Rate" rendered="#{filterSB.filter.byGerpNeutralRate}"/></p:panel>
-                                
+
                                 <p:panel id="gerpNeutralRateInput"  >
                                     <p:outputLabel value="Min" rendered="#{filterSB.filter.byGerpNeutralRate}"/> 
                                     <p:inputText value="#{filterSB.filter.gerpNeutralRateMin}" rendered="#{filterSB.filter.byGerpNeutralRate}" pt:placeholder="Enter the minimum value"/>
@@ -518,14 +730,19 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.bygerpRsScore}"/> 
                                     <p:inputText value="#{filterSB.filter.gerpNeutralRateMax}" rendered="#{filterSB.filter.byGerpNeutralRate}" pt:placeholder="Enter the max value"/>
                                 </p:panel>
-                                
+
                                 <p:panel><h:outputLabel value="Vertebrate Genomes Conservation Score" for="byVertebrateGenomesConservationScore"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byVertebrateGenomesConservationScore" value="#{filterSB.filter.byVertebrateGenomeConservationScore}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byVertebrateGenomesConservationScore" value="#{filterSB.filter.byVertebrateGenomeConservationScore}" >
                                         <p:ajax update="VertebrateGenomeConservationScoreLbl VertebrateGenomeConservationScoreInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg42').show();"/>
+                                    <p:dialog header="Vertebrate genomes conservation score" widgetVar="dlg42" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the vertebrate genomes conservation score like " />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="VertebrateGenomeConservationScoreLbl"><p:outputLabel value="Vertebrate Genome Conser vation Score" rendered="#{filterSB.filter.byVertebrateGenomeConservationScore}"/></p:panel>
-                                
+
                                 <p:panel id="VertebrateGenomeConservationScoreInput"  >
                                     <p:outputLabel value="Min" rendered="#{filterSB.filter.byVertebrateGenomeConservationScore}"/> 
                                     <p:inputText value="#{filterSB.filter.vertebrateGenomesConservationScoreMin}" rendered="#{filterSB.filter.byVertebrateGenomeConservationScore}" pt:placeholder="Enter the minimum value"/>
@@ -533,12 +750,17 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.bygerpRsScore}"/> 
                                     <p:inputText value="#{filterSB.filter.vertebrateGenomesConservationScoreMax}" rendered="#{filterSB.filter.byVertebrateGenomeConservationScore}" pt:placeholder="Enter the max value"/>
                                 </p:panel>                                
-                            
+
                                 <p:panel><h:outputLabel value="Allele Mut Fraction" for="byAlleleMutFraction"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byVertebrateAlleleMutFractionScore" value="#{filterSB.filter.byAlleleMutFraction}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byVertebrateAlleleMutFractionScore" value="#{filterSB.filter.byAlleleMutFraction}" >
                                         <p:ajax update="AlleleMutFractionLbl AlleleMutFractionInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg43').show();"/>
+                                    <p:dialog header="Allele mut fraction" widgetVar="dlg43" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the allele mut fraction value " />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="AlleleMutFractionLbl"><p:outputLabel value="Allele Mu tFraction" rendered="#{filterSB.filter.byAlleleMutFraction}"/></p:panel>
 
                                 <p:panel id="AlleleMutFractionInput"  >
@@ -548,12 +770,18 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.byAlleleMutFraction}"/> 
                                     <p:inputText value="#{filterSB.filter.alleleMutFractionMax}" rendered="#{filterSB.filter.byAlleleMutFraction}" pt:placeholder="Enter the max value"/>
                                 </p:panel>                                
-                                
+
                                 <p:panel><h:outputLabel value="Mean Base Quality" for="byMeanBaseQuality"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byMeanBaseQuality" value="#{filterSB.filter.byMeansBaseQyality}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byMeanBaseQuality" value="#{filterSB.filter.byMeansBaseQyality}" >
                                         <p:ajax update="MeanBaseQualityLbl MeanBaseQualityInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg44').show();"/>
+                                    <p:dialog header="Mean base quality" widgetVar="dlg44" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the mean base quality value" />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="MeanBaseQualityLbl"><p:outputLabel value="Mean Base Quality" rendered="#{filterSB.filter.byMeansBaseQyality}"/></p:panel>
 
                                 <p:panel id="MeanBaseQualityInput"  >
@@ -564,12 +792,19 @@
                                     <p:inputText value="#{filterSB.filter.meanBaseQualityMax}" rendered="#{filterSB.filter.byMeansBaseQyality}" pt:placeholder="Enter the max value"/>
                                 </p:panel>                                
 
-                                
+
                                 <p:panel><h:outputLabel value="European Variant Freq" for="byEuropeanVariantFreq"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byEuropeanVariantFreq" value="#{filterSB.filter.byEuropeanVariantFreq}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byEuropeanVariantFreq" value="#{filterSB.filter.byEuropeanVariantFreq}" >
                                         <p:ajax update="EuropeanVariantFreqLbl EuropeanVariantFreqInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg45').show();"/>
+                                    <p:dialog header="Europena Variant Freq" widgetVar="dlg45" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the minimum and the maximum values" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="EuropeanVariantFreqLbl"><p:outputLabel value="European Variant Freq" rendered="#{filterSB.filter.byEuropeanVariantFreq}"/></p:panel>
 
                                 <p:panel id="EuropeanVariantFreqInput"  >
@@ -579,12 +814,18 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.byEuropeanVariantFreq}"/> 
                                     <p:inputText value="#{filterSB.filter.europeanVariantFreqMax}" rendered="#{filterSB.filter.byEuropeanVariantFreq}" pt:placeholder="Enter the max value"/>
                                 </p:panel>   
-                            
+
                                 <p:panel><h:outputLabel value="African Variant Freq" for="byAfricanVariantFreq"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byAfricanVariantFreq" value="#{filterSB.filter.byAfricanvariantfreq}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byAfricanVariantFreq" value="#{filterSB.filter.byAfricanvariantfreq}" >
                                         <p:ajax update="AfricanVariantFreqLbl AfricanVariantFreqInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg46').show();"/>
+                                    <p:dialog header="African Variant" widgetVar="dlg46" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the minimum and the maximum values" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="AfricanVariantFreqLbl"><p:outputLabel value="African Variant Freq" rendered="#{filterSB.filter.byAfricanvariantfreq}"/></p:panel>
 
                                 <p:panel id="AfricanVariantFreqInput"  >
@@ -594,12 +835,18 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.byAfricanvariantfreq}"/> 
                                     <p:inputText value="#{filterSB.filter.africanVariantFreqMax}" rendered="#{filterSB.filter.byAfricanvariantfreq}" pt:placeholder="Enter the max value"/>
                                 </p:panel>  
-                                
+
                                 <p:panel><h:outputLabel value="Asian Variant Freq" for="byAsianVariantFreq"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byAsianVariantFreq" value="#{filterSB.filter.byAsianVariantFreq}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byAsianVariantFreq" value="#{filterSB.filter.byAsianVariantFreq}" >
                                         <p:ajax update="AsianVariantFreqLbl AsianVariantFreqInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg47').show();"/>
+                                    <p:dialog header="Asian Variant" widgetVar="dlg47" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the minimum and the maximum values" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="AsianVariantFreqLbl"><p:outputLabel value="Asian Variant Freq" rendered="#{filterSB.filter.byAsianVariantFreq}"/></p:panel>
 
                                 <p:panel id="AsianVariantFreqInput"  >
@@ -609,16 +856,21 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.byAsianVariantFreq}"/> 
                                     <p:inputText value="#{filterSB.filter.asianVariantFreqMax}" rendered="#{filterSB.filter.byAsianVariantFreq}" pt:placeholder="Enter the max value"/>
                                 </p:panel>    
-                            
-                            
-                            
-                                
-                                
+
+
+
+
+
                                 <p:panel><h:outputLabel value="American Variant Freq" for="byAmericanVariantFreq"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byAmericanVariantFreq" value="#{filterSB.filter.byAmericanVariantFreq}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byAmericanVariantFreq" value="#{filterSB.filter.byAmericanVariantFreq}" >
                                         <p:ajax update="AmericanVariantFreqLbl AmericanVariantFreqInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg48').show();"/>
+                                    <p:dialog header="American Variant Freq" widgetVar="dlg48" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the minimum and the maximum values" />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="AmericanVariantFreqLbl"><p:outputLabel value="Amereican Variant Freq" rendered="#{filterSB.filter.byAmericanVariantFreq}"/></p:panel>
 
                                 <p:panel id="AmericanVariantFreqInput"  >
@@ -628,13 +880,19 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.byAmericanVariantFreq}"/> 
                                     <p:inputText value="#{filterSB.filter.asianVariantFreqMax}" rendered="#{filterSB.filter.byAmericanVariantFreq}" pt:placeholder="Enter the max value"/>
                                 </p:panel>    
-                                
-                                
-                               <p:panel><h:outputLabel value="Whole Variant Freq" for="byWholeVariantFreq"/></p:panel>
-                               <p:panel><p:selectBooleanCheckbox id="byWholeVariantFreq" value="#{filterSB.filter.byWholeVariantFreq}" >
+
+
+                                <p:panel><h:outputLabel value="Whole Variant Freq" for="byWholeVariantFreq"/></p:panel>
+
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byWholeVariantFreq" value="#{filterSB.filter.byWholeVariantFreq}" >
                                         <p:ajax update="WholeVariantFreqLbl WholeVariantFreqInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg49').show();"/>
+                                    <p:dialog header="Whole variant freq" widgetVar="dlg49" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the minimum and the maximum values" />
+                                    </p:dialog>
+                                </p:panelGrid>
                                 <p:panel id="WholeVariantFreqLbl"><p:outputLabel value="Whole Variant Freq" rendered="#{filterSB.filter.byWholeVariantFreq}"/></p:panel>
 
                                 <p:panel id="WholeVariantFreqInput"  >
@@ -644,84 +902,178 @@
                                     <p:outputLabel value="Max" rendered="#{filterSB.filter.byWholeVariantFreq}"/> 
                                     <p:inputText value="#{filterSB.filter.wholeVariantFreqMax}" rendered="#{filterSB.filter.byWholeVariantFreq}" pt:placeholder="Enter the max value"/>
                                 </p:panel>        
-                                
-                                
-                                
-                                
+
+
+
+
                                 <p:panel><h:outputLabel value="Filter by Read Depth" for="byReadDepth"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="brReadDepth" value="#{filterSB.filter.byReadDepth}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="brReadDepth" value="#{filterSB.filter.byReadDepth}" >
                                         <p:ajax update="ReadDepthLbl ReadDepthInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg50').show();"/>
+                                    <p:dialog header="Read depth" widgetVar="dlg50" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the read depht values" />
+                                    </p:dialog>
+                                </p:panelGrid>   
+
                                 <p:panel id="ReadDepthLbl"><p:outputLabel value="Read Depth" for="selectReadDepth" rendered="#{filterSB.filter.byReadDepth}"/></p:panel>
                                 <p:panel id="ReadDepthInput">
                                     <p:chips value="#{filterMB.readDepths}"  id="selectReadDepth" rendered="#{filterSB.filter.byReadDepth}" />
                                 </p:panel>
-                                
-                                
+
+
                                 <p:panel><h:outputLabel value="Filter by Variant type" for="byVarintType"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byVarintType" value="#{filterSB.filter.byVarintType}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byVarintType" value="#{filterSB.filter.byVarintType}" >
                                         <p:ajax update="VarintTypeLbl VarintTypeInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg51').show();"/>
+                                    <p:dialog header="Variant type" widgetVar="dlg51" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the variant type values" />
+                                    </p:dialog>
+                                </p:panelGrid>                             
                                 <p:panel id="VarintTypeLbl"><p:outputLabel value="Varint Type" for="selectVarintType" rendered="#{filterSB.filter.byVarintType}"/></p:panel>
                                 <p:panel id="VarintTypeInput">
                                     <p:chips value="#{filterMB.variantTypies}"  id="selectVarintType" rendered="#{filterSB.filter.byVarintType}" />
                                 </p:panel>
-                                
-                                
+
+
                                 <p:panel><h:outputLabel value="Filter by Validate" for="byValidate"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byValidate" value="#{filterSB.filter.byValidate}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byValidate" value="#{filterSB.filter.byValidate}" >
                                         <p:ajax update="byValidateLbl byValidateInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlgB').show();"/>
+                                    <p:dialog header="Validate" widgetVar="dlgB" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the validate values" />
+                                    </p:dialog>
+                                </p:panelGrid>    
+
                                 <p:panel id="byValidateLbl"><p:outputLabel value="Varint Type" for="selectValidate" rendered="#{filterSB.filter.byValidate}"/></p:panel>
                                 <p:panel id="byValidateInput">
                                     <p:selectOneRadio id="selectValidate" value="#{filterSB.filter.validate}" rendered="#{filterSB.filter.byValidate}">
-                                            <f:selectItem itemLabel="true" itemValue="true" />
-                                            <f:selectItem itemLabel="false" itemValue="false" />
+                                        <f:selectItem itemLabel="true" itemValue="true" />
+                                        <f:selectItem itemLabel="false" itemValue="false" />
                                     </p:selectOneRadio>
                                 </p:panel>
-                                
-                                
+
+
                                 <p:panel><h:outputLabel value="Filter by donor splice site" for="byDonorSpliceSite"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byDonorSpliceSite" value="#{filterSB.filter.byDonorSpliceSite}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byDonorSpliceSite" value="#{filterSB.filter.byDonorSpliceSite}" >
                                         <p:ajax update="byDonorSpliceSiteeLbl byDonorSpliceSiteInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg52').show();"/>
+                                    <p:dialog header="Donor splice site" widgetVar="dlg52" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the donor splice site" />
+                                    </p:dialog>
+                                </p:panelGrid>
+
                                 <p:panel id="byDonorSpliceSiteeLbl"><p:outputLabel value="Donor Splice Site" for="selectDonorSpliceSite" rendered="#{filterSB.filter.byDonorSpliceSite}"/></p:panel>
                                 <p:panel id="byDonorSpliceSiteInput">
                                     <p:selectOneRadio id="selectDonorSpliceSite" value="#{filterSB.filter.validate}" rendered="#{filterSB.filter.byDonorSpliceSite}">
-                                            <f:selectItem itemLabel="true" itemValue="true" />
-                                            <f:selectItem itemLabel="false" itemValue="false" />
+                                        <f:selectItem itemLabel="true" itemValue="true" />
+                                        <f:selectItem itemLabel="false" itemValue="false" />
                                     </p:selectOneRadio>
                                 </p:panel>
-                                
-                                
+
+
                                 <p:panel><h:outputLabel value="Filter by acceptor splice site" for="byAcceptorSpliceSite"/></p:panel>
-                                <p:panel><p:selectBooleanCheckbox id="byAcceptorSpliceSite" value="#{filterSB.filter.byAcceptorSpliceSite}" >
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-11, ui-grid-col-1" layout="grid"  styleClass="ui-noborder">
+                                    <p:selectBooleanCheckbox id="byAcceptorSpliceSite" value="#{filterSB.filter.byAcceptorSpliceSite}" >
                                         <p:ajax update="AcceptorSpliceSiteLbl AcceptorSpliceSiteInput" />
                                     </p:selectBooleanCheckbox>
-                                </p:panel>                                
+                                    <p:commandButton icon="ui-icon-help" type="button" onclick="PF('dlg53').show();"/>
+                                    <p:dialog header="Acceptor splice" widgetVar="dlg53" minHeight="40" modal="true">
+                                        <h:outputText value="Enter the acceptor splice values" />
+                                    </p:dialog>
+                                </p:panelGrid>                              
                                 <p:panel id="AcceptorSpliceSiteLbl"><p:outputLabel value="acceptor splice site" for="selectAcceptorSpliceSite" rendered="#{filterSB.filter.byAcceptorSpliceSite}"/></p:panel>
                                 <p:panel id="AcceptorSpliceSiteInput">
                                     <p:selectOneRadio id="selectAcceptorSpliceSite" value="#{filterSB.filter.acceptorSpliceSite}" rendered="#{filterSB.filter.byAcceptorSpliceSite}">
-                                            <f:selectItem itemLabel="true" itemValue="true" />
-                                            <f:selectItem itemLabel="false" itemValue="false" />
+                                        <f:selectItem itemLabel="true" itemValue="true" />
+                                        <f:selectItem itemLabel="false" itemValue="false" />
                                     </p:selectOneRadio>
                                 </p:panel>
-                                
-                                
-                                
-                            </p:panelGrid>
 
+
+
+                            </p:panelGrid>
 
                         </p:panel>
 
+                        <p:panel rendered="#{filterSB.hasFilter()}">
+                            <p:panelGrid >
+                                <p:row>
+                                    <p:column><h:outputText value="Filter name" /></p:column>
+                                    <p:column><h:outputText value="#{filterSB.filter.name}"/></p:column>
+                                </p:row>
+                                <p:row rendered="#{filterSB.filter.geneAnalyse}" >
+                                    <p:column><h:outputText value="Select gene from analysis's disease"/></p:column>
+                                    <p:column><h:outputText value="#{filterSB.filter.geneAnalyse}"/></p:column>                                                               
+                                </p:row>
+                                <p:row rendered="#{filterSB.filter.byGene}">
+                                    <p:column><h:outputText value="By genes"/></p:column>
+                                    <p:column>
+                                        <p:repeat value="#{filterSB.filter.genes.toArray()}" var="gene">
+                                            <h:outputText value="#{gene.symbol}, " />
+                                        </p:repeat>                                    
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{filterSB.filter.byUmdPredictor}">
+                                    <p:column><h:outputText value="By UMD predictor"/></p:column>
+                                    <p:column>
+                                        <p:repeat value="#{filterSB.filter.umdPredictors.toArray()}" var="u">
+                                            <h:outputText value="#{u.name}, " />
+                                        </p:repeat>                                    
+                                    </p:column>
+                                </p:row>
+
+                                <p:row rendered="#{filterSB.filter.byReference}">
+                                    <p:column><h:outputText value="By reference"/></p:column>
+                                    <p:column>
+                                        <p:repeat value="#{filterSB.filter.referencias.toArray()}" var="r">
+                                            <h:outputText value="#{r}, " />
+                                        </p:repeat>                                    
+                                    </p:column>
+                                </p:row>
+
+
+
+                            </p:panelGrid>
+                        </p:panel>
+
+                        <p:panel rendered="#{filterMB.showFilters}">
+                            <p:dataTable value="#{filterMB.filters}" var="f" >
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Details" />
+                                    </f:facet>
+                                    <p:commandButton value="Details" actionListener="#{filterMB.detail(f)}" update="formulario"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Id" />
+                                    </f:facet>
+                                    <h:outputText value="#{f.id}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Name" />
+                                    </f:facet>
+                                    <h:outputText value="#{f.name}" />
+                                </p:column>                                
+                            </p:dataTable>
+                        </p:panel>
                         <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="New" actionListener="#{filterMB.add}" update="formulario" rendered="#{filterMB.crudModeRead}"/>
                             <p:commandButton value="Save" actionListener="#{filterMB.save}" update="formulario" rendered="#{filterMB.crudModeUpdate}"/>
-                            <p:commandButton value="Cancel" actionListener="#{filterMB.cancel}" update="formulario"/>
+                            <p:commandButton value="List" actionListener="#{filterMB.list}" update="formulario" rendered="#{filterMB.crudModeRead}"/>
+                            <p:commandButton value="Cancel" actionListener="#{filterMB.cancel}" update="formulario" immediate="true"/>
 
                         </p:panelGrid>
                     </p:panel>                

@@ -37,4 +37,8 @@ public class FilterSB implements Serializable {
         this.filter = new Filtro();
     }
     
+    public boolean hasFilter(){
+        return filter.getId() != null;
+    }
+    
 }
