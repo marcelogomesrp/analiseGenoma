@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.DbBioInfoDao;
 import org.analiseGenoma.model.DbBio;
@@ -29,11 +31,10 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
     private DbBioInfoDao getDao() {
         return ((DbBioInfoDao) dao);
     }
-    
-    public DbBioInfo findByIDbIdDisease(Long idDb, Long IdDisease){
-        return getDao().findByIDbIdDisease(idDb,IdDisease);
+
+    public DbBioInfo findByIDbIdDisease(Long idDb, Long IdDisease) {
+        return getDao().findByIDbIdDisease(idDb, IdDisease);
     }
-    
 
     @Transactional
     public void uploadInfo(byte[] contents, DbBio bd) {
@@ -64,13 +65,14 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
             //Set<Gene> genes = new HashSet<>();
             //Gene gene  = geneService.findBySymbolOrCreate(ln.getField(1).trim().toUpperCase());
             Gene gene = geneService.findBySymbol(ln.getField(1).trim().toUpperCase());
-            if(gene == null){
+            if (gene == null) {
                 gene = new Gene();
                 gene.setSymbol(ln.getField(1).trim().toUpperCase());
             }
             //info.setGenes(genes);
             info.addGene(gene);
             info.setInfoIdentifier(ln.getField(2));
+            info.setUrl(ln.getField(3));
             this.persiste(info);
         }
     }
@@ -96,17 +98,16 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
         }
 // aqui marcelo estou inserindo o dbbioinfo
 //                
-        if(infoBd == null){
-            try{
+        if (infoBd == null) {
+            try {
                 System.out.println("objA: " + info.toString());
                 System.out.println("So gene: " + info.getGenes().toArray()[0].toString());
                 getDao().merge(info);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 System.out.println("Erro: " + ex.getMessage());
                 System.out.println("obj: " + info.toString());
             }
-        }
-        else{
+        } else {
             //infoBd.addGene(info.getGenes());
             info.getGenes().forEach(g -> infoBd.addGene(g));
             getDao().merge(infoBd);
@@ -119,9 +120,12 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
 //        //throw new UnsupportedOperationException("Not supported yet."); //To change bodDoy of generated methods, choose Tools | Templates.
 //       return  getDao().findGeneByDisease(disease);
 //    }
-
     public DbBioInfo findByIDbIdDiseaseIdGene(Long idDb, Long idDisease, Long geneId) {
         return getDao().findByIDbIdDiseaseIdGene(idDb, idDisease, geneId);
+    }
+
+    public List<DbBioInfo> findComplete() {
+        return getDao().findComplete();
     }
 
 }
@@ -136,4 +140,4 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
         id.setDisease(dbinfo.getDisease());
         return manager.find(DbBioInfo.class, id);
     }
-*/
+ */

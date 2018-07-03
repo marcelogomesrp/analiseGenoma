@@ -44,6 +44,7 @@ public class DbBioInfoMB implements Serializable {
     private UploadedFile uploadedFile;
     @Inject
     private DbBioInfoService bioInfoService;
+    private boolean findMode;
 
     public DbBioInfo getDbBioInfo() {
         return dbBioInfo;
@@ -95,9 +96,13 @@ public class DbBioInfoMB implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("Page reload");
         dbBioInfo = new DbBioInfo();
         disease = new Disease();
         genes = new ArrayList<>();
+        list = new ArrayList<>();
+        findMode = false;
+        //list = bioInfoService.find();
     }
 
     @Transactional
@@ -169,5 +174,27 @@ public class DbBioInfoMB implements Serializable {
         context.addMessage(null, new FacesMessage(msg));
 
     }
+    
+    public void find(){
+        //DbBioInfo
+        System.out.println("Fazendo a busca");
+        list = bioInfoService.findComplete();
+        System.out.println("Encontrado: " + list.size());
+        findMode = true;
+        
+    }
+    
+    public void cancel(){
+        findMode = false;
+    }
 
+    public boolean isFindMode() {
+        return findMode;
+    }
+
+    public void setFindMode(boolean findMode) {
+        this.findMode = findMode;
+    }
+
+    
 }

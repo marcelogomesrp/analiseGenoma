@@ -1,14 +1,12 @@
 package org.analiseGenoma.dao;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.DbBioInfo;
 import org.analiseGenoma.model.DbBioInfoPK;
-import org.analiseGenoma.model.Disease;
-import org.analiseGenoma.model.Gene;
 
 public class DbBioInfoDao extends DAO<DbBioInfo> {
 
@@ -36,7 +34,6 @@ public class DbBioInfoDao extends DAO<DbBioInfo> {
 //            return null;
 //        }        
 //    }
-
     public DbBioInfo findByIDbIdDisease(Long idDb, Long idDisease) {
         Query q = manager.createQuery("SELECT i FROM DbBioInfo i WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease");
         q.setParameter("idBd", idDb);
@@ -49,18 +46,29 @@ public class DbBioInfoDao extends DAO<DbBioInfo> {
 //        Query q = manager.createQuery("SELECT i FROM DbBioInfo i WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease");
         //Query q = manager.createQuery("SELECT i FROM DbBioInfo i WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease and i.genes.id in (:geneId)");
         Query q = manager.createQuery("SELECT i FROM DbBioInfo i INNER JOIN i.genes g WHERE i.dbBio.id = :idBd and i.disease.id = :idDisease and g.id = :geneId");
-         
+
         q.setParameter("idBd", idDb);
         q.setParameter("idDisease", idDisease);
         q.setParameter("geneId", geneId);
-        List<DbBioInfo> l =    q.setMaxResults(2).getResultList();
+        List<DbBioInfo> l = q.setMaxResults(2).getResultList();
 //        List<DbBioInfo> l = q.getResultList();
-        if(l.isEmpty()){
+        if (l.isEmpty()) {
             return null;
-        }else{
+        } else {
             return l.get(0);
         }
         //return this.getFirstOrNull(l);
     }
-    
+
+    public List<DbBioInfo> findComplete() {
+        try {
+            Query query = manager.createQuery("SELECT DISTINCT i FROM DbBioInfo i JOIN FETCH i.genes");            
+            List<DbBioInfo> list = query.getResultList();
+            return list;
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+            return null;
+        }
+    }
+
 }

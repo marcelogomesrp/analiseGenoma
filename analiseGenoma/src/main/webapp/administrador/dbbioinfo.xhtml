@@ -4,7 +4,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      >
 
     <body>
 
@@ -14,41 +16,94 @@
                 <h:form id="formulario">
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel header="Db Bioinfo">
-                        
-                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">                    
+
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank"
+                                     rendered="#{!dbBioInfoMB.findMode}"
+                                     >                    
 
 
-                            <p:outputLabel value="Db Bio" for="bdBio" />
+                            <p:outputLabel value="Db Bio*" for="bdBio" />
                             <p:selectOneMenu id="bdBio" value="#{dbBioInfoMB.idBd}">
                                 <f:selectItem itemLabel="select one" itemValue="" />
                                 <f:selectItems value="#{dbBioInfoMB.selectDbbios}" />
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="URL" for="url" />
-                            <p:inputText id="url" value="#{dbBioInfoMB.dbBioInfo.url}" />
 
-                            <p:outputLabel value="Disease" for="disease" />
+                            <p:outputLabel value="Disease*" for="disease" />
                             <p:autoComplete id="disease"  value="#{dbBioInfoMB.disease}" completeMethod="#{dbBioInfoMB.completeDisease}" 
                                             var="i" itemLabel="#{i.name}" effect="fade" itemValue="#{i}"
-                                            converter="#{diseaseConverter}" forceSelection="true">
+                                            converter="#{diseaseConverter}" forceSelection="true"
+                                            pt:placeholder="Enter the disease"
+                                            >
 
                             </p:autoComplete>
-                            <p:outputLabel value="Genes" for="genes" />
-                            <p:chips id="genes" value="#{dbBioInfoMB.genes}"/><br/>
-
+                            
+                            <p:outputLabel value="Genes*" for="genes" />
+                            <p:chips id="genes" value="#{dbBioInfoMB.genes}" pt:placeholder="The genes symbols" style="width: 300px" />
+                            
+                            <p:outputLabel value="URL" for="url" />
+                            <p:inputText id="url" value="#{dbBioInfoMB.dbBioInfo.url}" pt:placeholder="Enter the URL that describe this diasease"/>
+                            <br/>
 
                         </p:panelGrid>                        
 
+                        <p:dataTable value="#{dbBioInfoMB.list}" var="info" rendered="#{dbBioInfoMB.findMode}">
+                            
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Disease" />
+                                </f:facet>
+                                <h:outputText value="#{info.disease.name}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Db" />
+                                </f:facet>
+                                <h:outputText value="#{info.dbBio.name}" />                                
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Genes" />
+                                </f:facet>
+                                <p:repeat value="#{info.genes.toArray()}" var="g">
+                                    <h:outputText value="#{g.symbol}" />
+                                    <h:outputText value=", " />
+                                </p:repeat>
+                            </p:column>   
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Identifier" />
+                                </f:facet>
+                                <h:outputText value="#{info.infoIdentifier}" />
+                            </p:column>
+                            
+                            
+                            <p:column >
+                                <f:facet name="header" >
+                                    <h:outputText value="Url" />
+                                </f:facet>    
+                                <h:outputLink value="#{info.url}" target="_blank">
+                                    <h:outputText value="#{info.url}" />
+                                </h:outputLink>
+                            </p:column>
 
-                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="Adcionar" actionListener="#{dbBioInfoMB.add}" update="formulario"/>
-                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{dbBioInfoMB.viewUpload}" immediate="true"  >
+                        </p:dataTable>
+
+                        <p:panelGrid columns="4" columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Add" actionListener="#{dbBioInfoMB.add}" update="formulario" rendered="#{!dbBioInfoMB.findMode}"/>
+                            <p:commandButton value="Import" icon="ui-icon-extlink" actionListener="#{dbBioInfoMB.viewUpload}" immediate="true"  rendered="#{!dbBioInfoMB.findMode}" >
                                 <p:ajax event="dialogReturn" listener="#{dbBioInfoMB.onViewUpload}" update="formulario" />
                             </p:commandButton>
+                            <p:commandButton value="List" actionListener="#{dbBioInfoMB.find}" update="formulario" immediate="true" rendered="#{!dbBioInfoMB.findMode}"/>
+                            <p:commandButton value="Cancel" actionListener="#{dbBioInfoMB.cancel}" update="formulario" immediate="true" rendered="#{dbBioInfoMB.findMode}"/>
                         </p:panelGrid>
 
-
                     </p:panel>        
+
+
+
+
                 </h:form>
             </ui:define>
 
