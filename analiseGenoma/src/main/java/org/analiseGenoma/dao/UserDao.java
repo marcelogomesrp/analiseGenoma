@@ -1,6 +1,10 @@
 package org.analiseGenoma.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.User;
 
 public class UserDao extends DAO<User> {
@@ -9,11 +13,21 @@ public class UserDao extends DAO<User> {
         super(User.class);
     }
 
+    public List<User> findReviser(String email, String password) {
+        try {
+            Query q = manager.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password");
+            q.setParameter("email", email);
+            q.setParameter("password", password);
+            return q.getResultList();
+
+        } catch (NoResultException ex) {
+            System.out.println("UserDao.findReviser erro:" + ex.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
 //    @Override
 //    public List<User> find() {
 //        return manager.createQuery("Select u from User").getResultList();
 //    }
-
-    
-    
 }

@@ -67,9 +67,11 @@ public class LoginMB implements Serializable {
     }
 
     public String reviserLogin() {
+        System.out.println("opa logando...");
 //        return REVISER_URL;
         try {
-            User userBd = userService.findManagerByEmailPassword(userSB.getUser());
+            //User userBd = userService.findManagerByEmailPassword(userSB.getUser());
+            User userBd = userService.findReviserByEmailPassword(userSB.getUser());
             if (userBd == null) {
                 context.getExternalContext()
                         .getFlash().setKeepMessages(true);

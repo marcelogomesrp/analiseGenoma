@@ -34,6 +34,14 @@ public class UserService  extends Service<User> implements Serializable {
         }
     }
 
+    public User findReviserByEmailPassword(User user) throws Exception {
+        User userFind = new User();
+        userFind.setEmail(user.getEmail());
+        userFind.setPassword(user.getPassword());        
+//        userFind.setManager(true);
+        //return this.getFirstOrNull(this.findByExample(userFind));
+        return this.getFirstOrNull(this.getDao().findReviser(user.getEmail(), user.getPassword()) );
+    }
     public User findManagerByEmailPassword(User user) throws Exception {
         User userFind = new User();
         userFind.setEmail(user.getEmail());

@@ -34,4 +34,8 @@ public class VarianteRevisadaService extends Service<VarianteRevisada>{
     public List<VarianteRevisada> findByVarianteRevisor(Variante variante, User revisor) {
         return this.getDao().findByVarianteRevisor(variante, revisor);
     }
+    
+    public List<VarianteRevisada> findByVarianteRevisor(String idRevisor, Long idVariant) { //String idRevisor, Long idVariant
+        return this.getDao().findByVarianteRevisor(idRevisor, idVariant);
+    }
 }

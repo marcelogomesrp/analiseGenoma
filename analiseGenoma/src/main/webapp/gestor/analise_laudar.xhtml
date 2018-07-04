@@ -36,17 +36,35 @@
                                 <p:commandButton value="Save" action="#{analiseLaudarMB.salvar}" style="width: 200px"/>
                             </p:tab>
                             <p:tab title="Revisers">
-                                <p:dataTable value="#{revAnaliseRevisarMB.variantes}" var="variant"  scrollable="true" scrollWidth="98%" 
+                                <p:dataTable value="#{analiseLaudarMB.variantes}" var="variant"  scrollable="true" scrollWidth="98%" 
                                              rows="#{userSB.user.rowsInTable}" 
                                              paginator="true">
 
-
-                                    <p:column style="width:150px">
+                                    <p:column style="width:100px">
                                         <f:facet name="header" >
-                                            <h:outputText value="answer" />
+                                            <h:outputText value="Manager" />
                                         </f:facet>        
                                         <p:commandButton value="Opine" actionListener="#{revAnaliseRevisarMB.viewOpinar(variant.id)}" />
                                     </p:column>
+
+
+
+                                    <p:columns value="#{analiseLaudarMB.revisores}" var="column" columnIndexVar="colIndex" style="width:100px">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{column.header}" />
+                                        </f:facet>
+                                        <p:commandLink  value="#{analiseLaudarMB.opiniao(column.property, variant.id)}" type="button" onclick="#{analiseLaudarMB.windowName(column.property, variant.id)}" />
+                                        <p:dialog header="#{column.header}" widgetVar="#{analiseLaudarMB.windowName2(column.property, variant.id)}" minHeight="40" modal="true"
+                                                  showEffect="side" hideEffect="explode"
+                                                  >
+                                            <h:outputText value="#{analiseLaudarMB.note(column.property, variant.id)}" escape="false"/>
+                                        </p:dialog>
+                                    </p:columns>                                    
+
+
+
+
+
 
 
 

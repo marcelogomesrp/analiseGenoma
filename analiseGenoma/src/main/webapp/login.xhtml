@@ -28,7 +28,7 @@
                             </p:panelGrid>
                             <p:panelGrid columns="4" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-4,ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank">
                                 <p:commandButton value="Manager"        action="#{loginMB.managerLogin()}" ajax="false"/>
-                                <p:commandButton value="Reviser"        action="#{loginMB.reviserLogin()}"/>
+                                <p:commandButton value="Reviser"        action="#{loginMB.reviserLogin()}"  ajax="false"/>
                                 <p:commandButton value="Administrator"  action="#{loginMB.administratorLogin()}" ajax="false" />
                                 <p:commandButton value="Clear" actionListener="#{loginMB.clean}" process="@this" update="formulario" />
                             </p:panelGrid>                    

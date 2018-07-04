@@ -61,6 +61,20 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
         return list;
     }
     
+    
+    public List<VarianteRevisada> findByVarianteRevisor(String idRevisor, Long idVariant) {
+        List<VarianteRevisada> list = null;
+        try {
+            Query query = manager.createQuery("SELECT vr FROM VarianteRevisada vr WHERE vr.revisor.id = :revisor and vr.variant.id = :variante");
+            query.setParameter("revisor", Long.valueOf(idRevisor));
+            query.setParameter("variante", idVariant);
+            list = query.getResultList();
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+        }
+        return list;
+    }
+    
 
     @Override
     public List<VarianteRevisada> findByExample(VarianteRevisada vr) throws Exception {
