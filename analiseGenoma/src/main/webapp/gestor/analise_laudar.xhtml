@@ -34,6 +34,8 @@
                                     <p:textEditor  value="#{analiseLaudarMB.analiseLaudo.note}" height="300" style="margin-bottom:10px"/>
                                 </h:panelGrid>
                                 <p:commandButton value="Save" action="#{analiseLaudarMB.salvar}" style="width: 200px"/>
+                                <p:commandButton value="finalize" action="#{analiseLaudarMB.finalize}" style="width: 200px"/>
+                                
                             </p:tab>
                             <p:tab title="Revisers">
                                 <p:dataTable value="#{analiseLaudarMB.variantes}" var="variant"  scrollable="true" scrollWidth="98%" 

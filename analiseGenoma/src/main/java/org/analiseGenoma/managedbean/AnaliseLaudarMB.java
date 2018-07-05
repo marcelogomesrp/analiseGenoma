@@ -1,7 +1,15 @@
 package org.analiseGenoma.managedbean;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -9,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import org.analiseGenoma.managedbean.util.ColumnModel;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
@@ -25,6 +34,7 @@ import org.analiseGenoma.service.ReviserService;
 import org.analiseGenoma.service.VarianteRevisadaService;
 import org.analiseGenoma.service.VcfService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
+import org.analiseGenoma.sessionbean.UserSB;
 
 @Named(value = "analiseLaudarMB")
 @ViewScoped
@@ -48,16 +58,16 @@ public class AnaliseLaudarMB implements Serializable {
     private VcfService vcfService;
     private Filtro filtro;
     private List<Variante> variantes;
-    
-    
+    @Inject
+    private UserSB userSB;
+
     @Inject
     private VarianteRevisadaService varianteRevisadaService;
-    
-    
+
     @Inject
     private ReviserService reviserService;
-    
-     private List<ColumnModel> revisores;
+
+    private List<ColumnModel> revisores;
 
     private String cid;
 
@@ -95,54 +105,55 @@ public class AnaliseLaudarMB implements Serializable {
             }
             filtro = filtroService.buscarPorAnalise(analise.getId());
             variantes = vcfService.findVariante(analise, filtro);
-            
+
             revisores = new ArrayList<ColumnModel>();
-            
-            
+
             //revisores.add(new ColumnModel("R1", "r1"));
-            for(User r : analise.getRevisores()){
-                revisores.add(new ColumnModel(r.getName(), r.getId().toString()));                
+            for (User r : analise.getRevisores()) {
+                revisores.add(new ColumnModel(r.getName(), r.getId().toString()));
             }
-            
+
 //                    for (DbBio bd : bancos) {
 //            columns.add(new ColumnModel(bd.getName(), (x++).toString()));
 //        }
-
-        
-            
-
         } catch (Exception ex) {
             System.out.println("Erro init analise laudar: " + ex.getMessage());
         }
     }
-    
-    public String windowName(String idRevisor, Long idVariant){
-        return "PF('dlg"+idRevisor + ":" + idVariant + "').show();";
+
+    public String windowName(String idRevisor, Long idVariant) {
+        return "PF('dlg" + idRevisor + ":" + idVariant + "').show();";
     }
-    public String windowName2(String idRevisor, Long idVariant){
-        return "dlg"+idRevisor + ":" + idVariant ;
+
+    public String windowName2(String idRevisor, Long idVariant) {
+        return "dlg" + idRevisor + ":" + idVariant;
     }
-    
-    public String note(String idRevisor, Long idVariant){
-        List<VarianteRevisada> list = varianteRevisadaService.findByVarianteRevisor(idRevisor, idVariant ); 
-        if(list.size() > 0){
+
+    public String note(String idRevisor, Long idVariant) {
+        List<VarianteRevisada> list = varianteRevisadaService.findByVarianteRevisor(idRevisor, idVariant);
+        if (list.size() > 0) {
             VarianteRevisada vr = list.get(0);
             return vr.getNote();
         }
         return "";
     }
-    
-    public String opiniao(String idRevisor, Long idVariant){
+
+    public String opiniao(String idRevisor, Long idVariant) {
         //return "Revisor: " + idRevisor + " idVariant: " + idVariant;
-        List<VarianteRevisada> list = varianteRevisadaService.findByVarianteRevisor(idRevisor, idVariant ); //(String idRevisor, Long idVariant) 
-        if(list.size() > 0){
+        List<VarianteRevisada> list = varianteRevisadaService.findByVarianteRevisor(idRevisor, idVariant); //(String idRevisor, Long idVariant) 
+        if (list.size() > 0) {
             VarianteRevisada vr = list.get(0);
-            switch(vr.getPatogenic()){
-                case 1: return "benign";
-                case 2: return "likely benign";
-                case 3: return "uncertain significance";
-                case 4: return "likely pathogenic";
-                case 5: return "pathogenic";
+            switch (vr.getPatogenic()) {
+                case 1:
+                    return "benign";
+                case 2:
+                    return "likely benign";
+                case 3:
+                    return "uncertain significance";
+                case 4:
+                    return "likely pathogenic";
+                case 5:
+                    return "pathogenic";
             }
             //return vr.getPatogenic().toString();
         }
@@ -168,9 +179,6 @@ public class AnaliseLaudarMB implements Serializable {
         return null;
     }
 
-    
-    
-    
 //    public List<String> cidComplete(String query) {
 //        System.out.println("Cid auto complet");
 //        List<String> results = new ArrayList<String>();
@@ -197,7 +205,6 @@ public class AnaliseLaudarMB implements Serializable {
 //            }
 //        }
 //    }
-
     public List<Variante> getVariantes() {
         return variantes;
     }
@@ -213,7 +220,74 @@ public class AnaliseLaudarMB implements Serializable {
     public void setRevisores(List<ColumnModel> revisores) {
         this.revisores = revisores;
     }
-    
-    
-    
+
+    public void finalize() {
+        System.out.println("Gerando o pdf");
+        Document document = new Document();
+        try {
+
+            String relativeWebPath = "/resources/" ;
+            ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+                    //externalContext.getContext();
+            String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
+
+            PdfWriter.getInstance(document, new FileOutputStream(absoluteDiskPath + "NGA2.pdf"));
+            System.out.println("Saved in: " + absoluteDiskPath + "NGA2.pdf" );
+            document.open();
+            //document.add(new Paragraph("Laudo NGA"));
+            //document.add(new Paragraph(analiseLaudo.getNote()));
+
+            Paragraph p2 = new Paragraph("NGA Report");
+            p2.setAlignment(Element.ALIGN_CENTER);
+            document.add(p2);
+
+//            PdfPCell cell = new PdfPCell();
+//            Paragraph p3 = new Paragraph("something");
+//            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+//            //p3.setHorizontalAlignment(Element.ALIGN_CENTER);
+//            cell.addElement(p3);
+//            document.add(p3);
+//                switch (vr.getPatogenic()) {
+//                case 1:
+//                    return "benign";
+//                case 2:
+//                    return "likely benign";
+//                case 3:
+//                    return "uncertain significance";
+//                case 4:
+//                    return "likely pathogenic";
+//                case 5:
+//                    return "pathogenic";
+//            }
+            Paragraph pl = new Paragraph("Lauded as pathogenic");
+            document.add(pl);
+
+            ArrayList p = new ArrayList();
+            StringReader strReader = new StringReader(analiseLaudo.getNote());
+            p = (ArrayList) HTMLWorker.parseToList(strReader, null);
+            Paragraph paragraph = new Paragraph();
+            for (int k = 0; k < p.size(); ++k) {
+                paragraph.add((Element) p.get(k));
+            }
+            document.add(paragraph);
+
+            Date d = new Date();
+
+            Paragraph endP = new Paragraph("The "
+                    + this.getAnaliseLaudo().getAnalise().getNome()
+                    + " analysis of patient "
+                    + analiseLaudo.getAnalise().getPaciente().getName()
+                    + " was completed in " + d.toString()
+                    + " by " + userSB.getUser().getName());
+
+            document.add(endP);
+
+            document.close();
+
+        } catch (Exception ex) {
+            System.out.println("Erro AnaliseLaudarMB.finalize:" + ex.getMessage());
+        }
+        System.out.println("Fim do pdf");
+    }
+
 }

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="content">
+                <p:panel header="Laudar">
+                    <h:form>
+                        <!--
+                        <object type="application/pdf" data="https://www.unip.br/presencial/servicos/biblioteca/download/manual_de_normalizacao_abnt_2018.pdf?pfdrid_c=true" width="100%" height="800px">
+                            Your browser can't display pdf, <a href="https://www.unip.br/presencial/servicos/biblioteca/download/manual_de_normalizacao_abnt_2018.pdf">click</a> to download pdf instead.
+                        </object>
+-->
+                        <object type="application/pdf" data="/analiseGenoma/resourcesNGA2.pdf?pfdrid_c=true" width="100%" height="800px">
+                            Your browser can't display pdf, <a href="/resourcesNGA2.pdf">click</a> to download pdf instead..
+                        </object>
+
+                        <!-- 
+                        https://stackoverflow.com/questions/19139426/how-to-write-a-file-to-resource-images-folder-of-the-app
+                        -->
+                    </h:form>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

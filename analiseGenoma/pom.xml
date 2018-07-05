@@ -36,6 +36,16 @@
           <version>2.7.1</version>
       </dependency>
       -->
+      
+      
+      <!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf 
+        Para gerar o laudo PDF
+      -->
+      <dependency>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>itextpdf</artifactId>
+          <version>5.0.6</version>
+      </dependency>
           
       
       
