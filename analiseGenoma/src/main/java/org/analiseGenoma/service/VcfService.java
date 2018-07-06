@@ -204,9 +204,13 @@ public class VcfService extends Service<Vcf> implements Serializable {
             variante.setWholeVarintFreq(new DoubleFactory().make(linha[46]));
             varianteService.persiste(variante);
         }
+        try{
         //aqui marcelo
         VcfMetadata vcfM = vcfMetadataService.makeMetadata(vcf);
         vcfMetadataService.persiste(vcfM);
+        }catch(Exception ex){
+            System.out.println("Erro ao gerar metadados: " + ex.getMessage());
+        }
 
         vcf.setStatus(VcfStatus.importado);
         this.atualizar(vcf);

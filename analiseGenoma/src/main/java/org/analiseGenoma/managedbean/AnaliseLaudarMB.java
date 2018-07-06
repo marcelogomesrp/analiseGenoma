@@ -221,18 +221,18 @@ public class AnaliseLaudarMB implements Serializable {
         this.revisores = revisores;
     }
 
-    public void finalize() {
+    public String finalizeLaudo() {
         System.out.println("Gerando o pdf");
         Document document = new Document();
         try {
 
-            String relativeWebPath = "/resources/" ;
+            String relativeWebPath = "/pdf" ;
             ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
                     //externalContext.getContext();
             String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
 
-            PdfWriter.getInstance(document, new FileOutputStream(absoluteDiskPath + "NGA2.pdf"));
-            System.out.println("Saved in: " + absoluteDiskPath + "NGA2.pdf" );
+            PdfWriter.getInstance(document, new FileOutputStream(absoluteDiskPath + "/NGA.pdf"));
+            System.out.println("Saved in: " + absoluteDiskPath + "/NGA.pdf" );
             document.open();
             //document.add(new Paragraph("Laudo NGA"));
             //document.add(new Paragraph(analiseLaudo.getNote()));
@@ -288,6 +288,7 @@ public class AnaliseLaudarMB implements Serializable {
             System.out.println("Erro AnaliseLaudarMB.finalize:" + ex.getMessage());
         }
         System.out.println("Fim do pdf");
+        return "analise_laudar_ver";
     }
 
 }

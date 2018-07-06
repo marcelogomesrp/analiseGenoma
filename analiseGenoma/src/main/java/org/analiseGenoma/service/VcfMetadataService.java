@@ -533,19 +533,30 @@ public class VcfMetadataService extends Service<VcfMetadata>{
     }
 
     private Double getPrevalenceMin() {
-        return variantes.stream()
+        try{
+        Double r =  variantes.stream()
                 .filter(v -> v.getWholeVarintFreq() != null)
                 .min((v1,v2) -> Double.compare(v1.getWholeVarintFreq(), v2.getWholeVarintFreq()))
                 .get()
                 .getWholeVarintFreq();
+        return r;
+        }catch(Exception ex){
+            System.out.println("Erro: VcfMetadataService.getPrevalenceMin:" + ex.getMessage());
+        }
+        return 0d;
     }
     
     private Double getPrevalenceMax() {
+        try{
         return variantes.stream()
                 .filter(v -> v.getWholeVarintFreq() != null)
                 .max((v1,v2) -> Double.compare(v1.getWholeVarintFreq(), v2.getWholeVarintFreq()))
                 .get()
                 .getWholeVarintFreq();
+        }catch(Exception ex){
+            System.out.println("Erro: VcfMetadataService.getPrevalenceMaxn:" + ex.getMessage());
+        }
+        return 0d;
     }
     
 }
