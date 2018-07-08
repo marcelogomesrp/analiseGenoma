@@ -16,7 +16,7 @@ public class InterproDomain implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_interpro_domain")
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, length=300)
     private String name;
 
     public Long getId() {

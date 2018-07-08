@@ -1,9 +1,13 @@
 package org.analiseGenoma.managedbean;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import javax.annotation.PostConstruct;
+import javax.batch.operations.JobOperator;
+import javax.batch.runtime.BatchRuntime;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -93,7 +97,7 @@ public class PatientVcfMB implements Serializable {
         if (uploadedFile != null) {
             System.out.println("Fancendo o upload :D");
             //aqui marcelo
-            vcfService.importar(uploadedFile.getContents(), vcf);
+            //vcfService.importar(uploadedFile.getContents(), vcf);
             Runnable r = () -> {
                 vcfService.importar(uploadedFile.getContents(), vcf);
             };
@@ -103,6 +107,31 @@ public class PatientVcfMB implements Serializable {
             System.out.println("Marcelo: " + "Opa nao veio nada no upload");
         }        
         RequestContext.getCurrentInstance().closeDialog(msg);  
+    }
+    
+    public void adicionarLote(){
+        /*
+        vcf.setPaciente(patientSB.getPatient());
+        vcf.setStatus(VcfStatus.importando);
+        vcfService.adicionar(vcf);*/
+        String arquivo = new String(uploadedFile.getContents(), StandardCharsets.UTF_8);
+        
+        System.out.println("inicio");
+        try {
+            JobOperator jobOperator = BatchRuntime.getJobOperator();
+            Properties props = new Properties();
+            
+           props.setProperty("nome", "nome_passado");
+           props.setProperty("pacientId", patientSB.getPatient().getId().toString());
+           //props.setProperty("arquivo", "1	701779	GAATA>G	RP11-206L10.5		-	Heterozygous	17 / 49	PASS	n.-1478_-1475delTATT	-	rs201234755	-	lincRNA	upstream_gene_variant	MODIFIER		-	-			-	-	-	-	-	-	-	transcript	ENST00000417659	-	-	-	0/1	66	0.500	1968.73	-	no	no	no	no	-	-	-	-	-");
+           props.setProperty("arquivo", arquivo);
+            System.out.println(jobOperator.start("meuJob", props));
+
+        } catch (Exception ex) {
+            System.out.println("Erro no vai2: " + ex.getMessage());
+        }
+        System.out.println("fim");
+        
     }
     
     public void cancelar(){
