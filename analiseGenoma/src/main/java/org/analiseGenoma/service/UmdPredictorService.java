@@ -31,8 +31,8 @@ public class UmdPredictorService extends Service<UmdPredictor>{
     @Transactional
     public UmdPredictor findOrCreate(String name) {
         if(("-").equals(name))
-            name = "none";
-//                return null;
+//            name = "none";
+                return null;
         List<UmdPredictor> list = this.findByName(name.toUpperCase());
         if(list.size() == 1)
             return list.get(0);

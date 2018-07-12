@@ -44,7 +44,8 @@ public class VcfMetadata implements Serializable {
 //    @ManyToMany(fetch=FetchType.EAGER )
 //    //@JoinColumn(columnDefinition="integer", name="customer_id")
 //    @JoinColumn( columnDefinition = "bigint(20)" ,nullable = true, insertable=true, updatable=true)    
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vcf_metadata_umd_predictor", joinColumns = {
 			@JoinColumn(name = "vcfMetadata_id_vcfmetadata", nullable = true, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "umdPredictors_id_umdpredictor",
