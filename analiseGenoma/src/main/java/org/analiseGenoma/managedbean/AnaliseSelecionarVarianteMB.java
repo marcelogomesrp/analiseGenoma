@@ -1,5 +1,6 @@
 package org.analiseGenoma.managedbean;
 
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -51,11 +52,17 @@ import org.analiseGenoma.sessionbean.VcfMetadataSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.LazyDataModel;
 
 @Named(value = "analiseSelcMB")
 //@RequestScoped
 @ViewScoped
 public class AnaliseSelecionarVarianteMB implements Serializable {
+    
+    
+    private LazyDataModel<Variante> lazyModel;
+    @Inject
+    private LazyVarianteDataModel lazyVarianteDataModel;
 
     @Inject
     private FacesContext context;
@@ -142,7 +149,14 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 //                
                 filtro = filtroService.buscarPorAnalise(analise.getId());
                 filterSB.setFilter(filtro);
-                variantes = vcfService.findVariante(analise, filtro);
+                //variantes = vcfService.findVariante(analise, filtro);
+                lazyVarianteDataModel.setAnalise(analise);
+                lazyVarianteDataModel.setFiltro(filtro);
+                lazyModel = lazyVarianteDataModel;
+                
+                
+                //lazyModel =  new LazyVarianteDataModel();
+                //lazyModel =  new LazyVarianteDataModel(analise, filtro);
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
                 metadataSB.setVcfMetadata(vcfMetadata);
                 
@@ -223,7 +237,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 //                
             }
         } catch (Exception ex) {
-            System.out.println("Ops... deu erro aqui: " + ex.toString());
+            System.out.println("AnaliseSelecionarVarianteMB.init: Ops... deu erro aqui: " + ex.toString());
         }
     }
 
@@ -596,7 +610,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         values.add("1");
         params.put("id", values);
         RequestContext.getCurrentInstance().openDialog(view, options, params);
-        variantes = vcfService.findVariante(analise, filtro);
+       // variantes = vcfService.findVariante(analise, filtro);
     }
 
     public void viewFilterChr() {
@@ -945,6 +959,20 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         }
         return 0;
     }
+
+    public LazyDataModel<Variante> getLazyModel() {
+       // System.out.println("pegando o lazymodel PG size: " + lazyModel.getPageSize() + " Count " + lazyModel.getRowCount());
+        if(lazyModel == null){
+            lazyModel = new LazyVarianteDataModel();
+        }
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<Variante> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+    
+    
 }
 
 //        for(String g: duaListGene.getTarget()){

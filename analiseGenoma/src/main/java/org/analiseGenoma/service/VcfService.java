@@ -233,4 +233,19 @@ public class VcfService extends Service<Vcf> implements Serializable {
         return getDao().findByName(name);
     }
 
+    public Long contarVariante(Analise analise, Filtro filtro, int first, int pageSize) {
+        if (filtro == null) {
+            return varianteDao.contar(analise,first,pageSize);
+        } else {
+            return varianteDao.contarByAnaliseFiltro(analise, filtro, first,pageSize);
+        }
+    }
+    public List<Variante> findVariante(Analise analise, Filtro filtro, int first, int pageSize) {
+        if (filtro == null) {
+            return varianteDao.find(analise,first,pageSize);
+        } else {
+            return varianteDao.findByAnaliseFiltro(analise, filtro, first,pageSize);
+        }
+    }
+
 }

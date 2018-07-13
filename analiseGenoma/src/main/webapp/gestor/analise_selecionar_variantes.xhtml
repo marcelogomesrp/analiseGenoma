@@ -380,10 +380,18 @@
 
 
 
-                        <!-- rows="{userSB.user.rowsInTable}" -->
-                        <p:dataTable value="#{analiseSelcMB.variantes}" var="variant" scrollable="true" scrollWidth="98%" id="tabela"
+                        <!-- rows="{userSB.user.rowsInTable}" variantes-->
+                        <p:dataTable value="#{analiseSelcMB.lazyModel}" var="variant" scrollable="true" scrollWidth="98%" id="tabela"
                                      rows="5"
-                                     paginator="true">
+                                     paginator="true"
+                                     lazy="true"
+                                                                          
+                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 rowsPerPageTemplate="5,10,15" 
+                 >
+                                     
+                                     
+                                     
                             <p:column style="width:32px">
                                 <f:facet name="header" >
                                     <h:outputText value="Id" />
