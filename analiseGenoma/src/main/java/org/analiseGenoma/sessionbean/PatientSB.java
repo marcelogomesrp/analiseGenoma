@@ -14,6 +14,7 @@ public class PatientSB implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("PatitentSB.init");
         patient = new Patient();
     }
 

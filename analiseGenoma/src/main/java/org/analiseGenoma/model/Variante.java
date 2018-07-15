@@ -8,13 +8,62 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "variante")
+
+@NamedStoredProcedureQuery(
+        name = "insert_variant3", // name of stored procedure in the persistence unit
+        procedureName = "insert_variant4", //name of  stored procedure in the database
+        parameters
+        = //Parameters of the stored procedure
+        {
+            @StoredProcedureParameter(// A parameter,
+                    name = "allelicdeph1", //Name of the parameter
+                    mode = ParameterMode.IN, // Mode of the parameter
+                    type = Integer.class)
+            , // JDBC Type.	
+                        
+        @StoredProcedureParameter(// A parameter,
+                    name = "allelicdeph2", //Name of the parameter
+                    mode = ParameterMode.IN, // Mode of the parameter
+                    type = Integer.class)
+            , // JDBC Type.
+
+        @StoredProcedureParameter(// A parameter,
+                    name = "geneSymbol", //Name of the parameter
+                    mode = ParameterMode.IN, // Mode of the parameter
+                    type = String.class), // JDBC Type.
+                
+        @StoredProcedureParameter(// A parameter,
+                    name = "cromossomo", //Name of the parameter
+                    mode = ParameterMode.IN, // Mode of the parameter
+                    type = String.class), // JDBC Type.
+        @StoredProcedureParameter(// A parameter,
+                    name = "referencia", //Name of the parameter
+                    mode = ParameterMode.IN, // Mode of the parameter
+                    type = String.class), // JDBC Type.
+        @StoredProcedureParameter( name = "alterado",       mode = ParameterMode.IN,    type = String.class), 
+        @StoredProcedureParameter( name = "umdPredictor",   mode = ParameterMode.IN,    type = String.class),
+        @StoredProcedureParameter( name = "zygosity",       mode = ParameterMode.IN,    type = String.class),
+        @StoredProcedureParameter( name = "filter",         mode = ParameterMode.IN,    type = String.class),
+        @StoredProcedureParameter( name = "hgvsC",          mode = ParameterMode.IN,    type = String.class),
+        @StoredProcedureParameter( name = "hgvsP",          mode = ParameterMode.IN,    type = String.class),
+        @StoredProcedureParameter( name = "idSnp",          mode = ParameterMode.IN,    type = String.class),
+        @StoredProcedureParameter( name = "exonIntron",     mode = ParameterMode.IN,    type = Integer.class),
+        
+        }
+)
+
+//geneSymbol
+
 public class Variante implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_informacaovcf")
@@ -53,7 +102,7 @@ public class Variante implements Serializable {
     private Vcf vcf;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "umdpredictor_id",  nullable = true, insertable=true, updatable=true)
+    @JoinColumn(name = "umdpredictor_id", nullable = true, insertable = true, updatable = true)
     private UmdPredictor umdPredictor;
 
     @ManyToOne
@@ -63,7 +112,7 @@ public class Variante implements Serializable {
     //private String allelicDeph;
     private int allelicDeph1;
     private int allelicDeph2;
-    
+
     @ManyToOne
     @JoinColumn(name = "filter_id")
     private Filter filter;
@@ -162,25 +211,25 @@ public class Variante implements Serializable {
     }
 
     public void setPosition(String s) {
-        try{
+        try {
             Long l = Long.valueOf(s);
             this.setPosition(l);
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
     }
-    
+
     public void setPosition(Long position) {
         this.position = position;
     }
-
-
 
     public String getIdSNP() {
         return idSNP;
     }
 
     public void setIdSNP(String idSNP) {
-        if(("-").equals(idSNP))
+        if (("-").equals(idSNP)) {
             idSNP = null;
+        }
         this.idSNP = idSNP;
     }
 
@@ -280,7 +329,7 @@ public class Variante implements Serializable {
     public void setAllelicDeph(String allelicDeph) {
         //this.allelicDeph = allelicDeph;
         String[] all = allelicDeph.split("/");
-        if(all.length == 2){
+        if (all.length == 2) {
             this.setAllelicDeph1(Integer.valueOf(all[0].trim()));
             this.setAllelicDeph2(Integer.valueOf(all[1].trim()));
         }
@@ -307,7 +356,7 @@ public class Variante implements Serializable {
     }
 
     public void setHgvsP(String hgvsP) {
-        if("-".equals(hgvsP)){
+        if ("-".equals(hgvsP)) {
             hgvsP = null;
         }
         this.hgvsP = hgvsP;
@@ -335,8 +384,9 @@ public class Variante implements Serializable {
     }
 
     public void setType(Type type) {
-        if(("-").equals(type.getName()))
+        if (("-").equals(type.getName())) {
             type = null;
+        }
         this.type = type;
     }
 
@@ -524,8 +574,9 @@ public class Variante implements Serializable {
     }
 
     public void setReadDepth(String readDepth) {
-        if(("-").equals(readDepth))
+        if (("-").equals(readDepth)) {
             readDepth = null;
+        }
         this.readDepth = readDepth;
     }
 
@@ -584,7 +635,7 @@ public class Variante implements Serializable {
     public Boolean getDonorSpliceSite() {
         return donorSpliceSite;
     }
-    
+
     //@Transient
     public void setDonorSpliceSite(String valor) {
         if ("yes".equalsIgnoreCase(valor)) {
@@ -620,7 +671,7 @@ public class Variante implements Serializable {
     public Boolean getMutation() {
         return mutation;
     }
-    
+
     //@Transient
     public void setMutation(String valor) {
         if ("yes".equalsIgnoreCase(valor)) {
@@ -680,8 +731,9 @@ public class Variante implements Serializable {
     }
 
     public void setVarintType(String varintType) {
-        if(("-").equals(varintType))
+        if (("-").equals(varintType)) {
             varintType = null;
+        }
         this.varintType = varintType;
     }
 

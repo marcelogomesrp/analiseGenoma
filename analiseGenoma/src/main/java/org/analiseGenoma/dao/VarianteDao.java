@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,6 +13,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Cromossomo;
 import org.analiseGenoma.model.Effect;
@@ -1100,6 +1102,50 @@ public class VarianteDao extends DAO<Variante> {
         return retorno;
     }
 
+    @Transactional
+    public int runSP() {
+        StoredProcedureQuery addBookNamedStoredProcedure =  manager.createNamedStoredProcedureQuery("insert_variant3");
+        addBookNamedStoredProcedure.setParameter("allelicdeph1", 8);
+        addBookNamedStoredProcedure.setParameter("allelicdeph2", 9);
+        addBookNamedStoredProcedure.setParameter("nome", "Fique feliz");
+        addBookNamedStoredProcedure.setParameter("geneSymbol", "MGP88");
+        Integer variantId = (Integer) addBookNamedStoredProcedure.getSingleResult();
+        //manager.flush();
+        return variantId;
+    }
+
+    @Transactional
+    public int runSP(String cromossomo, String gene, String referencia
+            , String alterado, String umdPredictor, String zygosity 
+            , Integer allelicDeph1, Integer allelicDeph2, String filter
+            , String hgvsC, String hgvsP, String  idSNP, Integer exonIntron) {
+        
+        allelicDeph1 = allelicDeph1 == null ? 0: allelicDeph1;
+        allelicDeph2 = allelicDeph2 == null ? 0: allelicDeph2;
+        exonIntron = exonIntron == null ? 0 : exonIntron;
+        
+        StoredProcedureQuery sp =  manager.createNamedStoredProcedureQuery("insert_variant3");
+        sp.setParameter("allelicdeph1", allelicDeph1);
+        sp.setParameter("allelicdeph2", allelicDeph2);
+        
+        sp.setParameter("geneSymbol", gene);
+        sp.setParameter("cromossomo", cromossomo);
+        sp.setParameter("referencia", referencia);
+        sp.setParameter("alterado", alterado);
+        sp.setParameter("umdPredictor", umdPredictor);
+        sp.setParameter("zygosity", zygosity);
+        sp.setParameter("filter", filter);
+        
+        sp.setParameter("hgvsC", hgvsC);
+        sp.setParameter("hgvsP", hgvsP);
+        sp.setParameter("idSnp", idSNP);
+        sp.setParameter("exonIntron", exonIntron);
+        Integer variantId = (Integer) sp.getSingleResult();
+        //manager.flush();
+        return variantId;
+    }
+    
+    
 }
 
 /*

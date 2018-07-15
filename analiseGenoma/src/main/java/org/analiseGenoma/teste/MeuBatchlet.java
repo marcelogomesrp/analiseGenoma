@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.analiseGenoma.teste;
 
 import java.util.Date;
@@ -22,6 +17,10 @@ import javax.batch.runtime.context.JobContext;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 import org.analiseGenoma.dao.CromossomoDao;
 import org.analiseGenoma.dao.FiltroDao;
 import org.analiseGenoma.dao.VarianteDao;
@@ -168,12 +167,153 @@ public class MeuBatchlet extends AbstractBatchlet {
 
     @Inject
     private VcfMetadataDao vcfMetadataDao;
+    
+    @PersistenceContext
+    protected EntityManager manager;
 
     private List<Variante> variantes;
 
-    //fim
     @Override
+//    @Transactional
     public String process() {
+        long start = System.currentTimeMillis();
+        int total = 0;
+        
+        
+        Patient patient = new Patient();
+        Vcf vcf = new Vcf();
+        
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        Properties jobParameters = jobOperator.getParameters(jobContext.getExecutionId());
+        String resourceName = (String) jobParameters.get("nome");
+        String arquivo = (String) jobParameters.get("arquivo");
+                
+        try {
+            String pacientIdT = (String) jobParameters.get("pacientId");
+            Long pacienteId = Long.valueOf(pacientIdT);
+            System.out.println(":D peguei o id do paciente: " + pacienteId);
+            patient = patientService.findById(pacienteId);
+        } catch (Exception ex) {
+            System.out.println("Erro ao converter pacienteId: " + ex.getMessage());
+            System.out.println("--> " + (String) jobParameters.get("pacientId"));
+        }
+
+                
+
+
+        vcf.setStatus(VcfStatus.importando);
+        //vcf.setPaciente(patient);
+        //vcf.setNome(arquivo);
+        //vcf.setDataImportacao(new Date());
+        vcfService.adicionar(vcf);
+
+        //System.out.println("Arquivo: " + arquivo);
+        System.out.println("Nome: " + resourceName);
+        total = arquivo.split("\n").length;
+        int x =0;
+        for (String ln : arquivo.split("\n")) {
+            x++;
+            System.out.println("Feito: " + x + " de " + total + " percentual: " + ((x * 100) /total));
+            String[] linha = ln.split("\t");
+            String gene = linha[3];
+            String cromossomo = linha[0];
+            
+            String[] referenceAlternate = linha[2].split(">");
+            String referencia = referenceAlternate[0];
+            String alterado = referenceAlternate[1];
+            String umdPredictor = linha[5];
+            String zygosity = linha[6];
+            String[] allelicDeph = linha[7].split("/");
+            Integer allelicDeph1 = null;
+            Integer allelicDeph2 = null;
+            
+            try{
+            if (allelicDeph.length == 2) {
+                allelicDeph1 = Integer.valueOf(allelicDeph[0].trim());
+                allelicDeph2 = Integer.valueOf(allelicDeph[1].trim());
+            }
+            }catch(Exception ex){
+                System.out.println("Erro no allelicDeph: " + ex.getMessage() + "\n--->Alleic" + allelicDeph );
+            }
+            String filter = linha[8];
+            
+            String hgvsC = linha[9];
+            String hgvsP = linha[10];
+            String idSNP = linha[11];
+            Integer exonIntron = 0;
+            try{
+                exonIntron = Integer.valueOf(linha[12]);
+            }catch(Exception ex){
+                System.out.println("Erro exonTringo: " + ex.getMessage() + "\n-->ExonIntro " + linha[12]);
+            }
+
+    
+            varianteService.runSP(cromossomo,gene, referencia, alterado, umdPredictor
+                ,zygosity, allelicDeph1, allelicDeph2, filter
+                ,hgvsC, hgvsP, idSNP, exonIntron);
+                /*
+            if(x%10 == 0){
+                System.out.println("Fluxar");
+                manager.flush();
+                manager.clear();
+                System.out.println("Fuxado...");
+            }*/
+        }
+
+        /*
+        Patient patient = new Patient();
+        Vcf vcf = new Vcf();
+        
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        Properties jobParameters = jobOperator.getParameters(jobContext.getExecutionId());
+        String resourceName = (String) jobParameters.get("nome");
+        String arquivo = (String) jobParameters.get("arquivo");
+                
+        try {
+            String pacientIdT = (String) jobParameters.get("pacientId");
+            Long pacienteId = Long.valueOf(pacientIdT);
+            System.out.println(":D peguei o id do paciente: " + pacienteId);
+            patient = patientService.findById(pacienteId);
+        } catch (Exception ex) {
+            System.out.println("Erro ao converter pacienteId: " + ex.getMessage());
+            System.out.println("--> " + (String) jobParameters.get("pacientId"));
+        }
+
+                
+
+
+        vcf.setStatus(VcfStatus.importando);
+        //vcf.setPaciente(patient);
+        //vcf.setNome(arquivo);
+        //vcf.setDataImportacao(new Date());
+        vcfService.adicionar(vcf);
+
+        //System.out.println("Arquivo: " + arquivo);
+        System.out.println("Nome: " + resourceName);
+        int total = arquivo.split("\n").length;
+        int x =0;
+        for (String ln : arquivo.split("\n")) {
+        //    Variante v = this.makeVariante(vcf, ln);
+            x++;
+            System.out.println("Feito: " + x + " de " + total + " percentual: " + x/total);
+            varianteService.runSP();
+            //varianteService.persiste(v);
+        }
+        
+        
+        
+        vcf.setStatus(VcfStatus.importado);        
+        vcfService.atualizar(vcf);
+         */
+        System.out.println("Importacao ok");
+        long elapsed = System.currentTimeMillis() - start;
+        System.out.println("Tempo: " + elapsed / 60000);
+        return "COMPLETED";
+    }
+
+    //fim
+    //@Override
+    public String process_ok() {
         Patient patient = new Patient();
         System.out.println("Processando... MeuBatchlet.process");
 
@@ -203,6 +343,9 @@ public class MeuBatchlet extends AbstractBatchlet {
         System.out.println("Nome: " + resourceName);
 
         for (String ln : arquivo.split("\n")) {
+            
+            
+            
             Variante v = this.makeVariante(vcf, ln);
 
             varianteService.persiste(v);
@@ -223,9 +366,9 @@ public class MeuBatchlet extends AbstractBatchlet {
             System.out.println("Erro ao gerar metadados: " + ex.getMessage());
         }
 
-        vcf.setStatus(VcfStatus.importado);        
+        vcf.setStatus(VcfStatus.importado);
         //this.atualizar(vcf);
-         vcfService.atualizar(vcf);
+        vcfService.atualizar(vcf);
         System.out.println("Importacao ok");
         return "COMPLETED";
     }
@@ -310,9 +453,9 @@ public class MeuBatchlet extends AbstractBatchlet {
         vmd.setReferencias(this.getReferencias());
         vmd.setAlterado((this.getAlterados()));
         vmd.setGenes(this.getGenes());
-        
+
         vmd.setUmdPredictors(this.getUmdPredictors());
-        
+
         vmd.setEffects(this.getEffect());
         vmd.setSifts(this.getSift());
         vmd.setMapGene(this.getMapGene());
@@ -332,9 +475,9 @@ public class MeuBatchlet extends AbstractBatchlet {
         vmd.setClinvarAlleleOrigins(this.getClinvarAlleleOrigins());
         vmd.setPolyphenHdivs(this.getPolyphenHdivs());
         //aqui3
-        
+
         vmd.setPolyphenHvars(this.getPolyphenHvars());
-        
+
         vmd.setMutationTasters(this.getMutationTasters());
         vmd.setLrts(this.getLrts());
         vmd.setGerpRsScores(this.getGerpRsScores());
@@ -361,7 +504,6 @@ public class MeuBatchlet extends AbstractBatchlet {
         vmd.setPrevalenceMin(this.getPrevalenceMin());
         vmd.setPrevalenceMax(this.getPrevalenceMax());
 
-         
         System.out.println("Metadados ok");
 
         return vmd;
@@ -449,7 +591,7 @@ public class MeuBatchlet extends AbstractBatchlet {
         }
     }
 
-    public Set<UmdPredictor> getUmdPredictors() {        
+    public Set<UmdPredictor> getUmdPredictors() {
         System.out.println("MeuBatchlet.getUMDPredictors");
         try {
             Set<UmdPredictor> out = variantes.stream()
@@ -458,10 +600,10 @@ public class MeuBatchlet extends AbstractBatchlet {
                     .filter(v -> Objects.nonNull(v))
                     .collect(Collectors.toSet());
             System.out.println("---> " + out.size());
-            for(UmdPredictor u: out){
+            for (UmdPredictor u : out) {
                 System.out.println("u ---> " + u.getName() + " id: " + u.getId());
             }
-            
+
             return out;
         } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getUmdPredictos: " + ex.getMessage());
@@ -508,7 +650,7 @@ public class MeuBatchlet extends AbstractBatchlet {
     }
 
     private Map<Gene, Integer> getMapGene() {
-        try{
+        try {
             HashMap<Gene, Integer> map = new HashMap<Gene, Integer>();
             for (Variante v : variantes) {
                 Integer total = map.get(v.getGene());
@@ -527,130 +669,130 @@ public class MeuBatchlet extends AbstractBatchlet {
     }
 
     private Set<Zygosity> getZygositys() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getZygosity())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getZygosity())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getZygositys: " + ex.getMessage());
             return null;
         }
     }
 
     public Set<String> getAllelicDephs() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getAllelicDeph())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getAllelicDeph())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getAllelicDephs: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<Filter> getFilters() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getFilter())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getFilter())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getFilters: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<String> getHgvsCs() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getHgvsC())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getHgvsC())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getHgvsCS: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<String> getHgvsPs() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getHgvsP())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getHgvsP())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getHgvsPS: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<String> getIdSNPs() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getIdSNP())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getIdSNP())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getIdSNPs: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<Integer> getExonIntrons() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getExonIntron())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getExonIntron())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getExonIntrons: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<Type> getTypies() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getType())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getType())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getTypies: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<Impact> getImpacts() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getImpact())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getImpact())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getImpacts: " + ex.getMessage());
             return null;
         }
     }
 
     private Set<ClinvarSignificance> getClinvarSignificances() {
-        try{
-        return variantes.stream()
-                .map(v -> v.getClinvarSignificance())
-                .distinct()
-                .filter(v -> Objects.nonNull(v))
-                .collect(Collectors.toSet());
-        }catch(Exception ex){
+        try {
+            return variantes.stream()
+                    .map(v -> v.getClinvarSignificance())
+                    .distinct()
+                    .filter(v -> Objects.nonNull(v))
+                    .collect(Collectors.toSet());
+        } catch (Exception ex) {
             System.out.println("Erro MeuBatchlet.getClinvarSignificance: " + ex.getMessage());
             return null;
         }

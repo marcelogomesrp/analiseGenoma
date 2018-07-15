@@ -18,6 +18,7 @@ public class ClinvarDisease implements Serializable{
     @Column(name = "id_clinvardisease")
     private Long id;
     //@Column(unique = true)
+    @Column(length = 300)
     private String name;
 
     public Long getId() {

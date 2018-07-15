@@ -44,6 +44,18 @@ public class VarianteService extends Service<Variante>{
             System.out.println("Erro ao persistir variante: " + ex.getMessage());
         }
     }
+
+    public int runSP() {
+        return getDao().runSP();
+    }
+    
+    public int runSP(String cromossomo, String gene, String referencia, String alterado, 
+        String umdPredictor, String zygosity, Integer allelicDeph1, Integer allelicDeph2, String filter, 
+        String hgvsC, String hgvsP, String  idSNP, Integer exonIntron){
+        return getDao().runSP(cromossomo,gene, referencia, alterado, 
+                umdPredictor, zygosity, allelicDeph1, allelicDeph2,
+                filter, hgvsC, hgvsP, idSNP, exonIntron);
+    }
     
    
     

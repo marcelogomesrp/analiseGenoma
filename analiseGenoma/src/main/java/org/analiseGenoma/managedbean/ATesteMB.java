@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.service.UsuarioService;
+import org.analiseGenoma.service.VarianteService;
 
 /**
  *
@@ -27,6 +28,8 @@ public class ATesteMB implements Serializable {
 
     @Inject
     UsuarioService us;
+    @Inject
+    private VarianteService varianteService;
 
     public void vai() {
         System.out.println("OK");
@@ -37,6 +40,11 @@ public class ATesteMB implements Serializable {
         for (User user : list) {
             System.out.println("--> " + user.toString());
         }
+    }
+    
+    public void run_sp(){
+        int id = varianteService.runSP();
+        System.out.println("Id: " + id);
     }
 
     public void vai2() {

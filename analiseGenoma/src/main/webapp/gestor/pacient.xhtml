@@ -15,7 +15,7 @@
                 <h:form id="formulario" prependId="false">
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel header="Patient">
-
+                        <p>tirado o renderede em função da lentidao p:rowExpansion rendered=false</p>
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" 
                                      layout="grid" styleClass="ui-panelgrid-blank" 
                                      id="fields" rendered="#{patientMB.showFields}">
@@ -139,7 +139,7 @@
                             </f:facet>
 
                             <p:commandButton value="Add new variant file" icon="ui-icon-circle-plus" actionListener="#{pacienteMB.viewAddVcf(paciente.id)}" >                                
-                                <p:ajax event="dialogReturn" listener="#{pacienteMB.onViewAddVcf}" update="formulario" />                                
+                                <p:ajax event="dialogReturn" listener="#{pacienteMB.onViewAddVcf}"  />                                
                             </p:commandButton>
 
 
@@ -148,7 +148,7 @@
                             </p:button>
                         </p:column>
 
-                        <p:rowExpansion>
+                        <p:rowExpansion rendered="false">
                             <p:panel header="Variante Files">
                                 <p:dataTable value="#{pacienteMB.vcfs(paciente)}" var="vcf">
                                     <p:column>

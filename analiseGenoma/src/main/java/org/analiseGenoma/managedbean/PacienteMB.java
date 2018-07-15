@@ -267,6 +267,7 @@ public class PacienteMB implements Serializable {
     }
 
     public List<Vcf> getVcfs() {
+        System.out.println("PacienteMB.getVCfs");
         return vcfs;
     }
 
@@ -302,13 +303,16 @@ public class PacienteMB implements Serializable {
         params.put("id", values);
         RequestContext.getCurrentInstance().openDialog("viewAddVcf", options, params);
         paciente = new Patient();
+        System.out.println("Fim do chamador...");
     }
 
     public void onViewAddVcf(SelectEvent event) {
+        System.out.println("PacienteMB.onViewAddVcf inicio");
         String msg = (String) event.getObject();
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage(msg));
+        System.out.println("PacienteMB.onViewAddVcf fim");
 
     }
 
@@ -343,6 +347,7 @@ public class PacienteMB implements Serializable {
     }
 
     public int qtdVcf(Patient p) {
+        System.out.println("PacienteMB.qtdVcf");
         return vcfService.buscarPacienteId(p.getId()).size();
     }
 

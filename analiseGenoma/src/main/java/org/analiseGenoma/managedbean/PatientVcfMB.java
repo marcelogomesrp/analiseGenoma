@@ -27,7 +27,6 @@ import org.primefaces.model.UploadedFile;
 @Named(value = "pacienteVcfMB")
 @RequestScoped
 public class PatientVcfMB implements Serializable {
-
     @Inject
     private FacesContext context;
     @Inject
@@ -44,7 +43,7 @@ public class PatientVcfMB implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("iniciado");
+        System.out.println("PatientVcfMB.init");
 //        patient = new Patient();
 //        vcf = new Vcf();
 //        if (id != null) {
@@ -66,6 +65,7 @@ public class PatientVcfMB implements Serializable {
 //    }
 
     public Vcf getVcf() {
+        System.out.println("PatientVcfMB.getVcf");
         if (vcf == null) {
             vcf = new Vcf();
         }

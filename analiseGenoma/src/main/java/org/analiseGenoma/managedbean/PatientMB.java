@@ -42,6 +42,7 @@ public class PatientMB implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("PatientMB.init");
 //        if(patientSB.getPatient() != null){
 //            if(patientSB.getPatient().getId() == null){
 //                this.reset();    
@@ -66,6 +67,7 @@ public class PatientMB implements Serializable {
     }
 
     public List<Patient> getPatients() {
+        System.out.println("PatienteMB.getPatientes");
         return patients;
     }
 
@@ -74,6 +76,7 @@ public class PatientMB implements Serializable {
     }
 
     public List<SelectItem> getSelectPopulations() {
+        System.out.println("PatientMB.getSelectPopulations");
         List<SelectItem> populations = new ArrayList<>();
         try {
 
