@@ -38,30 +38,109 @@ import javax.persistence.Table;
         @StoredProcedureParameter(// A parameter,
                     name = "geneSymbol", //Name of the parameter
                     mode = ParameterMode.IN, // Mode of the parameter
-                    type = String.class), // JDBC Type.
+                    type = String.class)
+            , // JDBC Type.
                 
         @StoredProcedureParameter(// A parameter,
                     name = "cromossomo", //Name of the parameter
                     mode = ParameterMode.IN, // Mode of the parameter
-                    type = String.class), // JDBC Type.
+                    type = String.class)
+            , // JDBC Type.
         @StoredProcedureParameter(// A parameter,
                     name = "referencia", //Name of the parameter
                     mode = ParameterMode.IN, // Mode of the parameter
-                    type = String.class), // JDBC Type.
-        @StoredProcedureParameter( name = "alterado",       mode = ParameterMode.IN,    type = String.class), 
-        @StoredProcedureParameter( name = "umdPredictor",   mode = ParameterMode.IN,    type = String.class),
-        @StoredProcedureParameter( name = "zygosity",       mode = ParameterMode.IN,    type = String.class),
-        @StoredProcedureParameter( name = "filter",         mode = ParameterMode.IN,    type = String.class),
-        @StoredProcedureParameter( name = "hgvsC",          mode = ParameterMode.IN,    type = String.class),
-        @StoredProcedureParameter( name = "hgvsP",          mode = ParameterMode.IN,    type = String.class),
-        @StoredProcedureParameter( name = "idSnp",          mode = ParameterMode.IN,    type = String.class),
-        @StoredProcedureParameter( name = "exonIntron",     mode = ParameterMode.IN,    type = Integer.class),
+                    type = String.class)
+            , // JDBC Type.
+        @StoredProcedureParameter(name = "alterado", mode = ParameterMode.IN, type = String.class)
+            , 
+        @StoredProcedureParameter(name = "umdPredictor", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "zygosity", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "filter", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "hgvsC", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "hgvsP", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "idSnp", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "exonIntron", mode = ParameterMode.IN, type = Integer.class)
+            ,
+        
+        @StoredProcedureParameter(name = "type", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "effect", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "impacto", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "clinvarSignificance", mode = ParameterMode.IN, type = String.class)
+            ,
+        
+        @StoredProcedureParameter(name = "clinvarDisease", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "clinvarAccession", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "clinvarAlleleType", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "clinvarAlleleOrigin", mode = ParameterMode.IN, type = String.class)
+            ,
+        
+        @StoredProcedureParameter(name = "sift", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "polyphenHiv", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "polyphenHvar", mode = ParameterMode.IN, type = String.class)
+            ,
+        
+        @StoredProcedureParameter(name = "mutationTaster", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "lrt", mode = ParameterMode.IN, type = String.class)
+            ,
+        
+        @StoredProcedureParameter(name = "gerpRsScore", mode = ParameterMode.IN, type = Double.class)
+            ,
+        @StoredProcedureParameter(name = "gerpNeutralRate", mode = ParameterMode.IN, type = Double.class)
+            ,
+        
+        @StoredProcedureParameter(name = "feature", mode = ParameterMode.IN, type = String.class)
+            ,
+        @StoredProcedureParameter(name = "ensembl", mode = ParameterMode.IN, type = String.class)
+            ,        
+        @StoredProcedureParameter(name = "vertebrateGenomesConservationScore", mode = ParameterMode.IN, type = Double.class),
+        
+        @StoredProcedureParameter(name = "interproDomain", mode = ParameterMode.IN, type = String.class),
+        @StoredProcedureParameter(name = "variantStatus", mode = ParameterMode.IN, type = String.class),
+        @StoredProcedureParameter(name = "genoType", mode = ParameterMode.IN, type = String.class),
+        
+        @StoredProcedureParameter(name = "readDepth", mode = ParameterMode.IN, type = String.class),
+        @StoredProcedureParameter(name = "alleleMutFraction", mode = ParameterMode.IN, type = Double.class),
+        @StoredProcedureParameter(name = "meanBaseQuality", mode = ParameterMode.IN, type = Double.class),
+        @StoredProcedureParameter(name = "varintType", mode = ParameterMode.IN, type = String.class),
+        
+        @StoredProcedureParameter(name = "validate", mode = ParameterMode.IN, type = Boolean.class),
+        @StoredProcedureParameter(name = "donorSpliceSite", mode = ParameterMode.IN, type = Boolean.class),
+        @StoredProcedureParameter(name = "acceptorSpliceSite", mode = ParameterMode.IN, type = Boolean.class),
+        @StoredProcedureParameter(name = "mutation", mode = ParameterMode.IN, type = Boolean.class),
+        
+        @StoredProcedureParameter(name = "europeanVarintFreq", mode = ParameterMode.IN, type = Double.class),
+        @StoredProcedureParameter(name = "africanVarintFreq", mode = ParameterMode.IN, type = Double.class),
+        @StoredProcedureParameter(name = "asianVarintFreq", mode = ParameterMode.IN, type = Double.class),
+        @StoredProcedureParameter(name = "americanVarintFreq", mode = ParameterMode.IN, type = Double.class),
+        @StoredProcedureParameter(name = "wholeVarintFreq", mode = ParameterMode.IN, type = Double.class),
+        
+        
+        
+        
+        
+        
+        
+        
         
         }
 )
 
 //geneSymbol
-
 public class Variante implements Serializable {
 
     @Id

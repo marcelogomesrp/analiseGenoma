@@ -1116,9 +1116,17 @@ public class VarianteDao extends DAO<Variante> {
 
     @Transactional
     public int runSP(String cromossomo, String gene, String referencia
-            , String alterado, String umdPredictor, String zygosity 
-            , Integer allelicDeph1, Integer allelicDeph2, String filter
-            , String hgvsC, String hgvsP, String  idSNP, Integer exonIntron) {
+        , String alterado, String umdPredictor, String zygosity 
+        , Integer allelicDeph1, Integer allelicDeph2, String filter
+        , String hgvsC, String hgvsP, String  idSNP, Integer exonIntron
+        , String type, String effect, String impacto, String clinvarSignificance
+        , String clinvarDisease, String clinvarAccession, String clinvarAlleleType, String clinvarAlleleOrigin
+        , String sift, String polyphenHiv, String polyphenHvar, String mutationTaster, String lrt
+        , Double gerpRsScore, Double gerpNeutralRate, String feature, String ensembl, Double vertebrateGenomesConservationScore
+        , String interproDomain, String variantStatus, String genoType, String readDepth, Double alleleMutFraction, Double meanBaseQuality, String varintType
+        , Boolean validate, Boolean donorSpliceSite,Boolean  acceptorSpliceSite,Boolean  mutation
+        , Double europeanVarintFreq, Double africanVarintFreq, Double asianVarintFreq, Double americanVarintFreq, Double wholeVarintFreq
+        ) {
         
         allelicDeph1 = allelicDeph1 == null ? 0: allelicDeph1;
         allelicDeph2 = allelicDeph2 == null ? 0: allelicDeph2;
@@ -1140,6 +1148,53 @@ public class VarianteDao extends DAO<Variante> {
         sp.setParameter("hgvsP", hgvsP);
         sp.setParameter("idSnp", idSNP);
         sp.setParameter("exonIntron", exonIntron);
+        
+        sp.setParameter("type", type);
+        sp.setParameter("effect", effect);
+        sp.setParameter("impacto",impacto );
+        sp.setParameter("clinvarSignificance", clinvarSignificance);
+        
+        sp.setParameter("clinvarDisease", clinvarDisease );
+        sp.setParameter("clinvarAccession", clinvarAccession );
+        sp.setParameter("clinvarAlleleType", clinvarAlleleType );
+        sp.setParameter("clinvarAlleleOrigin", clinvarAlleleOrigin);
+        
+        sp.setParameter("sift", sift);
+        sp.setParameter("polyphenHiv", polyphenHiv);
+        sp.setParameter("polyphenHvar", polyphenHvar);
+        
+        sp.setParameter("mutationTaster", mutationTaster);
+        sp.setParameter("lrt", lrt);
+        
+        sp.setParameter("gerpRsScore", gerpRsScore);
+        sp.setParameter("gerpNeutralRate",gerpNeutralRate );
+        
+        sp.setParameter("feature", feature);
+        sp.setParameter("ensembl", ensembl );
+        
+        sp.setParameter("vertebrateGenomesConservationScore", vertebrateGenomesConservationScore);
+        
+        sp.setParameter("interproDomain",interproDomain);
+        sp.setParameter("variantStatus",variantStatus);
+        sp.setParameter("genoType",genoType);
+        
+        sp.setParameter("readDepth",readDepth);
+        sp.setParameter("alleleMutFraction",alleleMutFraction);
+        sp.setParameter("meanBaseQuality",meanBaseQuality);
+        sp.setParameter("varintType",varintType);
+        
+        sp.setParameter("validate",validate);
+        sp.setParameter("donorSpliceSite",donorSpliceSite);
+        sp.setParameter("acceptorSpliceSite",acceptorSpliceSite);
+        sp.setParameter("mutation",mutation);
+        
+        sp.setParameter("europeanVarintFreq",europeanVarintFreq );
+        sp.setParameter("africanVarintFreq", africanVarintFreq );
+        sp.setParameter("asianVarintFreq", asianVarintFreq);
+        sp.setParameter("americanVarintFreq", americanVarintFreq );
+        sp.setParameter("wholeVarintFreq", wholeVarintFreq);
+        
+                
         Integer variantId = (Integer) sp.getSingleResult();
         //manager.flush();
         return variantId;

@@ -167,7 +167,7 @@ public class MeuBatchlet extends AbstractBatchlet {
 
     @Inject
     private VcfMetadataDao vcfMetadataDao;
-    
+
     @PersistenceContext
     protected EntityManager manager;
 
@@ -178,16 +178,15 @@ public class MeuBatchlet extends AbstractBatchlet {
     public String process() {
         long start = System.currentTimeMillis();
         int total = 0;
-        
-        
+
         Patient patient = new Patient();
         Vcf vcf = new Vcf();
-        
+
         JobOperator jobOperator = BatchRuntime.getJobOperator();
         Properties jobParameters = jobOperator.getParameters(jobContext.getExecutionId());
         String resourceName = (String) jobParameters.get("nome");
         String arquivo = (String) jobParameters.get("arquivo");
-                
+
         try {
             String pacientIdT = (String) jobParameters.get("pacientId");
             Long pacienteId = Long.valueOf(pacientIdT);
@@ -198,9 +197,6 @@ public class MeuBatchlet extends AbstractBatchlet {
             System.out.println("--> " + (String) jobParameters.get("pacientId"));
         }
 
-                
-
-
         vcf.setStatus(VcfStatus.importando);
         //vcf.setPaciente(patient);
         //vcf.setNome(arquivo);
@@ -210,14 +206,14 @@ public class MeuBatchlet extends AbstractBatchlet {
         //System.out.println("Arquivo: " + arquivo);
         System.out.println("Nome: " + resourceName);
         total = arquivo.split("\n").length;
-        int x =0;
+        int x = 0;
         for (String ln : arquivo.split("\n")) {
             x++;
-            System.out.println("Feito: " + x + " de " + total + " percentual: " + ((x * 100) /total));
+            System.out.println("Feito: " + x + " de " + total + " percentual: " + ((x * 100) / total));
             String[] linha = ln.split("\t");
             String gene = linha[3];
             String cromossomo = linha[0];
-            
+
             String[] referenceAlternate = linha[2].split(">");
             String referencia = referenceAlternate[0];
             String alterado = referenceAlternate[1];
@@ -226,32 +222,140 @@ public class MeuBatchlet extends AbstractBatchlet {
             String[] allelicDeph = linha[7].split("/");
             Integer allelicDeph1 = null;
             Integer allelicDeph2 = null;
-            
-            try{
-            if (allelicDeph.length == 2) {
-                allelicDeph1 = Integer.valueOf(allelicDeph[0].trim());
-                allelicDeph2 = Integer.valueOf(allelicDeph[1].trim());
-            }
-            }catch(Exception ex){
-                System.out.println("Erro no allelicDeph: " + ex.getMessage() + "\n--->Alleic" + allelicDeph );
+
+            try {
+                if (allelicDeph.length == 2) {
+                    allelicDeph1 = Integer.valueOf(allelicDeph[0].trim());
+                    allelicDeph2 = Integer.valueOf(allelicDeph[1].trim());
+                }
+            } catch (Exception ex) {
+                System.out.println("Erro no allelicDeph: " + ex.getMessage() + "\n--->Alleic" + allelicDeph);
             }
             String filter = linha[8];
-            
+
             String hgvsC = linha[9];
             String hgvsP = linha[10];
             String idSNP = linha[11];
             Integer exonIntron = 0;
-            try{
+            try {
                 exonIntron = Integer.valueOf(linha[12]);
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 System.out.println("Erro exonTringo: " + ex.getMessage() + "\n-->ExonIntro " + linha[12]);
             }
 
-    
-            varianteService.runSP(cromossomo,gene, referencia, alterado, umdPredictor
-                ,zygosity, allelicDeph1, allelicDeph2, filter
-                ,hgvsC, hgvsP, idSNP, exonIntron);
-                /*
+            String type = linha[13];
+            String effect = linha[14];
+            String impacto = linha[15];
+            String clinvarSignificance = linha[16];
+            System.out.println("MeuBatchlet 249 ");
+
+            String clinvarDisease = linha[17];
+            String clinvarAccession = linha[18];
+            String clinvarAlleleType = linha[19];
+            String clinvarAlleleOrigin = linha[20];
+
+            String sift = linha[21];
+            String polyphenHiv = linha[22];
+            String polyphenHvar = linha[23];
+
+            String mutationTaster = linha[24];
+            String lrt = linha[25];
+
+            Double gerpRsScore = 0d;
+            Double gerpNeutralRate = 0d;
+            try {
+                gerpRsScore = Double.valueOf(linha[26]);
+            } catch (Exception ex) {
+                System.out.println("erro ao converter gerprsScore: " + linha[26]);
+            }
+            try {
+                gerpNeutralRate = Double.valueOf(linha[27]);
+            } catch (Exception ex) {
+                System.out.println("erro ao converter gerpNeutralRate: " + linha[27]);
+            }
+
+            String feature = linha[28];
+            String ensembl = linha[29];
+
+            Double vertebrateGenomesConservationScore = 0d;
+            try {
+                vertebrateGenomesConservationScore = Double.valueOf(linha[30]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter vertebrateGenomesConservationScore " + linha[30]);
+            }
+
+            String interproDomain = linha[31];
+            String variantStatus = linha[32];
+            String genoType = linha[33];
+
+            String readDepth = linha[34];
+            Double alleleMutFraction = 0d;
+            try {
+                alleleMutFraction = Double.valueOf(linha[35]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter alleleMutFraction: " + linha[35]);
+            }
+            Double meanBaseQuality = 0d;
+            try {
+                meanBaseQuality = Double.valueOf(linha[36]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter meanBaseQuality: " + linha[36]);
+            }
+
+            String varintType = linha[37];
+            String validateTmp = linha[38];
+            Boolean validate = "yes".equalsIgnoreCase(validateTmp);
+
+            Boolean donorSpliceSite = "yes".equalsIgnoreCase(linha[39]);
+            Boolean acceptorSpliceSite = "yes".equalsIgnoreCase(linha[40]);
+            Boolean mutation = "yes".equalsIgnoreCase(linha[41]);
+
+            Double europeanVarintFreq = 0d;
+            try {
+                europeanVarintFreq = Double.valueOf(linha[42]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter europeanVarintFreq: " + linha[42]);
+            }
+
+            Double africanVarintFreq = 0d;
+            try {
+                europeanVarintFreq = Double.valueOf(linha[43]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter africanVarintFreq: " + linha[43]);
+            }
+
+            Double asianVarintFreq = 0d;
+            try {
+                asianVarintFreq = Double.valueOf(linha[44]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter asianVarintFreq: " + linha[44]);
+            }
+
+            Double americanVarintFreq = 0d;
+            try {
+                americanVarintFreq = Double.valueOf(linha[45]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter americanVarintFreq: " + linha[45]);
+            }
+
+            Double wholeVarintFreq = 0d;
+            try {
+                wholeVarintFreq = Double.valueOf(linha[46]);
+            } catch (Exception ex) {
+                System.out.println("Erro ao converter wholeVarintFreq: " + linha[46]);
+            }
+
+            varianteService.runSP(cromossomo, gene, referencia, alterado, umdPredictor,
+                    zygosity, allelicDeph1, allelicDeph2, filter,
+                    hgvsC, hgvsP, idSNP, exonIntron, type, effect, impacto, clinvarSignificance,
+                    clinvarDisease, clinvarAccession, clinvarAlleleType, clinvarAlleleOrigin,
+                    sift, polyphenHiv, polyphenHvar, mutationTaster, lrt, gerpRsScore, gerpNeutralRate,
+                    feature, ensembl, vertebrateGenomesConservationScore, interproDomain, variantStatus, genoType,
+                    readDepth, alleleMutFraction, meanBaseQuality, varintType, validate,
+                    donorSpliceSite, acceptorSpliceSite, mutation,
+                    europeanVarintFreq, africanVarintFreq, asianVarintFreq, americanVarintFreq, wholeVarintFreq
+            );
+            /*
             if(x%10 == 0){
                 System.out.println("Fluxar");
                 manager.flush();
@@ -343,9 +447,7 @@ public class MeuBatchlet extends AbstractBatchlet {
         System.out.println("Nome: " + resourceName);
 
         for (String ln : arquivo.split("\n")) {
-            
-            
-            
+
             Variante v = this.makeVariante(vcf, ln);
 
             varianteService.persiste(v);
