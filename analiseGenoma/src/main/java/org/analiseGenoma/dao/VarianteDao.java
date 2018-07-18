@@ -1126,6 +1126,7 @@ public class VarianteDao extends DAO<Variante> {
         , String interproDomain, String variantStatus, String genoType, String readDepth, Double alleleMutFraction, Double meanBaseQuality, String varintType
         , Boolean validate, Boolean donorSpliceSite,Boolean  acceptorSpliceSite,Boolean  mutation
         , Double europeanVarintFreq, Double africanVarintFreq, Double asianVarintFreq, Double americanVarintFreq, Double wholeVarintFreq
+        , Long vcfId, Long position
         ) {
         
         allelicDeph1 = allelicDeph1 == null ? 0: allelicDeph1;
@@ -1194,10 +1195,20 @@ public class VarianteDao extends DAO<Variante> {
         sp.setParameter("americanVarintFreq", americanVarintFreq );
         sp.setParameter("wholeVarintFreq", wholeVarintFreq);
         
+        sp.setParameter("vcfId", vcfId);
+        sp.setParameter("position", position);
+        
                 
         Integer variantId = (Integer) sp.getSingleResult();
+        
         //manager.flush();
         return variantId;
+    }
+
+    public int runSPMetadados(Long vcfId) {
+        StoredProcedureQuery sp =  manager.createNamedStoredProcedureQuery("make_vcf_metadados");
+        sp.setParameter("vcfId", vcfId);
+        return (int) sp.getSingleResult();
     }
     
     

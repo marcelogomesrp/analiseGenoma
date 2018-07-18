@@ -121,7 +121,8 @@ public class PatientVcfMB implements Serializable {
             JobOperator jobOperator = BatchRuntime.getJobOperator();
             Properties props = new Properties();
             
-           props.setProperty("nome", "nome_passado");
+           props.setProperty("nome", this.getVcf().getNome());
+           props.setProperty("idade", String.valueOf(this.getVcf().getIdadeDoPaciente()));
            props.setProperty("pacientId", patientSB.getPatient().getId().toString());
            //props.setProperty("arquivo", "1	701779	GAATA>G	RP11-206L10.5		-	Heterozygous	17 / 49	PASS	n.-1478_-1475delTATT	-	rs201234755	-	lincRNA	upstream_gene_variant	MODIFIER		-	-			-	-	-	-	-	-	-	transcript	ENST00000417659	-	-	-	0/1	66	0.500	1968.73	-	no	no	no	no	-	-	-	-	-");
            props.setProperty("arquivo", arquivo);

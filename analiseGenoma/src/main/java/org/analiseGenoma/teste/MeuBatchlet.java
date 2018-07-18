@@ -184,7 +184,8 @@ public class MeuBatchlet extends AbstractBatchlet {
 
         JobOperator jobOperator = BatchRuntime.getJobOperator();
         Properties jobParameters = jobOperator.getParameters(jobContext.getExecutionId());
-        String resourceName = (String) jobParameters.get("nome");
+        String nome = (String) jobParameters.get("nome");
+        String idade = (String) jobParameters.get("idade");
         String arquivo = (String) jobParameters.get("arquivo");
 
         try {
@@ -192,25 +193,43 @@ public class MeuBatchlet extends AbstractBatchlet {
             Long pacienteId = Long.valueOf(pacientIdT);
             System.out.println(":D peguei o id do paciente: " + pacienteId);
             patient = patientService.findById(pacienteId);
+            vcf.setPaciente(patient);
         } catch (Exception ex) {
             System.out.println("Erro ao converter pacienteId: " + ex.getMessage());
             System.out.println("--> " + (String) jobParameters.get("pacientId"));
         }
 
+        try{
+            vcf.setIdadeDoPaciente(Integer.valueOf(idade));
+        }catch(Exception ex){
+            System.out.println("MeuBatchlet:Erro ao converter idade: " + idade);
+        }
+        
         vcf.setStatus(VcfStatus.importando);
+        vcf.setNome(nome);
+        
+        
         //vcf.setPaciente(patient);
         //vcf.setNome(arquivo);
         //vcf.setDataImportacao(new Date());
         vcfService.adicionar(vcf);
 
         //System.out.println("Arquivo: " + arquivo);
-        System.out.println("Nome: " + resourceName);
+        System.out.println("Nome: " + nome);
         total = arquivo.split("\n").length;
         int x = 0;
         for (String ln : arquivo.split("\n")) {
             x++;
             System.out.println("Feito: " + x + " de " + total + " percentual: " + ((x * 100) / total));
             String[] linha = ln.split("\t");
+            Long position = 0l;
+            try{
+                position = Long.valueOf(linha[1]);
+            }catch(Exception ex){
+                System.out.println("Erro ao converter position: " + linha[1]);
+            }
+            
+            
             String gene = linha[3];
             String cromossomo = linha[0];
 
@@ -344,6 +363,8 @@ public class MeuBatchlet extends AbstractBatchlet {
             } catch (Exception ex) {
                 System.out.println("Erro ao converter wholeVarintFreq: " + linha[46]);
             }
+            
+            Long vcfId = vcf.getId();
 
             varianteService.runSP(cromossomo, gene, referencia, alterado, umdPredictor,
                     zygosity, allelicDeph1, allelicDeph2, filter,
@@ -353,7 +374,8 @@ public class MeuBatchlet extends AbstractBatchlet {
                     feature, ensembl, vertebrateGenomesConservationScore, interproDomain, variantStatus, genoType,
                     readDepth, alleleMutFraction, meanBaseQuality, varintType, validate,
                     donorSpliceSite, acceptorSpliceSite, mutation,
-                    europeanVarintFreq, africanVarintFreq, asianVarintFreq, americanVarintFreq, wholeVarintFreq
+                    europeanVarintFreq, africanVarintFreq, asianVarintFreq, americanVarintFreq, wholeVarintFreq, vcfId,
+                    position
             );
             /*
             if(x%10 == 0){
@@ -409,9 +431,25 @@ public class MeuBatchlet extends AbstractBatchlet {
         vcf.setStatus(VcfStatus.importado);        
         vcfService.atualizar(vcf);
          */
-        System.out.println("Importacao ok");
+        
+        vcf.setStatus(VcfStatus.importado);
+        vcfService.atualizar(vcf);
         long elapsed = System.currentTimeMillis() - start;
-        System.out.println("Tempo: " + elapsed / 60000);
+        System.out.println("Tempo Insert: " + elapsed / 60000);
+        
+        
+        //metadados inicio
+        
+        varianteService.runSPMetadados(vcf.getId());
+        
+        //metadados fim
+        
+        long elapsed2 = System.currentTimeMillis() - elapsed;
+        System.out.println("Tempo metdado: " + elapsed2 / 60000);
+        
+        System.out.println("Importacao ok");
+        long elapsed3 = System.currentTimeMillis() - start;
+        System.out.println("Tempo Total: " + elapsed3 / 60000);
         return "COMPLETED";
     }
 

@@ -62,7 +62,8 @@ public class VarianteService extends Service<Variante> {
             String feature, String ensembl, Double vertebrateGenomesConservationScore, String interproDomain, String variantStatus, String genoType,
             String readDepth, Double alleleMutFraction, Double meanBaseQuality, String varintType, Boolean validate,
             Boolean donorSpliceSite,Boolean  acceptorSpliceSite,Boolean  mutation,
-            Double europeanVarintFreq, Double africanVarintFreq, Double asianVarintFreq, Double americanVarintFreq, Double wholeVarintFreq
+            Double europeanVarintFreq, Double africanVarintFreq, Double asianVarintFreq, Double americanVarintFreq, Double wholeVarintFreq,
+            Long vcfId, Long position
     ) {
 
         
@@ -75,8 +76,13 @@ public class VarianteService extends Service<Variante> {
                 feature, ensembl, vertebrateGenomesConservationScore, interproDomain, variantStatus, genoType,
                 readDepth, alleleMutFraction, meanBaseQuality, varintType, validate, 
                 donorSpliceSite, acceptorSpliceSite, mutation,                 
-                europeanVarintFreq, africanVarintFreq, asianVarintFreq, americanVarintFreq, wholeVarintFreq
+                europeanVarintFreq, africanVarintFreq, asianVarintFreq, americanVarintFreq, wholeVarintFreq,
+                vcfId, position
         );
+    }
+
+    public int runSPMetadados(Long vcfId) {
+        return getDao().runSPMetadados(vcfId);
     }
 
 }

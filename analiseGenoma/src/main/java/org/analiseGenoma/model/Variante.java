@@ -128,6 +128,8 @@ import javax.persistence.Table;
         @StoredProcedureParameter(name = "asianVarintFreq", mode = ParameterMode.IN, type = Double.class),
         @StoredProcedureParameter(name = "americanVarintFreq", mode = ParameterMode.IN, type = Double.class),
         @StoredProcedureParameter(name = "wholeVarintFreq", mode = ParameterMode.IN, type = Double.class),
+        @StoredProcedureParameter(name = "vcfId", mode = ParameterMode.IN, type = Long.class),
+        @StoredProcedureParameter(name = "position", mode = ParameterMode.IN, type = Long.class),
         
         
         

@@ -3,7 +3,6 @@ package org.analiseGenoma.model;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,22 +14,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "vcf_metadata")
+
+@NamedStoredProcedureQuery(
+        name = "make_vcf_metadados",
+        procedureName = "make_vcf_metadados",
+        parameters
+        = {
+            @StoredProcedureParameter(name = "vcfId", mode = ParameterMode.IN, type = Long.class),
+        }
+)
+
 public class VcfMetadata implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_vcfmetadata")
     private Long id;
     @OneToOne
-    @JoinColumn(name = "vcf_id")    
+    @JoinColumn(name = "vcf_id")
     private Vcf vcf;
-    private int qtdVariante;    
-    @ManyToMany(fetch=FetchType.EAGER)
+    private int qtdVariante;
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Cromossomo> cromossomos;
     @ElementCollection(fetch = FetchType.EAGER)
     //@CollectionTable(name="vcfmetadata_referencias")
@@ -39,7 +51,7 @@ public class VcfMetadata implements Serializable {
     private Set<String> alterado;
     private Long positonMax;
     private Long positonMin;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Gene> genes;
 //    @ManyToMany(fetch=FetchType.EAGER )
 //    //@JoinColumn(columnDefinition="integer", name="customer_id")
@@ -47,27 +59,28 @@ public class VcfMetadata implements Serializable {
     //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vcf_metadata_umd_predictor", joinColumns = {
-			@JoinColumn(name = "vcfMetadata_id_vcfmetadata", nullable = true, updatable = false) },
-			inverseJoinColumns = { @JoinColumn(name = "umdPredictors_id_umdpredictor",
-					nullable = true, updatable = false) })
+        @JoinColumn(name = "vcfMetadata_id_vcfmetadata", nullable = true, updatable = false)},
+            inverseJoinColumns = {
+                @JoinColumn(name = "umdPredictors_id_umdpredictor",
+                        nullable = true, updatable = false)})
     private Set<UmdPredictor> umdPredictors;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Effect> effects;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Sift> sifts;
-    
+
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinTable(name="gene_qtd", joinColumns=@JoinColumn(name="id"))
-    @MapKeyColumn (name="gene_id")
-    @Column(name="qtd")
+    @JoinTable(name = "gene_qtd", joinColumns = @JoinColumn(name = "id"))
+    @MapKeyColumn(name = "gene_id")
+    @Column(name = "qtd")
     private Map<Gene, Integer> mapGene;
-    
-    @ManyToMany(fetch=FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Zygosity> zygosities;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> allelicDeph;
-    @ManyToMany(fetch=FetchType.EAGER)
-    private Set<Filter> filters;    
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Filter> filters;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> hgvsCs;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -76,46 +89,46 @@ public class VcfMetadata implements Serializable {
     private Set<String> idSNPs;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Integer> exonIntrons;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Type> typies;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Impact> impacts;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<ClinvarSignificance> clinvarSignificances;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<ClinvarDisease> clinvarDiseases;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<ClinvarAccession> clinvarAccessions;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<ClinvarAlleleType> clinvarAlleleTypies;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<ClinvarAlleleOrigin> clinvarAlleleOrigins;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<PolyphenHdiv> polyphenHdivs;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<PolyphenHvar> polyphenHvars;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<MutationTaster> mutationTasters;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Lrt> lrts;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> gerpRsScores;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> gerpNeutralRates;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Feature> features;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Ensembl> ensembls;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> vertebrateGenomesConservationScores;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<InterproDomain> interproDomains;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<VariantStatus> variantStatus;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<GenoType> genoTypies;
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> readDepths;    
+    private Set<String> readDepths;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> alleleMutFraction;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -140,14 +153,9 @@ public class VcfMetadata implements Serializable {
     private Set<Double> americanVarintFreq;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> wholeVarintFreq;
-    
+
     private Double prevalenceMin;
     private Double prevalenceMax;
-    
-    
-    
-    
-    
 
     public Long getId() {
         return id;
@@ -580,12 +588,5 @@ public class VcfMetadata implements Serializable {
     public void setPrevalenceMax(Double prevalenceMax) {
         this.prevalenceMax = prevalenceMax;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
 }
