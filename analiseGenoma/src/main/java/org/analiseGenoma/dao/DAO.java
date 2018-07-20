@@ -49,7 +49,9 @@ public class DAO<T> implements Serializable {
     }
 
     public List<T> find() {
-        return manager.createQuery("Select t from " + classe.getSimpleName() + " t").getResultList();
+        //return manager.createQuery("Select t from " + classe.getSimpleName() + " t").getResultList();
+        return manager.createQuery("Select t from " + classe.getSimpleName() + " t").setHint("org.hibernate.cacheable", true).getResultList();
+        //q.setHint("org.hibernate.cacheable", true);
     }
 
     /*
@@ -182,6 +184,24 @@ public class DAO<T> implements Serializable {
         return manager.createQuery(criteriaQuery).getResultList();
     }
     
+        public List<T> findByProperty(String propertyName, String value, MatchMode matchMode, int maxResult) {
+        //convert the value String to lowercase
+        value = value.toUpperCase();
+        if (MatchMode.START.equals(matchMode)) {
+            value = value + "%";
+        } else if (MatchMode.END.equals(matchMode)) {
+            value = "%" + value;
+        } else if (MatchMode.ANYWHERE.equals(matchMode)) {
+            value = "%" + value + "%";
+        }
+
+        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(classe);
+        Root<T> root = criteriaQuery.from(classe);
+        criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.upper(root.get(propertyName)), value));
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get(propertyName)));        
+        return manager.createQuery(criteriaQuery).setMaxResults(maxResult).getResultList();
+    }
     
     
     public T XmlToObject(InputStream inputStream) throws Exception{

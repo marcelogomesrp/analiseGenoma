@@ -1,6 +1,5 @@
 package org.analiseGenoma.managedbean;
 
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,8 +57,7 @@ import org.primefaces.model.LazyDataModel;
 //@RequestScoped
 @ViewScoped
 public class AnaliseSelecionarVarianteMB implements Serializable {
-    
-    
+
     private LazyDataModel<Variante> lazyModel;
     @Inject
     private LazyVarianteDataModel lazyVarianteDataModel;
@@ -87,10 +85,10 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private DiseaseService patologiaService;
     @Inject
     private VcfMetadataService vcfMetadataService;
-    
+
     @Inject
     private FiltroService filterService;
-    
+
     @Inject
     private VariantSelectedService variantSelectedService;
 
@@ -129,6 +127,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     private FilterSB filterSB;
     @Inject
     private VcfMetadataSB metadataSB;
+    
+
 
     @PostConstruct
     public void init() {
@@ -140,6 +140,11 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         System.out.println("-------------------------------------------------------");
         try {
             Long value = (Long) FacesUtil.getSessionMapValue("id");
+            if(value == null){
+                //FacesContext.getCurrentInstance().getExternalContext().redirect("DisplayList.jsf"); 
+                context.getExternalContext().redirect("analise_pesquisar.xhtml");
+                
+            }
             System.out.println("--> " + value);
             if (value != null) {
                 analise = analiseService.buscarPorId(value);
@@ -153,21 +158,19 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 lazyVarianteDataModel.setAnalise(analise);
                 lazyVarianteDataModel.setFiltro(filtro);
                 lazyModel = lazyVarianteDataModel;
-                
-                
+
                 //lazyModel =  new LazyVarianteDataModel();
                 //lazyModel =  new LazyVarianteDataModel(analise, filtro);
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
                 metadataSB.setVcfMetadata(vcfMetadata);
-                
-                if(filtro.getPositionMin() == null){
+
+                if (filtro.getPositionMin() == null) {
                     filtro.setPositionMin(vcfMetadata.getPositonMin());
                 }
-                if(filtro.getPositionMax() == null){
+                if (filtro.getPositionMax() == null) {
                     filtro.setPositionMax(vcfMetadata.getPositonMax());
                 }
-                
-                
+
                 //  List<String> genesSource = new ArrayList<>();
                 //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
                 //List<String> genesTarget = new ArrayList<>(vcfMetadata.getGenes()); 
@@ -182,7 +185,6 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 //vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
                 duaListGene = new DualListModel<>(genesSource, genesTarget);
 
-                
                 List<String> effectsTarget = filtro.getEffects().stream().map(e -> e.getName()).collect(Collectors.toList());
                 List<String> effectsSource = vcfMetadata.getEffects()
                         .stream()
@@ -190,7 +192,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                         .filter(e -> !effectsTarget.contains(e))
                         .collect(Collectors.toList());
                 duaListEffect = new DualListModel<>(effectsSource, effectsTarget);
-                
+
                 //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
                 //qtdVariante = variantes.size();
 //                listGene = geneService.buscarAnalise(analise.getId());
@@ -368,7 +370,6 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
 //        filtroTemporario.setQualidadeMin(filtro.getQualidadeMin());
 //        filtroTemporario.setQualidadeMax(filtro.getQualidadeMax());
-
 //        for(String c : selectedCromossomo){
 //            System.out.println("\t\t\t---> no filtro" + c);
 //        }
@@ -436,7 +437,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 //        selectedImpacto[0] = "LOW";
 //        selectedImpacto[1] = "MODERATE";
 //        selectedImpacto[2] = "MODIFIER";
-        List<Impact> limpacto = new ArrayList( filtro.getImpacts()) ;
+        List<Impact> limpacto = new ArrayList(filtro.getImpacts());
         selectedImpacto = new String[limpacto.size()];
 
         for (int x = 0; x < limpacto.size(); x++) {
@@ -540,8 +541,6 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         this.duaListEffect = duaListEffect;
     }
 
-    
-    
     public Double getQualidadeMin() {
         return qualidadeMin;
     }
@@ -597,7 +596,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("width", 1024);
-        options.put("height",768);
+        options.put("height", 768);
 //        options.put("width", 800);
 //        options.put("height", 380);
         options.put("contentWidth", "100%");
@@ -610,7 +609,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         values.add("1");
         params.put("id", values);
         RequestContext.getCurrentInstance().openDialog(view, options, params);
-       // variantes = vcfService.findVariante(analise, filtro);
+        // variantes = vcfService.findVariante(analise, filtro);
     }
 
     public void viewFilterChr() {
@@ -701,12 +700,13 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         this.vcfMetadata = vcfMetadata;
     }
 
-    public void updateFilterName(){
-                context.getExternalContext()
+    public void updateFilterName() {
+        context.getExternalContext()
                 .getFlash().setKeepMessages(true);
         context.addMessage(null, new FacesMessage("Filter name updated"));
         filterService.merge(filtro);
     }
+
     private void updateFiltro() {
         Set<Gene> genes = new HashSet<>();
         for (String geneSymbol : duaListGene.getTarget()) {
@@ -727,184 +727,209 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         //genesTarget.add(g.getSimbolo());                    
         //}
     }
-    
-    public void viewFilterFilter(){
+
+    public void viewFilterFilter() {
         String view = "viewfilter_filter";
         this.callView(view);
     }
-    public void viewFilterZygocity(){
+
+    public void viewFilterZygocity() {
         String view = "viewfilter_zygocity";
         this.callView(view);
     }
-    
-    public void viewFilterAllelic1(){
+
+    public void viewFilterAllelic1() {
         String view = "viewfilter_allelic1";
         this.callView(view);
     }
-    
-    public void viewFilterAllelic2(){
+
+    public void viewFilterAllelic2() {
         String view = "viewfilter_allelic2";
         this.callView(view);
     }
-    
+
     public void viewFilterType() {
         String view = "viewfilter_type";
         this.callView(view);
     }
+
     public void viewFilterRef() {
         String view = "viewfilter_ref";
         this.callView(view);
     }
-    
-    public void viewFilterChanged(){
+
+    public void viewFilterChanged() {
         String view = "viewfilter_changed";
         this.callView(view);
     }
-    
-    public void viewFilterHgvsC(){
+
+    public void viewFilterHgvsC() {
         String view = "viewfilter_hgvsc";
         this.callView(view);
     }
-    
-    public void viewFilterHgvsP(){
+
+    public void viewFilterHgvsP() {
         String view = "viewfilter_hgvsp";
         this.callView(view);
     }
-    
-    public void viewFilterImpact(){
+
+    public void viewFilterImpact() {
         String view = "viewfilter_impact";
         this.callView(view);
     }
-    
-    public void viewFilterClinvarSignificance(){
+
+    public void viewFilterClinvarSignificance() {
         String view = "viewfilter_clinvarsignificance";
         this.callView(view);
     }
-    
+
     //aqui inicio
-    public void viewFilterAmericanvariantfreq(){
+    public void viewFilterAmericanvariantfreq() {
         String view = "viewfilter_americanvariantfreq";
         this.callView(view);
     }
-    public void viewFilterAcceptorslicesite(){
+
+    public void viewFilterAcceptorslicesite() {
         String view = "viewfilter_acceptorslicesite";
         this.callView(view);
     }
-    public void viewFilterAfrincavariantfreq(){
+
+    public void viewFilterAfrincavariantfreq() {
         String view = "viewfilter_afrincavariantfreq";
         this.callView(view);
     }
-    public void viewFilterAlllelemutfraction(){
+
+    public void viewFilterAlllelemutfraction() {
         String view = "viewfilter_alllelemutfraction";
         this.callView(view);
     }
-    public void viewFilterAssianvariantfreq(){
+
+    public void viewFilterAssianvariantfreq() {
         String view = "viewfilter_assianvariantfreq";
         this.callView(view);
     }
-    public void viewFilterClinvarAccession(){
+
+    public void viewFilterClinvarAccession() {
         String view = "viewfilter_clinvaraccession";
         this.callView(view);
     }
-    public void viewFilterClinvaralleleorign(){
+
+    public void viewFilterClinvaralleleorign() {
         String view = "viewfilter_clinvaralleleorign";
         this.callView(view);
     }
-    public void viewFilterClinvaralleletype(){
+
+    public void viewFilterClinvaralleletype() {
         String view = "viewfilter_clinvaralleletype";
         this.callView(view);
     }
-    public void viewFilterClinvarDisease(){
+
+    public void viewFilterClinvarDisease() {
         String view = "viewfilter_clinvarDisease";
         this.callView(view);
     }
-    public void viewFilterDbsnp(){
+
+    public void viewFilterDbsnp() {
         String view = "viewfilter_dbsnp";
         this.callView(view);
     }
-    public void viewFilterDonorsplicesite(){
+
+    public void viewFilterDonorsplicesite() {
         String view = "viewfilter_donorsplicesite";
         this.callView(view);
     }
-    public void viewFilterEnsembl(){
+
+    public void viewFilterEnsembl() {
         String view = "viewfilter_ensembl";
         this.callView(view);
-    }  
-    public void viewFilterEuropenavariantfreq(){
+    }
+
+    public void viewFilterEuropenavariantfreq() {
         String view = "viewfilter_europenavariantfreq";
         this.callView(view);
-    } 
-    public void viewFilterFeature(){
+    }
+
+    public void viewFilterFeature() {
         String view = "viewfilter_feature";
         this.callView(view);
-    } 
-    public void viewFilterGenotype(){
+    }
+
+    public void viewFilterGenotype() {
         String view = "viewfilter_genotype";
         this.callView(view);
-    }     
-    public void viewFilterGerpneutralrate(){
+    }
+
+    public void viewFilterGerpneutralrate() {
         String view = "viewfilter_gerpneutralrate";
         this.callView(view);
-    } 
-    public void viewFilterGerprsscore(){
+    }
+
+    public void viewFilterGerprsscore() {
         String view = "viewfilter_gerprsscore";
         this.callView(view);
-    } 
-    public void viewFilterInterprodomain(){
+    }
+
+    public void viewFilterInterprodomain() {
         String view = "viewfilter_interprodomain";
         this.callView(view);
-    } 
-    public void viewFilterLrt(){
+    }
+
+    public void viewFilterLrt() {
         String view = "viewfilter_lrt";
         this.callView(view);
-    } 
-    public void viewFilterMeanbasequality(){
+    }
+
+    public void viewFilterMeanbasequality() {
         String view = "viewfilter_meanbasequality";
         this.callView(view);
-    } 
-    public void viewFilterMutationtaster(){
+    }
+
+    public void viewFilterMutationtaster() {
         String view = "viewfilter_mutationtaster";
         this.callView(view);
-    } 
-    public void viewFilterPolyphenhdiv(){
+    }
+
+    public void viewFilterPolyphenhdiv() {
         String view = "viewfilter_polyphenhdiv";
         this.callView(view);
-    } 
-    public void viewFilterPolyphenhvar(){
+    }
+
+    public void viewFilterPolyphenhvar() {
         String view = "viewfilter_polyphenhvar";
         this.callView(view);
-    } 
-    public void viewFilterReaddepth(){
+    }
+
+    public void viewFilterReaddepth() {
         String view = "viewfilter_readdepth";
         this.callView(view);
-    }     
-    public void viewFilterSift(){
+    }
+
+    public void viewFilterSift() {
         String view = "viewfilter_sift";
         this.callView(view);
-    } 
-    public void viewFilterStatus(){
+    }
+
+    public void viewFilterStatus() {
         String view = "viewfilter_status";
         this.callView(view);
-    }  
-    public void viewFilterVarianttype(){
+    }
+
+    public void viewFilterVarianttype() {
         String view = "viewfilter_varianttype";
         this.callView(view);
-    } 
-      
-     public void viewFilterVertebrategenomesconservationscore(){
+    }
+
+    public void viewFilterVertebrategenomesconservationscore() {
         String view = "viewfilter_vertebrategenomesconservationscore";
         this.callView(view);
-    } 
-     
-    public void viewFilterExonintronnumber(){
+    }
+
+    public void viewFilterExonintronnumber() {
         String view = "viewfilter_exonintronnumber";
         this.callView(view);
-    } 
+    }
 
-    
-    
-    
-        public void viewFilterEffect() {
+    public void viewFilterEffect() {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("width", 800);
@@ -921,7 +946,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         RequestContext.getCurrentInstance().openDialog("viewfilter_effect", options, params);
         variantes = vcfService.findVariante(analise, filtro);
     }
-    
+
     public void viewFilterPrevalence() {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
@@ -937,32 +962,30 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
         RequestContext.getCurrentInstance().openDialog("viewfilter_prevalence", options, params);
         variantes = vcfService.findVariante(analise, filtro);
     }
-        
-    
-    
-    public String finalizarSelecao(){
+
+    public String finalizarSelecao() {
         variantes = vcfService.findVariante(analise, filtro);
         VariantSelected variantSelected = new VariantSelected();
         variantSelected.setAnalise(analise);
         variantSelected.setVariantes(variantes);
         variantSelectedService.persiste(variantSelected);
-        
+
         analise.setEstado("varianteSelecionada");
         analiseService.atualizar(analise);
         FacesUtil.setSessionMapValue("id", analise.getId());
         return "analise_select_reviser.xhtml?faces-redirect=true";
     }
-    
-    public int getQtdVariantes(){
-        if(variantes!=null){
+
+    public int getQtdVariantes() {
+        if (variantes != null) {
             return variantes.size();
         }
         return 0;
     }
 
     public LazyDataModel<Variante> getLazyModel() {
-       // System.out.println("pegando o lazymodel PG size: " + lazyModel.getPageSize() + " Count " + lazyModel.getRowCount());
-        if(lazyModel == null){
+        // System.out.println("pegando o lazymodel PG size: " + lazyModel.getPageSize() + " Count " + lazyModel.getRowCount());
+        if (lazyModel == null) {
             lazyModel = new LazyVarianteDataModel();
         }
         return lazyModel;
@@ -971,8 +994,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     public void setLazyModel(LazyDataModel<Variante> lazyModel) {
         this.lazyModel = lazyModel;
     }
-    
-    
+
 }
 
 //        for(String g: duaListGene.getTarget()){

@@ -12,10 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Past;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
 @Table(name = "patient")
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+
 public class Patient implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

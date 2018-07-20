@@ -13,10 +13,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "variante")
-
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @NamedStoredProcedureQuery(
         name = "insert_variant3", // name of stored procedure in the persistence unit
         procedureName = "insert_variant4", //name of  stored procedure in the database
@@ -148,12 +150,14 @@ public class Variante implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_informacaovcf")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Long id;
     //@Column(columnDefinition = "text")
 
     //1
     @OneToOne
     @JoinColumn(name = "cromossomo_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Cromossomo cromossomo;
     //2
     //@Column(columnDefinition = "text")
@@ -171,23 +175,28 @@ public class Variante implements Serializable {
     //16
     @ManyToOne
     @JoinColumn(name = "impacto_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Impact impact;
     //@Column(columnDefinition = "text")
     //private String filtro;
     //4
     @ManyToOne
     @JoinColumn(name = "gene_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Gene gene;
     @ManyToOne
     @JoinColumn(name = "vcf_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Vcf vcf;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "umdpredictor_id", nullable = true, insertable = true, updatable = true)
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private UmdPredictor umdPredictor;
 
     @ManyToOne
     @JoinColumn(name = "zygosity_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Zygosity zygosity;
 
     //private String allelicDeph;
@@ -205,6 +214,7 @@ public class Variante implements Serializable {
     private Integer exonIntron;
     @ManyToOne
     @JoinColumn(name = "type_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Type type;
     @ManyToOne
     @JoinColumn(name = "effect_id")
@@ -220,6 +230,7 @@ public class Variante implements Serializable {
     private ClinvarAccession clinvarAccession;
     @ManyToOne
     @JoinColumn(name = "clinvaralleletype_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private ClinvarAlleleType clinvarAlleleType;
     @ManyToOne
     @JoinColumn(name = "clinvaralleleorigin_id")
@@ -256,6 +267,7 @@ public class Variante implements Serializable {
     private VariantStatus variantStatus;
     @ManyToOne
     @JoinColumn(name = "genotype_id")
+    @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private GenoType genoType;
     private String readDepth;
     private Double alleleMutFraction;
@@ -269,6 +281,7 @@ public class Variante implements Serializable {
     private Double africanVarintFreq;
     private Double asianVarintFreq;
     private Double americanVarintFreq;
+    
     private Double wholeVarintFreq;
 
     public Long getId() {

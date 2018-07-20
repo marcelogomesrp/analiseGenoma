@@ -456,7 +456,7 @@ public class GeneService extends Service<Gene> implements Serializable {
 //    }
 
     public List<Gene> findLikeName(String symbol) {
-        return getDao().findByProperty("symbol", symbol, DAO.MatchMode.START);
+        return getDao().findByProperty("symbol", symbol, DAO.MatchMode.START, 5);
     }
 
     public List<Gene> find(Disease disease) {

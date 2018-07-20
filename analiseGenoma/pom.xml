@@ -113,10 +113,19 @@
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>6.0.5.Final</version>
+       <version>6.0.5.Final</version> 
       <type>jar</type>
     </dependency>
     
+<!-- coloquei este hibernate para ver o lance do cache -->
+	<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.6.Final</version>
+			<scope>provided</scope>
+</dependency>
+
+
 
         <!--add para o selenium -->
     <dependency>

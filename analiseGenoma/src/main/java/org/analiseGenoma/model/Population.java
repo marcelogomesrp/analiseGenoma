@@ -12,10 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 //import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 //http://www.internationalgenome.org/category/population/
 @Entity
 @Table(name = "population")
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Population implements Serializable {
 
     @Id

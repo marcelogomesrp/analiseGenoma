@@ -66,7 +66,7 @@ public class VfChr {
     public void closeView(){
         this.updateFiltro();
         filtroService.merge(filtro);
-        RequestContext.getCurrentInstance().closeDialog("Filtro aplicado com sucesso");  
+        RequestContext.getCurrentInstance().closeDialog("It's done");  
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         try {
             ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());

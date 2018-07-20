@@ -18,25 +18,38 @@
         <h:form id="formView">
             <p:growl id="messages" showDetail="true"/>
             <p:panel  id="panel">
-                <h:outputLabel value="Filter by Gene" for="by"/>
-                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byGene}" >
-                    <p:ajax update="panel" />
-                </p:selectBooleanCheckbox>
-
-                <p:pickList value="#{analiseSelcMB.duaListGene}" var="gene" itemLabel="#{gene}" itemValue="#{gene}" 
-                            responsive="true"
-                            showSourceFilter="true"
-                            showTargetFilter="true" 
-                            filterMatchMode="contains"
-                            id="geneFiltro"
-                            rendered="#{filterSB.filter.byGene}"
-                            >
-                    <f:facet name="sourceCaption">Removed</f:facet>
-                    <f:facet name="targetCaption">Selected</f:facet>
-                </p:pickList>
-
+                <p:panelGrid columns="2" styleClass="ui-noborder">
+                    <h:outputLabel value="Filter by Gene" for="by"/>
+                    <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byGene}" >
+                        <p:ajax update="panel" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel value="Genes" for="genes" />
+                    <p:autoComplete id="genes" multiple="true" value="#{VfGene.selecteds}" completeMethod="#{VfGene.complete}" 
+                                    var="gene" itemLabel="#{gene.symbol}" itemValue="#{gene}" converter="#{geneConverter}" forceSelection="true" 
+                                    >
+                        <p:column>
+                            <h:outputText value="#{gene.symbol}" />
+                        </p:column>
+                    </p:autoComplete>
+                </p:panelGrid>
+                <!--
+                                <p:pickList value="{analiseSelcMB.duaListGene}" var="gene" itemLabel="{gene}" itemValue="{gene}" 
+                                            responsive="true"
+                                            showSourceFilter="true"
+                                            showTargetFilter="true" 
+                                            filterMatchMode="contains"
+                                            id="geneFiltro"
+                                            rendered="{filterSB.filter.byGene}"
+                                            >
+                                    <f:facet name="sourceCaption">Removed</f:facet>
+                                    <f:facet name="targetCaption">Selected</f:facet>
+                                </p:pickList>
+                -->
                 <br />
-                <p:commandButton value="Aplicar" actionListener="#{analiseSelcMB.closeView()}"/>
+                <!--
+                <p:commandButton value="Aplicar" actionListener="{analiseSelcMB.closeView()}"/>
+                -->
+                <p:commandButton value="Apply" actionListener="#{VfGene.closeView()}"/>
             </p:panel>
         </h:form>
 

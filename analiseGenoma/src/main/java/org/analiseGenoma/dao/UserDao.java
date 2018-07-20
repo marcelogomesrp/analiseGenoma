@@ -18,6 +18,8 @@ public class UserDao extends DAO<User> {
             Query q = manager.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password");
             q.setParameter("email", email);
             q.setParameter("password", password);
+            q.setHint("org.hibernate.cacheable", true);
+            //q.setCacheable(true);
             return q.getResultList();
 
         } catch (NoResultException ex) {

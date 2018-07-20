@@ -19,10 +19,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+//http://www.algaworks.com/aulas/575/cache-com-infinispan-jta-e-no-wildfly/
 
 @Entity
 @Table(name = "vcf_metadata")
-
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 @NamedStoredProcedureQuery(
         name = "make_vcf_metadados",
         procedureName = "make_vcf_metadados",
@@ -43,6 +47,7 @@ public class VcfMetadata implements Serializable {
     private Vcf vcf;
     private int qtdVariante;
     @ManyToMany(fetch = FetchType.EAGER)
+    @Cache(usage=CacheConcurrencyStrategy.TRANSACTIONAL)
     private Set<Cromossomo> cromossomos;
     @ElementCollection(fetch = FetchType.EAGER)
     //@CollectionTable(name="vcfmetadata_referencias")
@@ -52,6 +57,7 @@ public class VcfMetadata implements Serializable {
     private Long positonMax;
     private Long positonMin;
     @ManyToMany(fetch = FetchType.EAGER)
+    
     private Set<Gene> genes;
 //    @ManyToMany(fetch=FetchType.EAGER )
 //    //@JoinColumn(columnDefinition="integer", name="customer_id")

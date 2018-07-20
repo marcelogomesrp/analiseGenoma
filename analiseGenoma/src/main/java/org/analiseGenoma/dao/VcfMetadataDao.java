@@ -22,6 +22,7 @@ public class VcfMetadataDao extends DAO<VcfMetadata> {
         try {
             Query query = manager.createQuery("SELECT vmt FROM VcfMetadata vmt WHERE vmt.vcf.id = :id");
             query.setParameter("id", id);
+            query.setHint("org.hibernate.cacheable", true);
             List<VcfMetadata> list = query.getResultList();
             return list;
         } catch (NoResultException ex) {

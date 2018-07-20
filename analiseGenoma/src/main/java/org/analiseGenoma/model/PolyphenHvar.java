@@ -7,10 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
 @Table(name = "polyphe_hvar")
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class PolyphenHvar implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

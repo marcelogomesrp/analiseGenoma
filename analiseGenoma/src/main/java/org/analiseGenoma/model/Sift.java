@@ -7,10 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
 @Table(name = "sift")
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Sift implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

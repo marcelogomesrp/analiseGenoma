@@ -15,9 +15,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "vcf")
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class Vcf implements Serializable {
 
     @Id

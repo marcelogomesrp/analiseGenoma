@@ -8,9 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+//https://github.com/algaworks/curso-jpa-hibernate/blob/master/Aulas/Cache com Infinispan
 
 @Entity
 @Table(name = "person")
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

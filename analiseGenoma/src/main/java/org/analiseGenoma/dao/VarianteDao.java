@@ -362,6 +362,7 @@ public class VarianteDao extends DAO<Variante> {
             Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
             criteriaQuery.where(todasCondicoes);
             TypedQuery<Variante> query = manager.createQuery(criteriaQuery);
+            query.setHint("org.hibernate.cacheable", true);
             retorno = query.getResultList();
 
 //        while ((retorno.size() == 0) && (condicoes.size() > 0)) {

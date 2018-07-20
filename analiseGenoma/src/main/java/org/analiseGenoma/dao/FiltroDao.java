@@ -87,7 +87,7 @@ public class FiltroDao extends DAO<Filtro> {
             Query query = manager.createQuery("SELECT f FROM Filtro f LEFT JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
             //Query query = manager.createQuery("SELECT f FROM Filtro f WHERE f.analise.id = :idAnalise");
             query.setParameter("idAnalise", idAnalise);
-
+            query.setHint("org.hibernate.cacheable", true);
             Filtro filtro = (Filtro) query.getSingleResult();
             //filtro.getCromossomos().size();
             return filtro;

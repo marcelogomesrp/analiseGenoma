@@ -52,6 +52,7 @@ public class CromossomoService extends Service<Cromossomo> implements Serializab
 //        Cromossomo c = new Cromossomo();
 //        c.setNome(name);
 //        return getDao().findByExample(c);
-        return getDao().findByProperty("nome", name, DAO.MatchMode.START);
+        //return getDao().findByProperty("nome", name, DAO.MatchMode.START);
+        return getDao().findByProperty("nome", name, DAO.MatchMode.EXACT);
     }
 }
