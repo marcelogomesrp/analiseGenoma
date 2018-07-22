@@ -977,8 +977,11 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
     }
 
     public int getQtdVariantes() {
-        if (variantes != null) {
-            return variantes.size();
+//        if (variantes != null) {
+//            return variantes.size();
+//        }
+        if (lazyModel != null) {
+            return lazyModel.getRowCount();
         }
         return 0;
     }

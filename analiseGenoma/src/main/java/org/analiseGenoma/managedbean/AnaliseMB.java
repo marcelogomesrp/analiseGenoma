@@ -33,8 +33,13 @@ import org.primefaces.event.SelectEvent;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.model.Variante;
+import org.analiseGenoma.service.DbBioInfoService;
+import org.analiseGenoma.service.EffectService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.GeneService;
+import org.analiseGenoma.service.UmdPredictorService;
+import org.analiseGenoma.service.ZygosityService;
 
 @Named(value = "analiseMB")
 //@RequestScoped
@@ -55,10 +60,17 @@ public class AnaliseMB implements Serializable {
     private AnaliseSelecionarVarianteMB selecionarMB;
     @Inject
     private FiltroService filtroService;
-    
+
     @Inject
     private GeneService geneService;
-    
+    @Inject
+    private EffectService effectService;
+    @Inject
+    private UmdPredictorService umdPredictorService;
+
+    @Inject
+    private ZygosityService zygosityService;
+
     private Analise analise;
     private String cid;
     private String patologia;
@@ -73,7 +85,7 @@ public class AnaliseMB implements Serializable {
     private Long idVcfMother;
     private boolean applyFilter;
     private Filtro filtro;
-    
+
     @Inject
     @RequestParam
     private String id;
@@ -81,21 +93,21 @@ public class AnaliseMB implements Serializable {
     @PostConstruct
     public void init() {
         System.out.println("Iniciando a pagina novamente...");
-        analise = new Analise();        
+        analise = new Analise();
         applyFilter = true;
         filtro = filtroService.findById(1L);
-        
+        patologia = "";
+
         Long value = (Long) FacesUtil.getSessionMapValue("idAnalise");
-        if(value!=null){
-            
+        if (value != null) {
+
             Analise analiseBd = analiseService.buscarPorId(value);
             analise.setPatologia(analiseBd.getPatologia());
             analise.setObservacao(analiseBd.getObservacao());
             analise.setPaciente(analiseBd.getPaciente());
             analise.setControle(analiseBd.getControle());
             analise.setVcf(analiseBd.getVcf());
-            
-            
+
         }
     }
 
@@ -113,6 +125,12 @@ public class AnaliseMB implements Serializable {
     }
 
     public String getPatologia() {
+//        if(patologia == null){
+//            patologia = " ";
+//        }
+//        if(patologia.equals("")){
+//            patologia = " ";
+//        }
         return patologia;
     }
 
@@ -201,7 +219,7 @@ public class AnaliseMB implements Serializable {
 
     public String adicionar() {
         analise.setEstado("criando");
-        
+
         if (idPaciente != null) {
             analise.setPaciente(pacienteService.buscarId(idPaciente));
         }
@@ -228,10 +246,8 @@ public class AnaliseMB implements Serializable {
         }
 
         analiseService.adicionar(analise);
-        
+
         //Filtro filtro = null;
-        
-        
 //        if(applyFilter){
 //            filtro = filtroService.makeFiltro(analise);
 //        }
@@ -239,73 +255,105 @@ public class AnaliseMB implements Serializable {
 //            filtro = filtroService.makeFiltroDefault(analise);
 //        }
 //        filtro.setName(analise.getNome());
-        if(applyFilter){
+        if (applyFilter) {
+            Filtro filtroAnalise = new Filtro();
             try {
-                filtro = filtroService.loadFull(filtro);
-                Filtro filtroAnalise = filtro.clone();
-                filtroAnalise.setId(null);
-                filtroAnalise.setAnalise(analise);
-                filtroAnalise.setName(analise.getNome());
-                filtroAnalise.setGeneAnalyse(filtro.isGeneAnalyse());
-                filtroAnalise.setByGene(filtro.isByGene());
-                filtroAnalise.setByReference(filtro.isByReference());
-                filtroAnalise.setByChanged(filtro.isByChanged());
-                filtroAnalise.setByZygocity(filtro.isByZygocity());
-                filtroAnalise.setByAllelicDeph1(filtro.isByAllelicDeph1());
-                filtroAnalise.setByAllelicDeph2(filtro.isByAllelicDeph2());
-                filtroAnalise.setByHgvsc(filtro.isByHgvsc());
-                
-                if(filtro.isByHgvsc()){
-                    filtroAnalise.setHgvscs(new HashSet<>(filtro.getHgvscs()));
-                }
-
-                if(filtro.isByAllelicDeph1()){
-                    filtroAnalise.setAlleciDeph1s(new HashSet<>(filtro.getAlleciDeph1s()));
-                }
-                if(filtro.isByAllelicDeph2()){
-                    filtroAnalise.setAlleciDeph2s(new HashSet<>(filtro.getAlleciDeph2s()));
-                }
-                if(filtro.isByZygocity()){
-                    filtroAnalise.setZygosities(new HashSet<>(filtro.getZygosities()));
-                }
-                
-                if(filtro.isByChanged()){
-                    filtroAnalise.setChangeds(new HashSet<>(filtro.getChangeds()));
-                }
-                
-                if(filtro.isByReference()){
-                    filtroAnalise.setReferencias(new HashSet<>(filtro.getReferencias()));
-                }
-                
-                if(filtro.isGeneAnalyse()){
-                    if(!filtro.isByGene()){
-                        filtroAnalise.setByGene(true);
-                        filtroAnalise.setGenes(new HashSet<>());
+                if (filtro.getId() == 1) {
+                    //filtro padrão
+                    filtroAnalise = new Filtro();
+                    filtroAnalise.setAnalise(analise);
+                    filtroAnalise.setName(analise.getNome());
+                    //if tem doença 1
+                    filtroAnalise.setByGene(true);
+                    //filtroAnalise.setGenes(new HashSet<>());
+                    if (analise.getPatologia() != null) {
+                        filtroAnalise.setGenes(new HashSet<>(geneService.findByPatologia(analise.getPatologia())));
+                        System.out.println("Patolgia " + analise.getPatologia().getName());
                     }
-                    //filtro.getGenes().addAll(dbBioInfoService.findGeneByDisease(analise.getPatologia()));
-                    filtroAnalise.getGenes().addAll(geneService.find(analise.getPatologia()) );
+                    // if 2 effect
+                    filtroAnalise.setByEffect(true);
+                    filtroAnalise.setEffects(new HashSet<>(effectService.findPadrao()));
+                    //if 3
+                    // analise.getPatologia().getInheritanceType() Herança
+                    /*
+                    if (analise.getPatologia() != null) {
+                        if (analise.getPatologia().getInheritanceType() != null) {
+                            if ("".equalsIgnoreCase(analise.getPatologia().getInheritanceType().getType())) {
+                                filtroAnalise.setByZygocity(true);
+                                filtroAnalise.setZygosities(new HashSet<>( zygosityService.findByName("HOMOZYGOUS") ));
+                            }
+                        }
+                    }
+                     */
+                    //if 4 umd
+                    filtroAnalise.setByUmdPredictor(true);
+                    filtroAnalise.setUmdPredictors(new HashSet<>(umdPredictorService.findPadrao()));
+                    //if 5 
+                    //analise.getPatologia().getPrevalence() 
                     System.out.println("ok");
-                }
+                } else {
+                    filtro = filtroService.loadFull(filtro);
+                    filtroAnalise = filtro.clone();
+                    filtroAnalise.setId(null);
+                    filtroAnalise.setAnalise(analise);
+                    filtroAnalise.setName(analise.getNome());
+                    filtroAnalise.setGeneAnalyse(filtro.isGeneAnalyse());
+                    filtroAnalise.setByGene(filtro.isByGene());
+                    filtroAnalise.setByReference(filtro.isByReference());
+                    filtroAnalise.setByChanged(filtro.isByChanged());
+                    filtroAnalise.setByZygocity(filtro.isByZygocity());
+                    filtroAnalise.setByAllelicDeph1(filtro.isByAllelicDeph1());
+                    filtroAnalise.setByAllelicDeph2(filtro.isByAllelicDeph2());
+                    filtroAnalise.setByHgvsc(filtro.isByHgvsc());
+
+                    if (filtro.isByHgvsc()) {
+                        filtroAnalise.setHgvscs(new HashSet<>(filtro.getHgvscs()));
+                    }
+
+                    if (filtro.isByAllelicDeph1()) {
+                        filtroAnalise.setAlleciDeph1s(new HashSet<>(filtro.getAlleciDeph1s()));
+                    }
+                    if (filtro.isByAllelicDeph2()) {
+                        filtroAnalise.setAlleciDeph2s(new HashSet<>(filtro.getAlleciDeph2s()));
+                    }
+                    if (filtro.isByZygocity()) {
+                        filtroAnalise.setZygosities(new HashSet<>(filtro.getZygosities()));
+                    }
+
+                    if (filtro.isByChanged()) {
+                        filtroAnalise.setChangeds(new HashSet<>(filtro.getChangeds()));
+                    }
+
+                    if (filtro.isByReference()) {
+                        filtroAnalise.setReferencias(new HashSet<>(filtro.getReferencias()));
+                    }
+
+                    if (filtro.isGeneAnalyse()) {
+                        if (!filtro.isByGene()) {
+                            filtroAnalise.setByGene(true);
+                            filtroAnalise.setGenes(new HashSet<>());
+                        }
+                        //filtro.getGenes().addAll(dbBioInfoService.findGeneByDisease(analise.getPatologia()));
+                        filtroAnalise.getGenes().addAll(geneService.find(analise.getPatologia()));
+                        System.out.println("ok");
+                    }
 //                        if(filterSB.getFilter().isGeneAnalyse()){
 //            if(!filterSB.getFilter().isByGene()){
 //                filterSB.getFilter().setByGene(true);
 //                filterSB.getFilter().setGenes(new HashSet<>());
 //            }
 //            filterSB.getFilter().getGenes().addAll(geneService.findGeneByDisease(disease))
-                
-                
+                }
+
                 filtroService.persiste(filtroAnalise);
-                
-            //} catch (CloneNotSupportedException ex) {
-            }catch(Exception ex) {
+
+                //} catch (CloneNotSupportedException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(AnaliseMB.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("erro adicionar analise: " + ex.getMessage());
             }
-            
+
         }
-
-
-        
 
         context.getExternalContext()
                 .getFlash().setKeepMessages(true);
@@ -329,12 +377,23 @@ public class AnaliseMB implements Serializable {
         return results;
     }
 
+        
+    public List<Disease> completePatologia(String query) {
+        System.out.println("Patologia auto complet: " + query);
+        List<Disease> results = new ArrayList<Disease>();
+        results = diseaseService.findByLikeName(query);
+        //diseaseService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
+        //System.out.println("Lista com tamanho: " + results.size());
+        return results;
+    }
+        
+        
     public List<String> patologiaComplete(String query) {
-        query = query.toUpperCase();
         System.out.println("Patologia auto complet: " + query);
         List<String> results = new ArrayList<String>();
-        diseaseService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
-        System.out.println("Lista com tamanho: " + results.size());
+        results = diseaseService.buscarNameByLikeName(query);
+        //diseaseService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
+        //System.out.println("Lista com tamanho: " + results.size());
         return results;
     }
 
@@ -352,13 +411,13 @@ public class AnaliseMB implements Serializable {
 //        pacienteService.buscarNome(query + "%").forEach(p -> results.add(p.getName()));
 //        System.out.println("Lista com tamanho: " + results.size());
 //        return results;
-        
+
         System.out.println("Controle auto complet");
         List<String> results = new ArrayList<String>();
         pacienteService.buscarNome(query.toUpperCase() + "%").forEach(p -> results.add(p.getName()));
         System.out.println("Lista com tamanho: " + results.size());
         return results;
-        
+
     }
 
     public void onCidSelect(SelectEvent event) {
@@ -372,13 +431,19 @@ public class AnaliseMB implements Serializable {
     }
 
     public void onPatologiaSelect(SelectEvent event) {
-        List<Disease> patologias = diseaseService.buscarNome(patologia);
-        if (patologias != null) {
-            if (patologias.size() > 0) {
-                analise.setPatologia(patologias.get(0));
-                cid = patologias.get(0).getIcd();
-                System.out.println("Definodo a patologia " + cid);
+        try {
+            if (patologia != null) {
+                List<Disease> patologias = diseaseService.buscarNome(patologia);
+                if (patologias != null) {
+                    if (patologias.size() > 0) {
+                        analise.setPatologia(patologias.get(0));
+                        cid = patologias.get(0).getIcd();
+                        System.out.println("Definodo a patologia " + cid);
+                    }
+                }
             }
+        } catch (Exception ex) {
+            System.out.println("Erro: AnaliseMB.onPatologiaSelect: " + ex.getMessage());
         }
     }
 
@@ -516,7 +581,7 @@ public class AnaliseMB implements Serializable {
             throw new ValidatorException(message);
         }
     }
-    
+
     public void validateNome(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
         String name = (String) o;
         if ((name == null) || (name.isEmpty())) {
@@ -535,7 +600,7 @@ public class AnaliseMB implements Serializable {
     public void setApplyFilter(boolean applyFilter) {
         this.applyFilter = applyFilter;
     }
-    
+
     public List<Filtro> completeFilter(String query) {
         return filtroService.findByName(query);
     }
@@ -547,36 +612,35 @@ public class AnaliseMB implements Serializable {
     public void setFiltro(Filtro filtro) {
         this.filtro = filtro;
     }
-    
-    
-    public void alertNoFilter(){
+
+    public void alertNoFilter() {
 //        Map<String,Object> options = new HashMap<String, Object>();
 //        options.put("resizable", false);        
 //        RequestContext.getCurrentInstance().openDialog("viewAlertNoFilter", options, null);
 //        System.out.println("rodando o alerta");
-        if(!applyFilter){
-        context.getExternalContext()
-                .getFlash().setKeepMessages(true);
-        //context.addMessage(null, new FacesMessage("Disabling the filter isn't recommended."));
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Disabling the filter isn't recommended."));
+        if (!applyFilter) {
+            context.getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            //context.addMessage(null, new FacesMessage("Disabling the filter isn't recommended."));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Disabling the filter isn't recommended."));
         }
 
     }
-    
-    public void alertChangeFilter(){
-        if(filtro.getId() != 1L){
-        context.getExternalContext()
-                .getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Change the filter isn't recommended. Use the default filter"));
+
+    public void alertChangeFilter() {
+        if (filtro.getId() != 1L) {
+            context.getExternalContext()
+                    .getFlash().setKeepMessages(true);
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Change the filter isn't recommended. Use the default filter"));
         }
     }
-    
-    public boolean getHasCorrelates(){
+
+    public boolean getHasCorrelates() {
         //return analise.vcfsCorrelatos
         return !analise.getVcfsCorrelatos().isEmpty();
     }
-    
-    public void cancel(){
+
+    public void cancel() {
         analise = new Analise();
     }
 

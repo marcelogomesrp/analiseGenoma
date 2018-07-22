@@ -19,18 +19,31 @@
                             <p:outputLabel value="Name*" for="name"/>
                             <p:inputText id="name" value="#{analiseMB.analise.nome}" validator="#{analiseMB.validateNome}" pt:placeholder="Name of new analysis"/>
 
+
                             <p:outputLabel value="Disease" for="patologia"/>
-                            <p:autoComplete id="patologia" value="#{analiseMB.patologia}" completeMethod="#{analiseMB.patologiaComplete}" pt:placeholder="Disease name">
+
+
+                            <p:autoComplete id="patologia" value="#{analiseMB.analise.patologia}" 
+                                            completeMethod="#{analiseMB.completePatologia}" 
+                                            var="p" itemLabel="#{p.name}" itemValue="#{p}" 
+                                            converter="#{diseaseConverter}" forceSelection="false" >
                                 <p:ajax event="itemSelect" listener="#{analiseMB.onPatologiaSelect}" update="cid" />
+                                <p:column>
+                                    <h:outputText value="#{p.name}" />
+                                </p:column>
                             </p:autoComplete>
-                            
+
+
+
+
+
                             <p:outputLabel value="ICD" for="cid"/>                            
                             <p:inputText id="cid" value="#{analiseMB.cid}" disabled="true" pt:placeholder="Choose the disease to see the cid"/>
-                            
+
                             <p:outputLabel value="Note" for="observacao"/>
                             <p:inputTextarea id="observacao" value="#{analiseMB.analise.observacao}" pt:placeholder="Some information that you need to remember to help you in this analysis"/>
 
-                            
+
 
                             <p:outputLabel value="Patient*" for="paciente"/>
                             <p:autoComplete id="paciente" value="#{analiseMB.paciente}" completeMethod="#{analiseMB.pacienteComplete}"  pt:placeholder="Patient's name" >
@@ -81,13 +94,13 @@
                                 <p:commandButton value="Add correlate" actionListener="#{analiseMB.addCorrelato}"  update="formulario"/>
                             </p:panelGrid> 
 
-                                <p:outputLabel  value="Correlates"  for="listCorrelatos"/>
-                            
-                                <p:dataTable value="#{analiseMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" >
-                                    <p:column headerText="Correlates selected">
-                                        <h:outputText value="#{correlato.nome}" />
-                                    </p:column>
-                                </p:dataTable>
+                            <p:outputLabel  value="Correlates"  for="listCorrelatos"/>
+
+                            <p:dataTable value="#{analiseMB.analise.vcfsCorrelatos}" var="correlato" id="listCorrelatos" >
+                                <p:column headerText="Correlates selected">
+                                    <h:outputText value="#{correlato.nome}" />
+                                </p:column>
+                            </p:dataTable>
 
 
 

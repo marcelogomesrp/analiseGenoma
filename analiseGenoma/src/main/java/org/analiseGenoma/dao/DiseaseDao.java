@@ -1,5 +1,6 @@
 package org.analiseGenoma.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -22,7 +23,7 @@ public class DiseaseDao extends DAO<Disease> {
             return null;
         }
     }
-    
+
     public Disease buscarNome(String name) {
         try {
             //Query query = manager.createQuery("SELECT p FROM Patologia p WHERE p.nome = :nome");
@@ -36,9 +37,8 @@ public class DiseaseDao extends DAO<Disease> {
             return null;
         }
     }
-    
 
-    public List<Disease>  buscarCid(String cid) {
+    public List<Disease> buscarCid(String cid) {
         try {
             Query query = manager.createQuery("SELECT p FROM Disease p WHERE p.cid like :cid");
             query.setParameter("cid", cid);
@@ -54,5 +54,31 @@ public class DiseaseDao extends DAO<Disease> {
         return this.getFirstOrNull(this.findByProperty("name", name));
     }
 
+    public List<String> buscarNameByLikeName(String name) {
+        try {
+            Query query = manager.createQuery("SELECT p.name FROM Disease p WHERE p.name like :name ORDER BY p.name");
+            query.setParameter("name", name + "%");
+            query.setMaxResults(5);
+            query.setHint("org.hibernate.cacheable", true);
+            return query.getResultList();
+        } catch (Exception ex) {
+            System.out.println("Erro DiseaseDao.buscarByLikeName: " + ex.getMessage());
+        }
+        return new ArrayList<>();
+
+    }
+
+    public List<Disease> findByLikeName(String name) {
+        try {
+            Query query = manager.createQuery("SELECT p FROM Disease p WHERE p.name like :name ORDER BY p.name");
+            query.setParameter("name", name + "%");
+            query.setMaxResults(5);
+            query.setHint("org.hibernate.cacheable", true);
+            return query.getResultList();
+        } catch (Exception ex) {
+            System.out.println("Erro DiseaseDao.findByLikeName: " + ex.getMessage());
+        }
+        return new ArrayList<>();
+    }
 
 }

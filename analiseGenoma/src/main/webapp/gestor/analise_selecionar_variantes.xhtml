@@ -29,8 +29,22 @@
                                     
                                 </p:panelGrid>
                             </p:tab>
+                            <p:tab title="Patient">
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                                    <h:outputLabel value="Name: " for="Pname" />
+                                    <h:outputText id="Pname" value="#{analiseSelcMB.analise.paciente.name}" />
+                                    <h:outputLabel value="Gender: " for="Pgender" />
+                                    <h:outputText id="Pgender" value="#{analiseSelcMB.analise.paciente.gender}" />
+                                    <h:outputLabel value="Birth: " for="Pbirth" />
+                                    <h:outputText id="Pbirth" value="#{analiseSelcMB.analise.paciente.birth}" />
+                                    <h:outputLabel value="Population: " for="Population" />
+                                    <h:outputText id="Population" value="#{analiseSelcMB.analise.paciente.population.code}" />
+                                    <h:outputLabel value="Note: " for="PNote" />
+                                    <h:outputText id="PNote" value="#{analiseSelcMB.analise.paciente.note}" />
+                                </p:panelGrid>
+                            </p:tab>
                             <p:tab title="Disease">
-                                <p:panelGrid columns="2">
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                                     <h:outputLabel value="Disease id: " for="idD" />
                                     <h:outputText id="idD" value="#{analiseSelcMB.analise.patologia.id}" />
                                     <h:outputLabel value="Disease name: " for="disease" />
@@ -47,7 +61,7 @@
                             </p:tab>
                             <p:tab title="Filter" >
 
-                                <p:panelGrid >
+                                <p:panelGrid   styleClass="ui-panelgrid-blank">
                                     <p:row>
                                         <p:column><p:outputLabel value="Filter name" for="filterName"/></p:column>
                                         <p:column><p:inputText id="filterName" value="#{analiseSelcMB.filtro.name}" /></p:column>

@@ -11,25 +11,47 @@
         <ui:composition template="./template.xhtml">
 
             <ui:define name="content">
-                <p:panel header="Analise listar">
+                <p:panel header="Analysis">
                     <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">                    
                         <p:dataTable value="#{revAnaliseListarMB.analises}" var="analise">
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Analyze" />
+                                </f:facet>
+                                <p:button outcome="analise_revisar.xhtml?faces-redirect=true" value="Analyze">
+                                    <f:param name="id" value="#{analise.id}" />
+                                </p:button>
+                            </p:column>                                                        
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Id" />
                                 </f:facet>
                                 <h:outputText value="#{analise.id}" />
                             </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Name" />
+                                </f:facet>
+                                <h:outputText value="#{analise.nome}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Patient" />
+                                </f:facet>
+                                <h:outputText value="#{analise.paciente.name}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Disease" />
+                                </f:facet>
+                                <h:outputText value="#{analise.patologia.name}" />
+                            </p:column>
                             
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Editar" />
-                            </f:facet>
-                            <p:button outcome="analise_revisar.xhtml?faces-redirect=true" value="editar">
-                                <f:param name="id" value="#{analise.id}" />
-                            </p:button>
-                        </p:column>                            
-                            
+
+
+
                         </p:dataTable>
                     </p:panelGrid>
                 </p:panel>                

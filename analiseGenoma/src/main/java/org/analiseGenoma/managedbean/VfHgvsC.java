@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,9 +16,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.analiseGenoma.dao.DAO;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.VcfMetadata;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.CromossomoService;
@@ -25,6 +28,7 @@ import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.VcfMetadataService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
 import org.analiseGenoma.sessionbean.FilterSB;
+import org.analiseGenoma.sessionbean.VcfMetadataSB;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
@@ -47,29 +51,65 @@ public class VfHgvsC {
     private AnaliseSB analiseSB;
     @Inject
     private FilterSB filterSB;
+    @Inject
+    private VcfMetadataSB vcfMetadataSB;
+    
+    
+    
+    
+    private List<String> selecteds;
+
+    public List<String> getSelecteds() {
+        return selecteds;
+    }
+
+    public void setSelecteds(List<String> selecteds) {
+        this.selecteds = selecteds;
+    }
+    
+    public List<String> complete(String query) {
+        System.out.println("total: " + vcfMetadata.getHgvsCs().size());
+        List<String> v =  vcfMetadata.getHgvsCs()
+                .stream()
+                .filter(h -> h.startsWith(query.toUpperCase()))
+                .limit(5)
+                .collect(Collectors.toList());
+        
+        return v;
+        
+//        vcfMetadata.getHgvsCs().stream().filter(predicate)
+                
+//                 vcfMetadataService.findLikeName("hgvsCs", query).stream().map(v -> v.getHgvsCs())
+//                .map(v -> v.getWholeVarintFreq() )
+//                .distinct()
+//                .filter(v -> Objects.nonNull(v))
+//                .collect(Collectors.toSet());
+        //return vcfMetadataService.findHgvsC(query);
+        //List retorno = new ArrayList<>(vcfMetadata.getHgvsCs());
+        //return retorno;
+        //Set<String> retorno = vcfMetadataService.findLikeName("hgvsCs", query).stream().map(v -> v.getHgvsCs())
+        //        .collect(Collectors.toList()).get(0);
+        //return new ArrayList<>(retorno);
+    }
     
     @PostConstruct
     public void init() {
-        idAnalise = (Long) FacesUtil.getSessionMapValue("id");
-        if (idAnalise != null) {
             try{
-               // Analise analise = analiseService.buscarPorId(idAnalise);
-                //System.out.println("Analise: " + analiseSB.getAnalise().getId());
                 Analise analise = analiseSB.getAnalise();
                 filtro = filterSB.getFilter();
-                //filtro = filtroService.buscarPorAnalise(analise.getId());   
-                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
-                List<String> target = new ArrayList<String>(filtro.getHgvscs());
-                List<String> source = vcfMetadata.getHgvsCs().stream().filter(u -> !target.contains(u)).collect(Collectors.toList());
-                list = new DualListModel<>(source, target );  
+                selecteds = new ArrayList<String>(filtro.getHgvscs());
+                vcfMetadata = vcfMetadataSB.getVcfMetadata();
+                                        
             }catch(Exception ex){
+                System.out.println("-------------->5");
                 System.out.println("VfRef Erro: " + ex);
             }
-        }
+        //}
     }
     
     public void closeView(){
-        this.updateFiltro();
+        filtro.setHgvscs(new HashSet<>(selecteds));
+        //this.updateFiltro();
         filtroService.merge(filtro);
         RequestContext.getCurrentInstance().closeDialog("Filtro aplicado com sucesso");  
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

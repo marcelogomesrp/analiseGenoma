@@ -60,6 +60,7 @@ public class AnaliseLaudarMB implements Serializable {
     private List<Variante> variantes;
     @Inject
     private UserSB userSB;
+    private Analise analise;
 
     @Inject
     private VarianteRevisadaService varianteRevisadaService;
@@ -93,7 +94,7 @@ public class AnaliseLaudarMB implements Serializable {
 
             Long value = (Long) FacesUtil.getSessionMapValue("idAnalise");
             //Analise analise = analiseService.buscarPorId(value);
-            Analise analise = analiseSB.getAnalise();
+            analise = analiseSB.getAnalise();
             analiseLaudo = analiseLaudoService.find(analise);
             if (analiseLaudo == null) {
                 analiseLaudo = new AnaliseLaudo();
@@ -259,7 +260,17 @@ public class AnaliseLaudarMB implements Serializable {
 //                case 5:
 //                    return "pathogenic";
 //            }
-            Paragraph pl = new Paragraph("Lauded as pathogenic");
+
+
+            document.add(new Paragraph("Analysi:   " + analise.getNome()));
+            document.add(new Paragraph("Note:      " + analise.getObservacao()));
+            document.add(new Paragraph("Disease:   " + analise.getPatologia().getName()));
+            document.add(new Paragraph("Patient:   " + analise.getPaciente().getName() ));
+            document.add(new Paragraph("Second Id: " + analise.getPaciente().getSecondId() ));
+            document.add(new Paragraph("Birth:     " + analise.getPaciente().getBirth() ));
+            document.add(new Paragraph("Gender:    " + analise.getPaciente().getGender() ));
+            
+            Paragraph pl = new Paragraph("Lauded as:  Pathogenic");
             document.add(pl);
 
             ArrayList p = new ArrayList();
@@ -291,4 +302,15 @@ public class AnaliseLaudarMB implements Serializable {
         return "analise_laudar_ver";
     }
 
+    public Analise getAnalise() {
+        return analise;
+    }
+
+    public void setAnalise(Analise analise) {
+        this.analise = analise;
+    }
+
+    
+    
+    
 }

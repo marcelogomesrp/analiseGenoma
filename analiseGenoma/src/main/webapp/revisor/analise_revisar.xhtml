@@ -9,15 +9,65 @@
         <ui:composition template="./template.xhtml">
             <ui:define name="content">
                 <h:form>
-                    <p:outputLabel value="Id" />
-                    <h:outputText value="#{revAnaliseRevisarMB.id}" />
-                    <br />
-                    <p:panel header="Analise Revisar1">
+
+                    <p:panel header="Analise Revisar">
+                        <p:tabView dynamic="true" cache="true" effect="fold">
+                            <p:tab title="Analyze">
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                                    <h:outputLabel value="Id: " for="id" />
+                                    <h:outputText id="id" value="#{revAnaliseRevisarMB.analise.id}" />
+                                    <h:outputLabel value="Name: " for="name" />
+                                    <h:outputText id="name" value="#{revAnaliseRevisarMB.analise.nome}" />
+                                    <h:outputLabel value="Note: " for="obs" />
+                                    <h:outputText id="obs" value="#{revAnaliseRevisarMB.analise.observacao}" />                            
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Patient">
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                                    <h:outputLabel value="Name: " for="Pname" />
+                                    <h:outputText id="Pname" value="#{revAnaliseRevisarMB.analise.paciente.name}" />
+                                    <h:outputLabel value="Gender: " for="Pgender" />
+                                    <h:outputText id="Pgender" value="#{revAnaliseRevisarMB.analise.paciente.gender}" />
+                                    <h:outputLabel value="Birth: " for="Pbirth" />
+                                    <h:outputText id="Pbirth" value="#{revAnaliseRevisarMB.analise.paciente.birth}" />
+                                    <h:outputLabel value="Population: " for="Population" />
+                                    <h:outputText id="Population" value="#{revAnaliseRevisarMB.analise.paciente.population.code}" />
+                                    <h:outputLabel value="Note: " for="PNote" />
+                                    <h:outputText id="PNote" value="#{revAnaliseRevisarMB.analise.paciente.note}" />
+                                </p:panelGrid>                            
+                            </p:tab>
+                            <p:tab title="Disease">
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
+                                    <h:outputLabel value="Disease id: " for="idD" />
+                                    <h:outputText id="idD" value="#{revAnaliseRevisarMB.analise.patologia.id}" />
+                                    <h:outputLabel value="Disease name: " for="disease" />
+                                    <h:outputText id="disease" value="#{revAnaliseRevisarMB.analise.patologia.name}" />
+                                    <h:outputLabel value="Age: " for="age" />
+                                    <h:outputText id="age" value="#{revAnaliseRevisarMB.analise.patologia.age.description}" />
+                                    <h:outputLabel value="ICD: " for="icd" />
+                                    <h:outputText id="icd" value="#{revAnaliseRevisarMB.analise.patologia.icd}" />
+                                    <h:outputLabel value="Inheritance Type: " for="inheritanceType" />
+                                    <h:outputText id="inheritanceType" value="#{revAnaliseRevisarMB.analise.patologia.inheritanceType.type}" />
+                                    <h:outputLabel value="Prevalence: " for="prevalence" />
+                                    <h:outputText id="prevalence" value="#{revAnaliseRevisarMB.analise.patologia.prevalence}" />
+                                </p:panelGrid>
+                            </p:tab>
+
+                        </p:tabView>
+
+
+
                         <p:panelGrid columns="2" rendered="false">
                             <h:outputLabel value="Hide variant checked" />
                             <p:selectBooleanCheckbox value="#{revAnaliseRevisarMB.hideVariantChecked}"/>
                         </p:panelGrid>
+                        <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                        <p:commandButton value="Finalizar" action="#{revAnaliseRevisarMB.finalizar}" ajax="false"/>
+                        </p:panelGrid>
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid" styleClass="ui-panelgrid-blank">                    
+                            
+                            
+                            
                             <p:dataTable value="#{revAnaliseRevisarMB.variantes}" var="variant"  scrollable="true" scrollWidth="100%" 
                                          rows="#{userSB.user.rowsInTable}" 
                                          paginator="true">
@@ -30,7 +80,7 @@
                                     <p:commandButton value="Opine" actionListener="#{revAnaliseRevisarMB.viewOpinar(variant.id)}" />
                                 </p:column>
 
-                                
+
 
 
 
@@ -43,48 +93,46 @@
                                 </p:column>
                                 <p:column style="width:40px">
                                     <f:facet name="header" >
-                                        <p:commandLink value="Chr" actionListener="#{analiseSelcMB.viewFilterChr()}"   >
-                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
-                                        </p:commandLink>
+                                        <h:outputText value="Chr"  />                                            
                                     </f:facet>    
                                     <h:outputText value="#{variant.cromossomo.nome}" />
                                 </p:column>
                                 <p:column style="width:80px">
                                     <f:facet name="header" >                                    
-                                        <p:commandLink value="Position" actionListener="#{analiseSelcMB.viewFilterPositon()}"   >
-                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
-                                        </p:commandLink>
-
+                                        <h:outputText value="Position" />
                                     </f:facet>    
-                                    <h:outputText value="#{variant.position}" />
+                                    <h:outputLink value="https://genome.ucsc.edu/cgi-bin/hgTracks" target="_blank">
+                                        <f:param name="db" value="hg19" />
+                                        <f:param name="position" value="chr#{variant.cromossomo.nome}:#{variant.position}" />
+                                        <h:outputText value="#{variant.position}" />
+                                    </h:outputLink>
+
                                 </p:column>
                                 <p:column style="width:80px">
                                     <f:facet name="header" >                                
-                                        <p:commandLink value="ref" actionListener="#{analiseSelcMB.viewFilterRef()}"   >
-                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
-                                        </p:commandLink>
+                                        <h:outputText value="Ref" />                                        
                                     </f:facet>    
                                     <h:outputText value="#{variant.referencia}" />
                                 </p:column>
                                 <p:column style="width:80px">
                                     <f:facet name="header" >
-                                        <h:outputText value="changed" />
+                                        <h:outputText value="Changed" />
                                     </f:facet>    
                                     <h:outputText value="#{variant.alterado}" />
                                 </p:column>
                                 <p:column style="width:80px">
                                     <f:facet name="header" >
-                                        <p:commandLink value="Gene" actionListener="#{analiseSelcMB.viewFilterGene()}"   >
-                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
-                                        </p:commandLink>
+                                        <h:outputText value="Gene" />
                                     </f:facet>    
-                                    <h:outputText value="#{variant.gene.symbol}" />
+                                    <h:outputLink value="https://www.genecards.org/cgi-bin/carddisp.pl" target="_blank">
+                                        <f:param name="gene" value="#{variant.gene.symbol}" />
+                                        <h:outputText value="#{variant.gene.symbol}" />
+                                    </h:outputLink>
+
                                 </p:column>
                                 <p:column style="width:160px">
                                     <f:facet name="header" >                                
-                                        <p:commandLink value="Umd predictor" actionListener="#{analiseSelcMB.viewFilterUmdPredictor() }" >
-                                            <p:ajax event="dialogReturn" listener="#{analiseSelcMB.onViewFilterClose}" onsuccess="location.reload();"/>   
-                                        </p:commandLink>
+                                        <h:outputText value="Umd predictor" />
                                     </f:facet>    
                                     <h:outputText value="#{variant.umdPredictor.name}" />
                                 </p:column>
@@ -121,8 +169,11 @@
                                 <p:column style="width:150px">
                                     <f:facet name="header" >
                                         <h:outputText value="Dbsnp" />
-                                    </f:facet>    width
-                                    <h:outputText value="#{variant.idSNP}" />
+                                    </f:facet>                                        
+                                    <h:outputLink value="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi" target="_blank">
+                                        <f:param name="rs" value="#{variant.idSNP}" />
+                                        <h:outputText value="#{variant.idSNP}" />
+                                    </h:outputLink>
                                 </p:column>
                                 <p:column style="width:60px">
                                     <f:facet name="header" >
@@ -148,6 +199,18 @@
                                     </f:facet>    
                                     <h:outputText value="#{variant.impact.name}" />
                                 </p:column>
+                                
+                                
+                                <p:column style="width: 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="Clinvar" />
+                                </f:facet>
+                                <h:outputLink value="https://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">
+                                    <f:param name="term" value="#{variant.position}[Base Position for Assembly GRCh37]" />
+                                    <h:outputText value="more info" />
+                                </h:outputLink>
+                            </p:column>
+                                
                                 <p:column style="width:100px">
                                     <f:facet name="header" >
                                         <h:outputText value="Clinvar significance" />
@@ -230,7 +293,12 @@
                                     <f:facet name="header" >
                                         <h:outputText value="Ensembl" />
                                     </f:facet>    
+                                    
+                                    <h:outputLink value="https://www.ensembl.org/Homo_sapiens/Transcript/Summary" target="_blank">
+                                    <f:param name="t" value="#{variant.ensembl.idEnsembl}" />
                                     <h:outputText value="#{variant.ensembl.idEnsembl}" />
+                                </h:outputLink>
+                                    
                                 </p:column>
                                 <p:column style="width:80px">
                                     <f:facet name="header" >
@@ -343,29 +411,27 @@
                                 </p:column>
 
                                 <p:columns value="#{revAnaliseRevisarMB.columns}" var="column" columnIndexVar="colIndex" style="width:400px">
-                                <f:facet name="header">
-                                    <h:outputText value="#{column.header}" />
-                                </f:facet>               
-                                <h:outputLink value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" target="_blank">
-                                    <h:outputText value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" />
-                                </h:outputLink>
-                                <!--
-                                <h:outputLink value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" target="_blank">
-                                    <h:outputText value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" />
-                                </h:outputLink>
-                                -->
-                            </p:columns>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{column.header}" />
+                                    </f:facet>               
+                                    <h:outputLink value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" target="_blank">
+                                        <h:outputText value="#{revAnaliseRevisarMB.bdInfo(column.property, variant.gene.id)}" />
+                                    </h:outputLink>
+                                    <!--
+                                    <h:outputLink value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" target="_blank">
+                                        <h:outputText value="{analiseSelcMB.bdInfo(column.property, variante.gene.id)}" />
+                                    </h:outputLink>
+                                    -->
+                                </p:columns>
 
 
 
                             </p:dataTable>
                         </p:panelGrid>
-                        <p:commandButton value="Finalizar" action="#{revAnaliseRevisarMB.finalizar}" ajax="false"/>
                         
-                        <h:outputText value="bancos" />
-                        <p:repeat value="#{revAnaliseRevisarMB.bancos}" var="bd">
-                            <h:outputText value="#{bd.name}" />
-                        </p:repeat>
+                        
+
+                        
                     </p:panel>                
                 </h:form>
             </ui:define>

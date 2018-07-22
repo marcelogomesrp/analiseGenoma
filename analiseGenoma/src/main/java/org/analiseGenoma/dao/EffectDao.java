@@ -5,14 +5,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Effect;
 
-
 public class EffectDao extends DAO<Effect> {
 
     public EffectDao() {
         super(Effect.class);
     }
-    
-    
+
     public List<Effect> findByName(String name) {
         List<Effect> list = null;
         try {
@@ -24,8 +22,22 @@ public class EffectDao extends DAO<Effect> {
         }
         return list;
     }
-    
+
     public List<Effect> findLikeName(String name) {
         return this.findByProperty("name", name, DAO.MatchMode.ANYWHERE);
+    }
+
+    public List<Effect> findPadrao() {
+        List<Effect> list = null;
+        try {
+            Query query = manager.createQuery("SELECT i FROM Effect i WHERE i.name like :nameA OR i.name like :nameB OR i.name like :nameC");
+            query.setParameter("nameA", "MISSENSE%");            
+            query.setParameter("nameB", "SPLICE%"); 
+            query.setParameter("nameC", "INFRAME%"); 
+            list = query.getResultList();
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+        }
+        return list;
     }
 }

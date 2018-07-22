@@ -2,6 +2,7 @@ package org.analiseGenoma.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Disease;
@@ -175,7 +176,33 @@ public class GeneDao extends DAO<Gene> {
         return null;
     }
 
-    
+    public List<Gene> findByPatologia(Disease patologia) {
+        
+        List<Gene> genes = null;
+        try{
+            //Query query = manager.createQuery("SELECT d.genes FROM DbBioInfo d LEFT JOIN FETCH d.genes");
+            //Query query = manager.createQuery("SELECT g FROM Gene g ");            
+            Query query = manager.createQuery("SELECT DISTINCT db.genes from DbBioInfo db WHERE db.disease = :disease");
+            query.setParameter("disease", patologia);
+            //query.setMaxResults(5);
+            genes = query.getResultList();            
+        }catch(Exception ex){
+            System.out.println("GeneDao.findByPatologia: " + ex.getMessage());
+        }
+        return genes;
+    }
+
+    /*
+            List<Gene> genes = null;
+        try{
+            Query query = manager.createQuery("SELECT DISTINCT db.genes from DbBioInfo db WHERE db.disease = :disease");
+            query.setParameter("disease", disease);
+            genes = query.getResultList();
+        }catch(Exception ex){
+            System.out.println("Erro na busca de gene por disease");;
+        }
+        return genes;
+    */
     
 
     

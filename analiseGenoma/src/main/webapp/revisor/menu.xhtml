@@ -5,16 +5,14 @@
 
     <h:form>
         <p:menubar>
-            <p:submenu label="Analise" >
-                <p:menuitem value="Listar" outcome="analise_listar.xhtml"/>
-            </p:submenu>
-            <p:submenu label="Opçoes" >
-                <p:menuitem value="Trocar senha" />
-                <p:menuitem value="Editar perfil" />
-                <p:menuitem value="Sair" action="#{logoffMB.sairDoSistema}" ajax="false"/>                
+            <p:menuitem value="Analysis" outcome="analise_listar.xhtml"/>
+            <p:submenu label="Options" >
+                <p:menuitem value="Edit password" />
+                <p:menuitem value="Edit profile" />
+                <p:menuitem value="Logout" action="#{logoffMB.sairDoSistema}" ajax="false"/>                
             </p:submenu>                           
         </p:menubar>
-            
+
     </h:form>
 
 

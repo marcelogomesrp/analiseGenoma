@@ -201,4 +201,14 @@ public class DiseaseService extends Service<Disease> implements Serializable {
 //        return writer;
 //    }
 
+    public List<String> buscarNameByLikeName(String query) {
+        query = query.toUpperCase();
+        return getDao().buscarNameByLikeName(query);
+    }
+
+    public List<Disease> findByLikeName(String query) {
+        query = query.toUpperCase();
+        return getDao().findByLikeName(query);
+    }
+
 }

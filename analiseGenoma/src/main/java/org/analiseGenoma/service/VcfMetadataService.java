@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.analiseGenoma.dao.DAO;
 import org.analiseGenoma.dao.VarianteDao;
 import org.analiseGenoma.dao.VcfMetadataDao;
 import org.analiseGenoma.model.ClinvarAccession;
@@ -558,6 +559,12 @@ public class VcfMetadataService extends Service<VcfMetadata>{
         }
         return 0d;
     }
+
+    public List<VcfMetadata> findLikeName(String prop, String value) {
+        return getDao().findByProperty(prop, value, DAO.MatchMode.ANYWHERE, 5);        
+    }
+
+
     
 }
 

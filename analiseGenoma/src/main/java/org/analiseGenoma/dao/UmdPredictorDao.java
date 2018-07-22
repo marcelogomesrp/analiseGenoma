@@ -22,4 +22,17 @@ public class UmdPredictorDao extends DAO<UmdPredictor> {
         }
         return list;
     }
+
+    public List<UmdPredictor> findPadrao() {
+          List<UmdPredictor> list = null;
+        try {
+            Query query = manager.createQuery("SELECT i FROM UmdPredictor i WHERE i.name like :nameA OR i.name like :nameB");
+            query.setParameter("nameA", "PATHOGENIC%");
+            query.setParameter("nameB", "PROBABLY PATHOGENIC%");
+            list = query.getResultList();
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+        }
+        return list;      
+    }
 }

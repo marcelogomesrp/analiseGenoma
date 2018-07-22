@@ -1,6 +1,7 @@
 package org.analiseGenoma.service;
 
 import java.util.List;
+import java.util.Set;
 import javax.transaction.Transactional;
 import org.analiseGenoma.dao.EffectDao;
 import org.analiseGenoma.model.Effect;
@@ -29,5 +30,9 @@ public class EffectService extends Service<Effect> {
         obj.setName(name);
         this.persiste(obj);
         return obj;
+    }
+
+    public List<Effect> findPadrao() {
+        return getDao().findPadrao();
     }
 }

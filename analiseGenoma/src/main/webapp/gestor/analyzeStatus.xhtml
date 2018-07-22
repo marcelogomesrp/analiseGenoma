@@ -14,9 +14,11 @@
 
             <ui:define name="content">
                 <h:form>
-                    <p:panel header="Index">
+                    <p:panel header="Status">
                         <p:messages />
                         <p:panelGrid columns="2"  styleClass="ui-panelgrid-blank">                    
+
+                            
 
                             <p:outputLabel value="Name: " />
                             <p:inputText value="#{analiseSB.analise.nome}" readonly="true" />
@@ -24,22 +26,12 @@
                             <p:outputLabel value="Status: " />
                             <p:inputText value="#{analiseSB.analise.estado}" readonly="true" />
 
-
-                            <p:outputLabel value="Status: " />
-                            <p:inputText value="#{analiseSB.analise.estado}" readonly="true" />
-
-
                             <p:outputLabel value="Reviser:" />
                             <p:dataList value="#{analiseSB.analise.revisores}" var="rev" type="definition">
-                                <f:facet name="header">
-                                    Reviser
-                                </f:facet>
-                                Reviser: #{rev.name}
-                                Variants answered: #{analyzeStatusMB.percentageCompleted(rev)}%
-                                
-                                <f:facet name="status">
-                                   
-                                </f:facet>
+                            
+                                    Reviser: #{rev.name}
+                                    <p:progressBar value="#{analyzeStatusMB.percentageCompleted(rev)}" labelTemplate="#{analyzeStatusMB.percentageCompleted(rev)}%" displayOnly="true"/>
+                            
                             </p:dataList>
 
 

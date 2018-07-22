@@ -42,4 +42,8 @@ public class UmdPredictorService extends Service<UmdPredictor>{
         return uPredictor;        
     }
     
+    public List<UmdPredictor> findPadrao(){
+        return getDao().findPadrao();
+    }
+    
 }

@@ -17,6 +17,23 @@
 
         <h:form id="formView">
             <p:panel  id="panel">
+                
+                <p:panelGrid columns="2" styleClass="ui-noborder">
+                    <h:outputLabel value="Filter by Gene" for="by"/>
+                    <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byHgvsc}" >
+                        <p:ajax update="panel" />
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel value="Hgvs_c" for="auto" />
+                    <p:autoComplete id="auto" multiple="true" value="#{VfHgvsC.selecteds}" completeMethod="#{VfHgvsC.complete}" 
+                                    var="item" itemLabel="#{item}" itemValue="#{item}"  forceSelection="true" 
+                                    >
+                        <p:column>
+                            <h:outputText value="#{item}" />
+                        </p:column>
+                    </p:autoComplete>
+                </p:panelGrid>
+                
+                <!--
                 <h:outputLabel value="Filter by Hgvsc" for="by"/>
                 <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byHgvsc}" >
                     <p:ajax update="panel" />
@@ -33,9 +50,11 @@
                     <f:facet name="sourceCaption">Removed</f:facet>
                     <f:facet name="targetCaption">Selected</f:facet>
                 </p:pickList>
+                
+                -->
             </p:panel>
 
-            <p:commandButton value="Aplicar" actionListener="#{VfHgvsC.closeView()}"/>
+            <p:commandButton value="Apply" actionListener="#{VfHgvsC.closeView()}"/>
 
         </h:form>
 
