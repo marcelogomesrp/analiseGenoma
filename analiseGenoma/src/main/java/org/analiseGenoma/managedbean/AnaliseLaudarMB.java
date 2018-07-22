@@ -22,7 +22,9 @@ import org.analiseGenoma.managedbean.util.ColumnModel;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.AnaliseLaudo;
+import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
@@ -30,6 +32,7 @@ import org.analiseGenoma.service.AnaliseLaudoService;
 import org.analiseGenoma.service.AnaliseService;
 import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.FiltroService;
+import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.ReviserService;
 import org.analiseGenoma.service.VarianteRevisadaService;
 import org.analiseGenoma.service.VcfService;
@@ -61,6 +64,8 @@ public class AnaliseLaudarMB implements Serializable {
     @Inject
     private UserSB userSB;
     private Analise analise;
+    
+    private List<Disease> diseasePossiveis;
 
     @Inject
     private VarianteRevisadaService varianteRevisadaService;
@@ -87,6 +92,9 @@ public class AnaliseLaudarMB implements Serializable {
     public void setCid(String cid) {
         this.cid = cid;
     }
+    
+    @Inject
+    private GeneService geneService;
 
     @PostConstruct
     public void init() {
@@ -117,6 +125,11 @@ public class AnaliseLaudarMB implements Serializable {
 //                    for (DbBio bd : bancos) {
 //            columns.add(new ColumnModel(bd.getName(), (x++).toString()));
 //        }
+    // aqui diseases possiveis
+        //varianes.stream...
+        List<Gene> genes = new ArrayList<Gene>();
+        genes.add(geneService.findBySymbol("CPT1C"));
+        diseasePossiveis = patologiaService.findByGenes(genes);
         } catch (Exception ex) {
             System.out.println("Erro init analise laudar: " + ex.getMessage());
         }
@@ -310,7 +323,12 @@ public class AnaliseLaudarMB implements Serializable {
         this.analise = analise;
     }
 
-    
-    
-    
+    public List<Disease> getDiseasePossiveis() {
+        return diseasePossiveis;
+    }
+
+    public void setDiseasePossiveis(List<Disease> diseasePossiveis) {
+        this.diseasePossiveis = diseasePossiveis;
+    }
+
 }

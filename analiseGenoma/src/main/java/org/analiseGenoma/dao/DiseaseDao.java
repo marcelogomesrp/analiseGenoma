@@ -1,10 +1,13 @@
 package org.analiseGenoma.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.Disease;
+import org.analiseGenoma.model.Gene;
 
 public class DiseaseDao extends DAO<Disease> {
 
@@ -81,4 +84,28 @@ public class DiseaseDao extends DAO<Disease> {
         return new ArrayList<>();
     }
 
+    public List<Disease> findByGenes(List<Gene> genes) {
+        try {
+            //Set genesSet = new HashSet(genes);
+            List<Long> genes2 = new ArrayList<>();
+            for(Gene g: genes){
+                genes2.add(g.getId());
+            }
+            //Query query = manager.createQuery("SELECT p FROM Disease p INNER JOIN Disease ORDER BY p.name");
+            //Query query = manager.createQuery("SELECT db.disease FROM DbBioInfo db WHERE db.genes IN :genes");
+            //Query query = manager.createQuery("SELECT db.disease FROM DbBioInfo db");
+            //Query query = manager.createQuery("SELECT db.disease FROM DbBioInfo db WHERE db.genes IN (:genes)");
+            Query query = manager.createQuery("SELECT db.disease FROM DbBioInfo db JOIN db.genes g WHERE g.id IN (:genes)");
+            //query.setParameter("genes", genes);
+            query.setParameter("genes", genes2);
+            //query.setMaxResults(5);
+            query.setHint("org.hibernate.cacheable", true);
+            return query.getResultList();
+        } catch (Exception ex) {
+            System.out.println("Erro DiseaseDao.findByLikeName: " + ex.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
 }
+

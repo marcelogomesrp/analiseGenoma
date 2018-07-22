@@ -14,6 +14,7 @@ import org.analiseGenoma.dao.DiseaseListDao;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.DiseaseList;
+import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.service.util.CSVReader;
 import org.analiseGenoma.service.util.Line;
 
@@ -209,6 +210,10 @@ public class DiseaseService extends Service<Disease> implements Serializable {
     public List<Disease> findByLikeName(String query) {
         query = query.toUpperCase();
         return getDao().findByLikeName(query);
+    }
+
+    public List<Disease> findByGenes(List<Gene> genes) {
+        return getDao().findByGenes(genes);
     }
 
 }

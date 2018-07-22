@@ -35,7 +35,7 @@
                                 </h:panelGrid>
                                 <p:commandButton value="Save" action="#{analiseLaudarMB.salvar}" style="width: 200px"/>
                                 <p:commandButton value="finalize" action="#{analiseLaudarMB.finalizeLaudo()}" style="width: 200px"/>
-                                
+
                             </p:tab>
                             <p:tab title="Revisers">
                                 <p:dataTable value="#{analiseLaudarMB.variantes}" var="variant"  scrollable="true" scrollWidth="98%" 
@@ -397,6 +397,17 @@
 
 
                                 </p:dataTable>
+                            </p:tab>
+
+                            <p:tab title="Diseases">
+                                <p:panelGrid columns="2" >
+                                    <h:outputText value="Diseases: " />
+                                    <p:repeat value="#{analiseLaudarMB.diseasePossiveis}" var="d">
+                                        <h:outputText value="#{d.name}" />
+                                        <h:outputText value=", " />
+                                    </p:repeat>
+                                </p:panelGrid>
+
                             </p:tab>
                         </p:accordionPanel>
                     </h:form>
