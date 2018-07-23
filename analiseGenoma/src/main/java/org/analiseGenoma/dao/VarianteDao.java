@@ -357,6 +357,21 @@ public class VarianteDao extends DAO<Variante> {
                     condicoes.add(where);
                 }
             }
+            
+            if(filtro.isByWholeVariantFreq()){
+                if (!(null == filtro.getWholeVariantFreqMin())) {
+                    Path<Double> atributo = root.get("wholeVarintFreq");
+                    Predicate where = criteriaBuilder.greaterThanOrEqualTo(atributo, filtro.getWholeVariantFreqMin());
+                    condicoes.add(where);
+                }
+
+                if (!(null == filtro.getWholeVariantFreqMax())) {
+                    Path<Double> atributo = root.get("wholeVarintFreq");
+                    Predicate where = criteriaBuilder.lessThanOrEqualTo(atributo, filtro.getWholeVariantFreqMax());
+                    condicoes.add(where);
+                }
+            }
+            
 
             Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
             Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
@@ -753,6 +768,21 @@ public class VarianteDao extends DAO<Variante> {
                 }
             }
 
+            //AQUI MARCELO
+            if(filtro.isByWholeVariantFreq()){
+                if (!(null == filtro.getWholeVariantFreqMin())) {
+                    Path<Double> atributo = root.get("wholeVarintFreq");
+                    Predicate where = criteriaBuilder.greaterThanOrEqualTo(atributo, filtro.getWholeVariantFreqMin());
+                    condicoes.add(where);
+                }
+
+                if (!(null == filtro.getWholeVariantFreqMax())) {
+                    Path<Double> atributo = root.get("wholeVarintFreq");
+                    Predicate where = criteriaBuilder.lessThanOrEqualTo(atributo, filtro.getWholeVariantFreqMax());
+                    condicoes.add(where);
+                }
+            }
+            
             Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
             Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
             criteriaQuery.where(todasCondicoes);

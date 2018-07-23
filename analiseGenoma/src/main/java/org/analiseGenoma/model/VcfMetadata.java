@@ -159,6 +159,8 @@ public class VcfMetadata implements Serializable {
     private Set<Double> americanVarintFreq;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Double> wholeVarintFreq;
+    private Double wholevariantfreqmin;
+    private Double wholevariantfreqmax;
 
     private Double prevalenceMin;
     private Double prevalenceMax;
@@ -594,5 +596,23 @@ public class VcfMetadata implements Serializable {
     public void setPrevalenceMax(Double prevalenceMax) {
         this.prevalenceMax = prevalenceMax;
     }
+
+    public Double getWholevariantfreqmin() {
+        return wholevariantfreqmin;
+    }
+
+    public void setWholevariantfreqmin(Double wholevariantfreqmin) {
+        this.wholevariantfreqmin = wholevariantfreqmin;
+    }
+
+    public Double getWholevariantfreqmax() {
+        return wholevariantfreqmax;
+    }
+
+    public void setWholevariantfreqmax(Double wholevariantfreqmax) {
+        this.wholevariantfreqmax = wholevariantfreqmax;
+    }
+    
+    
 
 }

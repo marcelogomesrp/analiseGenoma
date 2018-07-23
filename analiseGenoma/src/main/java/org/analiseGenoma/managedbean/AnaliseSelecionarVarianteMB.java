@@ -163,7 +163,8 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                 //lazyModel =  new LazyVarianteDataModel(analise, filtro);
                 vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());
                 metadataSB.setVcfMetadata(vcfMetadata);
-
+/*
+                
                 if (filtro.getPositionMin() == null) {
                     filtro.setPositionMin(vcfMetadata.getPositonMin());
                 }
@@ -171,10 +172,6 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                     filtro.setPositionMax(vcfMetadata.getPositonMax());
                 }
 
-                //  List<String> genesSource = new ArrayList<>();
-                //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
-                //List<String> genesTarget = new ArrayList<>(vcfMetadata.getGenes()); 
-                //List<String> genesSource = vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
                 List<String> genesTarget = filtro.getGenes().stream().map(g -> g.getSymbol()).collect(Collectors.toList());
                 List<String> genesSource = vcfMetadata.getGenes()
                         .stream()
@@ -182,7 +179,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                         .filter(g -> !genesTarget.contains(g))
                         .collect(Collectors.toList());
 
-                //vcfMetadata.getGenes().stream().map(g -> g.getSimbolo()).collect(Collectors.toList());
+
                 duaListGene = new DualListModel<>(genesSource, genesTarget);
 
                 List<String> effectsTarget = filtro.getEffects().stream().map(e -> e.getName()).collect(Collectors.toList());
@@ -193,51 +190,15 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
                         .collect(Collectors.toList());
                 duaListEffect = new DualListModel<>(effectsSource, effectsTarget);
 
-                //variantes = vcfService.buscarVariante(analise.getVcf().getId(), filtro);
-                //qtdVariante = variantes.size();
-//                listGene = geneService.buscarAnalise(analise.getId());
-//                listCromossomos = new ArrayList<>();
-//                listImpactos = new ArrayList<>();
-//                List<String> genesSource = new ArrayList<String>();
-//                List<String> genesTarget = new ArrayList<String>();
-//                for(Gene g: geneService.buscarAnalise(analise.getId())){
-////                    if(filtro.getGenes()!= null){
-////                        if(filtro.getGenes().contains(g)){
-////                            genesTarget.add(g.getSimbolo());
-////                        }else{
-////                            genesSource.add(g.getSimbolo());
-////                        }
-////                    }
-//                     genesSource.add(g.getSimbolo());
-//                    //genesTarget.add(g.getSimbolo());                    
-//                }
-//                for(Gene g: filtro.getGenes()){
-//                    genesTarget.add(g.getSimbolo());
-//                    genesSource.remove(g.getSimbolo());
-//                }
-//                
-//                
-//                //List<String> genesTarget = geneService.buscarAnalise(analise.getId());
-//                duaListGene = new DualListModel<String>(genesSource, genesTarget);
-//                qualidadeMax = analiseService.buscarQualidadeMax(analise.getId());
-//                //qualidadeMax = 100.0;
-//                qualidadeMin = 10.0;
-//                
-//                
-//                for(Cromossomo c : analiseService.buscarCromossomos(analise.getId())){
-//                    listCromossomos.add(c.getNome());
-//                }
-//                
-//                for(Impact i : analiseService.buscarImpactos(analise.getId())){
-//                    listImpactos.add(i.getName());
-//                }
 //                
 //                this.cromossomoSelecionarFromFiltro();
 //                this.impactoSelecionarFromFiltro();
 //                this.addDBColumn();
 //                //https://stackoverflow.com/questions/39632619/how-to-generate-dynamic-columns-in-jsf-datatable
-//                
+//              
+                */
             }
+                
         } catch (Exception ex) {
             System.out.println("AnaliseSelecionarVarianteMB.init: Ops... deu erro aqui: " + ex.toString());
         }
@@ -959,7 +920,7 @@ public class AnaliseSelecionarVarianteMB implements Serializable {
 
         Map<String, List<String>> params = new HashMap<String, List<String>>();
         List<String> values = new ArrayList<String>();
-        RequestContext.getCurrentInstance().openDialog("viewfilter_prevalence", options, params);
+        RequestContext.getCurrentInstance().openDialog("viewfilter_wholevariantfreq", options, params);
         variantes = vcfService.findVariante(analise, filtro);
     }
 

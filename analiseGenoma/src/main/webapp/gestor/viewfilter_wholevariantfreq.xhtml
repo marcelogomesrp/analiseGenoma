@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Filter by whole variant freq</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formView">
+            <p:panel  id="panel">
+                <h:outputLabel value="Filter by Whole variant frequency" for="by"/>
+                <p:selectBooleanCheckbox id="by" value="#{filterSB.filter.byWholeVariantFreq}" >
+                    <p:ajax update="panel" />
+                </p:selectBooleanCheckbox>
+
+                <h:panelGrid columns="2" rendered="#{filterSB.filter.byWholeVariantFreq}">
+                    <p:outputLabel value="min" />                          
+                    <h:panelGrid columns="1" style="margin-bottom: 10px">
+                        <p:spinner id="min" value="#{VfWholeFreq.prevalenceMin}" stepFactor="0.0001" min="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" max="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}"/>   
+                        <p:slider for="min"  minValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" maxValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}"/>
+                    </h:panelGrid>
+
+                    <p:outputLabel value="max" />                        
+                    <h:panelGrid columns="1" style="margin-bottom: 10px">
+                        <p:spinner id="max" value="#{VfWholeFreq.prevalenceMax}" stepFactor="0.000000000000000001" min="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" max="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}" />   
+                        <p:slider for="max" minValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" maxValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}"/>
+                    </h:panelGrid>
+                    <p:outputLabel value="min" />  <p:outputLabel value="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" />  
+                    <p:outputLabel value="max" />  <p:outputLabel value="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}" />  
+                </h:panelGrid>
+
+            </p:panel>
+
+            <p:commandButton value="Aplicar" actionListener="#{VfWholeFreq.closeView()}"/>
+
+        </h:form>
+
+    </h:body>
+</html>
+

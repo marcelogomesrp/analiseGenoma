@@ -87,7 +87,7 @@ public class FiltroDao extends DAO<Filtro> {
             Query query = manager.createQuery("SELECT f FROM Filtro f LEFT JOIN FETCH f.umdPredictors WHERE f.analise.id = :idAnalise");
             //Query query = manager.createQuery("SELECT f FROM Filtro f WHERE f.analise.id = :idAnalise");
             query.setParameter("idAnalise", idAnalise);
-            query.setHint("org.hibernate.cacheable", true);
+            //query.setHint("org.hibernate.cacheable", true);            
             Filtro filtro = (Filtro) query.getSingleResult();
             //filtro.getCromossomos().size();
             return filtro;
@@ -107,6 +107,7 @@ public class FiltroDao extends DAO<Filtro> {
     public Set<Effect> buscarEffect(Long idFiltro) {
         Query query = manager.createQuery("SELECT f.effects FROM Filtro f WHERE f.id = :idFiltro");
         query.setParameter("idFiltro", idFiltro);
+        //query.setHint("org.hibernate.cacheable", true);
         List<Effect> effects = query.getResultList();
         return new HashSet<>(effects);
     }
@@ -114,6 +115,7 @@ public class FiltroDao extends DAO<Filtro> {
     public Set<Cromossomo> buscarCromossomos(Long idFiltro) {
         Query query = manager.createQuery("SELECT f.cromossomos FROM Filtro f WHERE f.id = :idFiltro");
         query.setParameter("idFiltro", idFiltro);
+        //query.setHint("org.hibernate.cacheable", true);
         List<Cromossomo> list = query.getResultList();
         return new HashSet(list);
     }
