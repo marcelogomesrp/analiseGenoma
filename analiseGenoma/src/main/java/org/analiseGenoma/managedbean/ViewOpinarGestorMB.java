@@ -15,17 +15,17 @@ import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
-import org.analiseGenoma.model.VarianteRevisada;
+import org.analiseGenoma.model.VarianteRevisadaGestor;
 import org.analiseGenoma.model.Vcf;
 import org.analiseGenoma.service.AnaliseService;
-import org.analiseGenoma.service.VarianteRevisadaService;
+import org.analiseGenoma.service.VarianteRevisadaGestorService;
 import org.analiseGenoma.service.VarianteService;
-import org.analiseGenoma.sessionbean.UserSB;
+import org.analiseGenoma.sessionbean.AnaliseSB;
 import org.primefaces.context.RequestContext;
 
-@Named(value = "ViewOpinarMB")
+@Named(value = "ViewOpinarGestorMB")
 @RequestScoped
-public class ViewOpinarMB {
+public class ViewOpinarGestorMB {
     @Inject
     private VarianteService varianteService;
     @Inject
@@ -33,10 +33,12 @@ public class ViewOpinarMB {
     @Inject
     private UsuarioMB usuarioMB;
     @Inject
-    private VarianteRevisadaService varianteRevisadaService;
+    private VarianteRevisadaGestorService varianteRevisadaService;
+    @Inject
+    private AnaliseSB analiseSB;
     
-    @Inject 
-    private UserSB userSB;
+//    @Inject 
+//    private UserSB userSB;
     
     private Long idVariante;
     private Long idAnalise;
@@ -44,7 +46,7 @@ public class ViewOpinarMB {
     private Vcf vcf;
     private Analise analise;
     private User revisor;
-    private VarianteRevisada varianteRevisada;
+    private VarianteRevisadaGestor varianteRevisada;
 
     public Long getIdVariante() {
         return idVariante;
@@ -86,53 +88,39 @@ public class ViewOpinarMB {
         this.revisor = revisor;
     }
 
-    public VarianteRevisada getVarianteRevisada() {
+    public VarianteRevisadaGestor getVarianteRevisada() {
         return varianteRevisada;
     }
 
-    public void setVarianteRevisada(VarianteRevisada varianteRevisada) {
+    public void setVarianteRevisada(VarianteRevisadaGestor varianteRevisada) {
         this.varianteRevisada = varianteRevisada;
     }
-    
-    
-    
+
     
     
     @PostConstruct
     public void init() {
         idVariante = (Long) FacesUtil.getSessionMapValue("idVariante");
-        idAnalise = (Long) FacesUtil.getSessionMapValue("idAnalise");
+        
+        //idAnalise = (Long) FacesUtil.getSessionMapValue("idAnalise");
         if(idVariante != null){
             variante = varianteService.findById(idVariante);
-            vcf = variante.getVcf();
-            
+          //  vcf = variante.getVcf();            
         }
+        /*
         if(idAnalise != null){
             analise = analiseService.buscarPorId(idAnalise);
-        }
-        //revisor = usuarioMB.getUsuario();
-        revisor = userSB.getUser();
-        
-        //List<VarianteRevisada> list = varianteRevisadaService.findByAnaliseRevisor(vcf, revisor);
-        List<VarianteRevisada> list = varianteRevisadaService.findByVarianteRevisor(variante, revisor, analise);
+        }*/
+        analise = analiseSB.getAnalise();
+        List<VarianteRevisadaGestor> list = varianteRevisadaService.findByVarianteRevisor(variante, analise);
         if(list.size() == 1){
             varianteRevisada = list.get(0);
         }else{
-            varianteRevisada = new VarianteRevisada();
-            varianteRevisada.setRevisor(revisor);
+            varianteRevisada = new VarianteRevisadaGestor();            
             varianteRevisada.setVariant(variante);
             varianteRevisada.setAnalise(analise);
             varianteRevisada.setPatogenic(0);
         }
-//        idAnalise = (Long) FacesUtil.getSessionMapValue("id");
-//        if (idAnalise != null) {
-//                Analise analise = analiseService.buscarPorId(idAnalise);
-//                filtro = filtroService.buscarPorAnalise(analise.getId());   
-//                vcfMetadata = vcfMetadataService.findByVcfId(analise.getVcf().getId());       
-//                List<String> target = filtro.getCromossomos().stream().map(u -> u.getNome()).collect(Collectors.toList());
-//                List<String> source = vcfMetadata.getCromossomos().stream().map(u -> u.getNome()).filter(u -> !target.contains(u)).collect(Collectors.toList());
-//                list = new DualListModel<>(source, target );  
-//        }
     }
     
     public void closeView(){
@@ -148,19 +136,4 @@ public class ViewOpinarMB {
         }
     }
 
-//    private void updateFiltro() {
-//        Set<Cromossomo> listFilter = new HashSet<>();
-//        for(String name: list.getTarget()){
-//            List<Cromossomo> find;
-//            try {
-//                find = cromossomoService.findByName(name);
-//                if(find.size() == 1)
-//                listFilter.add(find.get(0));
-//                
-//            } catch (Exception ex) {
-//                Logger.getLogger(ViewOpinarMB.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        filtro.setCromossomos(listFilter);        
-//    }
 }

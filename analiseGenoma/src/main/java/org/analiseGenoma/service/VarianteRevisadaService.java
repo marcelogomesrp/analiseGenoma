@@ -6,6 +6,7 @@ import javax.inject.Named;
 import org.analiseGenoma.dao.VarianteRevisadaDao;
 import org.analiseGenoma.dao.CromossomoDao;
 import org.analiseGenoma.dao.GeneDao;
+import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
@@ -37,5 +38,9 @@ public class VarianteRevisadaService extends Service<VarianteRevisada>{
     
     public List<VarianteRevisada> findByVarianteRevisor(String idRevisor, Long idVariant) { //String idRevisor, Long idVariant
         return this.getDao().findByVarianteRevisor(idRevisor, idVariant);
+    }
+
+    public List<VarianteRevisada> findByVarianteRevisor(Variante variante, User revisor, Analise analise) {
+        return this.getDao().findByVarianteRevisor(variante, revisor, analise);
     }
 }

@@ -2,7 +2,10 @@ package org.analiseGenoma.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -12,6 +15,8 @@ import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.DbBioInfo;
 import org.analiseGenoma.model.Disease;
 import org.analiseGenoma.model.Gene;
+import org.analiseGenoma.model.Variante;
+import org.analiseGenoma.model.VarianteRevisadaGestor;
 import org.analiseGenoma.service.util.CSVReader;
 import org.analiseGenoma.service.util.Line;
 
@@ -126,6 +131,55 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
 
     public List<DbBioInfo> findComplete() {
         return getDao().findComplete();
+    }
+
+    @Transactional
+    public void persiste(List<VarianteRevisadaGestor> variantes, Disease patologia) {
+        List<VarianteRevisadaGestor> v1 = variantes.stream().filter(v -> v.getPatogenic() == 5).collect(Collectors.toList());
+        List<Gene> genes = v1.stream().map(v -> v.getVariant().getGene()).distinct().filter(v -> Objects.nonNull(v)).collect(Collectors.toList());
+        DbBioInfo info = this.findByDsease(patologia);
+        //informacao_biologica
+        //DbBioInfo info = new DbBioInfo();
+        if (info.getDbBio() == null) {
+            info.setGenes(new HashSet<>(genes));
+            info.setDisease(patologia);
+            info.setDbBio(dbBioService.findById(1L));
+            info.setUrl("Pathogenic");
+            this.persiste(info);
+        }else{
+            for(Gene g:genes){
+                info.getGenes().add(g);
+            }
+            info.setUrl("Pathogenic");
+            this.merge(info);
+        }
+        System.out.println("aqui");
+
+        /*
+        v1.forEach((tmp) -> {
+            vs.add(tmp.getVariant());
+        });
+         */
+//= v1.stream()
+        //.map(v -> v.getVariant()).collect(Collectors.toList());
+        //.filter(v -> Objects.nonNull(v))
+        //.collect(Collectors.toList());
+        //genes = v1.stream().map(v -> v.getVariant().getGene()).distinct().filter(v -> Objects.nonNull(v)).collect(Collectors.toList() );
+        /*
+        List<Gene> genes = 
+                variantes.stream()                
+                .map(v -> v.getVariant().getGene())                
+                .distinct()
+                .filter(v -> Objects.nonNull(v))
+                .filter(v -> v.get)
+                .collect(Collectors.toList() );                
+                
+        DbBioInfo info = new DbBioInfo();
+         */
+    }
+
+    public DbBioInfo findByDsease(Disease patologia) {
+        return getDao().findByDsease(patologia);
     }
 
 }

@@ -11,6 +11,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -28,12 +30,15 @@ import org.analiseGenoma.model.Gene;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
+import org.analiseGenoma.model.VarianteRevisadaGestor;
 import org.analiseGenoma.service.AnaliseLaudoService;
 import org.analiseGenoma.service.AnaliseService;
+import org.analiseGenoma.service.DbBioInfoService;
 import org.analiseGenoma.service.DiseaseService;
 import org.analiseGenoma.service.FiltroService;
 import org.analiseGenoma.service.GeneService;
 import org.analiseGenoma.service.ReviserService;
+import org.analiseGenoma.service.VarianteRevisadaGestorService;
 import org.analiseGenoma.service.VarianteRevisadaService;
 import org.analiseGenoma.service.VcfService;
 import org.analiseGenoma.sessionbean.AnaliseSB;
@@ -69,9 +74,15 @@ public class AnaliseLaudarMB implements Serializable {
 
     @Inject
     private VarianteRevisadaService varianteRevisadaService;
+    
+    @Inject
+    private VarianteRevisadaGestorService varianteRevisadaGestorService;
 
     @Inject
     private ReviserService reviserService;
+    
+    @Inject
+    private DbBioInfoService bioInfoService;
 
     private List<ColumnModel> revisores;
 
@@ -128,7 +139,13 @@ public class AnaliseLaudarMB implements Serializable {
     // aqui diseases possiveis
         //varianes.stream...
         List<Gene> genes = new ArrayList<Gene>();
-        genes.add(geneService.findBySymbol("CPT1C"));
+        //genes.add(geneService.findBySymbol("CPT1C"));
+        genes =  variantes.stream()                
+                .map(v -> v.getGene())
+                .distinct()
+                .filter(v -> Objects.nonNull(v))
+                .collect(Collectors.toList() );
+                              
         diseasePossiveis = patologiaService.findByGenes(genes);
         } catch (Exception ex) {
             System.out.println("Erro init analise laudar: " + ex.getMessage());
@@ -236,6 +253,10 @@ public class AnaliseLaudarMB implements Serializable {
     }
 
     public String finalizeLaudo() {
+        
+        List<VarianteRevisadaGestor> variantes = varianteRevisadaGestorService.findByAnalise(analise);
+        bioInfoService.persiste(variantes, getAnalise().getPatologia());
+        
         System.out.println("Gerando o pdf");
         Document document = new Document();
         try {

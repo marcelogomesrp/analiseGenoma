@@ -21,7 +21,6 @@ import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.DbBio;
 import org.analiseGenoma.model.DbBioInfo;
 import org.analiseGenoma.model.Filtro;
-import org.analiseGenoma.model.InformacaoBiologica;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.model.VarianteRevisada;
@@ -167,8 +166,8 @@ public class RevisorAnaliseRevisarMB implements Serializable {
         FacesUtil.setSessionMapValue("idVariante", id);
         FacesUtil.setSessionMapValue("idAnalise", analise.getId());        
         
-        RequestContext.getCurrentInstance().openDialog("viewopinar", options, params);
-        variantes = vcfService.findVariante(analise, filtro);
+        RequestContext.getCurrentInstance().openDialog("viewopinar_gestor", options, params);
+        //variantes = vcfService.findVariante(analise, filtro);
     }
 
     public boolean isHideVariantChecked() {
@@ -209,9 +208,12 @@ public class RevisorAnaliseRevisarMB implements Serializable {
     }
     
     public String bdInfo(String bdName, Long geneId) {
-        //return "aqui: " + bd + "id " + id;     
-        DbBio bd = bancos.get(Integer.valueOf(bdName));
-        InformacaoBiologica info = null;        
+        //return "aqui: " + bd + "id " + id;  
+        if(analise.getPatologia() == null){
+            return "";
+        }
+         DbBio bd = bancos.get(Integer.valueOf(bdName));
+        //InformacaoBiologica info = null;        
         try {
             // SELECT * FROM dbbioinfo_gene WHERE dbbioinfo_disease_id_disease = 93612 AND genes_id_gene = 10877;
              //SELECT * FROM dbbioinfo_gene WHERE dbbioinfo_dbbio_id_dbbio = 2 AND dbbioinfo_disease_id_disease = 93612 AND genes_id_gene = 10877;
@@ -223,6 +225,9 @@ public class RevisorAnaliseRevisarMB implements Serializable {
                 //return "http://" + bd.getUrl() +  "/"+  bd.getId() +"/"+ analise.getPatologia().getId();
                 return "";
             }else{
+                if("Pathogenic".equals(info2.getUrl())){
+                    return "Pathogenic.xhtml";
+                }
                 return info2.getUrl();
             }
         } catch (Exception ex) {

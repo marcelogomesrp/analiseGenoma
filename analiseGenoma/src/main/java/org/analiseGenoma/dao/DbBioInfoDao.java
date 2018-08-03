@@ -7,6 +7,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.analiseGenoma.model.DbBioInfo;
 import org.analiseGenoma.model.DbBioInfoPK;
+import org.analiseGenoma.model.Disease;
 
 public class DbBioInfoDao extends DAO<DbBioInfo> {
 
@@ -62,13 +63,30 @@ public class DbBioInfoDao extends DAO<DbBioInfo> {
 
     public List<DbBioInfo> findComplete() {
         try {
-            Query query = manager.createQuery("SELECT DISTINCT i FROM DbBioInfo i JOIN FETCH i.genes");            
+            Query query = manager.createQuery("SELECT DISTINCT i FROM DbBioInfo i JOIN FETCH i.genes");
             List<DbBioInfo> list = query.getResultList();
             return list;
         } catch (NoResultException ex) {
             System.out.println("Erro:: " + ex.getMessage());
             return null;
         }
+    }
+
+    //retornar uma doença
+    public DbBioInfo findByDsease(Disease patologia) {
+        try {
+            Query query = manager.createQuery("SELECT DISTINCT i FROM DbBioInfo i JOIN FETCH i.genes WHERE i.dbBio.id = :id AND i.disease = :disease");
+            query.setParameter("id", 1L);
+            query.setParameter("disease", patologia);
+            List<DbBioInfo> list = query.getResultList();
+            if(list.size() == 1){
+                return list.get(0);
+            }            
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+            return null;
+        }
+        return new DbBioInfo();
     }
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.analiseGenoma.model.Analise;
 import org.analiseGenoma.model.Population;
 import org.analiseGenoma.model.User;
 import org.analiseGenoma.model.Variante;
@@ -33,8 +34,7 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
         }
         return list;
     }
-    
-    
+
     public List<VarianteRevisada> findByAnaliseRevisor(Vcf vcf, User revisor) {
         List<VarianteRevisada> list = null;
         try {
@@ -47,7 +47,7 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
         }
         return list;
     }
-    
+
     public List<VarianteRevisada> findByVarianteRevisor(Variante variante, User revisor) {
         List<VarianteRevisada> list = null;
         try {
@@ -60,8 +60,7 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
         }
         return list;
     }
-    
-    
+
     public List<VarianteRevisada> findByVarianteRevisor(String idRevisor, Long idVariant) {
         List<VarianteRevisada> list = null;
         try {
@@ -74,7 +73,6 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
         }
         return list;
     }
-    
 
     @Override
     public List<VarianteRevisada> findByExample(VarianteRevisada vr) throws Exception {
@@ -87,19 +85,32 @@ public class VarianteRevisadaDao extends DAO<VarianteRevisada> {
             Predicate whereId = criteriaBuilder.equal(atributoId, vr.getId());
             condicoes.add(whereId);
         }
-        
+
         if (!(null == vr.getRevisor())) {
             Path<User> atributo = root.get("revisor");
             Predicate where = criteriaBuilder.equal(atributo, vr.getRevisor());
-            condicoes.add(where);            
+            condicoes.add(where);
         }
-        
-               
+
         Predicate[] condicoesArray = condicoes.toArray(new Predicate[condicoes.size()]);
         Predicate todasCondicoes = criteriaBuilder.and(condicoesArray);
         criteriaQuery.where(todasCondicoes);
         TypedQuery<VarianteRevisada> query = manager.createQuery(criteriaQuery);
         return query.getResultList();
+    }
+
+    public List<VarianteRevisada> findByVarianteRevisor(Variante variante, User revisor, Analise analise) {
+        List<VarianteRevisada> list = null;
+        try {
+            Query query = manager.createQuery("SELECT vr FROM VarianteRevisada vr WHERE vr.revisor = :revisor and vr.variant = :variante AND vr.analise = :analise");
+            query.setParameter("revisor", revisor);
+            query.setParameter("variante", variante);
+            query.setParameter("analise", analise);
+            list = query.getResultList();
+        } catch (NoResultException ex) {
+            System.out.println("Erro:: " + ex.getMessage());
+        }
+        return list;
     }
 
 }

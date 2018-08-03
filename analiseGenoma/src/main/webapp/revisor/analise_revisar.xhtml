@@ -12,7 +12,7 @@
 
                     <p:panel header="Analise Revisar">
                         <p:tabView dynamic="true" cache="true" effect="fold">
-                            <p:tab title="Analyze">
+                            <p:tab title="Analysis">
                                 <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
                                     <h:outputLabel value="Id: " for="id" />
                                     <h:outputText id="id" value="#{revAnaliseRevisarMB.analise.id}" />
@@ -69,8 +69,14 @@
                             
                             
                             <p:dataTable value="#{revAnaliseRevisarMB.variantes}" var="variant"  scrollable="true" scrollWidth="100%" 
-                                         rows="#{userSB.user.rowsInTable}" 
-                                         paginator="true">
+                                         rows="5"
+                                         paginator="true"
+                                         lazy="true"
+
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         rowsPerPageTemplate="5,10,15" 
+                                         >
+
 
 
                                 <p:column style="width:150px">

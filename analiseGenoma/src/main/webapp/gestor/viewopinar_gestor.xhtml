@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Opine</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="formView">
+            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+            <p:outputLabel value="Analise nome" />
+            <h:outputText value="#{ViewOpinarGestorMB.analise.nome}" />
+            <p:outputLabel value="Variante" />
+            <h:outputText value="#{ViewOpinarGestorMB.variante.id}" />
+            <p:outputLabel value="Revisor"/>
+            <h:outputText value="#{ViewOpinarGestorMB.revisor.name}" />
+            <p:outputLabel value="Patogenic" />
+            
+            <p:selectOneRadio id="console" value="#{ViewOpinarGestorMB.varianteRevisada.patogenic}">
+                <f:selectItem itemLabel="benign" itemValue="1" />
+                <f:selectItem itemLabel="likely benign" itemValue="2" />
+                <f:selectItem itemLabel="Uncertain significance" itemValue="3" />
+                <f:selectItem itemLabel="Likely pathogenic" itemValue="4" />
+                <f:selectItem itemLabel="Pathogenic" itemValue="5" />
+            </p:selectOneRadio>
+            
+            
+            
+            <p:outputLabel value="Note" />
+            <p:textEditor  value="#{ViewOpinarGestorMB.varianteRevisada.note}" height="300" style="margin-bottom:10px"/>
+            </p:panelGrid>
+            
+            <p:commandButton value="Aplicar" actionListener="#{ViewOpinarGestorMB.closeView()}"/>
+
+        </h:form>
+
+    </h:body>
+</html>
