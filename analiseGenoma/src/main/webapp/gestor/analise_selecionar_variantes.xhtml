@@ -381,6 +381,11 @@
                                             </p:repeat>
                                         </p:column>
                                     </p:row>
+                                    <p:row rendered="#{filterSB.filter.byWholeVariantFreq}">
+                                        <p:column>Whole variant freq</p:column>
+                                        <p:column colspan="2">Min #{analiseSelcMB.filtro.wholeVariantFreqMin} Max #{analiseSelcMB.filtro.wholeVariantFreqMax}</p:column>
+                                        
+                                    </p:row>
                                 </p:panelGrid>
 
                             </p:tab>

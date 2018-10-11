@@ -153,6 +153,28 @@ public class DbBioInfoService extends Service<DbBioInfo> implements Serializable
             info.setUrl("Pathogenic");
             this.merge(info);
         }
+        /*
+        //4 inico
+        List<VarianteRevisadaGestor> v4 = variantes.stream().filter(v -> v.getPatogenic() == 4).collect(Collectors.toList());
+        List<Gene> genes4 = v4.stream().map(v -> v.getVariant().getGene()).distinct().filter(v -> Objects.nonNull(v)).collect(Collectors.toList());
+        DbBioInfo info4 = this.findByDsease(patologia);
+        if (info4.getDbBio() == null) {
+            info4.setGenes(new HashSet<>(genes));
+            info4.setDisease(patologia);
+            info4.setDbBio(dbBioService.findById(1L));
+            info4.setUrl("Likely pathogenic");
+            this.persiste(info4);
+        }else{
+            for(Gene g:genes4){
+                info4.getGenes().add(g);
+            }
+            info4.setUrl("Likely pathogenic");
+            this.merge(info4);
+        }
+        //4 fim
+        */
+        
+        
         System.out.println("aqui");
 
         /*

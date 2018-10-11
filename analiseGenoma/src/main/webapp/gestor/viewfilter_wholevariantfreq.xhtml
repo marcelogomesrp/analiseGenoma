@@ -24,18 +24,15 @@
 
                 <h:panelGrid columns="2" rendered="#{filterSB.filter.byWholeVariantFreq}">
                     <p:outputLabel value="min" />                          
-                    <h:panelGrid columns="1" style="margin-bottom: 10px">
-                        <p:spinner id="min" value="#{VfWholeFreq.prevalenceMin}" stepFactor="0.0001" min="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" max="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}"/>   
-                        <p:slider for="min"  minValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" maxValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}"/>
-                    </h:panelGrid>
+                    <p:inputNumber id="min" value="#{VfWholeFreq.prevalenceMin}" />                           
+                    
 
                     <p:outputLabel value="max" />                        
-                    <h:panelGrid columns="1" style="margin-bottom: 10px">
-                        <p:spinner id="max" value="#{VfWholeFreq.prevalenceMax}" stepFactor="0.000000000000000001" min="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" max="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}" />   
-                        <p:slider for="max" minValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" maxValue="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}"/>
-                    </h:panelGrid>
-                    <p:outputLabel value="min" />  <p:outputLabel value="#{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" />  
-                    <p:outputLabel value="max" />  <p:outputLabel value="#{VfWholeFreq.vcfMetadata.wholevariantfreqmax}" />  
+                    <p:inputNumber id="max" value="#{VfWholeFreq.prevalenceMax}" />   
+                     <!--
+                    <p:outputLabel value="min" />  <p:outputLabel value="{VfWholeFreq.vcfMetadata.wholevariantfreqmin}" />  
+                    <p:outputLabel value="max" />  <p:outputLabel value="{VfWholeFreq.vcfMetadata.wholevariantfreqmax}" />  
+                     -->
                 </h:panelGrid>
 
             </p:panel>

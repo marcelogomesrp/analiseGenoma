@@ -166,7 +166,8 @@ public class RevisorAnaliseRevisarMB implements Serializable {
         FacesUtil.setSessionMapValue("idVariante", id);
         FacesUtil.setSessionMapValue("idAnalise", analise.getId());        
         
-        RequestContext.getCurrentInstance().openDialog("viewopinar_gestor", options, params);
+        //RequestContext.getCurrentInstance().openDialog("viewopinar_gestor", options, params);
+        RequestContext.getCurrentInstance().openDialog("viewopinar", options, params);
         //variantes = vcfService.findVariante(analise, filtro);
     }
 

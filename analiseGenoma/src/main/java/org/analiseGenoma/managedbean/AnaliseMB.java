@@ -33,6 +33,7 @@ import org.primefaces.event.SelectEvent;
 import org.analiseGenoma.managedbean.util.FacesUtil;
 import org.analiseGenoma.managedbean.util.RequestParam;
 import org.analiseGenoma.model.Filtro;
+import org.analiseGenoma.model.InheritanceType;
 import org.analiseGenoma.model.Variante;
 import org.analiseGenoma.service.DbBioInfoService;
 import org.analiseGenoma.service.EffectService;
@@ -274,22 +275,34 @@ public class AnaliseMB implements Serializable {
                     filtroAnalise.setByEffect(true);
                     filtroAnalise.setEffects(new HashSet<>(effectService.findPadrao()));
                     //if 3
-                    // analise.getPatologia().getInheritanceType() Herança
-                    /*
+                     //InheritanceType herancao = analise.getPatologia().getInheritanceType(); //Herança
+                    
                     if (analise.getPatologia() != null) {
                         if (analise.getPatologia().getInheritanceType() != null) {
-                            if ("".equalsIgnoreCase(analise.getPatologia().getInheritanceType().getType())) {
+                            if ("Autosomal recessive".equalsIgnoreCase(analise.getPatologia().getInheritanceType().getType())) {
                                 filtroAnalise.setByZygocity(true);
                                 filtroAnalise.setZygosities(new HashSet<>( zygosityService.findByName("HOMOZYGOUS") ));
                             }
                         }
                     }
-                     */
+                     
                     //if 4 umd
                     filtroAnalise.setByUmdPredictor(true);
                     filtroAnalise.setUmdPredictors(new HashSet<>(umdPredictorService.findPadrao()));
                     //if 5 
                     //analise.getPatologia().getPrevalence() 
+                    if (analise.getPatologia() != null) {
+                        if(analise.getPatologia().getPrevalence() != null){
+                            filtroAnalise.setByWholeVariantFreq(true);
+                            if(analise.getPatologia().getPrevalence() > 1){
+                                filtroAnalise.setWholeVariantFreqMin(0.1d);
+                                filtroAnalise.setWholeVariantFreqMax(1d);
+                            }else{
+                                filtroAnalise.setWholeVariantFreqMin(0.0d);
+                                filtroAnalise.setWholeVariantFreqMax(0.1d);
+                            }
+                        }
+                    }
                     System.out.println("ok");
                 } else {
                     filtro = filtroService.loadFull(filtro);
@@ -353,6 +366,12 @@ public class AnaliseMB implements Serializable {
                 System.out.println("erro adicionar analise: " + ex.getMessage());
             }
 
+        }else{
+             Filtro filtroAnalise = new Filtro();
+             filtroAnalise.setAnalise(analise);
+             filtroAnalise.setName(analise.getNome());
+             filtroService.persiste(filtroAnalise);
+            
         }
 
         context.getExternalContext()

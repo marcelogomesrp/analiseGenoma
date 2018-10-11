@@ -45,8 +45,16 @@ public class VfWholeFreq implements Serializable {
     @PostConstruct
     public void init() {
         filtro = filterSB.getFilter();
-        prevalenceMin = filterSB.getFilter().getWholeVariantFreqMin();
-        prevalenceMax = filterSB.getFilter().getWholeVariantFreqMax();
+        if(filtro!=null){
+            if(filtro.getWholeVariantFreqMin() != null){
+                prevalenceMin = filtro.getWholeVariantFreqMin();
+            }
+            if(filtro.getWholeVariantFreqMax() != null){
+                prevalenceMax = filtro.getWholeVariantFreqMax();
+            }
+        }
+        //prevalenceMin = filterSB.getFilter().getWholeVariantFreqMin();
+        //prevalenceMax = filterSB.getFilter().getWholeVariantFreqMax();
         vcfMetadata = vcfMetadataSb.getVcfMetadata();
         //System.out.println("ok" + vcfm.getWholevariantfreqmax());
     }
