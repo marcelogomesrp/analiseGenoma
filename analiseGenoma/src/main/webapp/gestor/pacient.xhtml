@@ -15,7 +15,7 @@
                 <h:form id="formulario" prependId="false">
                     <p:growl id="messages" showDetail="true"/>
                     <p:panel header="Patient">
-                        <p>tirado o renderede em função da lentidao p:rowExpansion rendered=false</p>
+                        <!-- <p>tirado o renderede em função da lentidao p:rowExpansion rendered=false</p> -->
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-10" 
                                      layout="grid" styleClass="ui-panelgrid-blank" 
                                      id="fields" rendered="#{patientMB.showFields}">
@@ -148,7 +148,7 @@
                             </p:button>
                         </p:column>
 
-                        <p:rowExpansion rendered="false">
+                        <p:rowExpansion rendered="true">
                             <p:panel header="Variante Files">
                                 <p:dataTable value="#{pacienteMB.vcfs(paciente)}" var="vcf">
                                     <p:column>
